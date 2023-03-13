@@ -1,16 +1,16 @@
-import type { FC } from "react";
-import Head from "next/head";
+import type {FC} from 'react'
+import Head from 'next/head'
 
 export type SeoProps = {
-  title: string;
-};
+  title: string
+}
 
-const Seo: FC<SeoProps> = (props) => {
-  const { title } = props;
+const Seo: FC<SeoProps> = props => {
+  const {title} = props
   return (
     <Head>
-      <title> {title} | MUCHU </title>
+      <title> {title} | TIDE </title>
     </Head>
-  );
-};
-export default Seo;
+  )
+}
+export default Seo

@@ -9,55 +9,36 @@
   min-height: 100vh;
 }
 
-.diaryNav{
+.diaryNav {
   position: fixed;
-  bottom:5rem;
+  bottom: 5rem;
   right: 4rem;
   width: 4rem;
   height: 4rem;
   border-radius: 2rem;
-  padding:1rem;
+  padding: 1rem;
   // padding-top:1.2rem;
-  background:linear-gradient(aqua,rgb(60, 122, 255));
+  background: linear-gradient(aqua, rgb(60, 122, 255));
   transition: 0.2s;
+  z-index: 3;
 }
 
 .diaryNav:hover,
-.diaryNav:focus
-{
-  background:linear-gradient(rgb(45, 210, 255),rgb(140, 177, 255));
-  box-shadow: 0 0 .2rem #fff,
-              0 0 .2rem #fff,
-              0 0 2rem #0777D9,
-              0 0 0.8rem #0777D9,
-              0 0 2.8rem #0777D9,
-              inset 0 0 1.3rem #0777D9;
-  filter:contrast(2);
+.diaryNav:focus {
+  background: linear-gradient(rgb(45, 210, 255), rgb(140, 177, 255));
+  box-shadow: 0 0 0.2rem #fff, 0 0 0.2rem #fff, 0 0 2rem #0777d9,
+    0 0 0.8rem #0777d9, 0 0 2.8rem #0777d9, inset 0 0 1.3rem #0777d9;
+  filter: contrast(2);
 }
 
-@keyframes pulsate{
+@keyframes pulsate {
   100% {
-    text-shadow:
-       0 0 4px #999,
-               0 0 11px #fff,
-               0 0 19px #fff,
-               0 0 40px #0777D9,
-               0 0 80px #0777D9,
-               0 0 90px #0777D9,
-               0 0 100px #0777D9,
-               0 0 150px #0777D9;
+    text-shadow: 0 0 4px #999, 0 0 11px #fff, 0 0 19px #fff, 0 0 40px #0777d9,
+      0 0 80px #0777d9, 0 0 90px #0777d9, 0 0 100px #0777d9, 0 0 150px #0777d9;
   }
   0% {
-    text-shadow:
-       0 0 4px #999,
-               0 0 10px #fff,
-               0 0 18px #fff,
-               0 0 38px #0777D9,
-               0 0 73px #0777D9,
-               0 0 80px #0777D9,
-               0 0 94px #0777D9,
-               0 0 140px #0777D9;
-    
+    text-shadow: 0 0 4px #999, 0 0 10px #fff, 0 0 18px #fff, 0 0 38px #0777d9,
+      0 0 73px #0777d9, 0 0 80px #0777d9, 0 0 94px #0777d9, 0 0 140px #0777d9;
   }
 }
 
@@ -71,16 +52,12 @@
   z-index: 2;
   user-select: none;
 
-  & > h1{
+  & > h1 {
     font-family: 'Tilt Prism', cursive;
-    text-shadow: 0 0 7px #999,
-               0 0 10px #eee,
-               0 0 21px #eee,
-               0 0 42px #0777D9,
-               0 0 82px #0777D9,
-               0 0 92px #0777D9,
-              //  0 0 102px #0777D9,
-              //  0 0 151px #0777D9;
+    text-shadow: 0 0 7px #999, 0 0 10px #eee, 0 0 21px #eee, 0 0 42px #0777d9,
+      0 0 82px #0777d9, 0 0 92px #0777d9;
+    //  0 0 102px #0777D9,
+    //  0 0 151px #0777D9;
 
     // animation: pulsate 0.11s ease-in-out infinite alternate;
     // border:0.2rem solid #fff;
@@ -95,23 +72,87 @@
   }
 }
 
-.diarySection{
-  margin:2rem auto;
+.diarySection {
+  margin: 2rem auto;
   margin-top: 10px;
   width: 100%;
   // height: 500px;
 
-  border-top:0.1rem solid #eee;
-  border-bottom:0.1rem solid #eee;
-  box-shadow: 0 0 .2rem #fff,
-              0 0 .2rem #fff,
-              0 0 2rem #0777D9,
-              0 0 0.8rem #0777D9,
-              0 0 2.8rem #0777D9,
-              inset 0 0 1.3rem #0777D9;
+  border-top: 0.05rem solid rgb(42, 131, 225);
+  border-bottom: 0.05rem solid rgb(42, 131, 225);
+  // box-shadow: 0 0 0.2rem #fff, 0 0 0.2rem #fff, 0 0 2rem #0777d9,
+  //   0 0 0.8rem #0777d9, 0 0 2.8rem #0777d9, inset 0 0 1.3rem #0777d9;
 }
 
-.caroselWrapper{
+.diarySectionTitle {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-align: center;
+
+  & > input[type='month'] {
+    width: 150px;
+    height: 100%;
+    margin: 0;
+    color: black;
+    padding: 5px;
+    padding-left: 10px;
+    border-radius: 20px;
+  }
+}
+
+.btDiv {
+  position: relative;
+  width: 100%;
+  height: 0;
+  // background-color: aqua;
+  display: flex;
+  // grid-template-columns: 1fr 1fr;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+
+.btleft {
+  width: 2rem;
+  height: 2rem;
+  background: rgb(1, 9, 16);
+  border: 0.05rem solid #eee;
+  border-radius: 1rem;
+  padding-bottom: 0.2rem;
+  padding-right: 0.1rem;
+  position: relative;
+  left: -50px;
+  top: 200px;
+  transition: 0.2s;
+
+  &:hover,
+  &:focus {
+    background: linear-gradient(aqua, rgb(60, 122, 255));
+  }
+}
+
+.btright {
+  width: 2rem;
+  height: 2rem;
+  background: rgb(1, 9, 16);
+  border: 0.05rem solid #eee;
+  border-radius: 1rem;
+  padding-bottom: 0.2rem;
+  padding-left: 0.1rem;
+  position: relative;
+  right: -50px;
+  top: 200px;
+  transition: 0.2s;
+
+  &:hover,
+  &:focus {
+    background: linear-gradient(aqua, rgb(60, 122, 255));
+  }
+}
+
+.caroselWrapper {
   width: 100%;
   height: 80%;
   overflow: hidden;
@@ -121,127 +162,140 @@
   grid-template-columns: repeat(3, 1fr);
 }
 
-.caroselItem{
-  margin:0.5rem;
+.caroselItem {
+  margin: 0.5rem;
   width: 100%;
   min-width: 500px;
   height: 100%;
   // background-color: rgb(83, 83, 83);
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  grid-gap:5px;
+  grid-gap: 5px;
   align-items: center;
+
+  &:hover {
+    & > .caroselDiary,
+    & > .caroselMusic {
+      filter: brightness(120%) opacity(90%);
+      background: linear-gradient(#16142f, rgb(60, 122, 255));
+    }
+  }
 }
 
-.caroselDiary{
+.caroselDiary {
   background-color: rgba(6, 11, 11, 0.205);
   width: 100%;
   height: 100%;
   border-radius: 20px;
-  padding:1rem;
+  padding: 1rem;
   max-height: 400px;
   overflow: auto;
-  border:0.2rem solid #fff;
-  box-shadow: 0 0 .2rem #fff,
-              0 0 .2rem #0777D9,
-              0 0 2rem #0777D9;
-     
+  border: 0.2rem solid #fff;
+  box-shadow: 0 0 0.2rem #fff, 0 0 0.2rem #0777d9, 0 0 2rem #0777d9;
+  transition: 0.3s;
+
+  &::-webkit-scrollbar {
+    visibility: hidden;
+  }
 }
 
-.caroselMusic{
+.caroselMusic {
   background-color: rgba(6, 11, 11, 0.205);
   width: 100%;
   height: 100%;
   border-radius: 20px;
-  padding:1rem;
+  padding: 1rem;
   max-height: 400px;
-  border:0.2rem solid #fff;
-  box-shadow: 0 0 .2rem #fff,
-              0 0 .2rem #0777D9,
-              0 0 2rem #0777D9;
+  border: 0.2rem solid #fff;
+  box-shadow: 0 0 0.2rem #fff, 0 0 0.2rem #0777d9, 0 0 2rem #0777d9;
+  transition: 0.3s;
 
   display: grid;
   justify-content: center;
 
-
-  & > .cdBG{
+  & > .cdBG {
     width: 11rem;
     height: 11rem;
     border-radius: 100%;
-    background:linear-gradient(aqua,blue);
+    background: linear-gradient(aqua, blue);
     border: 0.25rem solid #eee;
     margin-bottom: 10px;
   }
 
-  & > .cdBG::before{
+  & > .cdBG::before {
     display: block;
     content: '';
     width: 5rem;
     height: 5rem;
-    margin:2.75rem;
+    margin: 2.75rem;
     border-radius: 100%;
     background-color: rgb(255, 255, 255);
   }
 
-  & > .musicBar{
-    background:#0777D9;
+  & > .musicBar {
+    background: #0777d9;
     height: 2rem;
     margin-bottom: 5px;
   }
 
-  & > .musicUIBar{
-    background:#0777D9;
+  & > .musicUIBar {
+    background: #0777d9;
     height: 4rem;
   }
-
 }
 
-.diaryList{
+.diaryList {
   height: 500px;
 }
 
 /* Mobile */
-@media (max-width: 700px) {
-
-  .main{
-    padding:4rem;
+@media (max-width: 730px) {
+  .main {
+    padding: 4rem;
   }
 
-  .caroselWrapper{
+  .caroselWrapper {
     // margin-left: 20px;
     grid-template-columns: repeat(1, 1fr);
     width: 100%;
     height: 482px;
   }
 
-  .caroselItem{
+  .caroselItem {
     width: 100%;
     height: 100%;
     min-width: 200px;
     grid-template-columns: 1fr;
     grid-gap: 0px;
+
+    &:hover {
+      & > .caroselDiary,
+      & > .caroselMusic {
+        filter: brightness(120%) opacity(90%);
+        background: linear-gradient(to right, #16142f, rgb(60, 122, 255));
+      }
+    }
   }
 
-  .caroselDiary{
+  .caroselDiary {
     max-height: 250px;
     min-height: 250px;
   }
 
-  .caroselMusic{
+  .caroselMusic {
     max-height: 215px;
     min-height: 215px;
     overflow: hidden;
 
-    & > .cdBG{
+    & > .cdBG {
       margin-bottom: 30px;
     }
   }
 }
 
 /* Tablet and Smaller Desktop */
-@media (min-width: 701px) and (max-width: 1240px) {
-
-  .caroselWrapper{
+@media (min-width: 731px) and (max-width: 1265px) {
+  .caroselWrapper {
     // margin-left: 20px;
     grid-template-columns: repeat(1, 1fr);
     width: 100%;
@@ -249,9 +303,8 @@
   }
 }
 
-@media (min-width: 1241px) and (max-width: 1780px) {
-
-  .caroselWrapper{
+@media (min-width: 1266px) and (max-width: 1780px) {
+  .caroselWrapper {
     grid-template-columns: repeat(2, 1fr);
     width: 100%;
     height: 415px;

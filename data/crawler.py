@@ -5,10 +5,14 @@ from bs4 import BeautifulSoup
 import pandas as pd
 import random
 
+import make_genre_table
+
 headers = {
     'Cookie': '__T_=1; __T_=1; PCID=16702489214874338956123; PC_PCID=16702489214874338956123; __T_=1; POC=WP10; VIDEOVOLUME=0.5; wcs_bt=s_f9c4bde066b:1678370158; _T_ANO=IidjDHGU9uMDxYU/ex+B1w4uKVR8HPTS4C/CtYT/gDcPiOb99PPVuSLRTEyfJ9skZ3IaKvuKyTFXQ9IY5xyUdOm7r6SkW7Cc9pPjUnP2EWka9VSeZ727vxvXJNI6/ZOJ0imxERULAVC5kiaNI+7l8EAh/XLzIwW+IQApQxeK4WljInI4RizzjEwXgQe/o0SOceIsEUyf919sG+aH70p71XNKcLEyiYR+TmTj0SLWtzAkNar/1sBSP4U4Sp067bhC7ALvK4bDpz6MpnDtq70oJ2/+pA1lCUeYzO24zGl36hco/Co8K7XbpFYqM2iZk4yfQKFEugGrhRGJfjM4vQao4A==',
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.63'
 }
+
+make_genre_table.make_genre_table()
 
 if os.path.isfile('./data/song_df.xlsx'):
     song_df = pd.read_excel('./data/song_df.xlsx', index_col=0)

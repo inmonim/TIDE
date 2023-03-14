@@ -5,6 +5,9 @@ from bs4 import BeautifulSoup
 import time
 import random
 
+import make_genre_table
+
+make_genre_table.make_genre_table()
 
 def id_selector(txt, idx):
     selected_id = ''

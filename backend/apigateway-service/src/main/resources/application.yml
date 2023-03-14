@@ -38,6 +38,5 @@ spring:
             - RewritePath=/api/user/(?<segment>.*), /$\{segment}
             - AuthorizationHeaderFilter
 
-
 token:
   secret: user_token

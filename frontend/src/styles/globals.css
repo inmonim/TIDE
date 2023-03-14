@@ -4,9 +4,13 @@
 
 :root {
   background: linear-gradient(to bottom left, #011516, #2e608c);
-  color:#eeeeee;
+  color: #eeeeee;
 }
 
+* {
+  padding: 0;
+  margin: 0;
+}
 
 /* :root {
   --max-width: 1100px;

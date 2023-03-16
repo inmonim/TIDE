@@ -1,7 +1,7 @@
-import Link from 'next/link'
-import Seo from '@/components/Seo'
-import React, {useState, useEffect, useRef} from 'react'
-import styles from '@/styles/Diary.module.scss'
+import Link from 'next/link';
+import Seo from '@/components/Seo';
+import React, {useState, useEffect, useRef} from 'react';
+import styles from '@/styles/Diary.module.scss';
 
 export default function Diary() {
   const titleArr = [
@@ -13,132 +13,125 @@ export default function Diary() {
     '살짝 배고팠어 난',
     '뉴진스의 그냥보이요',
     '노진스의 없는보이요'
-  ]
+  ];
 
   // 윈도우 사이즈 CSR로 체크
   interface WindowSize {
-    width: number | undefined
-    height: number | undefined
+    width: number | undefined;
+    height: number | undefined;
   }
 
   const [windowSize, setWindowSize] = useState<WindowSize>({
     width: 0,
     height: 0
-  })
+  });
 
-  const [prevWidth, setPrevWidth] = useState<number | undefined>(undefined)
+  const [prevWidth, setPrevWidth] = useState<number | undefined>(undefined);
 
   // 일기장 div 선택자. transfrom: tranlateY(-400~) 으로 캐러셀 수동 이동
-  const caroselDivRef = useRef<HTMLDivElement>(null)
+  const caroselDivRef = useRef<HTMLDivElement>(null);
   // 일기장 캐러셀 현재 넘버
-  const caroselPage = useRef<number>(1)
+  const caroselPage = useRef<number>(1);
   // 일기장 전체 길이
-  const [diaryMax, setDiaryMax] = useState<number | undefined>(titleArr.length)
-  let [diaryCur, setDiaryCur] = useState<number | undefined>(1)
+  const [diaryMax, setDiaryMax] = useState<number | undefined>(titleArr.length);
+  let [diaryCur, setDiaryCur] = useState<number | undefined>(1);
 
   function handleResize() {
-    setPrevWidth(windowSize.width)
+    setPrevWidth(windowSize.width);
     setWindowSize({
       width: window.innerWidth,
       height: window.innerHeight
-    })
-    console.log(`이전 넓이 ${prevWidth}`)
-    console.log(`지금 넓이 ${windowSize.width}`)
-    //console.log(windowSize, windowSize.width, windowSize.height)
+    });
     if (windowSize.width && windowSize.width <= 1265) {
-      setDiaryMax(titleArr.length)
-      caroselPage.current = diaryCur ? diaryCur : 1
-      setDiaryCur(caroselPage.current)
+      setDiaryMax(titleArr.length);
+      caroselPage.current = diaryCur ? diaryCur : 1;
+      setDiaryCur(caroselPage.current);
     } else if (windowSize.width && windowSize.width <= 1780) {
-      setDiaryMax(Math.ceil(titleArr.length / 2))
-      caroselPage.current = diaryCur ? Math.ceil(diaryCur / 2) : 1
-      setDiaryCur(2 * (caroselPage.current - 1) + 1)
+      setDiaryMax(Math.ceil(titleArr.length / 2));
+      caroselPage.current = diaryCur ? Math.ceil(diaryCur / 2) : 1;
+      setDiaryCur(2 * (caroselPage.current - 1) + 1);
     } else {
-      setDiaryMax(Math.ceil(titleArr.length / 3))
-      caroselPage.current = diaryCur ? Math.ceil(diaryCur / 3) : 1
-      setDiaryCur(3 * (caroselPage.current - 1) + 1)
+      setDiaryMax(Math.ceil(titleArr.length / 3));
+      caroselPage.current = diaryCur ? Math.ceil(diaryCur / 3) : 1;
+      setDiaryCur(3 * (caroselPage.current - 1) + 1);
     }
 
     if (caroselDivRef.current) {
       if (windowSize.width && windowSize.width <= 730) {
         caroselDivRef.current.style.transform = `translateY(-${
           500 * (caroselPage.current - 1)
-        }px)`
+        }px)`;
       } else {
         caroselDivRef.current.style.transform = `translateY(-${
           436 * (caroselPage.current - 1)
-        }px)`
+        }px)`;
       }
     }
-    //caroselPage.current = 1
-    console.log(
-      `전체페이지 ${diaryMax}, 현재 페이지 ${caroselPage.current}, 커서페이지 ${diaryCur}`
-    )
   }
 
   useEffect(() => {
-    handleResize()
-  }, [])
+    handleResize();
+  }, []);
 
   useEffect(() => {
-    window.addEventListener('resize', handleResize)
-    return () => window.removeEventListener('resize', handleResize)
-  }, [windowSize.width, diaryMax, diaryCur])
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [windowSize.width, diaryMax, diaryCur]);
 
   // 캐러셀 이전버튼
   const handleCaroselPrev = () => {
     if (caroselPage.current > 1) {
-      caroselPage.current -= 1
+      caroselPage.current -= 1;
       if (windowSize.width && windowSize.width <= 1265) {
-        if (diaryCur) setDiaryCur(diaryCur - 1)
+        if (diaryCur) setDiaryCur(diaryCur - 1);
       } else if (windowSize.width && windowSize.width <= 1780) {
-        if (diaryCur) setDiaryCur(diaryCur - 2)
+        if (diaryCur) setDiaryCur(diaryCur - 2);
       } else {
-        if (diaryCur) setDiaryCur(diaryCur - 3)
+        if (diaryCur) setDiaryCur(diaryCur - 3);
       }
       if (caroselDivRef.current) {
         if (windowSize.width && windowSize.width <= 730) {
           caroselDivRef.current.style.transform = `translateY(-${
             500 * (caroselPage.current - 1)
-          }px)`
+          }px)`;
         } else {
           caroselDivRef.current.style.transform = `translateY(-${
             436 * (caroselPage.current - 1)
-          }px)`
+          }px)`;
         }
       }
-      console.log(caroselPage.current)
+      console.log(caroselPage.current);
     }
-  }
+  };
 
   // 캐러셀 다음버튼
   const handleCaroselNext = () => {
     if (diaryMax && caroselPage.current < diaryMax) {
-      caroselPage.current += 1
+      caroselPage.current += 1;
       if (windowSize.width && windowSize.width <= 1265) {
-        if (diaryCur) setDiaryCur(diaryCur + 1)
-        setDiaryMax(titleArr.length)
+        if (diaryCur) setDiaryCur(diaryCur + 1);
+        setDiaryMax(titleArr.length);
       } else if (windowSize.width && windowSize.width <= 1780) {
-        if (diaryCur) setDiaryCur(diaryCur + 2)
-        setDiaryMax(Math.ceil(titleArr.length / 2))
+        if (diaryCur) setDiaryCur(diaryCur + 2);
+        setDiaryMax(Math.ceil(titleArr.length / 2));
       } else {
-        if (diaryCur) setDiaryCur(diaryCur + 3)
-        setDiaryMax(Math.ceil(titleArr.length / 3))
+        if (diaryCur) setDiaryCur(diaryCur + 3);
+        setDiaryMax(Math.ceil(titleArr.length / 3));
       }
       if (caroselDivRef.current) {
         if (windowSize.width && windowSize.width <= 730) {
           caroselDivRef.current.style.transform = `translateY(-${
             500 * (caroselPage.current - 1)
-          }px)`
+          }px)`;
         } else {
           caroselDivRef.current.style.transform = `translateY(-${
             436 * (caroselPage.current - 1)
-          }px)`
+          }px)`;
         }
       }
     }
-    console.log(caroselPage.current)
-  }
+    console.log(caroselPage.current);
+  };
 
   return (
     <>
@@ -253,5 +246,5 @@ export default function Diary() {
         </div>
       </main>
     </>
-  )
+  );
 }

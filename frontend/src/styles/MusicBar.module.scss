@@ -1,0 +1,44 @@
+.navSection {
+  // margin-left: 10%;
+  grid-column-gap: 7vw;
+}
+
+.Back {
+  background-image: url('../../public/buttons/BackTrack.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  transition: 0.1s;
+
+  &:hover {
+    filter: drop-shadow(0px 0px 2px #eee)
+      drop-shadow(0px 0px 5px rgb(141, 160, 255))
+      drop-shadow(0px 0px 10px rgb(23, 45, 93));
+  }
+}
+
+.Play {
+  background-image: url('../../public/buttons/PlayTrack.png');
+  background-repeat: no-repeat;
+  background-size: 80%;
+  margin-left: 10px;
+  transition: 0.1s;
+
+  &:hover {
+    filter: drop-shadow(0px 0px 2px #eee)
+      drop-shadow(0px 0px 5px rgb(141, 160, 255))
+      drop-shadow(0px 0px 10px rgb(23, 45, 93));
+  }
+}
+
+.Fast {
+  background-image: url('../../public/buttons/FastTrack.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  transition: 0.1s;
+
+  &:hover {
+    filter: drop-shadow(0px 0px 2px #eee)
+      drop-shadow(0px 0px 5px rgb(141, 160, 255))
+      drop-shadow(0px 0px 10px rgb(23, 45, 93));
+  }
+}

@@ -25,10 +25,15 @@
       "static/chunks/main.js",
       "static/chunks/pages/_error.js"
     ],
-    "/test": [
+    "/diary": [
       "static/chunks/webpack.js",
       "static/chunks/main.js",
-      "static/chunks/pages/test.js"
+      "static/chunks/pages/diary.js"
+    ],
+    "/diary/create": [
+      "static/chunks/webpack.js",
+      "static/chunks/main.js",
+      "static/chunks/pages/diary/create.js"
     ]
   },
   "ampFirstPages": []

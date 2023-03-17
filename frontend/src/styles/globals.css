@@ -2,10 +2,10 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
+/* :root {
   background: linear-gradient(to bottom left, #011516, #2e608c);
   color: #eeeeee;
-}
+} */
 
 * {
   padding: 0;

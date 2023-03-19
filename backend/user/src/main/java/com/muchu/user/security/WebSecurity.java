@@ -36,7 +36,7 @@ public class WebSecurity {
         http.authorizeRequests()
                 .antMatchers("/error/**").permitAll() // public abstract java.lang.String javax.servlet.ServletRequest.getRemoteAddr() is not supported 보기 싫을때 활성화
                 .antMatchers("/**")
-                .hasIpAddress("127.0.0.1")
+                .hasIpAddress("211.52.130.172")
                 .and()
                 .authenticationManager(authenticationManager)
                 .addFilter(authenticationFilter)

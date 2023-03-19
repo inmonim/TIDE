@@ -12,7 +12,8 @@ export default function Diary() {
     '사람이라면 인간적으로 밥드셔야죠 밥밥밥밥밥밥밥밥밥',
     '살짝 배고팠어 난',
     '뉴진스의 그냥보이요',
-    '노진스의 없는보이요'
+    '노진스의 없는보이요',
+    '우옥!!'
   ];
 
   // 윈도우 사이즈 CSR로 체크
@@ -42,22 +43,18 @@ export default function Diary() {
       width: window.innerWidth,
       height: window.innerHeight
     });
-    if (windowSize.width && windowSize.width <= 1265) {
+    if (windowSize.width && windowSize.width <= 1600) {
       setDiaryMax(titleArr.length);
       caroselPage.current = diaryCur ? diaryCur : 1;
       setDiaryCur(caroselPage.current);
-    } else if (windowSize.width && windowSize.width <= 1780) {
+    } else {
       setDiaryMax(Math.ceil(titleArr.length / 2));
       caroselPage.current = diaryCur ? Math.ceil(diaryCur / 2) : 1;
       setDiaryCur(2 * (caroselPage.current - 1) + 1);
-    } else {
-      setDiaryMax(Math.ceil(titleArr.length / 3));
-      caroselPage.current = diaryCur ? Math.ceil(diaryCur / 3) : 1;
-      setDiaryCur(3 * (caroselPage.current - 1) + 1);
     }
 
     if (caroselDivRef.current) {
-      if (windowSize.width && windowSize.width <= 730) {
+      if (windowSize.width && windowSize.width <= 860) {
         caroselDivRef.current.style.transform = `translateY(-${
           500 * (caroselPage.current - 1)
         }px)`;
@@ -82,15 +79,14 @@ export default function Diary() {
   const handleCaroselPrev = () => {
     if (caroselPage.current > 1) {
       caroselPage.current -= 1;
-      if (windowSize.width && windowSize.width <= 1265) {
+      if (windowSize.width && windowSize.width <= 1600) {
         if (diaryCur) setDiaryCur(diaryCur - 1);
-      } else if (windowSize.width && windowSize.width <= 1780) {
+      }else{
         if (diaryCur) setDiaryCur(diaryCur - 2);
-      } else {
-        if (diaryCur) setDiaryCur(diaryCur - 3);
       }
+
       if (caroselDivRef.current) {
-        if (windowSize.width && windowSize.width <= 730) {
+        if (windowSize.width && windowSize.width <= 860) {
           caroselDivRef.current.style.transform = `translateY(-${
             500 * (caroselPage.current - 1)
           }px)`;
@@ -108,18 +104,15 @@ export default function Diary() {
   const handleCaroselNext = () => {
     if (diaryMax && caroselPage.current < diaryMax) {
       caroselPage.current += 1;
-      if (windowSize.width && windowSize.width <= 1265) {
+      if (windowSize.width && windowSize.width <= 1600) {
         if (diaryCur) setDiaryCur(diaryCur + 1);
         setDiaryMax(titleArr.length);
-      } else if (windowSize.width && windowSize.width <= 1780) {
+      } else{
         if (diaryCur) setDiaryCur(diaryCur + 2);
         setDiaryMax(Math.ceil(titleArr.length / 2));
-      } else {
-        if (diaryCur) setDiaryCur(diaryCur + 3);
-        setDiaryMax(Math.ceil(titleArr.length / 3));
-      }
+      } 
       if (caroselDivRef.current) {
-        if (windowSize.width && windowSize.width <= 730) {
+        if (windowSize.width && windowSize.width <= 860) {
           caroselDivRef.current.style.transform = `translateY(-${
             500 * (caroselPage.current - 1)
           }px)`;

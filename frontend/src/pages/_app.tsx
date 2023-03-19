@@ -8,7 +8,8 @@ function App({Component, pageProps}: AppProps) {
   const [isLogin, setIsLogin] = useState<boolean>(false);
   return (
     <>
-      {isLogin && <MusicBar />}
+      {/* {isLogin && <MusicBar />} */}
+      <MusicBar />
       <Component {...pageProps} />
     </>
   );

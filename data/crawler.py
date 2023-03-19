@@ -8,21 +8,21 @@ import random
 import make_genre_table
 
 headers = {
-    'Cookie': '__T_=1; __T_=1; PCID=16702489214874338956123; PC_PCID=16702489214874338956123; __T_=1; POC=WP10; VIDEOVOLUME=0.5; wcs_bt=s_f9c4bde066b:1678370158; _T_ANO=IidjDHGU9uMDxYU/ex+B1w4uKVR8HPTS4C/CtYT/gDcPiOb99PPVuSLRTEyfJ9skZ3IaKvuKyTFXQ9IY5xyUdOm7r6SkW7Cc9pPjUnP2EWka9VSeZ727vxvXJNI6/ZOJ0imxERULAVC5kiaNI+7l8EAh/XLzIwW+IQApQxeK4WljInI4RizzjEwXgQe/o0SOceIsEUyf919sG+aH70p71XNKcLEyiYR+TmTj0SLWtzAkNar/1sBSP4U4Sp067bhC7ALvK4bDpz6MpnDtq70oJ2/+pA1lCUeYzO24zGl36hco/Co8K7XbpFYqM2iZk4yfQKFEugGrhRGJfjM4vQao4A==',
+    'Cookie': '__T_=1; __T_=1; PCID=16786163418833250161631; PC_PCID=16786163418833250161631; VIDEOVOLUME=0.5; __T_=1; POC=WP10; melonlogging=1000002502; wcs_bt=s_f9c4bde066b:1679219452; _T_ANO=e3E6LurO7CdAXb797Y0czhc+x4Dktbk1uYBEIA9hqaJ2plUVONXFuStaZOPJ5DaQwIwWBlQ3iBKR0E5feAkZUt7F9bcPmbkg9a8ro5GAC5SC4p5/rxp43A+j15JIfHokxP/uhsq7cea8F/3CblSEchymD5XcvpI4uvEXWMGmWBiOjFmxyeilHui5IUrcumYObhdAfzAS8wDF+zUYWDl/OM3jrHPznCWyfGKwGPHRwE14tD2+UYZDbgMRTbwr9ijPcEZuoCWeo4g4yDtuTkIm6IArNR6/jJ7+JZd+Okv0jyyoN7w+Dcavw5Hs+p6XhpuNiEXhs/YALX6wY9HYtLdpAw==',
     'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36 Edg/110.0.1587.63'
 }
 
 make_genre_table.make_genre_table()
 
-if os.path.isfile('./data/song_df.xlsx'):
-    song_df = pd.read_excel('./data/song_df.xlsx', index_col=0)
-    song_genre_df = pd.read_excel('./data/song_genre_df.xlsx', index_col=0)
-    song_artist_df = pd.read_excel('./data/song_artist_df.xlsx', index_col=0)
-    song_album_df = pd.read_excel('./data/song_artist_df.xlsx', index_col=0)
-    song_lyrics_df = pd.read_excel('./data/song_lyrics_df.xlsx', index_col=0)
-    album_df = pd.read_excel('./data/album_df.xlsx', index_col=0)
-    artist_df = pd.read_excel('./data/artist_df.xlsx', index_col=0)
-    group_artist_df = pd.read_excel('./data/group_artist_df.xlsx', index_col=0)
+if os.path.isfile('./melon_song_data/song_df.xlsx'):
+    song_df = pd.read_excel('./melon_song_data/song_df.xlsx', index_col=0)
+    song_genre_df = pd.read_excel('./melon_song_data/song_genre_df.xlsx', index_col=0)
+    song_artist_df = pd.read_excel('./melon_song_data/song_artist_df.xlsx', index_col=0)
+    song_album_df = pd.read_excel('./melon_song_data/song_artist_df.xlsx', index_col=0)
+    song_lyrics_df = pd.read_excel('./melon_song_data/song_lyrics_df.xlsx', index_col=0)
+    album_df = pd.read_excel('./melon_song_data/album_df.xlsx', index_col=0)
+    artist_df = pd.read_excel('./melon_song_data/artist_df.xlsx', index_col=0)
+    group_artist_df = pd.read_excel('./melon_song_data/group_artist_df.xlsx', index_col=0)
 
 else:
     song_df = pd.DataFrame(columns= ['song_id', 'title'])
@@ -45,29 +45,29 @@ def id_selector(txt, idx):
         idx += 1
     return int(selected_id)
 
-classCd = 'KPOP'
+classCd = 'DP0200'
 
-for age in ['1990', '2000', '2010', '2020']:
+for age in ['2000', '2010', '2020']:
     
     for yy in range(10):
         
         year = str(int(age) + yy)
+        if int(year) < 2004:
+            continue
         
         for month in ['01','02','03','04','05','06','07','08','09','10','11','12']:
             
-            if age == '2000' and yy == 4 and month == '11':
-                classCd = 'DP0000'
-            elif age == '2010' and yy == 8:
-                classCd = 'GN0000'
+            if year == '2004' and month in ['01','02','03','04','05','06','07','08','09','10']:
+                continue
                 
             month_chart_url = f'https://www.melon.com/chart/search/list.htm?chartType=MO&age={age}&year={year}&mon={month}&classCd={classCd}&moved=Y'
             
             time.sleep(random.randint(10,20))
             
             # 월간 차트 조회
-            month_chart_req = requests.get(month_chart_url, headers=headers).text
+            month_chart_req = requests.get(month_chart_url, headers=headers)
 
-            chart_bs = BeautifulSoup(month_chart_req, 'lxml')
+            chart_bs = BeautifulSoup(month_chart_req.text, 'lxml')
 
             for song_rank in range(100):
 
@@ -80,23 +80,24 @@ for age in ['1990', '2000', '2010', '2020']:
                     i = song_rank
 
                 try:
-                    for rank_no in ['1','3']:
+                    for rank_no in ['1','2', '3']:
                         lst = '50'
                         if i >= 50:
                             i = i-50
                             lst = '100'
-                        chart_obj = str(chart_bs.findAll('tr', { 'class' : f'lst{lst}'})[i].find('div', {'class' : f'ellipsis rank0{rank_no}'}))    
+                        chart_obj = chart_bs.findAll('tr', { 'class' : f'lst{lst}'})[i].find('div', {'class' : f'ellipsis rank0{rank_no}'})
 
                         # 노래 id 추출  
                         if rank_no == '1':
+                            chart_obj = str(chart_obj)
                             s_idx = chart_obj.find(",'")+2
                             song_id = id_selector(chart_obj, s_idx)
                             
                         # 아티스트 id 추출
                         elif rank_no == '2':
-                            for one in chart_obj.select_one('span'):
-                                if one == ', ':
-                                    continue
+                            chart_obj = chart_obj.select('a')
+                            chart_obj = chart_obj[:len(chart_obj)//2]
+                            for one in chart_obj:
                                 art_str = str(one['href'])
                                 art_idx = art_str.find("('")+2
                                 artist_id = id_selector(art_str, art_idx)

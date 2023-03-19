@@ -22,7 +22,7 @@ public class UserController {
         return String.format("It's Working in User Service on PORT %s", env.getProperty("local.server.port"));
     }
 
-    @PostMapping("/api/user/register")
+    @PostMapping("/register")
     public UserCreateRequest createUser(@RequestBody UserCreateRequest request) {
         return userSerivceImpl.createUser(request);
     }

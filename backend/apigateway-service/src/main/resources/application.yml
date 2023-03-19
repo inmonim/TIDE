@@ -23,6 +23,14 @@ spring:
         - id: api-user
           uri: lb://API-USER
           predicates:
+            - Path=/api/user/register
+            - Method=POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/api/user/(?<segment>.*), /$\{segment}
+        - id: api-user
+          uri: lb://API-USER
+          predicates:
             - Path=/api/user/login
             - Method=POST
           filters:
@@ -39,4 +47,5 @@ spring:
             - AuthorizationHeaderFilter
 
 token:
+  expiration_time: 864000000
   secret: user_token

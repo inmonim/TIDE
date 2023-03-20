@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@fullpage/react-fullpage": "^0.1.36",
     "@headlessui/react": "^1.7.13",
     "@reduxjs/toolkit": "^1.9.3",
     "@types/node": "18.15.0",

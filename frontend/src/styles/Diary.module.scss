@@ -1,12 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&family=Tilt+Prism&display=swap');
 
 .main {
+  color: #eeeeee;
   display: flex;
   flex-direction: column;
   // justify-content: space-between;
   // align-items: center;
   padding: 6rem;
+  padding-left: calc(15% + 100px);
+  padding-right: calc(15% + 100px);
   min-height: 100vh;
+  padding-top: calc(2rem + 40px);
 }
 
 .diaryNav {
@@ -160,14 +164,14 @@
   display: grid;
   place-items: center;
   grid-gap: 20px;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   transition: 0.3s;
 }
 
 .caroselItem {
   margin: 0.5rem;
   width: 100%;
-  min-width: 500px;
+  // min-width: 500px;
   height: 100%;
   // background-color: rgb(83, 83, 83);
   display: grid;
@@ -255,9 +259,11 @@
 }
 
 /* Mobile */
-@media (max-width: 730px) {
+@media (max-width: 860px) {
   .main {
-    padding: 4rem;
+    padding-left: 4rem;
+    padding-right: 4rem;
+    padding-top: calc(1rem + 40px);
   }
 
   .caroselWrapper {
@@ -301,19 +307,23 @@
 }
 
 /* Tablet and Smaller Desktop */
-@media (min-width: 731px) and (max-width: 1265px) {
-  .caroselWrapper {
-    // margin-left: 20px;
-    grid-template-columns: repeat(1, 1fr);
-    width: 100%;
-    height: 415px;
+@media (min-width: 861px) and (max-width: 1200px) {
+  .main {
+    display: flex;
+    flex-direction: column;
+    // justify-content: space-between;
+    // align-items: center;
+    padding: 6rem;
+    padding-top: calc(2rem + 40px);
+    padding-left: calc(100px);
+    padding-right: calc(100px);
+    min-height: 100vh;
   }
 }
 
-@media (min-width: 1266px) and (max-width: 1780px) {
+@media (max-width: 1600px) {
   .caroselWrapper {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(1, 1fr);
     width: 100%;
-    height: 415px;
   }
 }

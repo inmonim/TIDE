@@ -8,13 +8,39 @@ import landingImage2 from 'public/images/Landing/Tidelanding2.png';
 import Link from 'next/link';
 
 function LandingPage() {
+  const firstDiv = useRef<HTMLDivElement>(null);
+  const secondDiv = useRef<HTMLDivElement>(null);
+  // 마우스 윌 이벤트 발생시
+  const onClick = (event: any) => {
+    secondDiv.current?.scrollIntoView({behavior: 'smooth'});
+  }
+  const onWheelScroll = (event: any) => {
+    // event.preventDefault();
+    const {deltaY} = event;
+    console.log(deltaY, 'zz');
+    // const { scrollTop } = scrollDivRef.current;
+    // const pageHeight = window.innerHeight;
+
+    // 마우스 아래와 위일때 조건
+    if (deltaY > 0) {
+      // console.log("123", deltaY, scrollTop, pageHeight);
+      secondDiv.current?.scrollIntoView({behavior: 'smooth'});
+    } else if (deltaY < 0) {
+      // console.log("456", deltaY, scrollTop, pageHeight);
+      firstDiv.current?.scrollIntoView({behavior: 'smooth'});
+    }
+  };
   return (
     <>
       <Head>
         <title>My Landing Page</title>
         <meta name="description" content="TIDE는 제공합니다." />
       </Head>
-      <div className={styles.bigcontainer}>
+      <div
+        onWheel={onWheelScroll}
+        onClick={onClick}
+        ref={firstDiv}
+        className={styles.bigcontainer}>
         <div className={styles.container1}>
           <div className={styles.landingImages}>
             <Image src={landingImage1} alt="Tide Landing" />
@@ -41,7 +67,7 @@ function LandingPage() {
           </div>
         </div>
 
-        <div className={styles.container2}>
+        <div ref={secondDiv} className={styles.container2}>
           <div className={styles.landingImages}>
             <Image src={landingImage2} alt="Tide Landing" />
           </div>

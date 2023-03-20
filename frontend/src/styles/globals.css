@@ -3,7 +3,9 @@
 @tailwind utilities;
 
 :root {
-  background-color: #000000;
+  background-color: black;
+  /* background: linear-gradient(to bottom left, #011516, #2e608c); */
+  /* color: #eeeeee; */
 }
 
 * {

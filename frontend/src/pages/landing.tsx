@@ -9,34 +9,41 @@ import Link from 'next/link';
 // import Section from '@/components/Section';
 
 function LandingPage() {
-  const [windowObj, setWindowObj] = useState<Window>();
-
-  useEffect(() => {
-    if (window !== undefined) {
-      setWindowObj(window);
-    }
-  }, []);
-
-  const handlePageChange = (event: Event) => {
-    let scroll = windowObj?.scrollY!;
-    console.log(scroll);
+  const firstDiv = useRef<HTMLDivElement>(null);
+  const secondDiv = useRef<HTMLDivElement>(null);
+  // 마우스 윌 이벤트 발생시
+  const onClick = (event: any) => {
+    secondDiv.current?.scrollIntoView({behavior: 'smooth'});
   };
+  const onWheelScroll = (event: any) => {
+    // event.preventDefault();
+    const {deltaY} = event;
+    console.log(deltaY, 'zz');
+    // const { scrollTop } = scrollDivRef.current;
+    // const pageHeight = window.innerHeight;
 
-  useEffect(() => {
-    windowObj?.addEventListener('scroll', handlePageChange);
-    return () => {
-      windowObj?.removeEventListener('scroll', handlePageChange);
-    };
-  }, [windowObj]);
-
+    // 마우스 아래와 위일때 조건
+    if (deltaY > 0) {
+      // console.log("123", deltaY, scrollTop, pageHeight);
+      secondDiv.current?.scrollIntoView({behavior: 'smooth'});
+    } else if (deltaY < 0) {
+      // console.log("456", deltaY, scrollTop, pageHeight);
+      firstDiv.current?.scrollIntoView({behavior: 'smooth'});
+    }
+  };
   return (
     <>
       <Head>
         <title>My Landing Page</title>
         <meta name="description" content="TIDE는 제공합니다." />
       </Head>
+
       {/* 전체 컨테이너 */}
-      <div className="flex flex-col w-full h-full justify-items-center">
+      <div
+        className="flex flex-col w-full h-full justify-items-center"
+        onWheel={onWheelScroll}
+        onClick={onClick}
+        ref={firstDiv}>
         {/* container1 */}
         <div className="flex flex-row items-center content-center justify-center w-full pt-24 bg-[#021b30]">
           {/* landingImage */}
@@ -76,7 +83,9 @@ function LandingPage() {
           </div>
         </div>
 
-        <div className="flex flex-row items-center content-center justify-center w-full bg-[#021b30]">
+        <div
+          ref={secondDiv}
+          className="flex flex-row items-center content-center justify-center w-full bg-[#021b30]">
           <div className="w-[1100px] h-[850px] overflow-hidden">
             <Image
               src={landingImage2}

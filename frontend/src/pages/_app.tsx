@@ -11,11 +11,6 @@ function App({Component, pageProps}: AppProps) {
   const [isLogin, setIsLogin] = useState<boolean>(false);
   return (
     <>
-<<<<<<< HEAD
-      {/* {isLogin && <MusicBar />} */}
-      <MusicBar />
-      <Component {...pageProps} />
-=======
       {isLogin && <MusicBar />}
       <AnimatePresence key={router.route}>
         <motion.div
@@ -28,7 +23,6 @@ function App({Component, pageProps}: AppProps) {
           <Component {...pageProps} />
         </motion.div>
       </AnimatePresence>
->>>>>>> fe83c4a3c0a6bd69bdb9d58445b2b4dc9f0eac13
     </>
   );
 }

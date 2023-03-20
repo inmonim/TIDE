@@ -1,5 +1,6 @@
-.navBgDiv{
+.navBgDiv {
   background-color: rgb(4, 4, 12);
+  color: #eeeeee;
 }
 
 .navSection {
@@ -7,13 +8,12 @@
   grid-column-gap: 3vw;
 }
 
-.musicDesc{
+.musicDesc {
   width: 260px;
-  overflow-x:hidden;
+  overflow-x: hidden;
   white-space: nowrap;
 
-
-  & > div{
+  & > div {
     width: fit-content;
     animation: bannermove 5s linear infinite;
   }
@@ -22,13 +22,13 @@
 @keyframes bannermove {
   0% {
     transform: translate(50%, 0);
-}
-100% {
+  }
+  100% {
     transform: translate(-60%, 0);
   }
 }
 
-.timeBar{
+.timeBar {
   display: flex;
 }
 
@@ -72,12 +72,12 @@
   }
 }
 
-.rightIconDiv{
+.rightIconDiv {
   position: absolute;
-  right:1.75rem;
+  right: 1.75rem;
 }
 
-.alarmBtn{
+.alarmBtn {
   background-image: url('../../public/buttons/Alarm.png');
   background-repeat: no-repeat;
   background-size: cover;
@@ -90,7 +90,7 @@
   }
 }
 
-.friendBtn{
+.friendBtn {
   background-image: url('../../public/buttons/Friends.png');
   background-repeat: no-repeat;
   background-size: cover;
@@ -103,7 +103,8 @@
   }
 }
 
-.sideBgDiv{
+.sideBgDiv {
+  color: #eeeeee;
   background-color: rgb(3, 3, 14);
   position: fixed;
   width: 15%;
@@ -111,168 +112,164 @@
   // display: flex;
 }
 
-.logoDiv{
-  margin:10%;
+.logoDiv {
+  margin: 10%;
   width: 80%;
   height: 4vw;
   // height: 80px;
   // min-height: 50px;
   background-image: url('../../public/images/Logo/TideLogoFinal.png');
   background-repeat: no-repeat;
-  background-size:contain;
+  background-size: contain;
 }
 
-.searchBox{
-  margin:10%;
-  margin-top:30px;
+.searchBox {
+  margin: 10%;
+  margin-top: 30px;
   width: 80%;
   display: flex;
   justify-content: center;
-  background-color: #4E4A4A;
+  background-color: #4e4a4a;
   border-radius: 20px;
-  
-  & > form > input[type="text"]{
-    padding:6px;
+
+  & > form > input[type='text'] {
+    padding: 6px;
     width: 70%;
-    background-color: #4E4A4A;
+    background-color: #4e4a4a;
     border-radius: 20px;
-    color:#8A8A8A;
+    color: #8a8a8a;
     content: '';
 
-    &:focus { outline: none; }
+    &:focus {
+      outline: none;
+    }
   }
 
-  &> form > button{
+  & > form > button {
     // background-color: red;
-    padding:6px;
+    padding: 6px;
     width: 20px;
     height: 20px;
     background-image: url('../../public/buttons/Search.png');
     background-repeat: no-repeat;
-    background-size:contain;
-    margin:8px;
-    margin-left:12px;
+    background-size: contain;
+    margin: 8px;
+    margin-left: 12px;
   }
-
 }
 
-.profileIcon{
+.profileIcon {
   width: 40px;
   height: 40px;
   background-image: url('../../public/buttons/Profile.png');
   background-repeat: no-repeat;
-  background-size:contain;
-  
+  background-size: contain;
 }
 
-.diaryIcon{
+.diaryIcon {
   width: 40px;
   height: 40px;
   background-image: url('../../public/buttons/Diary.png');
   background-repeat: no-repeat;
-  background-size:contain;
+  background-size: contain;
 }
 
-.playlistIcon{
+.playlistIcon {
   width: 40px;
   height: 40px;
   // min-width: 40px;
   background-image: url('../../public/buttons/Playlist.png');
   background-repeat: no-repeat;
-  background-size:contain;
-
+  background-size: contain;
 }
 
-.messageIcon{
+.messageIcon {
   width: 40px;
   height: 40px;
   background-image: url('../../public/buttons/Messege.png');
   background-repeat: no-repeat;
-  background-size:contain;
-
+  background-size: contain;
 }
 
-.MenuDiv{
+.MenuDiv {
   align-items: center;
   & > div > p {
     margin-bottom: 10px;
     white-space: nowrap;
   }
 
-  &:hover{
+  &:hover {
     filter: drop-shadow(0px 0px 2px #eee)
       drop-shadow(0px 0px 5px rgb(141, 160, 255))
       drop-shadow(0px 0px 10px rgb(23, 45, 93));
   }
 }
 
-.topBgDiv{
+.topBgDiv {
   display: none;
 }
 
-
 @media (max-width: 500px) {
-  .navSection{
+  .navSection {
     grid-column-gap: 40px;
   }
-  
-  .albumImg{
+
+  .albumImg {
     width: 4rem;
     height: 4rem;
   }
 
-  .musicDesc{
+  .musicDesc {
     width: 8rem;
-    overflow-x:hidden;
+    overflow-x: hidden;
     white-space: nowrap;
-    & > p:nth-child(1){
+    & > p:nth-child(1) {
       font-size: 20px;
     }
 
-    & > p:nth-child(2){
+    & > p:nth-child(2) {
       font-size: 16px;
     }
   }
 
-  .timeBar{
+  .timeBar {
     display: none;
   }
 
-  .playBar{
+  .playBar {
     column-gap: 6px;
-    & > div{
+    & > div {
       width: 1.5rem;
       height: 1.5rem;
     }
   }
 
-  .sideBgDiv{
+  .sideBgDiv {
     display: none;
   }
-
 }
 
-@media (min-width:501px) and (max-width: 860px) {
-
-  .navSection{
+@media (min-width: 501px) and (max-width: 860px) {
+  .navSection {
     grid-column-gap: 40px;
   }
 
-  .timeBar{
+  .timeBar {
     display: none;
   }
 
-  .sideBgDiv{
+  .sideBgDiv {
     display: none;
   }
 }
 
 @media (max-width: 1200px) {
-  .rightIconDiv, .sideBgDiv{
+  .rightIconDiv,
+  .sideBgDiv {
     display: none;
   }
 
-  .topBgDiv{
+  .topBgDiv {
     position: fixed;
     z-index: 11;
     display: grid;
@@ -282,48 +279,49 @@
     background-color: rgb(3, 3, 14);
     align-items: center;
     justify-items: center;
-  
-    &> .rightIconDiv{
+
+    & > .rightIconDiv {
       display: flex;
-      grid-column-gap:11px;
+      grid-column-gap: 11px;
     }
-    & > .searchBox{
-      margin:4px;
+    & > .searchBox {
+      margin: 4px;
       max-width: 200px;
       min-width: 120px;
       width: 80%;
       height: 32px;
       white-space: nowrap;
-      background-color: #4E4A4A;
+      background-color: #4e4a4a;
 
-      & > form > input[type="text"]{
-        padding:6px;
+      & > form > input[type='text'] {
+        padding: 6px;
         // width: 70%;
         height: 0px;
-        background-color: #4E4A4A;
+        background-color: #4e4a4a;
         // border-radius: 20px;
-        color:#8A8A8A;
-    
-        &:focus { outline: none; }
+        color: #8a8a8a;
+
+        &:focus {
+          outline: none;
+        }
       }
-    
-      &> form > button{
+
+      & > form > button {
         // background-color: red;
         // padding:6px;
         width: 20px;
         height: 20px;
         background-image: url('../../public/buttons/Search.png');
         background-repeat: no-repeat;
-        background-size:contain;
-        margin:8px;
+        background-size: contain;
+        margin: 8px;
         // margin-bottom: 10px;
       }
-      
     }
 
-    &> .logoDiv{
-      margin:0;
-      margin-top:4px;
+    & > .logoDiv {
+      margin: 0;
+      margin-top: 4px;
       min-width: 100px;
       max-height: 100px;
       max-height: 32px;
@@ -331,5 +329,4 @@
       background-position: center;
     }
   }
-
 }

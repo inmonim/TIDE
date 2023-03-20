@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&family=Tilt+Prism&display=swap');
 
 .main {
+  color: #eeeeee;
   display: flex;
   flex-direction: column;
   // justify-content: space-between;
@@ -9,7 +10,7 @@
   padding-left: calc(15% + 100px);
   padding-right: calc(15% + 100px);
   min-height: 100vh;
-  padding-top:calc(2rem + 40px);
+  padding-top: calc(2rem + 40px);
 }
 
 .diaryNav {
@@ -262,7 +263,7 @@
   .main {
     padding-left: 4rem;
     padding-right: 4rem;
-    padding-top:calc(1rem + 40px);
+    padding-top: calc(1rem + 40px);
   }
 
   .caroselWrapper {
@@ -313,8 +314,8 @@
     // justify-content: space-between;
     // align-items: center;
     padding: 6rem;
-    padding-top:calc(2rem + 40px);
-    padding-left: calc( 100px);
+    padding-top: calc(2rem + 40px);
+    padding-left: calc(100px);
     padding-right: calc(100px);
     min-height: 100vh;
   }

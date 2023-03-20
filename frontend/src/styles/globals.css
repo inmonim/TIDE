@@ -3,12 +3,9 @@
 @tailwind utilities;
 
 :root {
-<<<<<<< HEAD
-  background: linear-gradient(to bottom left, #011516, #2e608c);
-  color: #eeeeee;
-=======
-  background-color: #000000;
->>>>>>> fe83c4a3c0a6bd69bdb9d58445b2b4dc9f0eac13
+  background-color: black;
+  /* background: linear-gradient(to bottom left, #011516, #2e608c); */
+  /* color: #eeeeee; */
 }
 
 * {

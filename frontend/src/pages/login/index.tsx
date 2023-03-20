@@ -2,6 +2,7 @@ import Image from 'next/image';
 import {useEffect, useState, useCallback, useRef} from 'react';
 import {useAppDispatch, useAppSelector} from 'store'; //스토어 생성단계에서 export한 커스텀 dispatch, selector hook
 import logoUrl from 'public/images/Logo/TideLogoFinal.png';
+import {motion} from 'framer-motion';
 import Link from 'next/link';
 
 // SSR: 서버에서 구동되는 영역
@@ -24,9 +25,25 @@ const login = () => {
 
   return (
     <div
-      className={`w-full h-screen flex justify-center text-white bg-[url('/images/BackGround/loginBG.png')] bg-no-repeat bg-cover sm:bg-[url('/images/BackGround/loginWebBG.png')] sm:bg-no-repeat sm:bg-cover sm:justify-end sm:min-h-[50rem]`}>
-      <div
-        className={`w-full mx-5 h-[95%] flex flex-col justify-center items-center bg-black bg-opacity-50 sm:w-[34rem] sm:h-full sm:bg-opacity-95 sm:mx-0`}>
+      className={`w-full h-screen overflow-hidden flex justify-center text-white bg-[url('/images/BackGround/loginBG.png')] bg-no-repeat bg-cover sm:bg-[url('/images/BackGround/loginWebBG.png')] sm:bg-no-repeat sm:bg-cover sm:justify-end sm:min-h-[50rem]`}>
+      <motion.div
+        initial={{translateX: -1000}}
+        animate={{translateX: 0}}
+        transition={{
+          delay: 0.2,
+          duration: 0.5
+        }}
+        className={`hidden sm:w-full sm:h-full sm:flex sm:justify-start sm:items-center sm:ml-20 `}>
+        <Image src={logoUrl} alt="logo" />
+      </motion.div>
+      <motion.div
+        initial={{translateX: 500}}
+        animate={{translateX: 0}}
+        exit={{translateX: 500}}
+        transition={{
+          duration: 0.5
+        }}
+        className={`w-full mx-5 h-[95%] flex flex-col justify-center items-center bg-[#010122] bg-opacity-80 sm:w-[34rem] sm:h-full sm:bg-opacity-95 sm:mx-0`}>
         <div className={`w-40`}>
           <Image src={logoUrl} alt="logo" />
         </div>
@@ -57,13 +74,13 @@ const login = () => {
             className={`border-2 w-full rounded-md bg-sky-700 hover:bg-sky-500`}
             href={`/signup`}>
             <input
-              type="submit"
+              type="button"
               className={`w-full h-10 cursor-pointer text-sm`}
               value="가입"
             />
           </Link>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };

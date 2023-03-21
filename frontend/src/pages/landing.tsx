@@ -6,31 +6,29 @@ import logo from 'public/images/Logo/TideLogoFinal.png';
 import landingImage1 from 'public/images/Landing/Tidelanding1.png';
 import landingImage2 from 'public/images/Landing/landingtest1.png';
 import Link from 'next/link';
-// import Section from '@/components/Section';
 
 function LandingPage() {
   const firstDiv = useRef<HTMLDivElement>(null);
   const secondDiv = useRef<HTMLDivElement>(null);
-  // 마우스 윌 이벤트 발생시
-  const onClick = (event: any) => {
-    secondDiv.current?.scrollIntoView({behavior: 'smooth'});
-  };
-  const onWheelScroll = (event: any) => {
-    // event.preventDefault();
-    const {deltaY} = event;
-    console.log(deltaY, 'zz');
-    // const { scrollTop } = scrollDivRef.current;
-    // const pageHeight = window.innerHeight;
 
-    // 마우스 아래와 위일때 조건
+  useEffect(() => {
+    window.addEventListener('wheel', onWheelScroll);
+    return () => {
+      window.removeEventListener('wheel', onWheelScroll);
+    };
+  }, []);
+
+  // 마우스 윌 이벤트 발생시
+  const onWheelScroll = (event: any) => {
+    const {deltaY} = event;
+    console.log(deltaY);
     if (deltaY > 0) {
-      // console.log("123", deltaY, scrollTop, pageHeight);
       secondDiv.current?.scrollIntoView({behavior: 'smooth'});
-    } else if (deltaY < 0) {
-      // console.log("456", deltaY, scrollTop, pageHeight);
+    } else {
       firstDiv.current?.scrollIntoView({behavior: 'smooth'});
     }
   };
+
   return (
     <>
       <Head>
@@ -39,13 +37,11 @@ function LandingPage() {
       </Head>
 
       {/* 전체 컨테이너 */}
-      <div
-        className="flex flex-col w-full h-full justify-items-center"
-        onWheel={onWheelScroll}
-        onClick={onClick}
-        ref={firstDiv}>
+      <div className="flex flex-col w-full h-full justify-items-center">
         {/* container1 */}
-        <div className="flex flex-row items-center content-center justify-center w-full pt-24 bg-[#021b30]">
+        <div
+          className="flex flex-row items-center content-center justify-center w-full pt-24 bg-[#021b30]"
+          ref={firstDiv}>
           {/* landingImage */}
           <div className="w-[1100px] h-[850px]">
             <Image src={landingImage1} alt="Tide Landing" />

@@ -20,7 +20,7 @@ function LandingPage() {
 
   // 마우스 윌 이벤트 발생시
   const onWheelScroll = (event: any) => {
-    const {deltaY} = event;
+    const {deltaY} = event.currentTarget;
     console.log(deltaY);
     if (deltaY > 0) {
       secondDiv.current?.scrollIntoView({behavior: 'smooth'});
@@ -40,7 +40,7 @@ function LandingPage() {
       <div className="flex flex-col w-full h-full justify-items-center">
         {/* container1 */}
         <div
-          className="flex flex-row items-center content-center justify-center w-full pt-24 bg-[#021b30]"
+          className="flex flex-row items-center content-center justify-center w-full h-screen pt-24 bg-[#021b30]"
           ref={firstDiv}>
           {/* landingImage */}
           <div className="w-[1100px] h-[850px]">
@@ -81,7 +81,7 @@ function LandingPage() {
 
         <div
           ref={secondDiv}
-          className="flex flex-row items-center content-center justify-center w-full bg-[#021b30]">
+          className="flex flex-row items-center content-center justify-center w-full h-screen bg-[#021b30]">
           <div className="w-[1100px] h-[850px] overflow-hidden">
             <Image
               src={landingImage2}

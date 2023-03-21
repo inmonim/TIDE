@@ -15,16 +15,11 @@ function LandingPage() {
   const onWheelScroll = (event: any) => {
     const {deltaY} = event;
     if (deltaY > 0) {
-      setTimeout(() => {
-        secondDiv.current?.scrollIntoView({behavior: 'smooth'});
-      }, 600);
-    } else if (deltaY < 0) {
-      setTimeout(() => {
-        firstDiv.current?.scrollIntoView({behavior: 'smooth'});
-      }, 600);
-    } 
+      secondDiv.current?.scrollIntoView({behavior: 'smooth'});
+    } else {
+      firstDiv.current?.scrollIntoView({behavior: 'smooth'});
+    }
   };
-
 
   return (
     <>

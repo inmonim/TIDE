@@ -2,7 +2,7 @@ package com.muchu.user.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.muchu.user.dto.UserDto;
-import com.muchu.user.request.UserRequestLogin;
+import com.muchu.user.request.UserLoginRequest;
 import com.muchu.user.service.UserService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -40,7 +40,7 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response) throws AuthenticationException {
         try {
-            UserRequestLogin creds = new ObjectMapper().readValue(request.getInputStream(), UserRequestLogin.class);
+            UserLoginRequest creds = new ObjectMapper().readValue(request.getInputStream(), UserLoginRequest.class);
 
             UsernamePasswordAuthenticationToken authRequest =
                     new UsernamePasswordAuthenticationToken(
@@ -70,6 +70,6 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                 .compact(); // 생성
 
         response.addHeader("token", token);
-        response.addHeader("nickname", userDetails.getNickname());
+        response.addHeader("email", userDetails.getEmail());
     }
 }

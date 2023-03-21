@@ -1,14 +1,11 @@
-package com.muchu.user.response;
+package com.muchu.user.request;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @NoArgsConstructor
-public class ResponseProfile {
-    private Long userid;
+public class UserInfoRequest {
     private String profile_img_path;
     private String introduce;
-    private int point;
-
 }

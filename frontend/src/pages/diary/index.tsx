@@ -81,7 +81,7 @@ export default function Diary() {
       caroselPage.current -= 1;
       if (windowSize.width && windowSize.width <= 1600) {
         if (diaryCur) setDiaryCur(diaryCur - 1);
-      }else{
+      } else {
         if (diaryCur) setDiaryCur(diaryCur - 2);
       }
 
@@ -96,7 +96,7 @@ export default function Diary() {
           }px)`;
         }
       }
-      console.log(caroselPage.current);
+      // console.log(caroselPage.current);
     }
   };
 
@@ -107,10 +107,10 @@ export default function Diary() {
       if (windowSize.width && windowSize.width <= 1600) {
         if (diaryCur) setDiaryCur(diaryCur + 1);
         setDiaryMax(titleArr.length);
-      } else{
+      } else {
         if (diaryCur) setDiaryCur(diaryCur + 2);
         setDiaryMax(Math.ceil(titleArr.length / 2));
-      } 
+      }
       if (caroselDivRef.current) {
         if (windowSize.width && windowSize.width <= 860) {
           caroselDivRef.current.style.transform = `translateY(-${
@@ -123,7 +123,7 @@ export default function Diary() {
         }
       }
     }
-    console.log(caroselPage.current);
+    // console.log(caroselPage.current);
   };
 
   return (

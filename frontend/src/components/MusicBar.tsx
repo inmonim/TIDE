@@ -19,6 +19,7 @@ const MusicBar: FC<MusicBarProps> = props => {
 
   const musicState = (event: React.MouseEvent<HTMLDivElement>) => {
     setPlaying(prev => !prev);
+    console.log(youtube.current.getCurrentTime());
   };
 
   return (
@@ -47,7 +48,7 @@ const MusicBar: FC<MusicBarProps> = props => {
                 {/* 바 */}
                 <div
                   className={`flex flex-row items-center gap-x-5 ${styles.timeBar}`}>
-                  <p> 2:00</p>
+                  <p> 0:00</p>
                   <div className="w-60">
                     <div className="absolute h-1 bg-sky-500"></div>
                     <div className="w-full h-1 bg-slate-700"></div>
@@ -66,7 +67,8 @@ const MusicBar: FC<MusicBarProps> = props => {
                       style={{display: 'none'}}
                     />
                   )}
-                  <div className={`w-7 h-7 cursor-pointer ${styles.Back}`}></div>
+                  <div
+                    className={`w-7 h-7 cursor-pointer ${styles.Back}`}></div>
                   {playing ? (
                     <div
                       onClick={musicState}
@@ -76,19 +78,8 @@ const MusicBar: FC<MusicBarProps> = props => {
                       onClick={musicState}
                       className={`w-7 h-7 cursor-pointer ${styles.Play}`}></div>
                   )}
-                  <div className={`w-7 h-7 cursor-pointer ${styles.Fast}`}></div>
-                </div>
-
-                {/* 알림, 친구 */}
-                <div
-                  className={`flex flex-row items-center gap-x-7 ${styles.rightIconDiv}`}>
-                  <div className={`w-7 h-7 min-w-7 min-h-7 ${styles.alarmBtn}`}>
-                    {' '}
-                  </div>
                   <div
-                    className={`w-7 h-7  min-w-7 min-h-7 ${styles.friendBtn}`}>
-                    {' '}
-                  </div>
+                    className={`w-7 h-7 cursor-pointer ${styles.Fast}`}></div>
                 </div>
               </div>
             </div>

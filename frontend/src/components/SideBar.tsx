@@ -1,5 +1,6 @@
 import type {FC} from 'react';
 import {useState} from 'react';
+import RightBar from './RightBar';
 import Link from 'next/link';
 import styles from '@/styles/MusicBar.module.scss';
 
@@ -7,8 +8,10 @@ export type SideBarProps = {};
 
 const SideBar: FC<SideBarProps> = props => {
   const [RmenuOpen, setRmenuOpen] = useState<boolean>(false);
+  const [BarOpen, setBarOpen] = useState<Number>(0);
   return (
     <>
+      {/* 상단바 영역 */}
       <div className={`${styles.topBgDiv} fixed`}>
         {/* 검색창 영역 */}
         <div className={styles.searchBox}>
@@ -22,11 +25,32 @@ const SideBar: FC<SideBarProps> = props => {
 
         {/* 알림, 친구 */}
         <div
-          className={`flex flex-row items-center gap-x-7 ${styles.rightIconDiv}`}>
-          <div className={`w-7 h-7 min-w-7 min-h-7 ${styles.alarmBtn}`}> </div>
-          <div className={`w-7 h-7  min-w-7 min-h-7 ${styles.friendBtn}`}>
+          className={`flex flex-row items-center gap-x-7 right-0 mr-[-14px] ${styles.rightIconDiv}`}>
+          <div
+            className={`w-7 h-7 min-w-7 min-h-7 ${styles.alarmBtn}`}
+            onClick={() => (BarOpen === 1 ? setBarOpen(0) : setBarOpen(1))}>
             {' '}
           </div>
+          <div
+            className={`w-7 h-7  min-w-7 min-h-7 ml-1 ${styles.friendBtn}`}
+            onClick={() => (BarOpen === 2 ? setBarOpen(0) : setBarOpen(2))}>
+            {' '}
+          </div>
+        </div>
+      </div>
+
+      {/* 알림, 친구 */}
+      <div
+        className={`flex flex-row items-center gap-x-7 fixed z-20 right-0 mr-[0px] bottom-[2.2rem] ${styles.rightIconDiv}`}>
+        <div
+          className={`w-7 h-7 min-w-7 min-h-7 ${styles.alarmBtn}`}
+          onClick={() => (BarOpen === 1 ? setBarOpen(0) : setBarOpen(1))}>
+          {' '}
+        </div>
+        <div
+          className={`w-7 h-7  min-w-7 min-h-7 ${styles.friendBtn}`}
+          onClick={() => (BarOpen === 2 ? setBarOpen(0) : setBarOpen(2))}>
+          {' '}
         </div>
       </div>
 
@@ -34,7 +58,7 @@ const SideBar: FC<SideBarProps> = props => {
       <div
         className={` ${
           styles.recordMenuDiv
-        }  w-[40px] h-[40px] fixed left-[50%] bottom-[75px] bg-[#eb456d] rounded-[50%] z-[9] flex justify-center  ${
+        }   border-slate-700 border-2 w-[100px] h-[100px] fixed left-[calc(50%-50px)] bottom-[calc(50px+2vw)] bg-[#170207] rounded-[50%] z-[9] flex justify-center  ${
           RmenuOpen ? 'z-[10]' : 'w-0 h-0'
         }`}
         onClick={() => setRmenuOpen(!RmenuOpen)}>
@@ -81,7 +105,7 @@ const SideBar: FC<SideBarProps> = props => {
           </Link>
         </div>
         <div
-          className={` ${styles.recordMenuDiv} w-[40px] h-[40px] absolute left-[0%] bottom-[0%] bg-[#eb456d] rounded-[50%] z-[9]`}></div>
+          className={`w-[36px] h-[36px] absolute left-[33%] bottom-[33%] bg-[#eb456d] rounded-[50%] z-[9]`}></div>
       </div>
 
       {/* 사이드바 영역 */}
@@ -98,7 +122,7 @@ const SideBar: FC<SideBarProps> = props => {
         </div>
 
         {/* 메뉴버튼 영역 */}
-        <div className={`grid gap-y-10 mt-16`}>
+        <div className={`grid gap-y-10 mt-10`}>
           <Link href="/">
             <div
               className={`flex flex-row gap-x-4 justify-between  w-3/4 m-auto ${styles.MenuDiv}`}>
@@ -144,6 +168,7 @@ const SideBar: FC<SideBarProps> = props => {
           </Link>
         </div>
       </div>
+      {BarOpen !== 0 ? <RightBar barType={BarOpen} /> : <></>}
     </>
   );
 };

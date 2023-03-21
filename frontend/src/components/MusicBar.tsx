@@ -11,15 +11,42 @@ const MusicBar: FC<MusicBarProps> = props => {
   const [playing, setPlaying] = useState<boolean>(true);
   const [init, setInit] = useState<boolean>(false);
 
+  // 음악 플레이 시간
+  const [playtime, setPlaytime] = useState<Number>(0);
+  const [fullplaytime, setFullPlaytime] = useState<Number>(0);
+
+  // 음악 재생바 현재
+  const playbarRef = useRef<HTMLDivElement>(null);
+  // 전체 음악 재생바
+  const fullbarRef = useRef<HTMLDivElement>(null);
+  // const [clickTime, setClickTime] = useState<Number>(0);
+
   useEffect(() => {
     setSrc('https://www.youtube.com/watch?v=11cta61wi0g');
-    setPlaying(true);
+    setPlaying(false);
     setInit(true);
   }, []);
 
+  // 음악 플레이 시간, 바 1초마다 갱신
+  useEffect(() => {
+    if (playing) {
+      const playSet = setInterval(() => {
+        setPlaytime(parseInt(youtube.current.getCurrentTime()));
+        if (playbarRef.current)
+          playbarRef.current.style.width = `${
+            (Number(playtime) / Number(fullplaytime)) * 100
+          }%`;
+      }, 1000);
+      return () => clearInterval(playSet);
+    }
+  }, [playing, playtime, fullplaytime]);
+
+  // 음악 플레이 바를 클릭한다면
+
   const musicState = (event: React.MouseEvent<HTMLDivElement>) => {
     setPlaying(prev => !prev);
-    console.log(youtube.current.getCurrentTime());
+    setFullPlaytime(parseInt(youtube.current.getDuration()));
+    setPlaytime(parseInt(youtube.current.getCurrentTime()));
   };
 
   return (
@@ -48,12 +75,24 @@ const MusicBar: FC<MusicBarProps> = props => {
                 {/* 바 */}
                 <div
                   className={`flex flex-row items-center gap-x-5 ${styles.timeBar}`}>
-                  <p> 0:00</p>
+                  <p>{`${Math.floor(Number(Number(playtime) / 60))}:${
+                    Math.floor(Number(playtime) % 60) < 10
+                      ? `0${Math.floor(Number(Number(playtime) % 60))}`
+                      : Math.floor(Number(Number(playtime) % 60))
+                  }`}</p>
                   <div className="w-60">
-                    <div className="absolute h-1 bg-sky-500"></div>
-                    <div className="w-full h-1 bg-slate-700"></div>
+                    <div
+                      className="z-10 w-0 h-1 translate-y-1 bg-sky-500 rounded-xl"
+                      ref={playbarRef}></div>
+                    <div
+                      className="w-full h-1 bg-slate-700 rounded-xl"
+                      ref={fullbarRef}></div>
                   </div>
-                  <p> 3:00</p>
+                  <p>{`${Math.floor(Number(Number(fullplaytime) / 60))}:${
+                    Math.floor(Number(fullplaytime) % 60) < 10
+                      ? `0${Math.floor(Number(Number(fullplaytime) % 60))}`
+                      : Math.floor(Number(Number(fullplaytime) % 60))
+                  }`}</p>
                 </div>
 
                 {/* 재생 버튼들 */}

@@ -15,21 +15,12 @@ function LandingPage() {
   // 마우스 윌 이벤트 발생시
   const onWheelScroll = (event: any) => {
     const {deltaY} = event;
-    setScroll(deltaY);
+    if (deltaY > 0) {
+      secondDiv.current?.scrollIntoView({behavior: 'smooth'});
+    } else {
+      firstDiv.current?.scrollIntoView({behavior: 'smooth'});
+    }
   };
-
-  useEffect(() => {
-    if (scroll > 0) {
-      setTimeout(() => {
-        secondDiv.current?.scrollIntoView({behavior: 'smooth'});
-      }, 600);
-    } else if (scroll < 0) {
-      setTimeout(() => {
-        firstDiv.current?.scrollIntoView({behavior: 'smooth'});
-      }, 600);
-    } 
-  }, [scroll])
-
 
   return (
     <>

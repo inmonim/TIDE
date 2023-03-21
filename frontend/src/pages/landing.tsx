@@ -10,14 +10,19 @@ import Link from 'next/link';
 function LandingPage() {
   const firstDiv = useRef<HTMLDivElement>(null);
   const secondDiv = useRef<HTMLDivElement>(null);
+  const [scroll, setScroll] = useState<number>(0);
 
   // 마우스 윌 이벤트 발생시
   const onWheelScroll = (event: any) => {
     const {deltaY} = event;
     if (deltaY > 0) {
-      secondDiv.current?.scrollIntoView({behavior: 'smooth'});
+      setTimeout(() => {
+        secondDiv.current?.scrollIntoView({behavior: 'smooth'});
+      }, 600);
     } else {
-      firstDiv.current?.scrollIntoView({behavior: 'smooth'});
+      setTimeout(() => {
+        firstDiv.current?.scrollIntoView({behavior: 'smooth'});
+      }, 600);
     }
   };
 

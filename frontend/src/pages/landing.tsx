@@ -16,9 +16,13 @@ function LandingPage() {
   const onWheelScroll = (event: any) => {
     const {deltaY} = event;
     if (deltaY > 0) {
-      secondDiv.current?.scrollIntoView({behavior: 'smooth'});
+      setTimeout(() => {
+        secondDiv.current?.scrollIntoView({behavior: 'smooth'});
+      }, 600);
     } else {
-      firstDiv.current?.scrollIntoView({behavior: 'smooth'});
+      setTimeout(() => {
+        firstDiv.current?.scrollIntoView({behavior: 'smooth'});
+      }, 600);
     }
   };
 

@@ -1,10 +1,26 @@
-import type {FC} from 'react';
+import React, {FC, useEffect, useRef, useState} from 'react';
 import SideBar from './SideBar';
 import styles from '@/styles/MusicBar.module.scss';
+import ReactPlayer from 'react-player';
 
 export type MusicBarProps = {};
 
 const MusicBar: FC<MusicBarProps> = props => {
+  const youtube = useRef<any>(null);
+  const [src, setSrc] = useState<string>('');
+  const [playing, setPlaying] = useState<boolean>(true);
+  const [init, setInit] = useState<boolean>(false);
+
+  useEffect(() => {
+    setSrc('https://www.youtube.com/watch?v=11cta61wi0g');
+    setPlaying(true);
+    setInit(true);
+  }, []);
+
+  const musicState = (event: React.MouseEvent<HTMLDivElement>) => {
+    setPlaying(prev => !prev);
+  };
+
   return (
     <>
       <div
@@ -41,9 +57,26 @@ const MusicBar: FC<MusicBarProps> = props => {
 
                 {/* 재생 버튼들 */}
                 <div className={`flex flex-row gap-x-2 ${styles.playBar}`}>
-                  <div className={`w-7 h-7  ${styles.Back}`}></div>
-                  <div className={`w-7 h-7  ${styles.Play}`}></div>
-                  <div className={`w-7 h-7  ${styles.Fast}`}></div>
+                  {init && (
+                    <ReactPlayer
+                      ref={youtube}
+                      playing={playing}
+                      loop={true}
+                      url={src}
+                      style={{display: 'none'}}
+                    />
+                  )}
+                  <div className={`w-7 h-7 cursor-pointer ${styles.Back}`}></div>
+                  {playing ? (
+                    <div
+                      onClick={musicState}
+                      className={`w-7 h-7 cursor-pointer ${styles.Pause}`}></div>
+                  ) : (
+                    <div
+                      onClick={musicState}
+                      className={`w-7 h-7 cursor-pointer ${styles.Play}`}></div>
+                  )}
+                  <div className={`w-7 h-7 cursor-pointer ${styles.Fast}`}></div>
                 </div>
 
                 {/* 알림, 친구 */}

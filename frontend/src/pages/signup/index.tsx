@@ -185,7 +185,7 @@ const signup = () => {
           </Link>
         </div>
       </motion.div>
-      <style jsx global>{`
+      <style jsx>{`
         select::-webkit-scrollbar {
           width: 0.6rem; /* 스크롤바의 너비 */
         }

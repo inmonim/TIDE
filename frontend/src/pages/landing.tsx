@@ -48,11 +48,13 @@ function LandingPage() {
           {/* subcontainer1 */}
           <div className="flex flex-col items-center justify-center max-w-[400px] ml-16 mb-20">
             {/* Tide 로고 */}
-            <Image
-              className="w-[300px] h-[100px] p-1"
-              src={logo}
-              alt="Tide Logo"
-            />
+            <Link href={`/mainpage`}>
+              <Image
+                className="w-[300px] h-[100px] p-1"
+                src={logo}
+                alt="Tide Logo"
+              />
+            </Link>
             {/* title */}
             <h1 className="my-6 text-4xl font-bold text-center text-white">
               당신 손안의 음악
@@ -90,11 +92,13 @@ function LandingPage() {
           </div>
 
           <div className="flex flex-col items-center justify-center max-w-[400px] ml-16">
-            <Image
-              className="w-[300px] h-[100px] p-1"
-              src={logo}
-              alt="Tide Logo"
-            />
+            <Link href={`/mainpage`}>
+              <Image
+                className="w-[300px] h-[100px] p-1"
+                src={logo}
+                alt="Tide Logo"
+              />
+            </Link>
             <h1 className="my-6 text-4xl font-bold text-center text-white">
               TIDE는 제공합니다
             </h1>

@@ -2,6 +2,16 @@ import Head from 'next/head';
 import styles from '../styles/Mainpage.module.css';
 import MusicBar from '@/components/MusicBar';
 
+interface playlists {
+  id: number;
+  title: string;
+  image: string;
+}
+
+interface Props {
+  playlists: playlists[];
+}
+
 function Mainpage() {
   return (
     <div>
@@ -17,6 +27,11 @@ function Mainpage() {
           <div className="py-3 my-1 text-5xl font-bold text-center">
             Featuring
           </div>
+          <div id="default-carousel">
+            <img className="rounded-lg w-[600px] h-[300px]" src="" />
+          </div>
+
+          {/* playlists */}
           <div className="flex flex-col m-6 text-white bg-green-600">
             <h2 className="mb-4 text-3xl font-semibold">Featured Playlists</h2>
             <div className="bg-blue-600 w-[280px] h-[280px] flex flex-col justify-center items-center">

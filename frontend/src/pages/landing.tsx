@@ -11,17 +11,9 @@ function LandingPage() {
   const firstDiv = useRef<HTMLDivElement>(null);
   const secondDiv = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    window.addEventListener('wheel', onWheelScroll);
-    return () => {
-      window.removeEventListener('wheel', onWheelScroll);
-    };
-  }, []);
-
   // 마우스 윌 이벤트 발생시
   const onWheelScroll = (event: any) => {
-    const {deltaY} = event.currentTarget;
-    console.log(deltaY);
+    const {deltaY} = event;
     if (deltaY > 0) {
       secondDiv.current?.scrollIntoView({behavior: 'smooth'});
     } else {
@@ -37,7 +29,9 @@ function LandingPage() {
       </Head>
 
       {/* 전체 컨테이너 */}
-      <div className="flex flex-col w-full h-full justify-items-center">
+      <div
+        onWheel={onWheelScroll}
+        className="flex flex-col w-full h-full justify-items-center">
         {/* container1 */}
         <div
           className="flex flex-row items-center content-center justify-center w-full h-screen pt-24 bg-[#021b30]"

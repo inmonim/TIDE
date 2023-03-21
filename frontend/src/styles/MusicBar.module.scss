@@ -87,7 +87,7 @@
 }
 
 .rightIconDiv {
-  position: absolute;
+  position: fixed;
   right: 1.75rem;
 }
 
@@ -182,6 +182,8 @@
     padding: 6px;
     width: 20px;
     height: 20px;
+    min-width: 20px;
+    min-height: 20px;
     background-image: url('../../public/buttons/Search.png');
     background-repeat: no-repeat;
     background-size: contain;
@@ -330,7 +332,13 @@
       background-color: #4e4a4a;
       display: flex;
       justify-content: left;
-      overflow-x: hidden;
+      overflow: hidden;
+      // overflow-x: hidden;
+
+      & > form {
+        display: flex;
+        align-items: center;
+      }
 
       &:hover,
       &:focus {

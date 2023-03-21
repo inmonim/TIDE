@@ -8,7 +8,7 @@ import {useRouter} from 'next/router';
 
 function App({Component, pageProps}: AppProps) {
   const router = useRouter();
-  const [isLogin, setIsLogin] = useState<boolean>(false);
+  const [isLogin, setIsLogin] = useState<boolean>(true);
   return (
     <>
       {isLogin && <MusicBar />}

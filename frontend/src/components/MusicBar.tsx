@@ -8,7 +8,7 @@ export type MusicBarProps = {};
 const MusicBar: FC<MusicBarProps> = props => {
   const youtube = useRef<any>(null);
   const [src, setSrc] = useState<string>('');
-  const [playing, setPlaying] = useState<boolean>(true);
+  const [playing, setPlaying] = useState<boolean>(false);
   const [init, setInit] = useState<boolean>(false);
 
   // 음악 플레이 시간
@@ -17,8 +17,33 @@ const MusicBar: FC<MusicBarProps> = props => {
 
   // 음악 재생바 현재
   const playbarRef = useRef<HTMLDivElement>(null);
+  const playMaybarRef = useRef<HTMLDivElement>(null);
   // 전체 음악 재생바
   const fullbarRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setSrc('https://www.youtube.com/watch?v=11cta61wi0g');
+    setPlaying(false);
+    setInit(true);
+  }, []);
+
+  // 재생바에 마우스 올리면 거기까지 .... 시간과 바를 땡겨보여줌
+  const BarTimeOn = (e: React.MouseEvent<HTMLElement>) => {
+    if (playMaybarRef.current && fullbarRef.current)
+      playMaybarRef.current.style.width = `${
+        (Number(
+          (Number(fullplaytime) * e.nativeEvent.offsetX) /
+            fullbarRef.current.offsetWidth
+        ) /
+          Number(fullplaytime)) *
+        100
+      }%`;
+  };
+
+  // 재생바에서 마우스 떼면 흰바 리셋시키고
+  const BarReset = (e: React.MouseEvent<HTMLElement>) => {
+    if (playMaybarRef.current) playMaybarRef.current.style.width = `0%`;
+  };
 
   // 재생바 클릭하면 해당 시간으로 타임 바꿔서
   const BarTimeSelect = (e: React.MouseEvent<HTMLElement>) => {
@@ -26,9 +51,15 @@ const MusicBar: FC<MusicBarProps> = props => {
       youtube.current.seekTo(
         e.nativeEvent.offsetX / fullbarRef.current.offsetWidth
       );
-      setPlaytime(parseInt(youtube.current.getCurrentTime()));
+      if (!Number.isNaN(fullplaytime)) {
+        setPlaytime(
+          (Number(fullplaytime) * e.nativeEvent.offsetX) /
+            fullbarRef.current.offsetWidth
+        );
+      }
     }
   };
+
   // 플레이타임 바뀌면 즉각적용~!
   useEffect(() => {
     if (playbarRef.current)
@@ -37,18 +68,12 @@ const MusicBar: FC<MusicBarProps> = props => {
       }%`;
   }, [playtime]);
 
-  useEffect(() => {
-    setSrc('https://www.youtube.com/watch?v=11cta61wi0g');
-    setPlaying(false);
-    setInit(true);
-  }, []);
-
   // 음악 플레이 시간, 바 0.1초마다 갱신
   useEffect(() => {
     if (init) {
       const playSet = setInterval(() => {
         setPlaytime(parseInt(youtube.current.getCurrentTime()));
-      }, 100);
+      }, 1000);
       return () => clearInterval(playSet);
     }
   }, [playing]);
@@ -56,7 +81,7 @@ const MusicBar: FC<MusicBarProps> = props => {
   // 음악 플레이 바를 클릭한다면
   const musicState = (event: React.MouseEvent<HTMLDivElement>) => {
     setPlaying(prev => !prev);
-    setPlaytime(parseInt(youtube.current.getCurrentTime()));
+    // setPlaytime(parseInt(youtube.current.getCurrentTime()));
   };
 
   // 최초 실행 시 fullplaytime 가져오기
@@ -71,7 +96,7 @@ const MusicBar: FC<MusicBarProps> = props => {
       }, 400);
       return () => clearInterval(fullSet);
     }
-  }, [playing, fullplaytime]);
+  }, [init, fullplaytime]);
 
   return (
     <>
@@ -113,12 +138,18 @@ const MusicBar: FC<MusicBarProps> = props => {
                         }`}
                   </p>
                   <div
-                    className="h-[8px] mb-[0px] select-all w-60 rounded-xl overflow-hidden"
+                    className="h-3 mb-[0px] select-all w-60 rounded-xl overflow-hidden"
+                    onMouseMove={BarTimeOn}
                     onClick={BarTimeSelect}
+                    // onMouseUp={BarTimeSelect}
+                    onMouseLeave={BarReset}
                     ref={fullbarRef}>
-                    <div className="w-[calc(100%)] h-2 select-all bg-slate-700 rounded-xl"></div>
+                    <div className="w-[calc(100%)] h-3 select-all bg-slate-700 rounded-xl"></div>
                     <div
-                      className="z-10 w-0 h-2 translate-y-[-8px] select-all bg-sky-500 rounded-xl"
+                      className={`z-10 w-0 h-3 translate-y-[-12px] select-all bg-sky-100 rounded-xl`}
+                      ref={playMaybarRef}></div>
+                    <div
+                      className={`z-10 w-0 h-3 translate-y-[-24px] select-all bg-sky-500 rounded-xl`}
                       ref={playbarRef}></div>
                   </div>
                   <p>
@@ -164,7 +195,7 @@ const MusicBar: FC<MusicBarProps> = props => {
           </div>
         </nav>
       </div>
-      <SideBar />
+      <SideBar isPlaying={playing} />
     </>
   );
 };

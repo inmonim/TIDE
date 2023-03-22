@@ -2,11 +2,16 @@ import type {FC} from 'react';
 import {useState} from 'react';
 import RightBar from './RightBar';
 import Link from 'next/link';
+import Image from 'next/image';
+import Lp from 'public/icons/lp.png';
 import styles from '@/styles/MusicBar.module.scss';
 
-export type SideBarProps = {};
+export type SideBarProps = {
+  isPlaying: boolean;
+};
 
 const SideBar: FC<SideBarProps> = props => {
+  const {isPlaying} = props;
   const [RmenuOpen, setRmenuOpen] = useState<boolean>(false);
   const [BarOpen, setBarOpen] = useState<Number>(0);
   return (
@@ -58,14 +63,14 @@ const SideBar: FC<SideBarProps> = props => {
       <div
         className={` ${
           styles.recordMenuDiv
-        }   border-slate-700 border-2 w-[100px] h-[100px] fixed left-[calc(50%-50px)] bottom-[calc(50px+2vw)] bg-[#170207] rounded-[50%] z-[9] flex justify-center  ${
+        }   border-slate-700 border-2 w-[100px] h-[100px] fixed left-[calc(50%-50px)] bottom-[calc(40px+0.5vw)] bg-[#170207] rounded-[50%] z-[9] flex justify-center  ${
           RmenuOpen ? 'z-[10]' : 'w-0 h-0'
         }`}
         onClick={() => setRmenuOpen(!RmenuOpen)}>
         <div
           className={
             RmenuOpen
-              ? ` border-slate-700 border-2 w-[256px] h-[256px] bg-[#151515e7] rounded-[50%] absolute bottom-[-105px] translate-x-[0px] translate-y-[0px] rotate-[270deg] transition-all duration-500 `
+              ? ` border-slate-700 border-2 w-[256px] h-[256px] bg-[#151515e7] rounded-[50%] absolute bottom-[-75px] translate-x-[0px] translate-y-[0px] rotate-[270deg] transition-all duration-500 `
               : `w-[0px] h-[0px] absolute `
           }>
           <Link href="/">
@@ -105,7 +110,18 @@ const SideBar: FC<SideBarProps> = props => {
           </Link>
         </div>
         <div
-          className={`w-[36px] h-[36px] absolute left-[33%] bottom-[33%] bg-[#eb456d] rounded-[50%] z-[9]`}></div>
+          className={`w-[39px] h-[39px] absolute left-[30%] bottom-[30%] bg-[#eb456d] rounded-[50%] z-[9]`}></div>
+        <Image
+          src={Lp}
+          alt="Lp"
+          className={`w-[100%] h-[100%] ${
+            isPlaying
+              ? `animate-[spin_3s_linear_infinite]`
+              : RmenuOpen
+              ? `animate-pulse`
+              : ``
+          }`}
+        />
       </div>
 
       {/* 사이드바 영역 */}

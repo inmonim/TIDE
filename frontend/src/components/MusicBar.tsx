@@ -85,8 +85,12 @@ const MusicBar: FC<MusicBarProps> = props => {
                 <div className="flex flex-row items-center gap-x-5">
                   {/* 앨범 사진 */}
                   <div
-                    className={`w-20 h-20 bg-white min-w-20 min-h-20 ${styles.albumImg}`}>
-                    {' '}
+                    className={`w-20 h-20 rounded-md bg-white min-w-20 min-h-20 ${styles.albumImg}`}>
+                    <img
+                      className="w-full h-full rounded-md"
+                      src="https://image.bugsm.co.kr/album/images/130/40780/4078016.jpg"
+                      alt="NewJeans"
+                    />{' '}
                   </div>
                   {/* 음악 정보 */}
                   <div className={styles.musicDesc}>
@@ -109,13 +113,13 @@ const MusicBar: FC<MusicBarProps> = props => {
                         }`}
                   </p>
                   <div
-                    className="h-4 mb-[6px] select-all w-60"
+                    className="h-[8px] mb-[0px] select-all w-60 rounded-xl overflow-hidden"
                     onClick={BarTimeSelect}
                     ref={fullbarRef}>
+                    <div className="w-[calc(100%)] h-2 select-all bg-slate-700 rounded-xl"></div>
                     <div
-                      className="z-10 w-0 h-2 translate-y-2 select-all bg-sky-500 rounded-xl"
+                      className="z-10 w-0 h-2 translate-y-[-8px] select-all bg-sky-500 rounded-xl"
                       ref={playbarRef}></div>
-                    <div className="w-[calc(100%)] mr-[2px] h-2 select-all bg-slate-700 rounded-xl "></div>
                   </div>
                   <p>
                     {Number.isNaN(fullplaytime)

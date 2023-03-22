@@ -5,5 +5,8 @@ const QuillWrapper = dynamic(() => import('@/components/Quill/QuillEditor'), {
   loading: () => <p className={`bg-[none]`}>Loading ...</p>
 });
 export default function Wrapper() {
-  return <QuillWrapper />;
+  return (
+      <QuillWrapper />
+
+  )
 }

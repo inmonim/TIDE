@@ -2,7 +2,7 @@ import styles from '@/styles/Home.module.css';
 import {useCallback} from 'react';
 import {useAppDispatch, useAppSelector, wrapper} from 'store';
 import {GetServerSideProps, InferGetServerSidePropsType} from 'next'; // getServerSideProps type
-import {increment, decrement, fetchAsync} from 'store/features/countSlice';
+import {increment, decrement, fetchAsync} from 'store/api/features/countSlice';
 
 // SSR: 서버에서 구동되는 영역
 export const getServerSideProps: GetServerSideProps =

@@ -110,8 +110,12 @@ const MusicBar: FC<MusicBarProps> = props => {
                 <div className="flex flex-row items-center gap-x-5">
                   {/* 앨범 사진 */}
                   <div
-                    className={`w-20 h-20 bg-white min-w-20 min-h-20 ${styles.albumImg}`}>
-                    {' '}
+                    className={`w-20 h-20 rounded-md bg-white min-w-20 min-h-20 ${styles.albumImg}`}>
+                    <img
+                      className="w-full h-full rounded-md"
+                      src="https://image.bugsm.co.kr/album/images/130/40780/4078016.jpg"
+                      alt="NewJeans"
+                    />{' '}
                   </div>
                   {/* 음악 정보 */}
                   <div className={styles.musicDesc}>

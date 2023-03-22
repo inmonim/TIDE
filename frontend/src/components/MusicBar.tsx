@@ -16,10 +16,13 @@ const MusicBar: FC<MusicBarProps> = props => {
   const [fullplaytime, setFullPlaytime] = useState<Number>(NaN);
 
   // 음악 재생바 현재
-  const playbarRef = useRef<HTMLDivElement>(null);
+  const playbarRef = useRef<HTMLInputElement>(null);
   const playMaybarRef = useRef<HTMLDivElement>(null);
   // 전체 음악 재생바
   const fullbarRef = useRef<HTMLDivElement>(null);
+
+  // 재생바 클릭상태
+  const [onBarClick,setOnBarClick] = useState<boolean>(false)
 
   useEffect(() => {
     setSrc('https://www.youtube.com/watch?v=11cta61wi0g');
@@ -48,32 +51,42 @@ const MusicBar: FC<MusicBarProps> = props => {
   // 재생바 클릭하면 해당 시간으로 타임 바꿔서
   const BarTimeSelect = (e: React.MouseEvent<HTMLElement>) => {
     if (fullbarRef.current) {
+
       youtube.current.seekTo(
         e.nativeEvent.offsetX / fullbarRef.current.offsetWidth
       );
+
       if (!Number.isNaN(fullplaytime)) {
+        const pt=
+        Number(fullplaytime) <           (Number(fullplaytime) * e.nativeEvent.offsetX) /
+        fullbarRef.current.offsetWidth ? fullplaytime : (Number(fullplaytime) * e.nativeEvent.offsetX) /
+        fullbarRef.current.offsetWidth<0 ? 0: (Number(fullplaytime) * e.nativeEvent.offsetX) /
+        fullbarRef.current.offsetWidth
         setPlaytime(
-          (Number(fullplaytime) * e.nativeEvent.offsetX) /
-            fullbarRef.current.offsetWidth
+          pt
         );
       }
+
     }
   };
 
-  // 플레이타임 바뀌면 즉각적용~!
+  // 플레이타임 바뀌면 바도 바로 변경
+  // 단, 클릭 상태일때는 변경하지 않습니다
   useEffect(() => {
-    if (playbarRef.current)
-      playbarRef.current.style.width = `${
+    if (playbarRef.current && !onBarClick)
+    {
+      playbarRef.current.value = `${
         (Number(playtime) / Number(fullplaytime)) * 100
-      }%`;
-  }, [playtime]);
+      }`;
+    }
+  }, [playtime, onBarClick]);
 
   // 음악 플레이 시간, 바 0.1초마다 갱신
   useEffect(() => {
     if (init) {
       const playSet = setInterval(() => {
         setPlaytime(parseInt(youtube.current.getCurrentTime()));
-      }, 1000);
+      }, 100);
       return () => clearInterval(playSet);
     }
   }, [playing]);
@@ -81,7 +94,6 @@ const MusicBar: FC<MusicBarProps> = props => {
   // 음악 플레이 바를 클릭한다면
   const musicState = (event: React.MouseEvent<HTMLDivElement>) => {
     setPlaying(prev => !prev);
-    // setPlaytime(parseInt(youtube.current.getCurrentTime()));
   };
 
   // 최초 실행 시 fullplaytime 가져오기
@@ -90,10 +102,8 @@ const MusicBar: FC<MusicBarProps> = props => {
       const fullSet = setInterval(() => {
         setFullPlaytime(parseInt(youtube.current.getDuration()));
         if (playbarRef.current)
-          playbarRef.current.style.width = `${
-            (Number(playtime) / Number(fullplaytime)) * 100
-          }%`;
-      }, 400);
+          playbarRef.current.value = '0'
+      }, 100);
       return () => clearInterval(fullSet);
     }
   }, [init, fullplaytime]);
@@ -137,21 +147,44 @@ const MusicBar: FC<MusicBarProps> = props => {
                             : Math.floor(Number(Number(playtime) % 60))
                         }`}
                   </p>
-                  <div
-                    className="h-3 mb-[0px] select-all w-60 rounded-xl overflow-hidden"
-                    onMouseMove={BarTimeOn}
-                    onClick={BarTimeSelect}
+
+                  {/* 길이바 */}
+                  {/* <div
+                    className="h-3 mb-[0px] select-all w-60 rounded-xl "
+                    // onMouseMove={BarTimeOn}
+                    // onClick={BarTimeSelect}
                     // onMouseUp={BarTimeSelect}
-                    onMouseLeave={BarReset}
+                    // onMouseLeave={BarReset}
                     ref={fullbarRef}>
                     <div className="w-[calc(100%)] h-3 select-all bg-slate-700 rounded-xl"></div>
                     <div
                       className={`z-10 w-0 h-3 translate-y-[-12px] select-all bg-sky-100 rounded-xl`}
                       ref={playMaybarRef}></div>
                     <div
-                      className={`z-10 w-0 h-3 translate-y-[-24px] select-all bg-sky-500 rounded-xl`}
-                      ref={playbarRef}></div>
-                  </div>
+                      className={`z-10 w-full h-3 translate-y-[-24px] select-all bg-sky-500 rounded-xl ${styles.playBar}`}
+                      ref={playbarRef}>
+
+                      <input
+                      type="range"
+                      className={`absolute w-[200px] transparent h-3 translate-y-[-6px]  cursor-pointer appearance-none rounded-lg border-transparent bg-slate-700 `}
+                      id="customRange1" />
+
+                      </div>
+                  </div> */}
+
+                  <div className={`${styles.playBar}`} onClick={BarTimeSelect} ref={fullbarRef} >
+
+                  <input
+                      type="range"
+                      className={` w-[200px] transparent h-3 cursor-pointer appearance-none rounded-lg border-transparent bg-slate-700 `}
+                      onMouseDown={()=>setOnBarClick(true)}
+                      onMouseUp={()=>setOnBarClick(false)}
+                      ref={playbarRef}
+                      min="0"
+                      max="100"
+                      />
+                                        
+                 </div>
                   <p>
                     {Number.isNaN(fullplaytime)
                       ? '0:00'

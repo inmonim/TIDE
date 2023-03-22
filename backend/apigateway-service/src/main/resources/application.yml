@@ -19,6 +19,18 @@ spring:
             baseMessage: Spring Cloud Gateway GlobalFilter
             preLogger: true
             postLogger: true
+      globalcors:
+        corsConfiguration:
+          '[/**]':
+            allowedOrigins: '*'
+            allow-credentials: true
+            allowedHeaders: '*'
+            allowedMethods:
+              - PUT
+              - GET
+              - POST
+              - DELETE
+              - OPTIONS
       routes:
         - id: api-user
           uri: lb://API-USER
@@ -40,7 +52,19 @@ spring:
           uri: lb://API-USER
           predicates:
             - Path=/api/user/**
+<<<<<<< HEAD
+            - Method=POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/api/user/(?<segment>.*), /$\{segment}
+        - id: api-user
+          uri: lb://API-USER
+          predicates:
+            - Path=/api/user/**
+            - Method=GET
+=======
             - Method=GET,PUT,DELETE
+>>>>>>> bf61fd325ad2e8553d05a3993aa25d7f374ab066
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/api/user/(?<segment>.*), /$\{segment}

@@ -62,16 +62,17 @@ const QuillEditor: FC<QuillEditorProps> = props => {
     () => ({
       toolbar: {
         container: [
-          ['bold', 'italic', 'underline', 'strike', 'blockquote'],
-          [{size: ['small', false, 'large', 'huge']}, {color: []}],
+          ['bold', 'italic', 'underline', 'strike'], //blockquote
+          // [{size: ['small', false, 'large', 'huge']}, {color: []}],
           [
             {list: 'ordered'},
             {list: 'bullet'},
             {indent: '-1'},
             {indent: '+1'},
-            {align: []}
+            // {align: []}
           ],
-          ['image', 'video']
+          ['link','image']
+          // ['image', 'video']
         ],
         handlers: {
           image: imageHandler
@@ -82,7 +83,7 @@ const QuillEditor: FC<QuillEditorProps> = props => {
   );
 
   return (
-    <div className={`text-black bg-white w-fit`}>
+    <div className={`text-white bg-white h-full`}>
       <ReactQuill
         ref={element => {
           if (element !== null) {
@@ -94,7 +95,10 @@ const QuillEditor: FC<QuillEditorProps> = props => {
         modules={modules}
         theme="snow"
         placeholder="내용을 입력해주세요."
-      />
+        className='h-[27vh] text-white'
+       >
+        <div className={`bg-[#363333] `}/>
+       </ReactQuill>
     </div>
   );
 

@@ -60,7 +60,6 @@ spring:
           uri: lb://API-USER
           predicates:
             - Path=/api/user/**
-            - Method=GET
             - Method=GET,PUT,DELETE
           filters:
             - RemoveRequestHeader=Cookie

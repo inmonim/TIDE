@@ -15,13 +15,14 @@ function LandingPage() {
   // 마우스 윌 이벤트 발생시
   const onWheelScroll = (event: any) => {
     const {deltaY} = event;
-    if (deltaY > 0 && flag) {
-      console.log(flag);
-      setFlag(false)
-      secondDiv.current?.scrollIntoView({behavior: 'smooth'});
-    } else if (deltaY < 0 && flag) {
-      setFlag(false)
-      firstDiv.current?.scrollIntoView({behavior: 'smooth'});
+    if (deltaY > 0) {
+      setTimeout(() => {
+        secondDiv.current?.scrollIntoView({behavior: 'smooth'});
+      }, 600);
+    } else {
+      setTimeout(() => {
+        firstDiv.current?.scrollIntoView({behavior: 'smooth'});
+      }, 600);
     }
   };
 

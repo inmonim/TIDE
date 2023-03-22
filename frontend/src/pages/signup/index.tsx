@@ -4,34 +4,55 @@ import {useAppDispatch, useAppSelector} from 'store'; //스토어 생성단계�
 import logoUrl from 'public/images/Logo/TideLogoFinal.png';
 import {motion} from 'framer-motion';
 import Link from 'next/link';
+import {signUpAsync} from 'store/api/features/signUpSlice';
 
-// 나중에 제출해야할 데이터값 나오면 설정
+// 데이터값
 interface AccountInterFace {
   email: string;
   password: string;
   password2: string;
-  year: number;
-  month: number;
-  day: number;
-  gender: string;
+  year: string;
+  month: string;
+  day: string;
+  gender: number;
   nickname: string;
 }
 
 // 12월 까지의 리스트
-const months: number[] = Array.from({length: 12}, (v, i) => i + 1);
-const days: number[] = Array.from({length: 31}, (v, i) => i + 1);
+const months: string[] = Array.from({length: 12}, (v, i) => i + 1).map(num => {
+  if (num <= 9) {
+    return '0' + String(num);
+  } else {
+    return String(num);
+  }
+});
+// 31일 까지의 리스트
+const days: string[] = Array.from({length: 31}, (v, i) => i + 1).map(num => {
+  if (num <= 9) {
+    return '0' + String(num);
+  } else {
+    return String(num);
+  }
+});
 
 const signup = () => {
+  const dispatch = useAppDispatch();
   //input에서 value를 담기 위한 state 생성
   const [account, setAccount] = useState<AccountInterFace>({
     email: '',
     password: '',
     password2: '',
-    year: 0,
-    month: 1,
-    day: 1,
-    gender: '남자',
+    year: '0',
+    month: '01',
+    day: '01',
+    gender: 0,
     nickname: ''
+  });
+  
+  const { value, status } = useAppSelector((state) => {
+    // state가 어떻게 들어오는지 console 찍어보자
+    // console.log("?", state);
+    return state.counter;
   });
 
   //input에 입력될 때마다 account state값 변경되게 하는 함수
@@ -44,10 +65,10 @@ const signup = () => {
     });
   };
 
-  //회원가입 form 제출시
-  const onSubmitForm = (event: React.FormEvent<HTMLFormElement>) => {
+  //회원가입 form 제출
+  const onSubmitSignUpForm = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log('회원가입 데이터', account);
+    await dispatch(signUpAsync(account));
   };
 
   return (
@@ -65,7 +86,7 @@ const signup = () => {
           <Image src={logoUrl} alt="logo" />
         </div>
         <form
-          onSubmit={onSubmitForm}
+          onSubmit={onSubmitSignUpForm}
           className="flex flex-col items-center w-5/6 text-sm h-[36rem] justify-evenly">
           {/* 이메일 및 비번 체크 */}
           <input
@@ -139,7 +160,7 @@ const signup = () => {
               type="radio"
               name="gender"
               className={`border-2 w-1/12 h-6`}
-              value="남자"
+              value={0}
               defaultChecked
             />
             <span>남자</span>
@@ -148,7 +169,7 @@ const signup = () => {
               type="radio"
               name="gender"
               className={`border-2 w-1/12 h-6`}
-              value="여자"
+              value={1}
             />
             <span>여자</span>
           </div>
@@ -173,6 +194,7 @@ const signup = () => {
         </form>
         <div className="w-1/2 border-[0.1rem] my-4"></div>
         <div className={`w-60 flex flex-col h-32 justify-evenly items-center`}>
+          <div className="text-md"> {value} | {status}</div>
           <div className="text-md"> 계정이 이미 있으신가요? </div>
           <Link
             className={`border-2 w-full rounded-md bg-sky-700 hover:bg-sky-500`}

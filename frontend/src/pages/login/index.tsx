@@ -5,27 +5,42 @@ import logoUrl from 'public/images/Logo/TideLogoFinal.png';
 import {motion} from 'framer-motion';
 import Link from 'next/link';
 
-// SSR: 서버에서 구동되는 영역
-// export const getServerSideProps: GetServerSideProps =
-//   wrapper.getServerSideProps((store) => async () => {
-//     console.log("SSR");
-//     // 서버 영역에서 Redux 사용
-//     // await store.dispatch(fetchAsync("갔냐?"))
-//     // 전달할 props가 있으면 전달
-//     return {
-//       props: {
-//         message: "SSR!!",
-//       },
-//     };
-//   });
+interface LoginInterFace {
+  email: string;
+  password: string;
+}
 
 const login = () => {
-  const google = useRef<string>('/images/Logo/google.png');
+  // 구글가입 이미지
+  const googleImage = useRef<string>('/images/Logo/google.png');
+
+  const [loginAccount, setLoginAccount] = useState<LoginInterFace>({
+    email: '',
+    password: ''
+  });
+  
+  //input에 입력될 때마다 loginAccount state값 변경되게 하는 함수
+  const onChangeAccount = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
+    setLoginAccount({
+      ...loginAccount,
+      [event.target.name]: event.target.value
+    });
+  };
+
+  //로그인 form 제출
+  const onSubmitLoginForm = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    // await dispatch(signUpAsync(account));
+  };
+
   useEffect(() => {}, []);
 
   return (
     <div
       className={`w-full h-screen overflow-hidden flex justify-center text-white bg-[url('/images/BackGround/loginBG.png')] bg-no-repeat bg-cover sm:bg-[url('/images/BackGround/loginWebBG.png')] sm:bg-no-repeat sm:bg-cover sm:justify-end sm:min-h-[50rem]`}>
+      {/* 왼쪽 로고 */}
       <motion.div
         initial={{translateX: -1000}}
         animate={{translateX: 0}}
@@ -33,9 +48,10 @@ const login = () => {
           delay: 0.2,
           duration: 0.5
         }}
-        className={`hidden sm:w-full sm:h-full sm:flex sm:justify-start sm:items-center sm:ml-20 `}>
+        className={`hidden lg:w-2/3 lg:h-full lg:flex lg:justify-start lg:items-center`}>
         <Image src={logoUrl} alt="logo" />
       </motion.div>
+      {/* 오른쪽 폼 */}
       <motion.div
         initial={{translateX: 500}}
         animate={{translateX: 0}}
@@ -47,16 +63,23 @@ const login = () => {
         <div className={`w-40`}>
           <Image src={logoUrl} alt="logo" />
         </div>
-        <form className="flex flex-col items-center w-5/6 text-sm h-72 justify-evenly">
+        <form
+          onSubmit={onSubmitLoginForm}
+          className="flex flex-col items-center w-5/6 text-sm h-72 justify-evenly">
           <input
+            onChange={onChangeAccount}
+            name="email"
             type="email"
             className={`border-2 w-full h-10 rounded-md bg-transparent p-2 `}
             placeholder="이메일"
+            required
           />
           <input
+            name="password"
             type="password"
             className={`border-2 w-full h-10 rounded-md bg-transparent p-2`}
             placeholder="패스워드"
+            required
           />
           <input
             type="submit"
@@ -67,7 +90,11 @@ const login = () => {
         <div className="w-1/2 border-[0.1rem] my-4"></div>
         <div className={`w-60 flex flex-col h-60 justify-evenly items-center`}>
           <div className={`w-full flex justify-center cursor-pointer`}>
-            <img src={google.current} alt="google" className="object-contain" />
+            <img
+              src={googleImage.current}
+              alt="google"
+              className="object-contain"
+            />
           </div>
           <div className="text-md"> 계정이 없으신가요? </div>
           <Link

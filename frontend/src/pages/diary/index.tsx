@@ -139,7 +139,7 @@ export default function Diary() {
         </Link>
       </div>
 
-      <main className={styles.main}>
+      <main className={`p-[6rem] pr-[calc(15%+100px)] ${styles.main}`}>
         <div className={styles.description}>
           <h1 className="text-5xl font-bold"> Diary</h1>
         </div>

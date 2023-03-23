@@ -2,13 +2,22 @@ import '@/styles/globals.css';
 import type {AppProps} from 'next/app';
 import {wrapper} from 'store';
 import MusicBar from '@/components/MusicBar';
-import {useState} from 'react';
+import {useEffect, useState} from 'react';
 import {motion, AnimatePresence} from 'framer-motion';
 import {useRouter} from 'next/router';
 
 function App({Component, pageProps}: AppProps) {
   const router = useRouter();
-  const [isLogin, setIsLogin] = useState<boolean>(true);
+  const [isLogin, setIsLogin] = useState<boolean>(false);
+
+  // 로그인 상태 체크
+  useEffect(() => {
+    if (localStorage.getItem('accessToken')) {
+      setIsLogin(true);
+    } else {
+      setIsLogin(false);
+    }
+  }, []);
   return (
     <>
       {isLogin && <MusicBar />}

@@ -4,6 +4,8 @@ import {useAppDispatch, useAppSelector} from 'store'; //스토어 생성단계�
 import logoUrl from 'public/images/Logo/TideLogoFinal.png';
 import {motion} from 'framer-motion';
 import Link from 'next/link';
+import {loginAsync} from 'store/api/features/loginSlice';
+import {useRouter} from 'next/router';
 
 interface LoginInterFace {
   email: string;
@@ -11,6 +13,8 @@ interface LoginInterFace {
 }
 
 const login = () => {
+  const router = useRouter();
+  const dispatch = useAppDispatch();
   // 구글가입 이미지
   const googleImage = useRef<string>('/images/Logo/google.png');
 
@@ -18,7 +22,38 @@ const login = () => {
     email: '',
     password: ''
   });
+
+  // 로그인 요청후 값 받아오기
+  const {token, email, status} = useAppSelector(state => {
+    return state.login;
+  });
   
+  // 로그인 페이지 처음 들어오면 토큰제거
+  useEffect(() => {
+    localStorage.removeItem('accessToken');
+  }, []);
+
+  // 로그인 요청후 받아온 상태값 변화에 따른 처리
+  useEffect(() => {
+    switch (status) {
+      case 'completed':
+        alert('로그인성공');
+        localStorage.setItem('accessToken', token);
+        localStorage.setItem('email', email);
+        router.push(
+          {
+            pathname: `/mainpage`
+          },
+          // as url
+          `/`
+        );
+        break;
+      case 'failed':
+        alert('실패!!');
+        break;
+    }
+  }, [status]);
+
   //input에 입력될 때마다 loginAccount state값 변경되게 하는 함수
   const onChangeAccount = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -30,12 +65,10 @@ const login = () => {
   };
 
   //로그인 form 제출
-  const onSubmitLoginForm = async (event: React.FormEvent<HTMLFormElement>) => {
+  const onSubmitLoginForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // await dispatch(signUpAsync(account));
+    dispatch(loginAsync(loginAccount));
   };
-
-  useEffect(() => {}, []);
 
   return (
     <div
@@ -75,6 +108,7 @@ const login = () => {
             required
           />
           <input
+            onChange={onChangeAccount}
             name="password"
             type="password"
             className={`border-2 w-full h-10 rounded-md bg-transparent p-2`}

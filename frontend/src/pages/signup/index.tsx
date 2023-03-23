@@ -5,6 +5,7 @@ import logoUrl from 'public/images/Logo/TideLogoFinal.png';
 import {motion} from 'framer-motion';
 import Link from 'next/link';
 import {signUpAsync} from 'store/api/features/signUpSlice';
+import {useRouter} from 'next/router';
 
 // 데이터값
 interface AccountInterFace {
@@ -37,22 +38,17 @@ const days: string[] = Array.from({length: 31}, (v, i) => i + 1).map(num => {
 
 const signup = () => {
   const dispatch = useAppDispatch();
+  const router = useRouter();
   //input에서 value를 담기 위한 state 생성
   const [account, setAccount] = useState<AccountInterFace>({
     email: '',
     password: '',
     password2: '',
-    year: '0',
+    year: '',
     month: '01',
     day: '01',
     gender: 0,
     nickname: ''
-  });
-  
-  const { value, status } = useAppSelector((state) => {
-    // state가 어떻게 들어오는지 console 찍어보자
-    // console.log("?", state);
-    return state.counter;
   });
 
   //input에 입력될 때마다 account state값 변경되게 하는 함수
@@ -66,10 +62,31 @@ const signup = () => {
   };
 
   //회원가입 form 제출
-  const onSubmitSignUpForm = async (event: React.FormEvent<HTMLFormElement>) => {
+  const onSubmitSignUpForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    await dispatch(signUpAsync(account));
+    dispatch(signUpAsync(account));
   };
+
+  // 회원가입 요청후 값
+  const {status} = useAppSelector(state => {
+    return state.signup;
+  });
+
+  useEffect(() => {
+    switch (status) {
+      case 'completed':
+        alert('회원가입성공');
+        router.push(
+          {
+            pathname: `/login`
+          },
+        );
+        break;
+      case 'failed':
+        alert('회원가입 실패!!');
+        break;
+    }
+  }, [status]);
 
   return (
     <div
@@ -194,7 +211,7 @@ const signup = () => {
         </form>
         <div className="w-1/2 border-[0.1rem] my-4"></div>
         <div className={`w-60 flex flex-col h-32 justify-evenly items-center`}>
-          <div className="text-md"> {value} | {status}</div>
+          <div>{status}</div>
           <div className="text-md"> 계정이 이미 있으신가요? </div>
           <Link
             className={`border-2 w-full rounded-md bg-sky-700 hover:bg-sky-500`}

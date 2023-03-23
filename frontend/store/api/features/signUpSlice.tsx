@@ -1,10 +1,14 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
+import { useAppDispatch } from 'store';
+import { loginAsync } from './loginSlice';
 
 // 타입
 interface SignUpState {
   status: string;
   value: any;
+  email: string;
+  password: string;
 }
 
 interface signUpProps {
@@ -19,7 +23,9 @@ interface signUpProps {
 // 초기값
 const initialState: SignUpState = {
   status: '',
-  value: null
+  value: null,
+  email: '',
+  password: ''
 };
 
 // Thunk 예시
@@ -36,39 +42,35 @@ export const signUpAsync = createAsyncThunk(
   }: signUpProps) => {
     // 생일 데이터 가공
     const birth = `${year}-${month}-${day}`;
-    console.log(
-      '회원가입 데이터',
-      'email :',
-      email,
-      'password :',
-      password,
-      'nickname :',
-      nickname,
-      'birth :',
-      birth,
-      'gender :',
-      gender
-    );
-    try {
-      // 회원가입 요청
-      const data = await axios({
-        method: 'post',
-        url: `${process.env.NEXT_PUBLIC_API_URL}/api/user/register`,
-        data: {
-          email,
-          password,
-          nickname,
-          birth,
-          gender
-        }
-      });
-      console.log('회회회회원가입 성공?', data);
-    } catch (error) {
-      console.log(error, '회원가입 thunk요청 실패');
-    }
+    // console.log(
+    //   '회원가입 데이터',
+    //   'email :',
+    //   email,
+    //   'password :',
+    //   password,
+    //   'nickname :',
+    //   nickname,
+    //   'birth :',
+    //   birth,
+    //   'gender :',
+    //   gender
+    // );
+
+    // 회원가입 요청
+    const data = await axios({
+      method: 'post',
+      url: `${process.env.NEXT_PUBLIC_API_URL}/api/user/register`,
+      data: {
+        email,
+        password,
+        nickname,
+        birth,
+        gender
+      }
+    });
+    console.log('회원가입 성공', data);
   }
 );
-
 // createSlice로 Slice생성
 export const signUpSlice = createSlice({
   name: 'signup',
@@ -80,13 +82,13 @@ export const signUpSlice = createSlice({
       .addCase(signUpAsync.pending, state => {
         state.status = 'loading';
       })
-      .addCase(signUpAsync.fulfilled, (state, action) => {
+      .addCase(signUpAsync.fulfilled, (state) => {
         state.status = 'completed';
-        state.value = action.payload;
+
       })
       .addCase(signUpAsync.rejected, (state, action) => {
         state.status = 'failed';
-        state.value = action.payload;
+        console.log('회원가입 오류', action.error);
       });
   }
 });

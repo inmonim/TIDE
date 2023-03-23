@@ -1,4 +1,5 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import axios from 'axios';
 
 // 타입
 interface CountState {
@@ -14,11 +15,18 @@ const initialState: CountState = {
 // Thunk 예시
 export const fetchAsync = createAsyncThunk(
   'count/fetchAsync',
+  // async () => {
+  //   const resp = await fetch(
+  //     'https://api.countapi.xyz/hit/opesaljkdfslkjfsadf.com/visits'
+  //   );
+  //   const data = await resp.json();
+  //   return data.value;
+  // }
   async () => {
-    const resp = await fetch(
-      'https://api.countapi.xyz/hit/opesaljkdfslkjfsadf.com/visits'
-    );
-    const data = await resp.json();
+    const {data} = await axios({
+      url: 'https://api.countapi.xyz/hit/opesaljkdfslkjfsadf.com/visits'
+    });
+
     return data.value;
   }
 );

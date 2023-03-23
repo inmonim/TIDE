@@ -49,23 +49,20 @@ export const signUpAsync = createAsyncThunk(
       'gender :',
       gender
     );
-    try {
-      // 회원가입 요청
-      const data = await axios({
-        method: 'post',
-        url: `${process.env.NEXT_PUBLIC_API_URL}/api/user/register`,
-        data: {
-          email,
-          password,
-          nickname,
-          birth,
-          gender
-        }
-      });
-      console.log('회회회회원가입 성공?', data);
-    } catch (error) {
-      console.log(error, '회원가입 thunk요청 실패');
-    }
+
+    // 회원가입 요청
+    const data = await axios({
+      method: 'post',
+      url: `${process.env.NEXT_PUBLIC_API_URL}/api/user/register`,
+      data: {
+        email,
+        password,
+        nickname,
+        birth,
+        gender
+      }
+    });
+    console.log('회원가입 성공', data);
   }
 );
 
@@ -86,7 +83,7 @@ export const signUpSlice = createSlice({
       })
       .addCase(signUpAsync.rejected, (state, action) => {
         state.status = 'failed';
-        state.value = action.payload;
+        console.log('회원가입 오류', action.error);
       });
   }
 });

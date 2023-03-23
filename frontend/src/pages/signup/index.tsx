@@ -49,10 +49,11 @@ const signup = () => {
     nickname: ''
   });
   
+  // 회원가입 요청후 값
   const { value, status } = useAppSelector((state) => {
     // state가 어떻게 들어오는지 console 찍어보자
     // console.log("?", state);
-    return state.counter;
+    return state.signup;
   });
 
   //input에 입력될 때마다 account state값 변경되게 하는 함수

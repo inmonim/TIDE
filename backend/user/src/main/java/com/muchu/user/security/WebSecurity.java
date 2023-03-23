@@ -59,6 +59,8 @@ public class WebSecurity {
         configuration.addAllowedMethod("*");
         configuration.addAllowedOriginPattern("*");
         configuration.setAllowCredentials(true);
+        configuration.addExposedHeader("token");
+        configuration.addExposedHeader("email");
 
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);

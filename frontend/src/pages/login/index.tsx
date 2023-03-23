@@ -4,6 +4,7 @@ import {useAppDispatch, useAppSelector} from 'store'; //스토어 생성단계�
 import logoUrl from 'public/images/Logo/TideLogoFinal.png';
 import {motion} from 'framer-motion';
 import Link from 'next/link';
+import { loginAsync } from 'store/api/features/loginSlice';
 
 interface LoginInterFace {
   email: string;
@@ -11,6 +12,7 @@ interface LoginInterFace {
 }
 
 const login = () => {
+  const dispatch = useAppDispatch();
   // 구글가입 이미지
   const googleImage = useRef<string>('/images/Logo/google.png');
 
@@ -18,7 +20,14 @@ const login = () => {
     email: '',
     password: ''
   });
-  
+
+  // 로그인 요청후 값
+  const {error, status} = useAppSelector(state => {
+    // state가 어떻게 들어오는지 console 찍어보자
+    // console.log("?", state);
+    return state.login;
+  });
+
   //input에 입력될 때마다 loginAccount state값 변경되게 하는 함수
   const onChangeAccount = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
@@ -32,7 +41,7 @@ const login = () => {
   //로그인 form 제출
   const onSubmitLoginForm = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // await dispatch(signUpAsync(account));
+    await dispatch(loginAsync(loginAccount));
   };
 
   useEffect(() => {}, []);
@@ -95,6 +104,9 @@ const login = () => {
               alt="google"
               className="object-contain"
             />
+          </div>
+          <div>
+            {error} | {status}
           </div>
           <div className="text-md"> 계정이 없으신가요? </div>
           <Link

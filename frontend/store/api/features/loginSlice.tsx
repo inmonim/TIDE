@@ -5,6 +5,7 @@ import axios from 'axios';
 interface LoginState {
   status: string;
   value: any;
+  error: string | undefined;
 }
 
 interface loginProps {
@@ -15,26 +16,23 @@ interface loginProps {
 // 초기값
 const initialState: LoginState = {
   status: '',
-  value: null
+  value: null,
+  error: ''
 };
 
 // Thunk 예시
 export const loginAsync = createAsyncThunk(
   'login/Async',
   async ({email, password}: loginProps) => {
-    try {
-      const data = await axios({
-        method: 'post',
-        url: `${process.env.NEXT_PUBLIC_API_URL}/api/user/register`,
-        data: {
-          email,
-          password
-        }
-      });
-      console.log('로그인 성공?', data);
-    } catch (error) {
-      console.log(error, '로그인 thunk요청 실패');
-    }
+    const {data} = await axios({
+      method: 'post',
+      url: `${process.env.NEXT_PUBLIC_API_URL}/api/user/login`,
+      data: {
+        email,
+        password
+      }
+    });
+    console.log('로그인 성공?', data);
   }
 );
 
@@ -55,7 +53,7 @@ export const loginSlice = createSlice({
       })
       .addCase(loginAsync.rejected, (state, action) => {
         state.status = 'failed';
-        state.value = action.payload;
+        console.log("로그인 에러", action.error);
       });
   }
 });

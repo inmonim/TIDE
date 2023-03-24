@@ -127,8 +127,9 @@ const SideBar: FC<SideBarProps> = props => {
       {/* 사이드바 영역 */}
       <div className={` ${styles.sideBgDiv}`}>
         {/* 로고 영역 */}
-        <div className={styles.logoDiv}> </div>
-
+        <Link href="/mainpage">
+          <div className={styles.logoDiv}> </div>
+        </Link>
         {/* 검색창 영역 */}
         <div className={`${styles.searchBox} `}>
           <form action="." method="post">
@@ -139,7 +140,7 @@ const SideBar: FC<SideBarProps> = props => {
 
         {/* 메뉴버튼 영역 */}
         <div className={`grid gap-y-10 mt-10`}>
-          <Link href="/">
+          <Link href="/profile">
             <div
               className={`flex flex-row gap-x-4 justify-between  w-3/4 m-auto ${styles.MenuDiv}`}>
               <div className={styles.profileIcon}></div>

@@ -75,7 +75,7 @@ function Mainpage() {
     <div>
       <Head>
         <title>TIDE</title>
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.png" />
       </Head>
       <div>
         <MusicBar />

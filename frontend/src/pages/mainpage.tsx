@@ -4,6 +4,7 @@ import MusicBar from '@/components/MusicBar';
 import {useEffect, useState} from 'react';
 import axios from 'axios';
 import {BsChevronCompactRight, BsChevronCompactLeft} from 'react-icons/bs';
+import Link from 'next/link';
 
 interface playlists {
   id: number;
@@ -23,19 +24,23 @@ function Mainpage() {
   const slides = [
     {
       url: 'https://ibighit.com/bts/images/profile/proof/member/bts-m.jpg',
-      name: 'BTS'
+      name: 'BTS',
+      id: 1
     },
     {
       url: 'https://img.i-scmp.com/cdn-cgi/image/fit=contain,width=1098,format=auto/sites/default/files/styles/1200x800/public/d8/images/canvas/2022/05/11/67bd75fb-68d8-4121-bd34-f0d2b0d26ee1_e6d7ff44.jpg?itok=3Hz-PruW&v=1652251890',
-      name: 'Le sserafim'
+      name: 'Le sserafim',
+      id: 2
     },
     {
       url: 'https://upload.wikimedia.org/wikipedia/commons/c/cc/NewJeans_theMEGASTUDY.jpg',
-      name: 'New Jeans'
+      name: 'New Jeans',
+      id: 3
     },
     {
       url: 'https://images.samsung.com/is/image/samsung/ph-feature-galaxy-a80-blackpink-176630227?$ORIGIN_JPG$',
-      name: 'Blackpink'
+      name: 'Blackpink',
+      id: 4
     }
   ];
 
@@ -55,7 +60,7 @@ function Mainpage() {
 
   // 플레이 리스트 받아 오기
   useEffect(() => {
-    const Token = 'bearer ' + localStorage.getItem('token');
+    const Token = 'bearer' + localStorage.getItem('token');
     const Email = localStorage.getItem('email');
     async function getPlaylists() {
       try {
@@ -87,13 +92,14 @@ function Mainpage() {
           </div>
           <div className="w-[750px] h-[400px] m-auto relative group flex flex-row justify-center">
             {/* carousel wrapper */}
-            <div
+            <Link
               style={{backgroundImage: `url(${slides[currentIndex].url})`}}
-              className="w-full h-full duration-500 bg-center bg-no-repeat bg-cover rounded-lg opacity-75 drop-shadow-2xl">
+              className="w-full h-full duration-500 bg-center bg-no-repeat bg-cover rounded-lg opacity-75 drop-shadow-2xl"
+              href={`/artist/${slides[currentIndex].id}`}>
               <div className="flex flex-row h-[60px] text-4xl bg-gray-800 mt-[340px] opacity-80 items-center">
                 <p className="ml-3 font-bold">{slides[currentIndex].name}</p>
               </div>
-            </div>
+            </Link>
             {/* Left Arrow */}
             <div className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] left-4 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer">
               <BsChevronCompactLeft onClick={prevSlide} size={40} />

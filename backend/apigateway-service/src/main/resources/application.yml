@@ -14,11 +14,19 @@ spring:
   cloud:
     gateway:
       default-filters:
-        - name: GlobalFilter
-          args:
-            baseMessage: Spring Cloud Gateway GlobalFilter
-            preLogger: true
-            postLogger: true
+        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: 'http://localhost:3000'
+            allow-credentials: true
+            allowedHeaders: '*'
+            allowedMethods:
+              - PUT
+              - GET
+              - POST
+              - DELETE
+              - OPTIONS
       routes:
         - id: api-user
           uri: lb://API-USER
@@ -32,6 +40,14 @@ spring:
           uri: lb://API-USER
           predicates:
             - Path=/api/user/login
+            - Method=POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/api/user/(?<segment>.*), /$\{segment}
+        - id: api-user
+          uri: lb://API-USER
+          predicates:
+            - Path=/api/user/**
             - Method=POST
           filters:
             - RemoveRequestHeader=Cookie

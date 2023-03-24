@@ -68,10 +68,10 @@ const QuillEditor: FC<QuillEditorProps> = props => {
             {list: 'ordered'},
             {list: 'bullet'},
             {indent: '-1'},
-            {indent: '+1'},
+            {indent: '+1'}
             // {align: []}
           ],
-          ['link','image']
+          ['link', 'image']
           // ['image', 'video']
         ],
         handlers: {
@@ -95,10 +95,9 @@ const QuillEditor: FC<QuillEditorProps> = props => {
         modules={modules}
         theme="snow"
         placeholder="내용을 입력해주세요."
-        className='h-[27vh] text-white'
-       >
-        <div className={`bg-[#363333] `}/>
-       </ReactQuill>
+        className="h-[100%] text-white">
+        <div className={`bg-[#363333] `} />
+      </ReactQuill>
     </div>
   );
 

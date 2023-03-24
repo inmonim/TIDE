@@ -73,7 +73,7 @@ const SideBar: FC<SideBarProps> = props => {
               ? ` border-slate-700 border-2 w-[256px] h-[256px] bg-[#151515e7] rounded-[50%] absolute bottom-[-75px] translate-x-[0px] translate-y-[0px] rotate-[270deg] transition-all duration-500 `
               : `w-[0px] h-[0px] absolute `
           }>
-          <Link href="/">
+          <Link href="/diary">
             <div
               className={
                 RmenuOpen
@@ -91,7 +91,7 @@ const SideBar: FC<SideBarProps> = props => {
               }></div>
           </Link>
 
-          <Link href="/">
+          <Link href="/diary">
             <div
               className={
                 RmenuOpen
@@ -100,7 +100,7 @@ const SideBar: FC<SideBarProps> = props => {
               }></div>
           </Link>
 
-          <Link href="/">
+          <Link href="/diary">
             <div
               className={
                 RmenuOpen
@@ -162,7 +162,7 @@ const SideBar: FC<SideBarProps> = props => {
             </div>
           </Link>
 
-          <Link href="/">
+          <Link href="/diary">
             <div
               className={`flex flex-row gap-x-4 justify-between  w-3/4 m-auto ${styles.MenuDiv}`}>
               <div className={styles.playlistIcon}></div>
@@ -173,7 +173,7 @@ const SideBar: FC<SideBarProps> = props => {
             </div>
           </Link>
 
-          <Link href="/">
+          <Link href="/diary">
             <div
               className={`flex flex-row gap-x-4 justify-between  w-3/4 m-auto ${styles.MenuDiv}`}>
               <div className={styles.messageIcon}></div>

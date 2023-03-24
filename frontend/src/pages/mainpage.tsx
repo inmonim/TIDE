@@ -77,9 +77,9 @@ function Mainpage() {
         <title>TIDE</title>
         <link rel="icon" href="/favicon.png" />
       </Head>
-      <div>
+      {/* <div>
         <MusicBar />
-      </div>
+      </div> */}
       <div className="bg-gradient-to-b from-[#020217] to-[#000066] ml-[230px] min-h-[97vh]">
         <div className="flex flex-col text-white">
           <div className="py-3 my-1 text-3xl font-bold text-center">

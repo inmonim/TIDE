@@ -56,7 +56,6 @@ export const loginSlice = createSlice({
         const {token, myEmail} = action.payload;
         state.token = token;
         state.email = myEmail;
-        
       })
       .addCase(loginAsync.rejected, (state, action) => {
         state.status = 'failed';

@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+
 module.exports = {
   content: [
     // './app/**/*.{js,ts,jsx,tsx}',
@@ -8,8 +9,15 @@ module.exports = {
     // Or if using `src` directory:
     './src/**/*.{js,ts,jsx,tsx}'
   ],
+
   theme: {
-    extend: {}
+    extend: {
+      screens: {
+        // pretiier-ignore
+        'md86': '860px',
+        'lg12' : '1200px'
+      }
+    }
   },
   plugins: [require('tailwind-scrollbar-hide')]
 };

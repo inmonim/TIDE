@@ -13,7 +13,7 @@ export default function Home() {
         <title>TIDE</title>
         <meta name="description" content="Tide의 메인 페이지입니다." />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" />
+        <link rel="icon" href="/favicon.png" />
       </Head>
       <main className={styles.main}>
         <Landing />

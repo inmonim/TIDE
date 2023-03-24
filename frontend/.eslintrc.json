@@ -22,7 +22,13 @@
     "prettier",
     "plugin:prettier/recommended"
   ],
-  "plugins": ["react", "react-hooks", "jsx-a11y", "import", "@typescript-eslint"],
+  "plugins": [
+    "react",
+    "react-hooks",
+    "jsx-a11y",
+    "import",
+    "@typescript-eslint"
+  ],
   "settings": {
     "import/resolver": {
       "typescript": {

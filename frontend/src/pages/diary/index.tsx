@@ -139,7 +139,9 @@ export default function Diary() {
         </Link>
       </div>
 
-      <main className={`p-[6rem] pr-[calc(15%+100px)] ${styles.main}`}>
+      <main className={`
+      p-[4rem] pt-[2rem] lg12:pr-[calc(200px)] lg12:pl-[calc(15%+100px)] pb-[240px]
+      ${styles.main}`}>
         <div className={styles.description}>
           <h1 className="text-5xl font-bold"> Diary</h1>
         </div>
@@ -162,6 +164,7 @@ export default function Diary() {
         <div className={styles.diarySection}>
           <div className={styles.caroselWrapper} ref={caroselDivRef}>
             {titleArr.map((title, index) => (
+              <Link href={`/diary/${index+1}`}>
               <div className={styles.caroselItem} key={index}>
                 <div className={styles.caroselDiary}>
                   <h3 className="text-2xl font-bold">
@@ -224,6 +227,7 @@ export default function Diary() {
                   <div className={styles.musicUIBar}></div>
                 </div>
               </div>
+              </Link>
             ))}
           </div>
         </div>

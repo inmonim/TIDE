@@ -9,7 +9,12 @@ module.exports = {
     './src/**/*.{js,ts,jsx,tsx}'
   ],
   theme: {
-    extend: {}
+    extend: {
+
+      screens:{
+        'md86': '860px'
+      }
+    }
   },
   plugins: [require('tailwind-scrollbar-hide')]
 };

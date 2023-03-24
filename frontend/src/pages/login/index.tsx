@@ -6,6 +6,8 @@ import {motion} from 'framer-motion';
 import Link from 'next/link';
 import {loginAsync} from 'store/api/features/loginSlice';
 import {useRouter} from 'next/router';
+import {setToken} from '@/components/TokenManager'
+
 
 interface LoginInterFace {
   email: string;
@@ -28,24 +30,17 @@ const login = () => {
     return state.login;
   });
   
-  // 로그인 페이지 처음 들어오면 토큰제거
-  useEffect(() => {
-    localStorage.removeItem('accessToken');
-  }, []);
 
   // 로그인 요청후 받아온 상태값 변화에 따른 처리
   useEffect(() => {
     switch (status) {
       case 'completed':
         alert('로그인성공');
-        localStorage.setItem('accessToken', token);
-        localStorage.setItem('email', email);
+        setToken(token, email);
         router.push(
           {
             pathname: `/mainpage`
           },
-          // as url
-          `/`
         );
         break;
       case 'failed':

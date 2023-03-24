@@ -5,15 +5,26 @@ import Link from 'next/link';
 import Image from 'next/image';
 import Lp from 'public/icons/lp.png';
 import styles from '@/styles/MusicBar.module.scss';
+import {deleteCookie} from 'cookies-next';
+import {useRouter} from 'next/router';
 
 export type SideBarProps = {
   isPlaying: boolean;
 };
 
 const SideBar: FC<SideBarProps> = props => {
+  const router = useRouter();
   const {isPlaying} = props;
   const [RmenuOpen, setRmenuOpen] = useState<boolean>(false);
   const [BarOpen, setBarOpen] = useState<Number>(0);
+
+  const onLogOut = () => {
+    console.log("쿠키로그아웃삭제")
+
+    deleteCookie('accessToken');
+    deleteCookie('email');
+    router.reload();
+  };
   return (
     <>
       {/* 상단바 영역 */}
@@ -56,6 +67,12 @@ const SideBar: FC<SideBarProps> = props => {
           className={`w-7 h-7  min-w-7 min-h-7 ${styles.friendBtn}`}
           onClick={() => (BarOpen === 2 ? setBarOpen(0) : setBarOpen(2))}>
           {' '}
+        </div>
+        <div
+          className="text-xl text-white border-2 border-white cursor-pointer"
+          onClick={onLogOut}>
+          {' '}
+          로그아웃{' '}
         </div>
       </div>
 

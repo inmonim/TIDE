@@ -34,7 +34,7 @@ spring:
           uri: lb://API-USER
           predicates:
             - Path=/api/user/**
-            - Method=GET,PUT,DELETE
+            - Method=GET,PUT,DELETE,POST
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/api/user/(?<segment>.*), /$\{segment}

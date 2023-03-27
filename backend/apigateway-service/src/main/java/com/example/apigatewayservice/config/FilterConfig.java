@@ -17,7 +17,7 @@ import reactor.core.publisher.Mono;
 
 @Configuration
 public class FilterConfig {
-    private static final String ALLOWED_HEADERS = "x-requested-with, authorization, Content-Type";
+    private static final String ALLOWED_HEADERS = "x-requested-with, authorization, Content-Type, email";
     private static final String ALLOWED_METHODS = "GET, PUT, POST, DELETE, OPTIONS";
     private static final String ALLOWED_ORIGIN = "http://localhost:3000";
     private static final String ALLOWED_CREDENTIALS = "true";

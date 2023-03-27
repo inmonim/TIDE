@@ -4,7 +4,7 @@ import countSlice from './api/features/countSlice';
 import loginSlice from './api/features/loginSlice';
 import signUpSlice from './api/features/signUpSlice';
 import profileSlice from './api/features/profileSlice';
-import musicModalSlice from './api/features/musicModalSlice';
+import profileEditSlice from './api/features/profileEditSlice';
 
 // 리듀서들을 합쳐주는곳
 const combinedReducer = combineReducers({
@@ -12,7 +12,7 @@ const combinedReducer = combineReducers({
   signup: signUpSlice,
   login: loginSlice,
   profile: profileSlice,
-  musicModal : musicModalSlice
+  profileEdit: profileEditSlice
 });
 
 // Hydrate와 위에서 합친 reducer들을 rootReducer에 세팅

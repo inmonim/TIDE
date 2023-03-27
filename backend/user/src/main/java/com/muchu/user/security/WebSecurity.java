@@ -1,6 +1,6 @@
 package com.muchu.user.security;
 
-import com.muchu.user.service.UserService;
+import com.muchu.user.service.user.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -3,7 +3,7 @@ package com.muchu.user.security;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.muchu.user.dto.UserDto;
 import com.muchu.user.request.UserLoginRequest;
-import com.muchu.user.service.UserService;
+import com.muchu.user.service.user.UserService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import lombok.extern.slf4j.Slf4j;

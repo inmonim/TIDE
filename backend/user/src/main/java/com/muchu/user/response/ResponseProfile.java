@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class ResponseProfile {
-    private Long userid;
     private String profile_img_path;
     private String introduce;
     private int point;

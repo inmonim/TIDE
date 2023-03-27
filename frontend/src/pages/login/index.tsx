@@ -6,9 +6,8 @@ import {motion} from 'framer-motion';
 import Link from 'next/link';
 import {loginAsync} from 'store/api/features/loginSlice';
 import {useRouter} from 'next/router';
-import {setToken} from '@/components/TokenManager'
-import { toast } from 'react-toastify';
-
+import {setToken} from '@/components/TokenManager';
+import {toast} from 'react-toastify';
 
 interface LoginInterFace {
   email: string;
@@ -30,7 +29,6 @@ const login = () => {
   const {token, email, status} = useAppSelector(state => {
     return state.login;
   });
-  
 
   // 로그인 요청후 받아온 상태값 변화에 따른 처리
   useEffect(() => {
@@ -38,11 +36,9 @@ const login = () => {
       case 'completed':
         toast.success('로그인성공');
         setToken(token, email);
-        router.push(
-          {
-            pathname: `/mainpage`
-          },
-        );
+        router.push({
+          pathname: `/mainpage`
+        });
         break;
       case 'failed':
         toast.error('실패!!');

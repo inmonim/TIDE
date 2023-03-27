@@ -5,6 +5,7 @@ import {useEffect, useState} from 'react';
 import axios from 'axios';
 import {BsChevronCompactRight, BsChevronCompactLeft} from 'react-icons/bs';
 import Link from 'next/link';
+import {getCookie} from 'cookies-next';
 
 interface playlists {
   id: number;
@@ -59,22 +60,20 @@ function Mainpage() {
   };
 
   // 플레이 리스트 받아 오기
-  useEffect(() => {
-    const Token = 'bearer' + localStorage.getItem('token');
-    const Email = localStorage.getItem('email');
-    async function getPlaylists() {
-      try {
-        const response = await axios.get(url, {
-          // email 대문자인지 소문자 인지 나중에 확인
-          headers: {Authorization: Token, Email: Email}
-        });
-        setPlaylists(response.data);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    getPlaylists();
-  }, []);
+  // useEffect(() => {
+  //   const Token = getCookie();
+  //   const Email = localStorage.getItem('email');
+  //   async function getPlaylists() {
+  //     try {
+  //       const response = await axios.get(url, {
+  //         // email 대문자인지 소문자 인지 나중에 확인
+  //         headers: {Authorization: Token, Email: Email}
+  //       });
+  //       setPlaylists(response.data);
+  //     } catch (error) {}
+  //   }
+  //   getPlaylists();
+  // }, []);
 
   return (
     <div>

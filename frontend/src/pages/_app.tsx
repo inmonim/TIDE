@@ -9,7 +9,7 @@ import cookies from 'next-cookies';
 import {getCookie} from 'cookies-next';
 import {setToken} from '@/components/TokenManager';
 import App from 'next/app';
-import { ToastContainer } from 'react-toastify';
+import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 function MyApp({Component, pageProps}: AppProps) {
@@ -31,7 +31,7 @@ function MyApp({Component, pageProps}: AppProps) {
     <>
       {isLogin && <MusicBar />}
       <ToastContainer
-        position="top-center"
+        position="top-right"
         autoClose={1500}
         closeOnClick={true}
         draggable
@@ -49,12 +49,12 @@ function MyApp({Component, pageProps}: AppProps) {
         //   }
         // }}
         progressStyle={{
-          height: "0.1rem",
+          height: '0.1rem'
           // height: "0rem",
         }}
         style={{
-          fontSize: "1rem",
-          minWidth: "fit-content",
+          fontSize: '1rem',
+          minWidth: 'fit-content'
         }}
       />
       <AnimatePresence key={router.route}>

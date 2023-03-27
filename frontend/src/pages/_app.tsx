@@ -22,10 +22,8 @@ function MyApp({Component, pageProps}: AppProps) {
     // 쿠키 가져오고
     const token = getCookie('accessToken');
     if (token) {
-      console.log(token, '토큰 있음');
       setIsLogin(true);
     } else {
-      console.log(token, '토큰 없음');
       setIsLogin(false);
     }
   }, [router]);

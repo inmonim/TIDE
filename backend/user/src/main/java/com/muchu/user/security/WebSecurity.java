@@ -37,10 +37,10 @@ public class WebSecurity {
         http.cors().configurationSource(corsConfigurationSource());
         http.csrf().disable();
 
+        http.authorizeRequests().antMatchers("/error/**").permitAll(); // public abstract java.lang.String javax.servlet.ServletRequest.getRemoteAddr() is not supported 보기 싫을때 활성화
         http.authorizeRequests()
-                .antMatchers("/error/**").permitAll() // public abstract java.lang.String javax.servlet.ServletRequest.getRemoteAddr() is not supported 보기 싫을때 활성화
-                .antMatchers("/**")
-                .hasIpAddress("127.0.0.1")
+                .antMatchers("/**").permitAll()
+//                .hasIpAddress("localhost")
                 .and()
                 .authenticationManager(authenticationManager)
                 .addFilter(authenticationFilter)
@@ -54,7 +54,7 @@ public class WebSecurity {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        
+
         configuration.addAllowedHeader("*");
         configuration.addAllowedMethod("*");
         configuration.addAllowedOriginPattern("*");

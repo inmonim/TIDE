@@ -59,19 +59,19 @@ public class FollowController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
-    // 팔로워가 팔로잉 취소
+    // 언팔로우
     @DeleteMapping("/follow")
     public ResponseEntity<String> cancelFollow(@RequestHeader("email") String email,
                                                @RequestBody UserNicknameRequest request) {
         followService.cancelFollow(email, request.getNickname());
-        return ResponseEntity.status(HttpStatus.OK).body("팔로워가 취소");
+        return ResponseEntity.status(HttpStatus.OK).body("언팔로우");
     }
 
-    // 팔로잉 취소
+    // 팔로워가 팔로잉 취소
     @DeleteMapping("/follower")
     public ResponseEntity<String> cancelFollower(@RequestHeader("email") String email,
                                                  @RequestBody UserNicknameRequest request) {
         followService.cancelFollower(email, request.getNickname());
-        return ResponseEntity.status(HttpStatus.OK).body("언팔로우");
+        return ResponseEntity.status(HttpStatus.OK).body("팔로워가 취소");
     }
 }

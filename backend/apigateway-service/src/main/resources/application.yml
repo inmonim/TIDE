@@ -39,6 +39,15 @@ spring:
             - RemoveRequestHeader=Cookie
             - RewritePath=/api/user/(?<segment>.*), /$\{segment}
             - AuthorizationHeaderFilter
+        - id: api-diary
+          uri: lb://API-DIARY
+          predicates:
+            - Path=/api/diary/**
+            - Method=GET,PUT,DELETE,POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/api/diary/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
 
 token:
   expiration_time: 864000000

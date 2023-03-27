@@ -20,12 +20,6 @@ public class ProfileController {
         this.profileService = profileService;
     }
 
-    @PostMapping("/info")
-    public UserInfoRequest createInfo(@RequestBody UserInfoRequest request,
-                                      @RequestHeader("email") String email) {
-        return profileService.createInfo(request, email);
-    }
-
     @PutMapping("/info")
     public UserInfoRequest updateInfo(@RequestBody UserInfoRequest request,
                                       @RequestHeader("email") String email) {

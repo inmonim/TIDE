@@ -64,15 +64,15 @@ public class FollowServiceImpl implements FollowService {
     public List<ResponseFollow> followWait(String email) {
         ModelMapper mapper = new ModelMapper();
         User user = userRepository.findByEmail(email);
-        Long toUser = user.getId();
-        log.info("toUser: {}", toUser);
+        Long FromUser = user.getId();
+        log.info("toUser: {}", FromUser);
 
-        List<Follow> followWait = followRepository.findAllByToUserAndAccept(toUser, "0");
+        List<Follow> followWait = followRepository.findAllByFromUserAndAccept(FromUser, "0");
         List<ResponseFollow> followWaitList = new ArrayList<>();
 
         for (Follow follow : followWait) {
-            Optional<Profile> profileOptional = Optional.ofNullable(profileRepository.findByUserid(follow.getFromUser()));
-            Optional<User> userOptional = userRepository.findById(follow.getFromUser());
+            Optional<Profile> profileOptional = Optional.ofNullable(profileRepository.findByUserid(follow.getToUser()));
+            Optional<User> userOptional = userRepository.findById(follow.getToUser());
             if (profileOptional == null) {
                 followWaitList = new ArrayList<>();
                 break;
@@ -93,14 +93,14 @@ public class FollowServiceImpl implements FollowService {
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         User user = userRepository.findByEmail(email);
-        Long fromUser = user.getId();
+        Long toUser = user.getId();
 
-        List<Follow> followUsers = followRepository.findAllByFromUserAndAccept(fromUser, "1");
+        List<Follow> followUsers = followRepository.findAllByFromUserAndAccept(toUser, "1");
         List<ResponseFollow> followerList = new ArrayList<>();
 
         for (Follow follow : followUsers) {
-            Optional<Profile> profileOptional = Optional.ofNullable(profileRepository.findByUserid(follow.getFromUser()));
-            Optional<User> userOptional = userRepository.findById(follow.getFromUser());
+            Optional<Profile> profileOptional = Optional.ofNullable(profileRepository.findByUserid(follow.getToUser()));
+            Optional<User> userOptional = userRepository.findById(follow.getToUser());
             if (profileOptional == null) {
                 followerList = new ArrayList<>();
                 break;
@@ -112,7 +112,7 @@ public class FollowServiceImpl implements FollowService {
                 followerList.add(responseFollow);
             }
         }
-            return followerList;
+        return followerList;
 
     }
 
@@ -125,7 +125,7 @@ public class FollowServiceImpl implements FollowService {
         log.info("신청 닉네임 ==================>", nickname);
         Long fromUserId = userRepository.findByNickname(nickname).getId();
         follow.setFromUser(fromUserId);
-        if(userId == fromUserId) {
+        if (userId == fromUserId) {
             throw new IllegalArgumentException("팔로우 신청이 잘못되었습니다.");
         }
         follow.setAccept("0");
@@ -139,7 +139,7 @@ public class FollowServiceImpl implements FollowService {
         Long userId = user.getId();
         log.info("신청 닉네임 ==================>", nickname);
         Long fromUserId = userRepository.findByNickname(nickname).getId();
-        if(userId == fromUserId) {
+        if (userId == fromUserId) {
             throw new IllegalArgumentException("팔로우 수락 신청이 잘못되었습니다.");
         }
         Follow follow = followRepository.findByFromUserAndToUser(fromUserId, userId);

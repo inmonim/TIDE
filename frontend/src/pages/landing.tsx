@@ -39,10 +39,10 @@ function LandingPage() {
         className="flex flex-col w-full h-full justify-items-center">
         {/* container1 */}
         <div
-          className="flex flex-row items-center content-center justify-center w-full h-screen pt-24 bg-gradient-to-b from-[#020217] to-[#000066]"
+          className="flex flex-row items-center content-center justify-center w-full h-screen  bg-gradient-to-b from-[#020217] to-[#000066]"
           ref={firstDiv}>
           {/* landingImage */}
-          <div className="w-[1100px] h-[850px]">
+          <div className="w-[85%] h-[65%]">
             <Image src={landingImage1} alt="Tide Landing" />
           </div>
           {/* subcontainer1 */}
@@ -86,7 +86,7 @@ function LandingPage() {
           <div className="w-[1100px] h-[850px] overflow-hidden">
             <Image
               src={landingImage2}
-              className={`max-h-[85%] object-cover rounded-[20px] shadow-md hover:rounded-[20px]`}
+              className={`max-h-[65%] max-w-[85%]: object-cover rounded-[20px] shadow-md hover:rounded-[20px]`}
               alt="Tide Landing"
             />
           </div>

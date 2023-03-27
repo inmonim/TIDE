@@ -6,32 +6,32 @@ import {getCookie} from 'cookies-next';
 interface ProfileState {
   status: string;
   nickname: any;
-  point: number;
-  profile_img_path: string;
-  introduce: string;
-  gender: number;
+  email: string;
+  password: string;
+  profileImage: string;
+  profileBGImage: string;
+  introduction: string;
 }
 
 const initialState: ProfileState = {
   status: '',
+  email: '',
+  password: '',
   nickname: '',
-  point: 0,
-  profile_img_path: '',
-  introduce: '',
-  gender: 0
+  profileImage: '',
+  profileBGImage: '',
+  introduction: ''
 };
 
 // Thunk 예시
-export const profileAsync = createAsyncThunk(
-  'profile/Async',
+export const profileEditAsync = createAsyncThunk(
+  'profileEdit/Async',
   async () => {
-    console.log(getCookie('accessToken'), '토큰');
-    const accessToken = getCookie('accessToken');
     const data = await axios({
-      method: 'get',
+      method: 'put',
       url: `${process.env.NEXT_PUBLIC_API_URL}/api/user/info`,
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        token: getCookie('token'),
         email: getCookie('email')
       }
     });
@@ -39,33 +39,34 @@ export const profileAsync = createAsyncThunk(
   }
 );
 // createSlice로 Slice생성
-export const profileSlice = createSlice({
-  name: 'profile',
+export const profileEditSlice = createSlice({
+  name: 'profileEdit',
   initialState,
   reducers: {},
   // 비동기 처리를 위한 redux-thunk사용 extraReducers
   extraReducers: builder => {
     builder
-      .addCase(profileAsync.pending, state => {
+      .addCase(profileEditAsync.pending, state => {
         state.status = 'loading';
       })
-      .addCase(profileAsync.fulfilled, (state, action) => {
+      .addCase(profileEditAsync.fulfilled, (state, action) => {
         state.status = 'completed';
         const {
-          point,
-          gender,
+          email,
+          password,
           nickname,
-          profile_img_path,
-          introduce,
-          status
+          profileImage,
+          profileBGImage,
+          introduction
         } = action.payload;
-        state.point = point;
-        state.gender = gender;
+        state.email = email;
+        state.password = password;
         state.nickname = nickname;
-        state.profile_img_path = profile_img_path;
-        state.introduce = introduce;
+        state.profileImage = profileImage;
+        state.profileBGImage = profileBGImage;
+        state.introduction = introduction;
       });
   }
 });
 
-export default profileSlice.reducer;
+export default profileEditSlice.reducer;

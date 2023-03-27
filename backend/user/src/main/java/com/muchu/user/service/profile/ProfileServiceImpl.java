@@ -1,6 +1,5 @@
 package com.muchu.user.service.profile;
 
-import com.muchu.user.jpa.follow.FollowRepository;
 import com.muchu.user.jpa.profile.Profile;
 import com.muchu.user.jpa.profile.ProfileRepository;
 import com.muchu.user.jpa.user.User;
@@ -30,22 +29,6 @@ public class ProfileServiceImpl implements ProfileService {
         this.userRepository = userRepository;
         this.profileRepository = profileRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
-    }
-    @Transactional
-    public UserInfoRequest createInfo(UserInfoRequest request, String email) {
-        ModelMapper mapper = new ModelMapper();
-        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-        User user = userRepository.findByEmail(email);
-        Long userId = user.getId();
-        Profile profile = mapper.map(request, Profile.class);
-        profile.setUserid(userId);
-        profile.setPoint(500);
-
-        profileRepository.save(profile);
-
-        UserInfoRequest userInfoRequest = mapper.map(profile, UserInfoRequest.class);
-
-        return userInfoRequest;
     }
 
     @Transactional

@@ -7,6 +7,5 @@ const QuillWrapper = dynamic(() => import('@/components/Quill/QuillEditor'), {
 export default function Wrapper() {
   return (
       <QuillWrapper />
-
   )
 }

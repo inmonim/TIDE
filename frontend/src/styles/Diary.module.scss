@@ -232,7 +232,7 @@
     width: 11rem;
     height: 11rem;
     border-radius: 100%;
-    background: linear-gradient(aqua, blue);
+    // background: linear-gradient(aqua, blue);
     border: 0.25rem solid #eee;
     margin-bottom: 10px;
   }
@@ -244,7 +244,8 @@
     height: 5rem;
     margin: 2.75rem;
     border-radius: 100%;
-    background-color: rgb(255, 255, 255);
+    background-color:rgba(6, 11, 11, 0.205);
+    border: 2px solid #e7e7e7;
   }
 
   & > .musicBar {

@@ -13,25 +13,11 @@ spring:
     name: gateway-service
   cloud:
     gateway:
-      default-filters:
-        - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
-      globalcors:
-        cors-configurations:
-          '[/**]':
-            allowedOrigins: 'http://localhost:3000'
-            allow-credentials: true
-            allowedHeaders: '*'
-            allowedMethods:
-              - PUT
-              - GET
-              - POST
-              - DELETE
-              - OPTIONS
       routes:
         - id: api-user
           uri: lb://API-USER
           predicates:
-            - Path=/api/user/**
+            - Path=/api/user/register
             - Method=POST
           filters:
             - RemoveRequestHeader=Cookie
@@ -48,15 +34,7 @@ spring:
           uri: lb://API-USER
           predicates:
             - Path=/api/user/**
-            - Method=POST
-          filters:
-            - RemoveRequestHeader=Cookie
-            - RewritePath=/api/user/(?<segment>.*), /$\{segment}
-        - id: api-user
-          uri: lb://API-USER
-          predicates:
-            - Path=/api/user/**
-            - Method=GET,PUT,DELETE
+            - Method=GET,PUT,DELETE,POST
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/api/user/(?<segment>.*), /$\{segment}

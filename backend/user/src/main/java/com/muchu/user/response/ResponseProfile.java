@@ -10,5 +10,7 @@ public class ResponseProfile {
     private String profile_img_path;
     private String introduce;
     private int point;
+    private Integer gender;
+    private String nickname;
 
 }

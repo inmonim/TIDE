@@ -2,6 +2,16 @@
 @tailwind components;
 @tailwind utilities;
 
+@layer utilities {
+  .pause {
+    animation-play-state: paused;
+  }
+
+  .running {
+    animation-play-state: running;
+  }
+}
+
 :root {
   background-color: black;
   /* background: linear-gradient(to bottom left, #011516, #2e608c); */

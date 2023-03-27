@@ -140,8 +140,8 @@ export default function Diary() {
       </div>
 
       <main className={`
-      p-[4rem] pt-[2rem] lg12:pr-[calc(200px)] lg12:pl-[calc(15%+100px)] pb-[240px]
-      ${styles.main}`}>
+      p-[4rem] pt-[2rem] lg12:pr-[calc(200px)] lg12:pl-[calc(15%+100px)] pb-[240px] text-white flex flex-col min-h-[100vh] pt-[calc(2rem+40px)] bg-gradient-to-t from-blue-900 to-slate-900 `}>
+
         <div className={styles.description}>
           <h1 className="text-5xl font-bold"> Diary</h1>
         </div>
@@ -218,7 +218,8 @@ export default function Diary() {
                   </p>
                 </div>
                 <div className={styles.caroselMusic}>
-                  <div className={styles.cdBG}></div>
+                  <div className={`bg-[url('https://image.bugsm.co.kr/album/images/130/40780/4078016.jpg')] bg-no-repeat bg-cover animate-[spin_5s_linear_infinite] pause hover:running ${styles.cdBG}`}>
+                  </div>
                   <h3 className="text-2xl font-bold"> 음악 제목</h3>
                   <p> 아티스트 이름</p>
 

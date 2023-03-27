@@ -148,30 +148,6 @@ const MusicBar: FC<MusicBarProps> = props => {
                         }`}
                   </p>
 
-                  {/* 길이바 */}
-                  {/* <div
-                    className="h-3 mb-[0px] select-all w-60 rounded-xl "
-                    // onMouseMove={BarTimeOn}
-                    // onClick={BarTimeSelect}
-                    // onMouseUp={BarTimeSelect}
-                    // onMouseLeave={BarReset}
-                    ref={fullbarRef}>
-                    <div className="w-[calc(100%)] h-3 select-all bg-slate-700 rounded-xl"></div>
-                    <div
-                      className={`z-10 w-0 h-3 translate-y-[-12px] select-all bg-sky-100 rounded-xl`}
-                      ref={playMaybarRef}></div>
-                    <div
-                      className={`z-10 w-full h-3 translate-y-[-24px] select-all bg-sky-500 rounded-xl ${styles.playBar}`}
-                      ref={playbarRef}>
-
-                      <input
-                      type="range"
-                      className={`absolute w-[200px] transparent h-3 translate-y-[-6px]  cursor-pointer appearance-none rounded-lg border-transparent bg-slate-700 `}
-                      id="customRange1" />
-
-                      </div>
-                  </div> */}
-
                   <div
                     className={`${styles.playBar}`}
                     onClick={BarTimeSelect}

@@ -6,7 +6,7 @@ import {motion} from 'framer-motion';
 import Link from 'next/link';
 import {initStatus, signUpAsync} from 'store/api/features/signUpSlice';
 import {useRouter} from 'next/router';
-import { toast } from 'react-toastify';
+import {toast} from 'react-toastify';
 
 // 데이터값
 interface AccountInterFace {

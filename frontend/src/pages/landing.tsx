@@ -39,27 +39,27 @@ function LandingPage() {
         className="flex flex-col w-full h-full justify-items-center">
         {/* container1 */}
         <div
-          className="flex flex-row items-center content-center justify-center w-full h-screen  bg-gradient-to-b from-[#020217] to-[#000066]"
+          className="flex flex-row items-center content-center justify-center w-full h-screen bg-gradient-to-b from-[#020217] to-[#000066]"
           ref={firstDiv}>
           {/* landingImage */}
-          <div className="w-[85%] h-[65%]">
+          <div className="w-[60%] h-[40vw] items-center md:grid hidden">
             <Image src={landingImage1} alt="Tide Landing" />
           </div>
           {/* subcontainer1 */}
-          <div className="flex flex-col items-center justify-center max-w-[400px] ml-16 mb-20">
+          <div className="flex flex-col items-center justify-center max-w-[400px] md:p-10 md:ml-10 p-3">
             {/* Tide 로고 */}
             <Link href={`/mainpage`}>
               <Image
-                className="w-[300px] h-[100px] p-1"
+                className="w-[300px] h-[100px] p-1 min-w-[250px]"
                 src={logo}
                 alt="Tide Logo"
               />
             </Link>
             {/* title */}
-            <h1 className="my-6 text-4xl font-bold text-center text-white">
+            <h1 className="my-6 text-2xl font-bold text-center text-white md:text-4xl">
               당신 손안의 음악
             </h1>
-            <p className="my-6 text-2xl text-center text-white whitespace-pre-wrap">
+            <p className="my-6 text-lg text-center text-white whitespace-pre-wrap md:text-2xl">
               플레이리스트와 맞춤형 추천을 제공하는 혁신적인 모바일 서비스로,
               이전과는 다른 음악 청취 경험을 즐겨보세요.
             </p>
@@ -69,7 +69,7 @@ function LandingPage() {
                 가입
               </button>
             </Link>
-            <p className="my-6 text-2xl text-center text-white">
+            <p className="my-6 text-lg text-center text-white md:text-2xl">
               이미 계정이 있으신가요?
             </p>
             <Link href={`/login`}>
@@ -83,7 +83,7 @@ function LandingPage() {
         <div
           ref={secondDiv}
           className="flex flex-row items-center content-center justify-center w-full h-screen bg-gradient-to-t from-[#020217] to-[#000066]">
-          <div className="w-[1100px] h-[850px] overflow-hidden">
+          <div className="w-[60%] h-[40vw] overflow-hidden md:grid hidden items-center md:mt-[-70px]">
             <Image
               src={landingImage2}
               className={`max-h-[65%] max-w-[85%]: object-cover rounded-[20px] shadow-md hover:rounded-[20px]`}
@@ -91,15 +91,15 @@ function LandingPage() {
             />
           </div>
 
-          <div className="flex flex-col items-center justify-center max-w-[400px] ml-16">
+          <div className="flex flex-col items-center justify-center max-w-[400px] md:p-10 md:ml-10 p-3">
             <Link href={`/mainpage`}>
               <Image
-                className="w-[300px] h-[100px] p-1"
+                className="w-[300px] h-[100px] p-1 min-w-[250px]"
                 src={logo}
                 alt="Tide Logo"
               />
             </Link>
-            <h1 className="my-6 text-4xl font-bold text-center text-white">
+            <h1 className="my-6 text-2xl font-bold text-center text-white md:text-4xl">
               TIDE는 제공합니다
             </h1>
             {/* 아이콘 */}

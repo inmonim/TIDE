@@ -44,7 +44,11 @@ export const loginAsync = createAsyncThunk(
 export const loginSlice = createSlice({
   name: 'login',
   initialState,
-  reducers: {},
+  reducers: {
+    initStatus(state) {
+      state.status = 'loading';
+    }
+  },
   // 비동기 처리를 위한 redux-thunk사용 extraReducers
   extraReducers: builder => {
     builder

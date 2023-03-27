@@ -6,8 +6,10 @@ import {motion} from 'framer-motion';
 import Link from 'next/link';
 import {loginAsync} from 'store/api/features/loginSlice';
 import {useRouter} from 'next/router';
-import {setToken} from '@/components/TokenManager';
-import {toast} from 'react-toastify';
+import {setToken} from '@/components/TokenManager'
+import { toast } from 'react-toastify';
+import { initStatus } from 'store/api/features/signUpSlice';
+
 
 interface LoginInterFace {
   email: string;
@@ -44,6 +46,8 @@ const login = () => {
         toast.error('실패!!');
         break;
     }
+    // status값 init
+    dispatch(initStatus());
   }, [status]);
 
   //input에 입력될 때마다 loginAccount state값 변경되게 하는 함수

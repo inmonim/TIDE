@@ -4,8 +4,9 @@ import {useAppDispatch, useAppSelector} from 'store'; //스토어 생성단계�
 import logoUrl from 'public/images/Logo/TideLogoFinal.png';
 import {motion} from 'framer-motion';
 import Link from 'next/link';
-import {signUpAsync} from 'store/api/features/signUpSlice';
+import {initStatus, signUpAsync} from 'store/api/features/signUpSlice';
 import {useRouter} from 'next/router';
+import { toast } from 'react-toastify';
 
 // 데이터값
 interface AccountInterFace {
@@ -50,6 +51,8 @@ const signup = () => {
     gender: 0,
     nickname: ''
   });
+  // 비밀번호 확인 일치여부
+  const [checkPassword, setCheckPassword] = useState<string>('');
 
   //input에 입력될 때마다 account state값 변경되게 하는 함수
   const onChangeAccount = (
@@ -59,12 +62,28 @@ const signup = () => {
       ...account,
       [event.target.name]: event.target.value
     });
+    if (
+      event.target.name === 'password2' &&
+      event.target.value !== account.password
+    ) {
+      setCheckPassword('비밀번호가 일치하지 않습니다');
+    }
+    if (
+      event.target.name === 'password2' &&
+      event.target.value === account.password
+    ) {
+      setCheckPassword('비밀번호가 일치합니다');
+    }
   };
 
   //회원가입 form 제출
   const onSubmitSignUpForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    dispatch(signUpAsync(account));
+    if (checkPassword === '비밀번호가 일치하지 않습니다') {
+      toast('비밀번호가 일치하지 않습니다');
+    } else {
+      dispatch(signUpAsync(account));
+    }
   };
 
   // 회원가입 요청후 값
@@ -75,17 +94,17 @@ const signup = () => {
   useEffect(() => {
     switch (status) {
       case 'completed':
-        alert('회원가입성공');
-        router.push(
-          {
-            pathname: `/login`
-          },
-        );
+        toast.success('회원가입성공');
+        router.push({
+          pathname: `/login`
+        });
         break;
       case 'failed':
-        alert('회원가입 실패!!');
+        toast.info('아이디 또는 닉네임이 중복입니다');
         break;
     }
+    // status값 init
+    dispatch(initStatus());
   }, [status]);
 
   return (
@@ -130,6 +149,14 @@ const signup = () => {
             placeholder="패스워드 확인"
             required
           />
+          <div
+            className={`${
+              checkPassword === '비밀번호가 일치하지 않습니다'
+                ? `text-red-500`
+                : `text-green-500`
+            }`}>
+            {checkPassword}&nbsp;
+          </div>
           {/* 생년월일 체크 */}
           <div className="w-full text-lg text-left">생년월일</div>
           <div className={`w-full`}>
@@ -211,7 +238,6 @@ const signup = () => {
         </form>
         <div className="w-1/2 border-[0.1rem] my-4"></div>
         <div className={`w-60 flex flex-col h-32 justify-evenly items-center`}>
-          <div>{status}</div>
           <div className="text-md"> 계정이 이미 있으신가요? </div>
           <Link
             className={`border-2 w-full rounded-md bg-sky-700 hover:bg-sky-500`}

@@ -7,6 +7,7 @@ import Link from 'next/link';
 import {loginAsync} from 'store/api/features/loginSlice';
 import {useRouter} from 'next/router';
 import {setToken} from '@/components/TokenManager'
+import { toast } from 'react-toastify';
 
 
 interface LoginInterFace {
@@ -35,7 +36,7 @@ const login = () => {
   useEffect(() => {
     switch (status) {
       case 'completed':
-        alert('로그인성공');
+        toast.success('로그인성공');
         setToken(token, email);
         router.push(
           {
@@ -44,7 +45,7 @@ const login = () => {
         );
         break;
       case 'failed':
-        alert('실패!!');
+        toast.error('실패!!');
         break;
     }
   }, [status]);

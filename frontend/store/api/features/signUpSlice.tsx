@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
-import { useAppDispatch } from 'store';
-import { loginAsync } from './loginSlice';
+import {useAppDispatch} from 'store';
+import {loginAsync} from './loginSlice';
 
 // 타입
 interface SignUpState {
@@ -75,16 +75,19 @@ export const signUpAsync = createAsyncThunk(
 export const signUpSlice = createSlice({
   name: 'signup',
   initialState,
-  reducers: {},
+  reducers: {
+    initStatus(state) {
+      state.status = 'loading';
+    }
+  },
   // 비동기 처리를 위한 redux-thunk사용 extraReducers
   extraReducers: builder => {
     builder
       .addCase(signUpAsync.pending, state => {
         state.status = 'loading';
       })
-      .addCase(signUpAsync.fulfilled, (state) => {
+      .addCase(signUpAsync.fulfilled, state => {
         state.status = 'completed';
-
       })
       .addCase(signUpAsync.rejected, (state, action) => {
         state.status = 'failed';
@@ -93,4 +96,5 @@ export const signUpSlice = createSlice({
   }
 });
 
+export const {initStatus} = signUpSlice.actions;
 export default signUpSlice.reducer;

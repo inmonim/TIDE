@@ -86,7 +86,7 @@ function LandingPage() {
           <div className="w-[60%] h-[40vw] overflow-hidden md:grid hidden items-center md:mt-[-70px]">
             <Image
               src={landingImage2}
-              className={`max-h-[85%] object-cover rounded-[20px] shadow-md hover:rounded-[20px]`}
+              className={`max-h-[65%] max-w-[85%]: object-cover rounded-[20px] shadow-md hover:rounded-[20px]`}
               alt="Tide Landing"
             />
           </div>

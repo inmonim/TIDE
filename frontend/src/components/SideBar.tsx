@@ -57,7 +57,7 @@ const SideBar: FC<SideBarProps> = props => {
 
       {/* 알림, 친구 */}
       <div
-        className={`flex flex-row items-center gap-x-7 fixed z-20 right-0 mr-[0px] bottom-[2.2rem] ${styles.rightIconDiv}`}>
+        className={`flex flex-row items-center gap-x-2 fixed z-20 right-0 mr-[0px] bottom-[2.2rem] ${styles.rightIconDiv}`}>
         <div
           className={`w-7 h-7 min-w-7 min-h-7 ${styles.alarmBtn}`}
           onClick={() => (BarOpen === 1 ? setBarOpen(0) : setBarOpen(1))}>
@@ -69,7 +69,7 @@ const SideBar: FC<SideBarProps> = props => {
           {' '}
         </div>
         <div
-          className="text-xl text-white border-2 border-white cursor-pointer"
+          className="text-md text-white border-2 border-white cursor-pointer rounded-[3rem] pl-2 pr-2 ml-0 hover:bg-slate-300 text- transition-all hover: hover:text-slate-800"
           onClick={onLogOut}>
           {' '}
           로그아웃{' '}
@@ -117,7 +117,7 @@ const SideBar: FC<SideBarProps> = props => {
               }></div>
           </Link>
 
-          <Link href="/diary">
+          <Link href="/playlist">
             <div
               className={
                 RmenuOpen
@@ -131,12 +131,10 @@ const SideBar: FC<SideBarProps> = props => {
         <Image
           src={Lp}
           alt="Lp"
-          className={`w-[100%] h-[100%] ${
+          className={`w-[100%] h-[100%] animate-[spin_5s_linear_infinite] ${
             isPlaying
-              ? `animate-[spin_3s_linear_infinite]`
-              : RmenuOpen
-              ? `animate-pulse`
-              : ``
+              ? `running`:`pause`
+
           }`}
         />
       </div>
@@ -179,7 +177,7 @@ const SideBar: FC<SideBarProps> = props => {
             </div>
           </Link>
 
-          <Link href="/diary">
+          <Link href="/playlist">
             <div
               className={`flex flex-row gap-x-4 justify-between  w-3/4 m-auto ${styles.MenuDiv}`}>
               <div className={styles.playlistIcon}></div>

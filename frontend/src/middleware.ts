@@ -11,6 +11,12 @@ export function middleware(request: NextRequest) {
   if (!token && request.nextUrl.pathname.startsWith('/diary')) {
     return NextResponse.redirect(new URL('/login', request.url));
   }
+  if (!token && request.nextUrl.pathname.startsWith('/profile')) {
+    return NextResponse.redirect(new URL('/login', request.url));
+  }
+  if (!token && request.nextUrl.pathname.startsWith('/artist')) {
+    return NextResponse.redirect(new URL('/login', request.url));
+  }
 
   // 토큰있을떄 로긴 랜딩접근시 메인페이지로
   if (token && request.nextUrl.pathname.startsWith('/login')) {
@@ -22,5 +28,5 @@ export function middleware(request: NextRequest) {
 }
 export const config = {
   // matcher: '/:path*'
-  matcher: ['/diary', '/diary/:path*', '/mainpage', '/landing', '/login']
+  matcher: ['/diary', '/diary/:path*', '/mainpage', '/landing', '/login', '/profile', '/artist', '/artist/:path*']
 };

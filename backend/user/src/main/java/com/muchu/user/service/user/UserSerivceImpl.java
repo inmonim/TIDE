@@ -13,6 +13,7 @@ import com.muchu.user.response.ResponseProfile;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
+import org.springframework.security.core.parameters.P;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -29,9 +30,12 @@ public class UserSerivceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final ProfileRepository profileRepository;
     public UserSerivceImpl(UserRepository userRepository,
-                           BCryptPasswordEncoder bCryptPasswordEncoder) {
+                           BCryptPasswordEncoder bCryptPasswordEncoder,
+                           ProfileRepository profileRepository) {
         this.userRepository = userRepository;
+        this.profileRepository = profileRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
@@ -45,6 +49,10 @@ public class UserSerivceImpl implements UserService {
         userRepository.save(user);
 
         UserCreateRequest returnUserCreateRequest = mapper.map(user, UserCreateRequest.class);
+        Profile profile = new Profile();
+        profile.setUserid(user.getId());
+        profile.setPoint(500);
+        profileRepository.save(profile);
 
         return returnUserCreateRequest;
     }

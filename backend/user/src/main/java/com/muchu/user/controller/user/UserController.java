@@ -28,7 +28,7 @@ public class UserController {
 
     @GetMapping("/health_check")
     public String status() {
-        return String.format("Jenkins is up and running!!!!");
+        return String.format("Jenkins is up and running");
     }
 
     @PostMapping("/register")

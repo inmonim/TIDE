@@ -22,22 +22,19 @@ const initialState: ProfileState = {
 };
 
 // Thunk 예시
-export const profileAsync = createAsyncThunk(
-  'profile/Async',
-  async () => {
-    console.log(getCookie('accessToken'), '토큰');
-    const accessToken = getCookie('accessToken');
-    const data = await axios({
-      method: 'get',
-      url: `${process.env.NEXT_PUBLIC_API_URL}/api/user/info`,
-      headers: {
-        Authorization: `Bearer ${accessToken}`,
-        email: getCookie('email')
-      }
-    });
-    return data.data;
-  }
-);
+export const profileAsync = createAsyncThunk('profile/Async', async () => {
+  console.log(getCookie('accessToken'), '토큰');
+  const accessToken = getCookie('accessToken');
+  const data = await axios({
+    method: 'get',
+    url: `${process.env.NEXT_PUBLIC_API_URL}/api/user/info`,
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      email: getCookie('email')
+    }
+  });
+  return data.data;
+});
 // createSlice로 Slice생성
 export const profileSlice = createSlice({
   name: 'profile',
@@ -51,14 +48,8 @@ export const profileSlice = createSlice({
       })
       .addCase(profileAsync.fulfilled, (state, action) => {
         state.status = 'completed';
-        const {
-          point,
-          gender,
-          nickname,
-          profile_img_path,
-          introduce,
-          status
-        } = action.payload;
+        const {point, gender, nickname, profile_img_path, introduce} =
+          action.payload;
         state.point = point;
         state.gender = gender;
         state.nickname = nickname;

@@ -55,6 +55,19 @@ public class ProfileServiceImpl implements ProfileService {
     }
 
     @Transactional
+    public ResponseProfile getUserInfo(String nickname) {
+        User user = userRepository.findByNickname(nickname);
+        Profile profile = profileRepository.findByUserid(user.getId());
+
+        ResponseProfile response = new ResponseProfile();
+        response.setNickname(user.getNickname());
+        response.setIntroduce(profile.getIntroduce());
+        response.setProfile_img_path(profile.getProfile_img_path());
+        
+        return response;
+    }
+
+    @Transactional
     public ResponseProfile infoUser(String email) {
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);

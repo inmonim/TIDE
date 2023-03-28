@@ -1,6 +1,7 @@
 package com.muchu.user.controller.profile;
 
 import com.muchu.user.request.UserInfoRequest;
+import com.muchu.user.request.UserNicknameRequest;
 import com.muchu.user.response.ResponseProfile;
 import com.muchu.user.service.profile.ProfileService;
 import org.springframework.core.env.Environment;
@@ -35,5 +36,9 @@ public class ProfileController {
     public ResponseEntity<String> deleteInfo(@RequestHeader("email") String email) {
         profileService.deleteInfo(email);
         return ResponseEntity.status(HttpStatus.OK).body("User profile deleted");
+    }
+    @GetMapping("/userinfo")
+    public ResponseProfile getUserInfo(@RequestBody UserNicknameRequest request) {
+        return profileService.getUserInfo(request.getNickname());
     }
 }

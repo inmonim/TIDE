@@ -14,4 +14,5 @@ public interface UserService extends UserDetailsService {
     UserCreateRequest createUser(UserCreateRequest request);
     void deleteUser(String email);
     Long searchId(String email);
+    List<Long> searchFollowId(String email);
 }

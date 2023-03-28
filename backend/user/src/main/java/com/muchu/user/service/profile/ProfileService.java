@@ -7,4 +7,5 @@ public interface ProfileService {
     ResponseProfile infoUser(String email);
     UserInfoRequest updateInfo(UserInfoRequest request, String email);
     void deleteInfo(String email);
+    ResponseProfile getUserInfo(String nickname);
 }

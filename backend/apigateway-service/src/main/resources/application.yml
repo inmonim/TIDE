@@ -47,7 +47,6 @@ spring:
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/api/diary/(?<segment>.*), /$\{segment}
-            - AuthorizationHeaderFilter
 
 token:
   expiration_time: 864000000

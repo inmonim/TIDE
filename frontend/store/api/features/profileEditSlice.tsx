@@ -6,36 +6,38 @@ import {getCookie} from 'cookies-next';
 interface ProfileState {
   status: string;
   nickname: any;
-  email: string;
-  password: string;
-  profileImage: string;
-  profileBGImage: string;
-  introduction: string;
+  point: number;
+  profile_img_path: string;
+  introduce: string;
+  gender: number;
 }
 
 const initialState: ProfileState = {
   status: '',
-  email: '',
-  password: '',
   nickname: '',
-  profileImage: '',
-  profileBGImage: '',
-  introduction: ''
+  point: 0,
+  profile_img_path: '',
+  introduce: '',
+  gender: 0
 };
 
 // Thunk 예시
 export const profileEditAsync = createAsyncThunk(
   'profileEdit/Async',
-  async () => {
-    const data = await axios({
-      method: 'put',
-      url: `${process.env.NEXT_PUBLIC_API_URL}/api/user/info`,
-      headers: {
-        token: getCookie('token'),
-        email: getCookie('email')
+  async (data: {newNickname: string; newIntroduce: string}) => {
+    const accessToken = getCookie('accessToken');
+    const response = await axios.put(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/user/info`,
+      {nickname: data.newNickname, introduce: data.newIntroduce},
+      {
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${accessToken}`,
+          email: getCookie('email')
+        }
       }
-    });
-    return data.data;
+    );
+    return response.data;
   }
 );
 // createSlice로 Slice생성
@@ -51,20 +53,13 @@ export const profileEditSlice = createSlice({
       })
       .addCase(profileEditAsync.fulfilled, (state, action) => {
         state.status = 'completed';
-        const {
-          email,
-          password,
-          nickname,
-          profileImage,
-          profileBGImage,
-          introduction
-        } = action.payload;
-        state.email = email;
-        state.password = password;
+        const {point, gender, nickname, profile_img_path, introduce} =
+          action.payload;
+        state.point = point;
+        state.gender = gender;
         state.nickname = nickname;
-        state.profileImage = profileImage;
-        state.profileBGImage = profileBGImage;
-        state.introduction = introduction;
+        state.profile_img_path = profile_img_path;
+        state.introduce = introduce;
       });
   }
 });

@@ -42,9 +42,13 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.NO_CONTENT).body("User Deleted");
     }
 
-    @GetMapping("/diaryid")
-    public Long diaryId(@RequestHeader("email") String email) {
+    @GetMapping("/getuserid")
+    public Long getUserId(@RequestHeader("email") String email) {
         return userSerivce.searchId(email);
     }
 
+    @GetMapping("/getfollowid")
+    public List<Long> getFollowId(@RequestHeader("email") String email) {
+        return userSerivce.searchFollowId(email);
+    }
 }

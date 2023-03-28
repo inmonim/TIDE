@@ -1,6 +1,8 @@
 package com.muchu.user.service.user;
 
 import com.muchu.user.dto.UserDto;
+import com.muchu.user.jpa.follow.Follow;
+import com.muchu.user.jpa.follow.FollowRepository;
 import com.muchu.user.jpa.profile.Profile;
 import com.muchu.user.jpa.profile.ProfileRepository;
 import com.muchu.user.jpa.user.User;
@@ -25,13 +27,16 @@ public class UserSerivceImpl implements UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
     private final ProfileRepository profileRepository;
+    private final FollowRepository followRepository;
 
     public UserSerivceImpl(UserRepository userRepository,
                            BCryptPasswordEncoder bCryptPasswordEncoder,
-                           ProfileRepository profileRepository) {
+                           ProfileRepository profileRepository,
+                           FollowRepository followRepository) {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
         this.profileRepository = profileRepository;
+        this.followRepository = followRepository;
     }
 
     @Transactional
@@ -67,8 +72,31 @@ public class UserSerivceImpl implements UserService {
     @Override
     public List<Long> searchFollowId(String email) {
         User user = userRepository.findByEmail(email);
+        Long userId = user.getId();
+        List<Long> list = new ArrayList<>();
+        List<Follow> follows = followRepository.findAllByToUserAndAccept(userId, "1");
 
-        return null;
+        for (Follow follow : follows) {
+            Long id = follow.getFromUser();
+            list.add(id);
+        }
+
+        return list;
+    }
+
+    @Override
+    public List<Long> searchFollower(String email) {
+        User user = userRepository.findByEmail(email);
+        Long userId = user.getId();
+        List<Long> list = new ArrayList<>();
+        List<Follow> follows = followRepository.findAllByFromUserAndAccept(userId, "1");
+
+        for (Follow follow : follows) {
+            Long id = follow.getToUser();
+            list.add(id);
+        }
+
+        return list;
     }
 
     @Override

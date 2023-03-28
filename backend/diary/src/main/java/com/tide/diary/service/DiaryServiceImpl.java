@@ -44,8 +44,40 @@ public class DiaryServiceImpl implements DiaryService {
     @Override
     public List<ResponseDiary> getFollowDiaries(String email) {
         Long userId = userServiceClient.getUserId(email);
+        List<Long> followIds = userServiceClient.getFollowId(email);
+        List<ResponseDiary> responseDiary = new ArrayList<>();
 
+        for (Long follow : followIds) {
+            ResponseDiary response = new ResponseDiary();
+            Diary diary = diaryRepository.findByUserId(follow);
+            response.setContent(diary.getContent());
+            response.setLike(diary.getLike());
+            response.setCreateDt(diary.getCreateDt());
+            response.setPub(diary.getPub());
+            response.setTitle(diary.getTitle());
+            responseDiary.add(response);
+        }
 
-        return ;
+        return responseDiary;
+    }
+
+    @Override
+    public List<ResponseDiary> getFollowerDiaries(String email) {
+        Long userId = userServiceClient.getUserId(email);
+        List<Long> followIds = userServiceClient.getFollowerId(email);
+        List<ResponseDiary> responseDiary = new ArrayList<>();
+
+        for (Long follow : followIds) {
+            ResponseDiary response = new ResponseDiary();
+            Diary diary = diaryRepository.findByUserId(follow);
+            response.setContent(diary.getContent());
+            response.setLike(diary.getLike());
+            response.setCreateDt(diary.getCreateDt());
+            response.setPub(diary.getPub());
+            response.setTitle(diary.getTitle());
+            responseDiary.add(response);
+        }
+
+        return responseDiary;
     }
 }

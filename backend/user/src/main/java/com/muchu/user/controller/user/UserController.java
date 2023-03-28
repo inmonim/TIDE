@@ -28,7 +28,7 @@ public class UserController {
 
     @GetMapping("/health_check")
     public String status() {
-        return String.format("It's Working in User Service on PORT %s", env.getProperty("local.server.port"));
+        return String.format("Jenkins is up and running");
     }
 
     @PostMapping("/register")
@@ -50,5 +50,10 @@ public class UserController {
     @GetMapping("/getfollowid")
     public List<Long> getFollowId(@RequestHeader("email") String email) {
         return userSerivce.searchFollowId(email);
+    }
+
+    @GetMapping("/getfollower")
+    public List<Long> getFollower(@RequestHeader("email") String email) {
+        return userSerivce.searchFollower(email);
     }
 }

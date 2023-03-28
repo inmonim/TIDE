@@ -37,6 +37,11 @@ public class DiaryController {
         return diaryService.getFollowDiaries(email);
     }
 
+    @GetMapping("/followerdiaries")
+    public List<ResponseDiary> getFollowerDiaries(@RequestHeader("email")String email) {
+        return diaryService.getFollowerDiaries(email);
+    }
+
     @GetMapping("/connect_check")
     public String connectCheck() {
         return "Connected";

@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class UserInfoRequest {
+    private String nickname;
     private String profile_img_path;
     private String introduce;
 }

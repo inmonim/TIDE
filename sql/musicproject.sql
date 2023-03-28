@@ -59,7 +59,7 @@ CREATE TABLE IF NOT EXISTS `music`.`user` (
   UNIQUE INDEX `email` (`email` ASC) VISIBLE,
   UNIQUE INDEX `nickname` (`nickname` ASC) VISIBLE)
 ENGINE = InnoDB
-AUTO_INCREMENT = 5
+AUTO_INCREMENT = 7
 DEFAULT CHARACTER SET = utf8mb4;
 
 
@@ -76,12 +76,12 @@ CREATE TABLE IF NOT EXISTS `music`.`artist_like_user` (
   CONSTRAINT `fk_artist_like_user_artist_id`
     FOREIGN KEY (`liked_artist`)
     REFERENCES `music`.`artist` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_artist_like_user_user_id`
     FOREIGN KEY (`user_id`)
     REFERENCES `music`.`user` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
@@ -100,12 +100,12 @@ CREATE TABLE IF NOT EXISTS `music`.`chating_room` (
   CONSTRAINT `fk_chating_room_from_user_id`
     FOREIGN KEY (`from_user_id`)
     REFERENCES `music`.`user` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_chating_room_to_user_id`
     FOREIGN KEY (`to_user_id`)
     REFERENCES `music`.`user` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
@@ -125,12 +125,12 @@ CREATE TABLE IF NOT EXISTS `music`.`chating_log` (
   CONSTRAINT `fk_chated_user_id`
     FOREIGN KEY (`chated_user_id`)
     REFERENCES `music`.`user` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_chating_log_chating_room_id`
     FOREIGN KEY (`chating_room_id`)
     REFERENCES `music`.`chating_room` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
@@ -144,7 +144,7 @@ CREATE TABLE IF NOT EXISTS `music`.`diary` (
   `user_id` BIGINT(20) NULL DEFAULT NULL,
   `title` VARCHAR(45) NOT NULL,
   `content` TEXT NULL DEFAULT NULL,
-  `create_dt` DATE NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `create_dt` DATE NOT NULL DEFAULT CURRENT_TIMESTAMP(),
   `public` VARCHAR(1) NULL DEFAULT NULL,
   `like` INT(11) NULL DEFAULT 0,
   PRIMARY KEY (`id`),
@@ -152,9 +152,10 @@ CREATE TABLE IF NOT EXISTS `music`.`diary` (
   CONSTRAINT `fk_diary_user_id`
     FOREIGN KEY (`user_id`)
     REFERENCES `music`.`user` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
+AUTO_INCREMENT = 7
 DEFAULT CHARACTER SET = utf8mb4;
 
 
@@ -186,7 +187,7 @@ CREATE TABLE IF NOT EXISTS `music`.`diary_list` (
   CONSTRAINT `fk_diary_list_user_id`
     FOREIGN KEY (`user_id`)
     REFERENCES `music`.`user` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
@@ -205,12 +206,12 @@ CREATE TABLE IF NOT EXISTS `music`.`diary_diarylist` (
   CONSTRAINT `diary_diarylist_diray_id`
     FOREIGN KEY (`diary_id`)
     REFERENCES `music`.`diary` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `diary_diarylist_list__id`
     FOREIGN KEY (`diary_list_id`)
     REFERENCES `music`.`diary_list` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
@@ -229,12 +230,12 @@ CREATE TABLE IF NOT EXISTS `music`.`diary_like_user` (
   CONSTRAINT `fk_diary_like_diary_id`
     FOREIGN KEY (`diary_id`)
     REFERENCES `music`.`diary` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_diary_like_user_id`
     FOREIGN KEY (`user_id`)
     REFERENCES `music`.`user` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
@@ -254,14 +255,15 @@ CREATE TABLE IF NOT EXISTS `music`.`follow` (
   CONSTRAINT `fk_follow_from_user`
     FOREIGN KEY (`from_user`)
     REFERENCES `music`.`user` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_follow_to_user`
     FOREIGN KEY (`to_user`)
     REFERENCES `music`.`user` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
+AUTO_INCREMENT = 4
 DEFAULT CHARACTER SET = utf8mb4;
 
 
@@ -290,7 +292,7 @@ CREATE TABLE IF NOT EXISTS `music`.`group_artist` (
   CONSTRAINT `fk_group_artist_artist_id`
     FOREIGN KEY (`artist_id`)
     REFERENCES `music`.`artist` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
@@ -320,7 +322,7 @@ CREATE TABLE IF NOT EXISTS `music`.`lyrics` (
   CONSTRAINT `fk_lyrics_song_id`
     FOREIGN KEY (`melon_song_id`)
     REFERENCES `music`.`song` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
@@ -339,7 +341,7 @@ CREATE TABLE IF NOT EXISTS `music`.`user_playlist` (
   CONSTRAINT `fk_user_playlist_user_id`
     FOREIGN KEY (`user_id`)
     REFERENCES `music`.`user` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
@@ -358,12 +360,12 @@ CREATE TABLE IF NOT EXISTS `music`.`playlist` (
   CONSTRAINT `fk_playlist_playlist_id`
     FOREIGN KEY (`playlist_id`)
     REFERENCES `music`.`user_playlist` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_playlist_song_id`
     FOREIGN KEY (`song_id`)
     REFERENCES `music`.`song` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
@@ -382,12 +384,12 @@ CREATE TABLE IF NOT EXISTS `music`.`playlist_liked_user` (
   CONSTRAINT `fk_playlist_liked_user_user_id`
     FOREIGN KEY (`user_id`)
     REFERENCES `music`.`user` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_playlist_liked_user_user_playlist_id`
     FOREIGN KEY (`playlist_id`)
     REFERENCES `music`.`user_playlist` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
@@ -407,9 +409,10 @@ CREATE TABLE IF NOT EXISTS `music`.`profile` (
   CONSTRAINT `fk_profile_user_id`
     FOREIGN KEY (`user_id`)
     REFERENCES `music`.`user` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
+AUTO_INCREMENT = 3
 DEFAULT CHARACTER SET = utf8mb4;
 
 
@@ -426,12 +429,12 @@ CREATE TABLE IF NOT EXISTS `music`.`song_album` (
   CONSTRAINT `song_album_album_id`
     FOREIGN KEY (`melon_album_id`)
     REFERENCES `music`.`album` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `song_album_song_id`
     FOREIGN KEY (`melon_song_id`)
     REFERENCES `music`.`song` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
@@ -450,12 +453,12 @@ CREATE TABLE IF NOT EXISTS `music`.`song_artist` (
   CONSTRAINT `fk_song_artist_artist_id`
     FOREIGN KEY (`melon_artist_id`)
     REFERENCES `music`.`artist` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_song_artist_song_id`
     FOREIGN KEY (`melon_song_id`)
     REFERENCES `music`.`song` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
@@ -475,12 +478,12 @@ CREATE TABLE IF NOT EXISTS `music`.`song_diary` (
   CONSTRAINT `fk_song_diary_diary_id`
     FOREIGN KEY (`diary_id`)
     REFERENCES `music`.`diary` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_song_diary_song_id`
     FOREIGN KEY (`song_id`)
     REFERENCES `music`.`song` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
@@ -499,12 +502,12 @@ CREATE TABLE IF NOT EXISTS `music`.`song_genre` (
   CONSTRAINT `fk_song_genre_genre_id`
     FOREIGN KEY (`genre_id`)
     REFERENCES `music`.`genre` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_song_genre_song_id`
     FOREIGN KEY (`melon_song_id`)
     REFERENCES `music`.`song` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;
@@ -524,12 +527,12 @@ CREATE TABLE IF NOT EXISTS `music`.`song_like_user` (
   CONSTRAINT `fk_song_like_user_song_id`
     FOREIGN KEY (`song_id`)
     REFERENCES `music`.`song` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION,
   CONSTRAINT `fk_song_like_user_user_id`
     FOREIGN KEY (`user_id`)
     REFERENCES `music`.`user` (`id`)
-    ON DELETE NO ACTION
+    ON DELETE CASCADE
     ON UPDATE NO ACTION)
 ENGINE = InnoDB
 DEFAULT CHARACTER SET = utf8mb4;

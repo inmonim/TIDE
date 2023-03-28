@@ -7,4 +7,5 @@ import java.util.List;
 public interface DiaryService {
     List<ResponseDiary> getMyDiaries(String email);
     List<ResponseDiary> getFollowDiaries(String email);
+    List<ResponseDiary> getFollowerDiaries(String email);
 }

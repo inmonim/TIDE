@@ -36,6 +36,8 @@ public class ProfileServiceImpl implements ProfileService {
         ModelMapper mapper = new ModelMapper();
         mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
         User user = userRepository.findByEmail(email);
+        log.info("user: {}", user);
+        user.setNickname(request.getNickname());
         Long userId = user.getId();
         Profile profile = profileRepository.findByUserid(userId);
         profile.setUserid(userId);
@@ -43,6 +45,7 @@ public class ProfileServiceImpl implements ProfileService {
         profile.setProfile_img_path(request.getProfile_img_path());
 
         UserInfoRequest userInfoRequest = mapper.map(profile, UserInfoRequest.class);
+        userInfoRequest.setNickname(request.getNickname());
 
         return userInfoRequest;
     }

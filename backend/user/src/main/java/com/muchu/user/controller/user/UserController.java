@@ -26,9 +26,9 @@ public class UserController {
         this.userSerivce = userSerivce;
     }
 
-    @GetMapping("/health_check")
-    public String status() {
-        return "Jenkins is running";
+    @GetMapping("/jenkins_version")
+    public String version() {
+        return "Jenkins to run";
     }
 
     @PostMapping("/register")

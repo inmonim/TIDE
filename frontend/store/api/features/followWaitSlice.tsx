@@ -6,6 +6,10 @@ import {getCookie} from 'cookies-next';
 interface FollowWaitState {
   status: string;
   error: string | undefined;
+  followWaiters: followWaitInterFace[];
+}
+
+interface followWaitInterFace {
   nickname: string;
   profile_img_path: string;
   introduce: string;
@@ -15,9 +19,7 @@ interface FollowWaitState {
 const initialState: FollowWaitState = {
   status: '',
   error:'',
-  nickname: '',
-  profile_img_path: '',
-  introduce: '',
+  followWaiters:[]
 };
 
 
@@ -53,19 +55,24 @@ export const followWaitSlice = createSlice({
       .addCase(followWaitAsync.fulfilled, (state,action) => {
         state.status = 'completed';
         const {
-          nickname,
-          profile_img_path,
-          introduce,
+          followWaitList
         } = action.payload;
-        state.nickname = nickname;
-        state.profile_img_path = profile_img_path;
-        state.introduce = introduce;
-        console.log('팔로우 대기 리스트 요청 성공', state)
+        console.log(action.payload)
+        console.log(state)
+        state.followWaiters = followWaitList;
+        // followWaitList.map((followWaiter:followWaitInterFace) => (
+        //   state.followWaiters.push({
+        //     nickname:followWaiter.nickname,
+        //     profile_img_path:followWaiter.profile_img_path,
+        //     introduce:followWaiter.introduce
+        //   })
+        // ))
+        console.log('팔로우 대기 리스트 요청 성공', state.followWaiters)
 
       })
       .addCase(followWaitAsync.rejected, (state, action) => {
         state.status = 'failed';
-        console.log('팔로우 대기 리스트 요청 실패', action.error);
+        // console.log('팔로우 대기 리스트 요청 실패', action.error);
       });
   }
 });

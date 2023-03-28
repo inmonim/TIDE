@@ -8,11 +8,11 @@ import {useRouter} from 'next/router';
 import cookies from 'next-cookies';
 import {getCookie} from 'cookies-next';
 import {setToken} from '@/components/TokenManager';
-import App from 'next/app';
+// import App from 'next/app';
 import {ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-function MyApp({Component, pageProps}: AppProps) {
+function App({Component, pageProps}: AppProps) {
   const router = useRouter();
 
   const [isLogin, setIsLogin] = useState<boolean>(false);
@@ -71,15 +71,15 @@ function MyApp({Component, pageProps}: AppProps) {
     </>
   );
 }
-MyApp.getInitialProps = async (appContext: AppContext) => {
-  const appProps: any = await App.getInitialProps(appContext);
+// MyApp.getInitialProps = async (appContext: AppContext) => {
+//   const appProps: any = await App.getInitialProps(appContext);
 
-  const {ctx} = appContext;
-  const allCookies = cookies(ctx);
-  const accessTokenByCookie = allCookies['accessToken'];
+//   const {ctx} = appContext;
+//   const allCookies = cookies(ctx);
+//   const accessTokenByCookie = allCookies['accessToken'];
 
-  return {...appProps};
-};
+//   return {...appProps};
+// };
 
 // App.getInitialProps = async (appContext: AppContext) => {
 //   const appProps: any = await App.getInitialProps(appContext)
@@ -97,4 +97,4 @@ MyApp.getInitialProps = async (appContext: AppContext) => {
 //   return {...appProps}
 // }
 
-export default wrapper.withRedux(MyApp);
+export default wrapper.withRedux(App);

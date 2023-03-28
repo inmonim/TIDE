@@ -41,23 +41,27 @@ const SideBar: FC<SideBarProps> = props => {
 
         {/* 알림, 친구 */}
         <div
-          className={`flex flex-row items-center gap-x-7 right-0 mr-[-14px] ${styles.rightIconDiv}`}>
+          className={`flex flex-row items-center gap-x-5 right-0 mr-[-20px] ${styles.rightIconDiv}`}>
           <div
             className={`w-7 h-7 min-w-7 min-h-7 ${styles.alarmBtn}`}
             onClick={() => (BarOpen === 1 ? setBarOpen(0) : setBarOpen(1))}>
             {' '}
           </div>
           <div
-            className={`w-7 h-7  min-w-7 min-h-7 ml-1 ${styles.friendBtn}`}
+            className={`w-7 h-7  min-w-7 min-h-7 ${styles.friendBtn}`}
             onClick={() => (BarOpen === 2 ? setBarOpen(0) : setBarOpen(2))}>
             {' '}
           </div>
+          <div
+          className={`w-7 h-7 min-w-7 min-h-7 bg-[url('../../public/buttons/Logout.png')] bg-cover bg-no-repeat ${styles.Btn}`}
+          onClick={onLogOut}>
+        </div>
         </div>
       </div>
 
       {/* 알림, 친구 */}
       <div
-        className={`flex flex-row items-center gap-x-2 fixed z-20 right-0 mr-[0px] bottom-[2.2rem] ${styles.rightIconDiv}`}>
+        className={`flex flex-row items-center gap-x-5 fixed z-20 right-0 mr-[0px] bottom-[2.2rem] ${styles.rightIconDiv}`}>
         <div
           className={`w-7 h-7 min-w-7 min-h-7 ${styles.alarmBtn}`}
           onClick={() => (BarOpen === 1 ? setBarOpen(0) : setBarOpen(1))}>
@@ -69,10 +73,8 @@ const SideBar: FC<SideBarProps> = props => {
           {' '}
         </div>
         <div
-          className="text-md text-white border-2 border-white cursor-pointer rounded-[3rem] pl-2 pr-2 ml-0 hover:bg-slate-300 text- transition-all hover: hover:text-slate-800"
+          className={`w-7 h-7 min-w-7 min-h-7 bg-[url('../../public/buttons/Logout.png')] bg-cover bg-no-repeat ${styles.Btn}`}
           onClick={onLogOut}>
-          {' '}
-          로그아웃{' '}
         </div>
       </div>
 
@@ -90,7 +92,7 @@ const SideBar: FC<SideBarProps> = props => {
               ? ` border-slate-700 border-2 w-[256px] h-[256px] bg-[#151515e7] rounded-[50%] absolute bottom-[-75px] translate-x-[0px] translate-y-[0px] rotate-[270deg] transition-all duration-500 `
               : `w-[0px] h-[0px] absolute `
           }>
-          <Link href="/diary">
+          <Link href="/profile">
             <div
               className={
                 RmenuOpen
@@ -108,7 +110,7 @@ const SideBar: FC<SideBarProps> = props => {
               }></div>
           </Link>
 
-          <Link href="/diary">
+          <Link href="/mainpage">
             <div
               className={
                 RmenuOpen

@@ -1,7 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
-import {useAppDispatch} from 'store';
-import {loginAsync} from './loginSlice';
+
 
 // 타입
 interface SignUpState {

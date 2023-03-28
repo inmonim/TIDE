@@ -1,6 +1,8 @@
-import type {FC} from 'react';
+import {FC, useEffect, useState} from 'react';
 import {motion, AnimatePresence} from 'framer-motion';
 import {useRouter} from 'next/router';
+import {useAppDispatch, useAppSelector} from 'store'; //스토어 생성단계에서 export한 커스텀 
+import {followWaitAsync} from 'store/api/features/followWaitSlice';
 
 export type RightBarProps = {
   barType: Number;
@@ -8,6 +10,27 @@ export type RightBarProps = {
 
 const RightBar: FC<RightBarProps> = props => {
   const router = useRouter();
+
+  const dispatch = useAppDispatch();
+
+  interface followWaitInterFace {
+    nickname: string;
+    profile_img_path: string;
+    introduce: string;
+  }
+
+  const [followWaitList, setFollowWaitList] = useState<followWaitInterFace[]>([]);
+
+  const {status, followWaiters} = useAppSelector(state => {
+    console.log(state.followWait, 333);
+    return state.followWait;
+  });
+  const {barType} = props;
+
+  useEffect(() => {
+    dispatch(followWaitAsync());
+    setFollowWaitList(followWaiters)
+    }, []);
 
   const userArr = [
     '그래서니가뭘할수있는데',
@@ -23,7 +46,7 @@ const RightBar: FC<RightBarProps> = props => {
     '이거몇글자까지가능한겨',
     '오늘점심규동규동'
   ];
-  const {barType} = props;
+
   return (
     <>
       <AnimatePresence key={router.route}>
@@ -42,20 +65,21 @@ const RightBar: FC<RightBarProps> = props => {
               </p>
             </div>
             <div
-              className={`w-[100%] h-[95%] overflow-y-auto p-3 scrollbar-hide`}>
+              className={`w-[100%] h-[95%] overflow-y-auto p-3 scrollbar-hide text-white`}>
               {/* 그래서니가뭘 이미지 / 그래서니가뭘 팔로우신청 */}
-              {userArr.map((userName, index) => (
+              
+              {followWaitList ? followWaitList.map((followWaiter, index) => (
                 <div className={`flex flex-row mb-2`} key={index}>
                   <div
                     className={`rounded-lg min-w-[3rem] min-h-[3rem] w-12 h-12 bg-white`}></div>
                   <div className={`ml-3 flex items-center`}>
                     <p className={`text-xs text-white`}>
-                      {' '}
-                      {userName}님이 팔로우 신청을 보냈습니다.
+                      {followWaiter.nickname}님이 팔로우 신청을 보냈습니다.
                     </p>
                   </div>
                 </div>
-              ))}
+              )):<></>}
+              
             </div>
           </div>
         </motion.div>

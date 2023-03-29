@@ -122,7 +122,6 @@ public class FollowServiceImpl implements FollowService {
         Long userId = user.getId();
         Follow follow = new Follow();
         follow.setToUser(userId);
-        log.info("신청 닉네임 ==================>", nickname);
         Long fromUserId = userRepository.findByNickname(nickname).getId();
         follow.setFromUser(fromUserId);
         if (userId == fromUserId) {
@@ -149,14 +148,14 @@ public class FollowServiceImpl implements FollowService {
     @Override
     public void acceptFollow(String email, String nickname) {
         User user = userRepository.findByEmail(email);
-        Long userId = user.getId();
-        Long fromUserId = userRepository.findByNickname(nickname).getId();
+        Long fromUserId = user.getId();
+        Long toUserId = userRepository.findByNickname(nickname).getId();
+        log.info(toUserId.toString());
         log.info(fromUserId.toString());
-        log.info(userId.toString());
-        if (userId == fromUserId) {
+        if (fromUserId == toUserId) {
             throw new IllegalArgumentException("팔로우 수락 신청이 잘못되었습니다.");
         }
-        Follow follow = followRepository.findByFromUserAndToUser(fromUserId, userId);
+        Follow follow = followRepository.findByFromUserAndToUser(fromUserId, toUserId);
         log.info(follow.toString());
         follow.setAccept("1");
 

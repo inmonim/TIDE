@@ -7,6 +7,9 @@ import profileSlice from './api/features/profileSlice';
 import profileEditSlice from './api/features/profileEditSlice';
 import followReqSlice from './api/features/followReqSlice';
 import followWaitSlice from './api/features/followWaitSlice';
+import followAccSlice from './api/features/followAccSlice';
+import followerListSlice from './api/features/followerListSlice';
+import followListSlice from './api/features/followListSlice';
 
 // 리듀서들을 합쳐주는곳
 const combinedReducer = combineReducers({
@@ -16,7 +19,10 @@ const combinedReducer = combineReducers({
   profile: profileSlice,
   profileEdit: profileEditSlice,
   followReq : followReqSlice,
-  followWait: followWaitSlice
+  followWait: followWaitSlice,
+  followAcc: followAccSlice,
+  followers: followerListSlice,
+  follows: followListSlice
 });
 
 // Hydrate와 위에서 합친 reducer들을 rootReducer에 세팅

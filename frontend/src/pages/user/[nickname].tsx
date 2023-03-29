@@ -2,6 +2,7 @@ import Link from 'next/link';
 import {useAppDispatch, useAppSelector} from 'store'; //스토어 생성단계에서 export한 커스텀 dispatch, selector hook
 import { useRouter } from 'next/router';
 import {followReqAsync} from 'store/api/features/followReqSlice';
+import {followAccAsync} from 'store/api/features/followAccSlice';
 import Seo from '@/components/Seo';
 import { useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
@@ -27,9 +28,17 @@ export default function DiaryDetail() {
   //팔로우 요청 form 제출
   const onSubmitFollowReqForm = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    dispatch(followReqAsync(followReqNick));
+    // console.log('닉네임 - ',followReqNick)
+    if(followReqNick.nickname===router.query.nickname) dispatch(followReqAsync(followReqNick));
   };
 
+  const onFollowAcc = (event: React.MouseEvent<HTMLButtonElement>) => {
+    if(followReqNick.nickname===router.query.nickname) dispatch(followAccAsync(followReqNick));
+  };
+
+  useEffect(()=>{
+    setFollowReqNick({nickname:`${router.query.nickname}`})
+  },[router.query])
 
   return (
     <>
@@ -46,8 +55,11 @@ export default function DiaryDetail() {
             onSubmit={onSubmitFollowReqForm}
             className="flex flex-col items-center text-sm h-72 justify-evenly"
             >
-              <button className={`w-30 h-30 bg-red-400 p-3 rounded-lg`}> 팔로우 </button>
+              <button className={`w-30 h-30 bg-red-400 p-3 rounded-lg`}> 비공개 계정 팔로우 </button>
           </form>
+
+          <button className={`w-30 h-30 bg-red-400 p-3 rounded-lg`} onClick={onFollowAcc}> 팔로우 요청 수락 </button>
+ 
         </div>
       </main>
     </>

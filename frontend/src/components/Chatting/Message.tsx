@@ -1,5 +1,5 @@
 import {useState, useEffect} from 'react';
-
+import Image from 'next/image';
 
 interface MsgInterFace {
   data: {
@@ -9,6 +9,7 @@ interface MsgInterFace {
     email: string;
     type: string;
     id: string;
+    downLoadUrl: string;
   };
   myEmail: any;
   checkSameNick: boolean;
@@ -16,7 +17,13 @@ interface MsgInterFace {
   checkSameTime: boolean;
 }
 
-const Message = ({data, myEmail, checkSameNick, checkSameTime, checkLastTime}: MsgInterFace) => {
+const Message = ({
+  data,
+  myEmail,
+  checkSameNick,
+  checkSameTime,
+  checkLastTime
+}: MsgInterFace) => {
   // 채팅 데이터가 다 들어오고 난후 init
   const [init, setInit] = useState<boolean>(false);
   // 나인지 체크
@@ -29,6 +36,7 @@ const Message = ({data, myEmail, checkSameNick, checkSameTime, checkLastTime}: M
       .toDate()
       .toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
   }
+
   useEffect(() => {
     if (myEmail === data.email) {
       setIsMe(true);
@@ -45,10 +53,18 @@ const Message = ({data, myEmail, checkSameNick, checkSameTime, checkLastTime}: M
         isMe ? (
           <div className="flex justify-end w-full px-2 h-fit">
             <div className="flex justify-end items-end w-3/5 my-[0.3rem]">
-              <div className="mr-2 text-sm text-slate-400 min-w-fit">
-                {checkLastTime && date || checkSameTime && date}
+              <div
+                className={`mr-2 text-sm text-slate-400 min-w-fit ${
+                  // 시간이 보이고 말고 세팅 하지만 date값은 유지해서 크기유지
+                  checkLastTime || checkSameTime ? 'visible' : 'invisible'
+                }`}>
+                {date}
               </div>
-              <div className="px-3 py-2 break-words bg-gray-800 rounded-tr-none rounded-2xl w-fit">
+
+              <div className="flex flex-col items-center px-3 py-2 break-words bg-gray-800 rounded-tr-none rounded-2xl w-fit">
+                {data.downLoadUrl && (
+                  <img src={data.downLoadUrl} alt={data.downLoadUrl} />
+                )}
                 {data.content}
               </div>
             </div>
@@ -56,13 +72,20 @@ const Message = ({data, myEmail, checkSameNick, checkSameTime, checkLastTime}: M
         ) : (
           <div className="w-full px-2">
             <div className="flex flex-col w-3/5 h-fit">
-              {checkSameNick ? <div className="my-1">{data.nickname}</div> : null}
+              {checkSameNick ? (
+                <div className="my-1">{data.nickname}</div>
+              ) : null}
               <div className="flex items-end my-[0.3rem] ">
-                <div className="py-2 px-3 border-[0.1rem] rounded-tl-none rounded-2xl break-words w-fit">
+                <div className="flex flex-col items-center py-2 px-3 border-[0.1rem] rounded-tl-none rounded-2xl break-words w-fit">
+                  {data.downLoadUrl && (
+                    <img src={data.downLoadUrl} alt={data.downLoadUrl} />
+                  )}
                   {data.content}
                 </div>
-                <div className="ml-2 text-sm text-slate-400 min-w-fit">
-                  {checkLastTime && date || checkSameTime && date}
+                <div className={`ml-2 text-sm text-slate-400 min-w-fit ${
+                  checkLastTime || checkSameTime ? 'visible' : 'invisible'
+                }`}>
+                  {date}
                 </div>
               </div>
             </div>

@@ -63,7 +63,19 @@ const Message = ({
 
               <div className="flex flex-col items-center px-3 py-2 break-words bg-gray-800 rounded-tr-none rounded-2xl w-fit">
                 {data.downLoadUrl && (
-                  <img src={data.downLoadUrl} alt={data.downLoadUrl} />
+                  <div className="relative w-80 h-60">
+                    {/* 외부 링크 쓸려면 next.config.js에 등록해야함 */}
+                    {/* https://png-pixel.com/ 에서 blurDataURL 처리 */}
+                    <Image
+                      className="object-contain"
+                      src={data.downLoadUrl}
+                      alt={data.downLoadUrl}
+                      fill
+                      sizes='250px'
+                      placeholder='blur'
+                      blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
+                    />
+                  </div>
                 )}
                 {data.content}
               </div>
@@ -82,9 +94,10 @@ const Message = ({
                   )}
                   {data.content}
                 </div>
-                <div className={`ml-2 text-sm text-slate-400 min-w-fit ${
-                  checkLastTime || checkSameTime ? 'visible' : 'invisible'
-                }`}>
+                <div
+                  className={`ml-2 text-sm text-slate-400 min-w-fit ${
+                    checkLastTime || checkSameTime ? 'visible' : 'invisible'
+                  }`}>
                   {date}
                 </div>
               </div>

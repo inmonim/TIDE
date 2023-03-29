@@ -190,7 +190,7 @@ const SideBar: FC<SideBarProps> = props => {
             </div>
           </Link>
 
-          <Link href="/diary">
+          <Link href="/message">
             <div
               className={`flex flex-row gap-x-4 justify-between  w-3/4 m-auto ${styles.MenuDiv}`}>
               <div className={styles.messageIcon}></div>

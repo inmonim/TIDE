@@ -4,7 +4,17 @@
 
 module.exports = {
   reactStrictMode: true,
-  output: 'standalone'
+  output: 'standalone',
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'firebasestorage.googleapis.com',
+        port: '',
+        pathname: '/**',
+      },
+    ],
+  },
   // async rewrites() {
   //   if (process.env.NODE_ENV === 'production') {
   //     return [

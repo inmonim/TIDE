@@ -53,8 +53,8 @@ public class DiaryServiceImpl implements DiaryService {
 
         for (Long follow : followIds) {
             ResponseDiary response = new ResponseDiary();
-            List<Diary> diariesPub = diaryRepository.findAllByUserIdAndPublic(follow, "0");
-            List<Diary> diariesFollow = diaryRepository.findAllByUserIdAndPublic(follow, "1");
+            List<Diary> diariesPub = diaryRepository.findAllByUserIdAndPub(follow, "0");
+            List<Diary> diariesFollow = diaryRepository.findAllByUserIdAndPub(follow, "1");
             for (Diary diary : diariesPub) {
                 response.setContent(diary.getContent());
                 response.setLike(diary.getLikeCnt());
@@ -85,8 +85,8 @@ public class DiaryServiceImpl implements DiaryService {
 
         for (Long follow : followIds) {
             ResponseDiary response = new ResponseDiary();
-            List<Diary> diariesPub = diaryRepository.findAllByUserIdAndPublic(follow, "0");
-            List<Diary> diariesFollow = diaryRepository.findAllByUserIdAndPublic(follow, "1");
+            List<Diary> diariesPub = diaryRepository.findAllByUserIdAndPub(follow, "0");
+            List<Diary> diariesFollow = diaryRepository.findAllByUserIdAndPub(follow, "1");
             for (Diary diary : diariesPub) {
                 response.setContent(diary.getContent());
                 response.setLike(diary.getLikeCnt());

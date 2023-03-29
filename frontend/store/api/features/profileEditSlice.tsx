@@ -24,11 +24,19 @@ const initialState: ProfileState = {
 // Thunk 예시
 export const profileEditAsync = createAsyncThunk(
   'profileEdit/Async',
-  async (data: {newNickname: string; newIntroduce: string}) => {
+  async (data: {
+    newNickname: string;
+    newIntroduce: string;
+    selectedImage: string;
+  }) => {
     const accessToken = getCookie('accessToken');
     const response = await axios.put(
       `${process.env.NEXT_PUBLIC_API_URL}/api/user/info`,
-      {nickname: data.newNickname, introduce: data.newIntroduce},
+      {
+        nickname: data.newNickname,
+        introduce: data.newIntroduce,
+        profile_img_path: data.selectedImage
+      },
       {
         headers: {
           'Content-Type': 'application/json',

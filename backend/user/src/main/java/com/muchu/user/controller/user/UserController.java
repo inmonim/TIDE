@@ -28,7 +28,7 @@ public class UserController {
 
     @GetMapping("/jenkins_version")
     public String version() {
-        return "Jenkins to running!!!!";
+        return "Jenkins to running!!!!!";
     }
 
     @PostMapping("/register")

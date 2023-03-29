@@ -1,15 +1,22 @@
 import {useState, useEffect} from 'react';
 
+
 interface MsgInterFace {
-  content: string;
-  createdAt: any;
-  nickname: string;
-  email: string;
-  type: string;
-  id: string;
+  data: {
+    content: string;
+    createdAt: any;
+    nickname: string;
+    email: string;
+    type: string;
+    id: string;
+  };
+  myEmail: any;
+  checkSameNick: boolean;
+  checkLastTime: boolean;
+  checkSameTime: boolean;
 }
 
-const Message = ({data, email}: {data: MsgInterFace; email: any}) => {
+const Message = ({data, myEmail, checkSameNick, checkSameTime, checkLastTime}: MsgInterFace) => {
   // 채팅 데이터가 다 들어오고 난후 init
   const [init, setInit] = useState<boolean>(false);
   // 나인지 체크
@@ -23,12 +30,12 @@ const Message = ({data, email}: {data: MsgInterFace; email: any}) => {
       .toLocaleTimeString([], {hour: '2-digit', minute: '2-digit'});
   }
   useEffect(() => {
-    if (email === data.email) {
+    if (myEmail === data.email) {
       setIsMe(true);
-      setInit(true)
+      setInit(true);
     } else {
       setIsMe(false);
-      setInit(true)
+      setInit(true);
     }
   }, []);
 
@@ -39,7 +46,7 @@ const Message = ({data, email}: {data: MsgInterFace; email: any}) => {
           <div className="flex justify-end w-full px-2 h-fit">
             <div className="flex justify-end items-end w-3/5 my-[0.3rem]">
               <div className="mr-2 text-sm text-slate-400 min-w-fit">
-                {date}
+                {checkLastTime && date || checkSameTime && date}
               </div>
               <div className="px-3 py-2 break-words bg-gray-800 rounded-tr-none rounded-2xl w-fit">
                 {data.content}
@@ -49,21 +56,19 @@ const Message = ({data, email}: {data: MsgInterFace; email: any}) => {
         ) : (
           <div className="w-full px-2">
             <div className="flex flex-col w-3/5 h-fit">
-              <div className="my-1">{data.nickname}</div>
-              <div className="flex items-end ">
+              {checkSameNick ? <div className="my-1">{data.nickname}</div> : null}
+              <div className="flex items-end my-[0.3rem] ">
                 <div className="py-2 px-3 border-[0.1rem] rounded-tl-none rounded-2xl break-words w-fit">
                   {data.content}
                 </div>
                 <div className="ml-2 text-sm text-slate-400 min-w-fit">
-                  {date}
+                  {checkLastTime && date || checkSameTime && date}
                 </div>
               </div>
             </div>
           </div>
         )
-      ) : (
-        null
-      )}
+      ) : null}
       {}
     </>
   );

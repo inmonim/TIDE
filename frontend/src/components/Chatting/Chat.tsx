@@ -2,6 +2,8 @@ import {useState, useEffect, useRef} from 'react';
 import {useAppDispatch, useAppSelector, wrapper} from 'store';
 import {profileAsync} from 'store/api/features/profileSlice';
 import {getCookie} from 'cookies-next';
+import sendURL from 'public/chatting/send.png';
+import Image from 'next/image';
 
 // 파이어베이스
 import {dbService} from '@/firebase';
@@ -89,28 +91,67 @@ const Chat = () => {
       <h1>Chatting</h1>
       <div className="flex flex-col items-center justify-center w-1/2 h-full border-2 border-red-400">
         {/* 메시지들 보이는 곳 */}
-        <div
-          ref={chatDiv}
-          className="w-5/6 overflow-y-auto h-1/2">
-          {messageDatas.map(msg => {
-            return <Message key={msg.createdAt} data={msg} email={myEmail} />;
+        <div ref={chatDiv} className="w-5/6 overflow-y-auto h-2/3">
+          {messageDatas.map((msg, index) => {
+            // 상대방의 닉네임 처음 한번만
+            let checkSameNick = true;
+            if (
+              index !== 0 &&
+              msg.email !== myEmail &&
+              msg.email === messageDatas[index - 1].email
+            ) {
+              checkSameNick = false;
+            }
+            // 마지막 대화에만 시간뜨게
+            let checkLastTime = false;
+            if (
+              index === messageDatas.length - 1 ||
+              index !== messageDatas.length - 1 &&
+              msg.email !== messageDatas[index + 1].email
+            ) {
+              checkLastTime = true;
+            }
+
+            // 30초동안 대화안하면 한번씩 시간뜨게
+            let checkSameTime = true;
+            if (index !== 0 &&  msg.createdAt && messageDatas[index - 1].createdAt.seconds >= msg.createdAt.seconds - 30) {
+              checkSameTime = false;
+            }
+
+            return (
+              <Message
+                key={msg.createdAt}
+                data={msg}
+                myEmail={myEmail}
+                checkSameNick={checkSameNick}
+                checkLastTime={checkLastTime}
+                checkSameTime={checkSameTime}
+              />
+            );
           })}
         </div>
         {/* 메시지 보내는 곳 */}
         <form className="flex justify-center w-5/6" onSubmit={onSubmitMessage}>
-          <input
-            className="w-11/12 h-10 p-2 bg-transparent border-[1px] rounded-md outline-none focus:border-sky-600" 
-            type="text"
-            placeholder="메시지 보내기..."
-            value={message}
-            onChange={onChangeMessage}
-            maxLength={50}
-          />
-          <input
+          <div className="border-[1px] rounded-lg w-full flex items-center px-4 py-[0.3rem] ">
+            <input
+              className={`w-full h-10 bg-transparent outline-none `}
+              type="text"
+              placeholder="메시지 보내기..."
+              value={message}
+              onChange={onChangeMessage}
+              maxLength={50}
+            />
+            <Image
+              className={`w-9 h-8 opacity-60 hover:opacity-100 cursor-pointer`}
+              src={sendURL}
+              alt="send"
+            />
+          </div>
+          {/* <input
             className="w-1/12 p-1 border-[1px] rounded-md cursor-pointer"
             type="submit"
             value="보내기"
-          />
+          /> */}
         </form>
       </div>
       <style jsx>{`

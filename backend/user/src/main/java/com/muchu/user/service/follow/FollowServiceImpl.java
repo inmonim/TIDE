@@ -130,9 +130,15 @@ public class FollowServiceImpl implements FollowService {
         }
         followRepository.findByFromUserAndToUser(userId, fromUserId);
         Follow follow1 = followRepository.findByFromUserAndToUser(fromUserId, userId);
-        if(follow1 != null) { throw new IllegalArgumentException("신청이 이미 존재합니다.");}
+        if (follow1 != null) {
+            log.info(follow1.toString());
+            throw new IllegalArgumentException("신청이 이미 존재합니다.");
+        }
         Follow follow2 = followRepository.findByToUserAndFromUser(fromUserId, userId);
-        if(follow2 != null) { throw new IllegalArgumentException("신청이 이미 존재합니다");}
+        if (follow2 != null) {
+            log.info(follow2.toString());
+            throw new IllegalArgumentException("신청이 이미 존재합니다");
+        }
 
         follow.setAccept("0");
         log.info(follow.toString());
@@ -144,14 +150,14 @@ public class FollowServiceImpl implements FollowService {
     public void acceptFollow(String email, String nickname) {
         User user = userRepository.findByEmail(email);
         Long userId = user.getId();
-        log.info("신청 닉네임 ==================>", nickname);
         Long fromUserId = userRepository.findByNickname(nickname).getId();
+        log.info(fromUserId.toString());
+        log.info(userId.toString());
         if (userId == fromUserId) {
             throw new IllegalArgumentException("팔로우 수락 신청이 잘못되었습니다.");
         }
         Follow follow = followRepository.findByFromUserAndToUser(fromUserId, userId);
-        follow.setToUser(userId);
-        follow.setFromUser(fromUserId);
+        log.info(follow.toString());
         follow.setAccept("1");
 
         followRepository.save(follow);
@@ -163,7 +169,7 @@ public class FollowServiceImpl implements FollowService {
         Long fromUserId = user.getId();
         User toUser = userRepository.findByNickname(nickname);
         Long toUserId = toUser.getId();
-        log.info("{} 유저가 팔로우한 {} 유저를 취소", toUserId, fromUserId);
+        log.info("{} 유저가 팔로우한 {} 유저를 취소", toUserId.toString(), fromUserId.toString());
         Follow follow = followRepository.findByFromUserAndToUser(fromUserId, toUserId);
         followRepository.delete(follow);
     }
@@ -174,7 +180,7 @@ public class FollowServiceImpl implements FollowService {
         Long toUserId = user.getId();
         User fromUser = userRepository.findByNickname(nickname);
         Long fromUserId = fromUser.getId();
-        log.info("{} 유저가 보낸 팔로우를 {} 유저가 취소", toUserId, fromUserId);
+        log.info("{} 유저가 보낸 팔로우를 {} 유저가 취소", toUserId.toString(), fromUserId.toString());
         Follow follow = followRepository.findByToUserAndFromUser(toUserId, fromUserId);
         followRepository.delete(follow);
     }

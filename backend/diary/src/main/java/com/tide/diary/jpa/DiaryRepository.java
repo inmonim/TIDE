@@ -8,5 +8,5 @@ import java.util.List;
 @Repository
 public interface DiaryRepository extends JpaRepository<Diary, Long> {
     List<Diary> findAllByUserId(Long userId);
-    Diary findByUserId(Long follow);
+    List<Diary> findAllByUserIdAndPublic(Long userId, String pub);
 }

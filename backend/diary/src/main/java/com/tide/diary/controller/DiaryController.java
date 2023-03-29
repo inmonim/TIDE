@@ -1,12 +1,12 @@
 package com.tide.diary.controller;
 
+import com.tide.diary.request.RequestDiary;
 import com.tide.diary.response.ResponseDiary;
 import com.tide.diary.service.DiaryService;
 import org.springframework.core.env.Environment;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,24 +27,28 @@ public class DiaryController {
         return String.format("It's Working in User Service on PORT %s", env.getProperty("local.server.port"));
     }
 
-    @GetMapping("/mydiaries")
+    @GetMapping("/mine")
     public List<ResponseDiary> getMyDiaries(@RequestHeader("email") String email) {
         return diaryService.getMyDiaries(email);
     }
 
-    @GetMapping("/followdiaries")
+    // 팔로우 다이어리 조회
+    @GetMapping("/follow")
     public List<ResponseDiary> getFollowDiaries(@RequestHeader("email")String email) {
         return diaryService.getFollowDiaries(email);
     }
 
-    @GetMapping("/followerdiaries")
+    // 팔로워 다이어리 조회
+    @GetMapping("/follower")
     public List<ResponseDiary> getFollowerDiaries(@RequestHeader("email")String email) {
         return diaryService.getFollowerDiaries(email);
     }
 
-    @GetMapping("/connect_check")
-    public String connectCheck() {
-        return "Connected";
+    // 다이어리 작성
+    @PostMapping("/write")
+    public ResponseEntity<String> addDiary(@RequestHeader("email")String email, @RequestBody RequestDiary request) {
+         diaryService.addDiary(email, request);
+         return ResponseEntity.status(HttpStatus.CREATED).body("Diary Added Successfully");
     }
 }
 

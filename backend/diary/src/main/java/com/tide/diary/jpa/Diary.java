@@ -5,7 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
-import java.sql.Date;
 
 @Data
 @NoArgsConstructor
@@ -24,9 +23,9 @@ public class Diary {
     @Column
     private String content;
     @Column(name = "create_dt")
-    private Date createDt;
+    private String createDt;
     @Column(name = "public")
     private String pub;
-    @Column(name = "like")
-    private Integer like;
+    @Column(name = "likecnt")
+    private Integer likeCnt;
 }

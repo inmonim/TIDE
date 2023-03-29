@@ -1,10 +1,27 @@
-/* @tailwind base;
+@tailwind base;
 @tailwind components;
-@tailwind utilities; */
+@tailwind utilities;
+
+@layer utilities {
+  .pause {
+    animation-play-state: paused;
+  }
+
+  .running {
+    animation-play-state: running;
+  }
+}
 
 :root {
-  background: linear-gradient(to bottom left, #011516, #2e608c);
-  background-color: #000000;
+  background-color: black;
+  /* background: linear-gradient(to bottom left, #011516, #2e608c); */
+  /* color: #eeeeee; */
+}
+
+* {
+  padding: 0;
+  margin: 0;
+
 }
 
 /* :root {

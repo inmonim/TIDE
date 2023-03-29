@@ -12,7 +12,7 @@ import javax.persistence.*;
 @Entity
 public class Follow {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
     @Column(name = "to_user")

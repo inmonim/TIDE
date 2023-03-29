@@ -110,7 +110,7 @@ const SideBar: FC<SideBarProps> = props => {
               }></div>
           </Link>
 
-          <Link href="/mainpage">
+          <Link href="/mainpage ">
             <div
               className={
                 RmenuOpen

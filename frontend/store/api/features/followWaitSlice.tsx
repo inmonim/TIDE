@@ -54,11 +54,10 @@ export const followWaitSlice = createSlice({
       })
       .addCase(followWaitAsync.fulfilled, (state,action) => {
         state.status = 'completed';
-        const {
-          followWaitList
-        } = action.payload;
-        console.log(action.payload)
-        console.log(state)
+        const followWaitList = action.payload;
+        // console.log(action.payload)
+        // console.log(followWaitList)
+        // console.log(state)
         state.followWaiters = followWaitList;
         // followWaitList.map((followWaiter:followWaitInterFace) => (
         //   state.followWaiters.push({
@@ -67,7 +66,7 @@ export const followWaitSlice = createSlice({
         //     introduce:followWaiter.introduce
         //   })
         // ))
-        console.log('팔로우 대기 리스트 요청 성공', state.followWaiters)
+        // console.log('팔로우 대기 리스트 요청 성공', state.followWaiters)
 
       })
       .addCase(followWaitAsync.rejected, (state, action) => {

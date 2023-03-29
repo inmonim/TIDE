@@ -1,15 +1,14 @@
-package com.tide.diary.response;
+package com.tide.diary.request;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.persistence.Column;
+
 @Data
 @NoArgsConstructor
-public class ResponseDiary {
+public class RequestDiary {
     private String title;
     private String content;
-    private String createDt;
     private String pub;
-    private Integer like;
-
 }

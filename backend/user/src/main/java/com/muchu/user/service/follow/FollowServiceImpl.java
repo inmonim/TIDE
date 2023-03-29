@@ -129,6 +129,7 @@ public class FollowServiceImpl implements FollowService {
             throw new IllegalArgumentException("팔로우 신청이 잘못되었습니다.");
         }
         follow.setAccept("0");
+        log.info(follow.toString());
 
         followRepository.save(follow);
     }

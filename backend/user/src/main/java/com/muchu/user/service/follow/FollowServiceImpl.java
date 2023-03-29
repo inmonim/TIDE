@@ -128,6 +128,12 @@ public class FollowServiceImpl implements FollowService {
         if (userId == fromUserId) {
             throw new IllegalArgumentException("팔로우 신청이 잘못되었습니다.");
         }
+        followRepository.findByFromUserAndToUser(userId, fromUserId);
+        Follow follow1 = followRepository.findByFromUserAndToUser(fromUserId, userId);
+        if(follow1 == null) { throw new IllegalArgumentException("신청이 이미 존재합니다.");}
+        Follow follow2 = followRepository.findByFromUserAndToUser(userId, fromUserId);
+        if(follow2 == null) { throw new IllegalArgumentException("신청이 이미 존재합니다");}
+
         follow.setAccept("0");
         log.info(follow.toString());
 

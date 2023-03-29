@@ -66,7 +66,7 @@ export const followWaitSlice = createSlice({
         //     introduce:followWaiter.introduce
         //   })
         // ))
-        // console.log('팔로우 대기 리스트 요청 성공', state.followWaiters)
+        console.log('팔로우 대기 리스트 요청 성공', state.followWaiters)
 
       })
       .addCase(followWaitAsync.rejected, (state, action) => {

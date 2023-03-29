@@ -3,18 +3,18 @@ import axios from 'axios';
 import {getCookie} from 'cookies-next';
 
 // 타입
-interface FollowReqState {
+interface FollowAccState {
   status: string;
   nickname:string;
   error: string | undefined;
 }
 
-interface FollowReqProps {
+interface FollowAccProps {
   nickname:string;
 }
 
 // 초기값
-const initialState: FollowReqState = {
+const initialState: FollowAccState = {
   status: '',
   nickname:'',
   error:''
@@ -22,13 +22,13 @@ const initialState: FollowReqState = {
 
 
 // Thunk 예시
-export const followReqAsync = createAsyncThunk(
-  'followReq/Async',
-  async ({nickname}: FollowReqProps) => {
+export const followAccAsync = createAsyncThunk(
+  'followAcc/Async',
+  async ({nickname}: FollowAccProps) => {
     const accessToken = getCookie('accessToken');
     console.log(`이메일: ${getCookie('email')} / 닉네임: ${nickname}`)
     const data = await axios({
-      method: 'post',
+      method: 'put',
       url: `${process.env.NEXT_PUBLIC_API_URL}/api/user/follow`,
       headers: {
         Authorization: `Bearer ${accessToken}`,
@@ -43,28 +43,28 @@ export const followReqAsync = createAsyncThunk(
 );
 
 // createSlice로 Slice생성
-export const followReqSlice = createSlice({
-  name: 'followReq',
+export const followAccSlice = createSlice({
+  name: 'followAcc',
   initialState,
   reducers: {
   },
   // 비동기 처리를 위한 redux-thunk사용 extraReducers
   extraReducers: builder => {
     builder
-      .addCase(followReqAsync.pending, state => {
+      .addCase(followAccAsync.pending, state => {
         state.status = 'loading';
       })
-      .addCase(followReqAsync.fulfilled, state => {
+      .addCase(followAccAsync.fulfilled, state => {
         state.status = 'completed';
-        console.log('팔로우 요청 성공');
+        console.log('팔로우 요청 수락 성공');
       })
-      .addCase(followReqAsync.rejected, (state, action) => {
+      .addCase(followAccAsync.rejected, (state, action) => {
         state.status = 'failed';
-        console.log('팔로우 요청 실패', action.error);
+        console.log('팔로우 요청 수락 실패', action.error);
       });
   }
 });
 
 // createSlice의 reducers 에서 만든 state 변경 함수를 export 하기
 // export const {increment, decrement} = followReqSlice.actions;
-export default followReqSlice.reducer;
+export default followAccSlice.reducer;

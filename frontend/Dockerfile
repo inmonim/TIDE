@@ -1,5 +1,5 @@
 # Builder
-FROM node:18.14.1 as builder
+FROM node:18.12.1 as builder
 
 WORKDIR /app
 

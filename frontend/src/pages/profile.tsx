@@ -48,7 +48,7 @@ function Profile() {
               <h2 className="flex flex-row items-center text-xl text-white md:font-semibold md:text-5xl ">
                 {nickname}
               </h2>
-              <div className="mt-[10%] text-[5px] text-white bg-purple-600 break-normal break-words whitespace-pre-wrap md:text-lg md:mt-[4%] md:w-[500px] md:h-[150px] p-2">
+              <div className="mt-[10%] text-[5px] text-white bg-red-600 break-normal break-words whitespace-pre-wrap md:text-lg md:mt-[4%] md:w-[500px] md:h-[150px] p-2">
                 {introduce}
               </div>
               {/* 프로필 수정으로 이동 버튼*/}

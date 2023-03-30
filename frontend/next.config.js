@@ -3,7 +3,7 @@
 // const withImages = require('next-images');
 
 module.exports = {
-  reactStrictMode: true,
+  reactStrictMode: false,
   output: 'standalone',
   images: {
     remotePatterns: [
@@ -11,10 +11,10 @@ module.exports = {
         protocol: 'https',
         hostname: 'firebasestorage.googleapis.com',
         port: '',
-        pathname: '/**',
-      },
-    ],
-  },
+        pathname: '/**'
+      }
+    ]
+  }
   // async rewrites() {
   //   if (process.env.NODE_ENV === 'production') {
   //     return [

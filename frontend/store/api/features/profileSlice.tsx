@@ -23,7 +23,6 @@ const initialState: ProfileState = {
 
 // Thunk 예시
 export const profileAsync = createAsyncThunk('profile/Async', async () => {
-  console.log(getCookie('accessToken'), '토큰');
   const accessToken = getCookie('accessToken');
   const data = await axios({
     method: 'get',

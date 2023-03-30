@@ -43,6 +43,7 @@
     "uuidv4": "^6.2.13"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.57.0",
     "autoprefixer": "^10.4.14",
     "eslint-plugin-import": "^2.27.5",
     "eslint-plugin-react": "^7.32.2",

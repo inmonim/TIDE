@@ -18,7 +18,6 @@ COPY . .
 RUN yarn build
 
 # Production image, copy all the files and run next
-# Jenkins Test
 FROM base AS runner
 WORKDIR /usr/src/app
 

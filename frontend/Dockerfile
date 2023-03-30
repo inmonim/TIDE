@@ -10,7 +10,6 @@ RUN yarn
 
 COPY . .
 
-RUN yarn add typescript
 RUN yarn build
 
 # Runner
@@ -24,4 +23,4 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 
 EXPOSE 3000
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["node", "server.js"]

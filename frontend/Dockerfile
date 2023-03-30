@@ -10,6 +10,7 @@ RUN yarn
 
 COPY . .
 
+RUN yarn add typescript
 RUN yarn build
 
 # Runner

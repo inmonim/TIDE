@@ -13,3 +13,4 @@ function Music() {
     </div>
   );
 }
+export default Music;

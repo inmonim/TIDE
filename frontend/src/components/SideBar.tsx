@@ -19,9 +19,9 @@ const SideBar: FC<SideBarProps> = props => {
   const [BarOpen, setBarOpen] = useState<Number>(0);
 
   const onLogOut = () => {
-    console.log("쿠키로그아웃삭제")
 
     deleteCookie('accessToken');
+    deleteCookie('nickname');
     deleteCookie('email');
     router.reload();
   };

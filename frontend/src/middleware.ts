@@ -1,5 +1,5 @@
 import {NextResponse} from 'next/server';
-import type {NextRequest} from 'next/server';
+import {NextRequest} from 'next/server';
 
 export function middleware(request: NextRequest) {
   const token = request ? request.cookies.get('accessToken')?.value : null;
@@ -17,6 +17,12 @@ export function middleware(request: NextRequest) {
   if (!token && request.nextUrl.pathname.startsWith('/artist')) {
     return NextResponse.redirect(new URL('/login', request.url));
   }
+  if (!token && request.url.includes("/user")) {
+    return NextResponse.redirect(new URL('/login', request.url));
+  }
+  if (!token && request.url.includes("/message")) {
+    return NextResponse.redirect(new URL('/login', request.url));
+  }
 
   // 토큰있을떄 로긴 랜딩접근시 메인페이지로
   if (token && request.nextUrl.pathname.startsWith('/login')) {
@@ -25,8 +31,20 @@ export function middleware(request: NextRequest) {
   if (token && request.nextUrl.pathname.startsWith('/landing')) {
     return NextResponse.redirect(new URL('/mainpage', request.url));
   }
+  
 }
 export const config = {
   // matcher: '/:path*'
-  matcher: ['/diary', '/diary/:path*', '/mainpage', '/landing', '/login', '/profile', '/artist', '/artist/:path*']
+  matcher: [
+    '/diary',
+    '/diary/:path*',
+    '/mainpage',
+    '/landing',
+    '/login',
+    '/profile',
+    '/artist',
+    '/artist/:path*',
+    '/user/:path*',
+    '/message'
+  ]
 };

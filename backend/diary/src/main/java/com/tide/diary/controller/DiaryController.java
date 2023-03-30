@@ -1,7 +1,10 @@
 package com.tide.diary.controller;
 
+import com.tide.diary.request.RequestComment;
 import com.tide.diary.request.RequestDiary;
+import com.tide.diary.request.RequestNickname;
 import com.tide.diary.request.RequestPub;
+import com.tide.diary.response.ResponseComment;
 import com.tide.diary.response.ResponseDiary;
 import com.tide.diary.service.DiaryService;
 import org.springframework.core.env.Environment;
@@ -41,8 +44,9 @@ public class DiaryController {
 
     // like + 1
     @PutMapping("/like/{diaryId}")
-    public ResponseEntity<String> cntLike(@PathVariable("diaryId") Long diaryId) {
-        diaryService.cntLike(diaryId);
+    public ResponseEntity<String> cntLike(@RequestHeader("email")String email,
+                                          @PathVariable("diaryId") Long diaryId) {
+        diaryService.cntLike(email, diaryId);
         return ResponseEntity.status(HttpStatus.OK).body("좋아요 + 1");
     }
 
@@ -81,5 +85,26 @@ public class DiaryController {
         diaryService.delete(email, diaryId);
         return ResponseEntity.status(HttpStatus.OK).body("Diary Deleted Successfully");
     }
+
+    @PostMapping("/comment/{diaryId}")
+    public ResponseEntity<String> comment(@RequestHeader("email") String email,
+                                          @PathVariable("diaryId") Long diaryId,
+                                          @RequestBody RequestComment request) {
+        diaryService.comment(email, diaryId ,request);
+        return ResponseEntity.status(HttpStatus.OK).body("Comment Created Successfully");
+    }
+
+    @GetMapping("/comment/{diaryId}")
+    public List<ResponseComment> comments(@PathVariable("diaryId") Long diaryId) {
+        return diaryService.getComments(diaryId);
+    }
+
+//    @DeleteMapping("/comment/{commentId}")
+//    public ResponseEntity<String> deleteComment(@PathVariable("commentId") Long commentId,
+//                                                @RequestHeader("email") String email,
+//                                                @RequestBody RequestNickname request) {
+//        diaryService.deleteComment(email, commentId, request.getNickname());
+//        return ResponseEntity.status(HttpStatus.OK).body("Comment Deleted");
+//    }
 }
 

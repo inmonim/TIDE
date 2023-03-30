@@ -3,27 +3,42 @@ package com.tide.diary.service;
 import com.tide.diary.client.UserServiceClient;
 import com.tide.diary.jpa.Diary;
 import com.tide.diary.jpa.DiaryRepository;
+import com.tide.diary.jpa.comment.DiaryComment;
+import com.tide.diary.jpa.comment.DiaryCommentRepository;
+import com.tide.diary.jpa.like.DiaryLikeUser;
+import com.tide.diary.jpa.like.DiaryLikeUserRepository;
+import com.tide.diary.request.RequestComment;
 import com.tide.diary.request.RequestDiary;
 import com.tide.diary.request.RequestPub;
+import com.tide.diary.response.ResponseComment;
 import com.tide.diary.response.ResponseDiary;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
 public class DiaryServiceImpl implements DiaryService {
 
     private final DiaryRepository diaryRepository;
+    private final DiaryLikeUserRepository diaryLikeUserRepository;
+    private final DiaryCommentRepository diaryCommentRepository;
     private final UserServiceClient userServiceClient;
 
-    public DiaryServiceImpl(DiaryRepository diaryRepository, UserServiceClient userServiceClient) {
+    public DiaryServiceImpl(DiaryRepository diaryRepository,
+                            DiaryLikeUserRepository diaryLikeUserRepository,
+                            DiaryCommentRepository diaryCommentRepository,
+                            UserServiceClient userServiceClient) {
         this.diaryRepository = diaryRepository;
+        this.diaryLikeUserRepository = diaryLikeUserRepository;
+        this.diaryCommentRepository = diaryCommentRepository;
         this.userServiceClient = userServiceClient;
     }
 
@@ -117,13 +132,19 @@ public class DiaryServiceImpl implements DiaryService {
 
     @Override
     @Transactional
-    public void cntLike(Long diaryId) {
+    public void cntLike(String email, Long diaryId) {
+        Long userId = userServiceClient.getUserId(email);
         Diary diary = diaryRepository.findById(diaryId).orElse(null);
         diary.setLikeCnt(diary.getLikeCnt() + 1);
+        DiaryLikeUser diaryLikeUser = new DiaryLikeUser();
+        diaryLikeUser.setDiaryId(diaryId);
+        diaryLikeUser.setUserId(userId);
+        diaryLikeUserRepository.save(diaryLikeUser);
         diaryRepository.save(diary);
     }
 
     @Override
+    @Transactional
     public List<ResponseDiary> getDiaries() {
         List<Diary> diaries = diaryRepository.findAllByPub("0");
         ModelMapper mapper = new ModelMapper();
@@ -159,4 +180,52 @@ public class DiaryServiceImpl implements DiaryService {
         diary.setPub(request.getPub());
         diaryRepository.save(diary);
     }
+
+    @Override
+    @Transactional
+    public void comment(String email, Long diaryId, RequestComment request) {
+        Long userId = userServiceClient.getUserId(email);
+        String nickname = userServiceClient.getNickname(userId);
+        LocalDateTime dateTime = LocalDateTime.now();
+        DiaryComment diaryComment = new DiaryComment();
+        diaryComment.setIsPublic("0");
+        diaryComment.setComment(request.getComment());
+        diaryComment.setCreateDt(Date.valueOf(String.valueOf(dateTime.toLocalDate())));
+        diaryComment.setNickname(nickname);
+        diaryComment.setDiaryId(diaryId);
+        diaryCommentRepository.save(diaryComment);
+    }
+
+    @Override
+    @Transactional
+    public List<ResponseComment> getComments(Long diaryId) {
+        List<ResponseComment> comments = new ArrayList<>();
+        List<DiaryComment> diariesComments = diaryCommentRepository.findAllByDiaryId(diaryId);
+
+        for(DiaryComment comment : diariesComments) {
+            ResponseComment commentComment = new ResponseComment();
+            commentComment.setId(comment.getId());
+            commentComment.setComment(comment.getComment());
+            commentComment.setNickname(comment.getNickname());
+            commentComment.setCreateDt(comment.getCreateDt());
+            comments.add(commentComment);
+        }
+
+        return comments;
+    }
+
+//    @Override
+//    @Transactional
+//    public void deleteComment(String email, Long commentId, String nickname) {
+//        Long userId = userServiceClient.getUserId(email);
+//        String checkNick = userServiceClient.getNickname(userId);
+//
+//        if(!nickname.equals(checkNick)) {
+//            throw new IllegalArgumentException("작성자가 아닙니다.");
+//        }
+//        Optional<DiaryComment> diaryComment = diaryCommentRepository.findById(commentId);
+//
+//        diaryCommentRepository.delete(diaryComment);
+//    }
+
 }

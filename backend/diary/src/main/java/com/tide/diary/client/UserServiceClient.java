@@ -11,10 +11,6 @@ public interface UserServiceClient {
     @GetMapping("/getuserid")
     Long getUserId(@RequestHeader("email") String email);
 
-    @GetMapping("/getfollowid")
+    @GetMapping("/getfollow")
     List<Long> getFollowId(@RequestHeader("email") String email);
-
-    @GetMapping("/getfollower")
-    List<Long> getFollowerId(@RequestHeader("email") String email);
-
 }

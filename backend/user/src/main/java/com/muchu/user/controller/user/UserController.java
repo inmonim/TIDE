@@ -47,13 +47,9 @@ public class UserController {
         return userSerivce.searchId(email);
     }
 
-    @GetMapping("/getfollowid")
+    @GetMapping("/getfollow")
     public List<Long> getFollowId(@RequestHeader("email") String email) {
         return userSerivce.searchFollowId(email);
     }
 
-    @GetMapping("/getfollower")
-    public List<Long> getFollower(@RequestHeader("email") String email) {
-        return userSerivce.searchFollower(email);
-    }
 }

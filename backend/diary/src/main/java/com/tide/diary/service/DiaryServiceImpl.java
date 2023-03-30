@@ -6,6 +6,7 @@ import com.tide.diary.jpa.DiaryRepository;
 import com.tide.diary.request.RequestDiary;
 import com.tide.diary.response.ResponseDiary;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -34,6 +35,7 @@ public class DiaryServiceImpl implements DiaryService {
 
         for (Diary diary : diaries) {
             ResponseDiary response = new ResponseDiary();
+            response.setId(diary.getId());
             response.setContent(diary.getContent());
             response.setLike(diary.getLikeCnt());
             response.setCreateDt(diary.getCreateDt());
@@ -52,10 +54,11 @@ public class DiaryServiceImpl implements DiaryService {
         List<ResponseDiary> responseDiary = new ArrayList<>();
 
         for (Long follow : followIds) {
-            ResponseDiary response = new ResponseDiary();
             List<Diary> diariesPub = diaryRepository.findAllByUserIdAndPub(follow, "0");
             List<Diary> diariesFollow = diaryRepository.findAllByUserIdAndPub(follow, "1");
             for (Diary diary : diariesPub) {
+                ResponseDiary response = new ResponseDiary();
+                response.setId(diary.getId());
                 response.setContent(diary.getContent());
                 response.setLike(diary.getLikeCnt());
                 response.setCreateDt(diary.getCreateDt());
@@ -64,38 +67,8 @@ public class DiaryServiceImpl implements DiaryService {
                 responseDiary.add(response);
             }
             for (Diary diary : diariesFollow) {
-                response.setContent(diary.getContent());
-                response.setLike(diary.getLikeCnt());
-                response.setCreateDt(diary.getCreateDt());
-                response.setPub(diary.getPub());
-                response.setTitle(diary.getTitle());
-                responseDiary.add(response);
-            }
-        }
-
-        return responseDiary;
-    }
-
-    @Override
-    @Transactional
-    public List<ResponseDiary> getFollowerDiaries(String email) {
-        Long userId = userServiceClient.getUserId(email);
-        List<Long> followIds = userServiceClient.getFollowerId(email);
-        List<ResponseDiary> responseDiary = new ArrayList<>();
-
-        for (Long follow : followIds) {
-            ResponseDiary response = new ResponseDiary();
-            List<Diary> diariesPub = diaryRepository.findAllByUserIdAndPub(follow, "0");
-            List<Diary> diariesFollow = diaryRepository.findAllByUserIdAndPub(follow, "1");
-            for (Diary diary : diariesPub) {
-                response.setContent(diary.getContent());
-                response.setLike(diary.getLikeCnt());
-                response.setCreateDt(diary.getCreateDt());
-                response.setPub(diary.getPub());
-                response.setTitle(diary.getTitle());
-                responseDiary.add(response);
-            }
-            for (Diary diary : diariesFollow) {
+                ResponseDiary response = new ResponseDiary();
+                response.setId(diary.getId());
                 response.setContent(diary.getContent());
                 response.setLike(diary.getLikeCnt());
                 response.setCreateDt(diary.getCreateDt());
@@ -124,5 +97,34 @@ public class DiaryServiceImpl implements DiaryService {
         // Content를 파이썬으로 보내는 코드 작성해야함
 
         diaryRepository.save(diary);
+    }
+
+    @Override
+    @Transactional
+    public Diary getDiary(Long diaryId) {
+        Diary diary = diaryRepository.findById(diaryId).orElse(null);
+        return diary;
+    }
+
+    @Override
+    @Transactional
+    public void cntLike(Long diaryId) {
+        Diary diary = diaryRepository.findById(diaryId).orElse(null);
+        diary.setLikeCnt(diary.getLikeCnt() + 1);
+        diaryRepository.save(diary);
+    }
+
+    @Override
+    public List<ResponseDiary> getDiaries() {
+        List<Diary> diaries = diaryRepository.findAllByPub("0");
+        ModelMapper mapper = new ModelMapper();
+        List<ResponseDiary> diaryList = new ArrayList<>();
+
+        for (Diary diary : diaries) {
+            ResponseDiary response = mapper.map(diary, ResponseDiary.class);
+            diaryList.add(response);
+        }
+
+        return diaryList;
     }
 }

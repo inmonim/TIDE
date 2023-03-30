@@ -1,0 +1,15 @@
+# user = 'root'
+# password = '3xlasql'
+# host = 'J8E203.p.ssafy.io'
+# port = 3306
+# database = 'music'
+
+# SQLALCHEMY_DATABASE_URI = f'mysql+pymysql://{user}:{password}@{host}:{port}/{database}?charset=utf8mb4'
+# SQLALCHEMY_TRACK_MODIFICATIONS = False
+
+import os
+
+BASE_DIR = os.path.dirname(__file__)
+
+SQLALCHEMY_DATABASE_URI = 'sqlite:///{}'.format(os.path.join(BASE_DIR, 'recommend.db'))
+SQLALCHEMY_TRACK_MODIFICATIONS = False

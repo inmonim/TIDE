@@ -65,7 +65,6 @@ const Chat = () => {
   // 메시지 데이터
   const [message, setMessage] = useState<string>('');
   const onChangeMessage = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.value);
     setMessage(event.target.value);
   };
 
@@ -134,11 +133,13 @@ const Chat = () => {
   }, [messageDatas]);
 
   return (
-    <div className="flex justify-center h-full text-white ">
-      <h1>Chatting</h1>
-      <div className="flex flex-col items-center justify-center w-1/2 h-full bg-black rounded-lg bg-opacity-40">
+    <div className="flex flex-col justify-center w-full h-full text-white ">
+      <div className='fixed top-[40px] w-full h-[5vh] bg-black bg-opacity-90 lg:hidden'>
+        <div className='flex items-center h-full text-lg hover:text-blue-300'>☜(ﾟヮﾟ☜) 상대방아이디</div>
+      </div>
+      <div className="flex flex-col items-center justify-center w-full h-full bg-black rounded-lg bg-opacity-40">
         {/* 메시지들 보이는 곳 */}
-        <div ref={chatDiv} className="w-5/6 h-full overflow-y-auto ">
+        <div ref={chatDiv} className="w-5/6 overflow-y-auto">
           {messageDatas.map((msg, index) => {
             // 상대방의 닉네임 처음 한번만
             let checkSameNick = true;
@@ -183,13 +184,15 @@ const Chat = () => {
           })}
         </div>
         {/* 메시지 보내는 곳 */}
-        <form className="flex justify-center w-full my-6" onSubmit={onSubmitMessage}>
+        <form
+          className="flex justify-center w-full mt-6 mb-36 lg:my-6"
+          onSubmit={onSubmitMessage}>
           <div className="border-[1px] rounded-lg w-5/6 flex justify-between items-center px-[0.7rem] py-[0.3rem] ">
             {/* 파일 업로드 */}
             <label htmlFor="file">
               {' '}
               <Image
-                className={`min-w-9 min-h-8 w-9 h-8 opacity-60 hover:opacity-100 cursor-pointer`}
+                className={`w-6 h-6 lg:min-w-9 lg:min-h-8 lg:w-9 lg:h-8 opacity-60 hover:opacity-100 cursor-pointer`}
                 src={imageURL}
                 alt="imagefile"
               />
@@ -204,7 +207,7 @@ const Chat = () => {
             />
             {/* 파일 및 메시지 입력 */}
             {fileUpload && (
-              <div className="relative w-20 h-20 border-[0.1rem]">
+              <div className="relative w-12 h-12 lg:w-20 lg:h-20 border-[0.1rem]">
                 <div
                   onClick={deleteImage}
                   className="absolute top-0 right-0 z-10 w-3 h-3 bg-black cursor-pointer hover:scale-105">
@@ -214,7 +217,7 @@ const Chat = () => {
               </div>
             )}
             <input
-              className={`w-3/4 h-10 bg-transparent outline-none px-4`}
+              className={`w-3/4 h-8 lg:h-10 bg-transparent outline-none px-4`}
               type="text"
               placeholder="메시지 보내기..."
               value={message}
@@ -224,7 +227,7 @@ const Chat = () => {
             {/* 메시지 전송 */}
             <label htmlFor="sendMsg">
               <Image
-                className={`min-w-9 min-h-8 w-9 h-8 opacity-60 hover:opacity-100 cursor-pointer`}
+                className={`w-6 h-6 lg:min-w-9 lg:min-h-8 lg:w-9 lg:h-8 opacity-60 hover:opacity-100 cursor-pointer`}
                 src={sendURL}
                 alt="send"
               />
@@ -234,17 +237,19 @@ const Chat = () => {
         </form>
       </div>
       <style jsx>{`
-        div::-webkit-scrollbar {
-          width: 0.6rem; /* 스크롤바의 너비 */
-        }
-        div::-webkit-scrollbar-thumb {
-          // height: 70%;
-          background: #2e608c; /* 스크롤바의 색상 */
+        @media (min-width: 1024px) {
+          div::-webkit-scrollbar {
+            width: 0.6rem; /* 스크롤바의 너비 */
+          }
+          div::-webkit-scrollbar-thumb {
+            // height: 70%;
+            background: #2e608c; /* 스크롤바의 색상 */
 
-          border-radius: 10px;
-        }
-        div::-webkit-scrollbar-track {
-          background: #011526;
+            border-radius: 10px;
+          }
+          div::-webkit-scrollbar-track {
+            background: #011526;
+          }
         }
       `}</style>
     </div>

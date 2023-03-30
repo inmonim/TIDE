@@ -4,6 +4,7 @@ import com.tide.diary.client.UserServiceClient;
 import com.tide.diary.jpa.Diary;
 import com.tide.diary.jpa.DiaryRepository;
 import com.tide.diary.request.RequestDiary;
+import com.tide.diary.request.RequestPub;
 import com.tide.diary.response.ResponseDiary;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
@@ -35,6 +36,7 @@ public class DiaryServiceImpl implements DiaryService {
 
         for (Diary diary : diaries) {
             ResponseDiary response = new ResponseDiary();
+            response.setNickname(userServiceClient.getNickname(diary.getUserId()));
             response.setId(diary.getId());
             response.setContent(diary.getContent());
             response.setLike(diary.getLikeCnt());
@@ -58,6 +60,7 @@ public class DiaryServiceImpl implements DiaryService {
             List<Diary> diariesFollow = diaryRepository.findAllByUserIdAndPub(follow, "1");
             for (Diary diary : diariesPub) {
                 ResponseDiary response = new ResponseDiary();
+                response.setNickname(userServiceClient.getNickname(diary.getUserId()));
                 response.setId(diary.getId());
                 response.setContent(diary.getContent());
                 response.setLike(diary.getLikeCnt());
@@ -68,6 +71,7 @@ public class DiaryServiceImpl implements DiaryService {
             }
             for (Diary diary : diariesFollow) {
                 ResponseDiary response = new ResponseDiary();
+                response.setNickname(userServiceClient.getNickname(diary.getUserId()));
                 response.setId(diary.getId());
                 response.setContent(diary.getContent());
                 response.setLike(diary.getLikeCnt());
@@ -101,9 +105,14 @@ public class DiaryServiceImpl implements DiaryService {
 
     @Override
     @Transactional
-    public Diary getDiary(Long diaryId) {
+    public ResponseDiary getDiary(Long diaryId) {
         Diary diary = diaryRepository.findById(diaryId).orElse(null);
-        return diary;
+        ModelMapper mapper = new ModelMapper();
+
+        ResponseDiary response = mapper.map(diary, ResponseDiary.class);
+        log.info("diary: ------------------>", diary.toString());
+        response.setNickname(userServiceClient.getNickname(diary.getUserId()));
+        return response;
     }
 
     @Override
@@ -122,9 +131,32 @@ public class DiaryServiceImpl implements DiaryService {
 
         for (Diary diary : diaries) {
             ResponseDiary response = mapper.map(diary, ResponseDiary.class);
+            response.setNickname(userServiceClient.getNickname(diary.getUserId()));
             diaryList.add(response);
         }
 
         return diaryList;
+    }
+
+    @Override
+    @Transactional
+    public void delete(String email, Long diaryId) {
+        Long userId = userServiceClient.getUserId(email);
+        Diary diary = diaryRepository.findById(diaryId).orElse(null);
+        if (userId != diary.getUserId()) {
+            throw new IllegalStateException("작성자가 아닙니다.");
+        }
+        diaryRepository.delete(diary);
+    }
+
+    @Transactional
+    public void changeStatus(String email, Long diaryId, RequestPub request) {
+        Long userId = userServiceClient.getUserId(email);
+        Diary diary = diaryRepository.findById(diaryId).orElse(null);
+        if (userId != diary.getUserId()) {
+            throw new IllegalStateException("작성자가 아닙니다.");
+        }
+        diary.setPub(request.getPub());
+        diaryRepository.save(diary);
     }
 }

@@ -15,4 +15,5 @@ public interface UserService extends UserDetailsService {
     void deleteUser(String email);
     Long searchId(String email);
     List<Long> searchFollowId(String email);
+    String searchNickname(Long userId);
 }

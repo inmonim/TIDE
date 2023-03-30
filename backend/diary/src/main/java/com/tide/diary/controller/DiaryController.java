@@ -1,7 +1,7 @@
 package com.tide.diary.controller;
 
-import com.tide.diary.jpa.Diary;
 import com.tide.diary.request.RequestDiary;
+import com.tide.diary.request.RequestPub;
 import com.tide.diary.response.ResponseDiary;
 import com.tide.diary.service.DiaryService;
 import org.springframework.core.env.Environment;
@@ -35,7 +35,7 @@ public class DiaryController {
 
     // 다이어리 자세히보기
     @GetMapping("/detail/{diaryId}")
-    public Diary getDiary(@PathVariable("diaryId") Long diaryId) {
+    public ResponseDiary getDiary(@PathVariable("diaryId") Long diaryId) {
         return diaryService.getDiary(diaryId);
     }
 
@@ -54,15 +54,32 @@ public class DiaryController {
 
     // 팔로우 다이어리 조회
     @GetMapping("/follow")
-    public List<ResponseDiary> getFollowDiaries(@RequestHeader("email")String email) {
+    public List<ResponseDiary> getFollowDiaries(@RequestHeader("email") String email) {
         return diaryService.getFollowDiaries(email);
     }
 
     // 다이어리 작성
     @PostMapping("/write")
-    public ResponseEntity<String> addDiary(@RequestHeader("email")String email, @RequestBody RequestDiary request) {
-         diaryService.addDiary(email, request);
-         return ResponseEntity.status(HttpStatus.CREATED).body("Diary Added Successfully");
+    public ResponseEntity<String> addDiary(@RequestHeader("email") String email, @RequestBody RequestDiary request) {
+        diaryService.addDiary(email, request);
+        return ResponseEntity.status(HttpStatus.CREATED).body("Diary Added Successfully");
+    }
+
+    // 공개여부 변경
+    @PutMapping("/pub/{diaryId}")
+    public ResponseEntity<String> changeStatus(@RequestHeader("email") String email,
+                                               @PathVariable("diaryId") Long diaryId,
+                                               @RequestBody RequestPub request) {
+        diaryService.changeStatus(email, diaryId, request);
+        return ResponseEntity.status(HttpStatus.OK).body("공개여부 변경 완료");
+    }
+
+    // 다이어리 삭제
+    @DeleteMapping("/delete/{diaryId}")
+    public ResponseEntity<String> deleteDiary(@RequestHeader("email") String email,
+                                              @PathVariable("diaryId") Long diaryId) {
+        diaryService.delete(email, diaryId);
+        return ResponseEntity.status(HttpStatus.OK).body("Diary Deleted Successfully");
     }
 }
 

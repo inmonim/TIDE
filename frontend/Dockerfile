@@ -4,6 +4,7 @@ FROM node:18.14.1 as builder
 WORKDIR /app
 
 COPY package.json .
+COPY yarn.lock .
 
 RUN yarn
 

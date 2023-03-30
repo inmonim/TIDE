@@ -10,6 +10,8 @@ const Seo: FC<SeoProps> = props => {
   return (
     <Head>
       <title> {title} | TIDE </title>
+      <meta name={title}  content={title} />
+      <link rel="icon" href="/favicon.png" />
     </Head>
   )
 }

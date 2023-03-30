@@ -7,10 +7,10 @@ interface musicState {
   status: string;
 }
 // 초기값
-// const initialState: CountState = {
-//   value: 0,
-//   status: ''
-// };
+const initialState: musicState = {
+  value: 0,
+  status: ''
+};
 
 // Thunk 예시
 export const fetchAsync = createAsyncThunk(

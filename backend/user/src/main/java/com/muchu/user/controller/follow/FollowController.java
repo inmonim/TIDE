@@ -33,16 +33,16 @@ public class FollowController {
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
 
-    // 팔로우 리스트 신청
-    @GetMapping("/followlist")
-    public List<ResponseFollow> followUser(@RequestHeader("email") String email) {
-        return followService.followUser(email);
-    }
-
     // 팔로우 수락대기 목록 신청
     @GetMapping("/followwait")
     public List<ResponseFollow> followWait(@RequestHeader("email") String email) {
         return followService.followWait(email);
+    }
+
+    // 팔로우 리스트 신청
+    @GetMapping("/followlist")
+    public List<ResponseFollow> followUser(@RequestHeader("email") String email) {
+        return followService.followUser(email);
     }
 
     // 팔로워 리스트 신청

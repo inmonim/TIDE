@@ -39,15 +39,7 @@ public class DiaryController {
     // 다이어리 자세히보기
     @GetMapping("/detail/{diaryId}")
     public ResponseDiary getDiary(@PathVariable("diaryId") Long diaryId) {
-        return diaryService.getDiary(diaryId);
-    }
-
-    // like + 1
-    @PutMapping("/like/{diaryId}")
-    public ResponseEntity<String> cntLike(@RequestHeader("email")String email,
-                                          @PathVariable("diaryId") Long diaryId) {
-        diaryService.cntLike(email, diaryId);
-        return ResponseEntity.status(HttpStatus.OK).body("좋아요 + 1");
+        return diaryService.getDetailDiary(diaryId);
     }
 
     // 자신이 쓴 다이어리리스트  확인
@@ -85,26 +77,5 @@ public class DiaryController {
         diaryService.delete(email, diaryId);
         return ResponseEntity.status(HttpStatus.OK).body("Diary Deleted Successfully");
     }
-
-    @PostMapping("/comment/{diaryId}")
-    public ResponseEntity<String> comment(@RequestHeader("email") String email,
-                                          @PathVariable("diaryId") Long diaryId,
-                                          @RequestBody RequestComment request) {
-        diaryService.comment(email, diaryId ,request);
-        return ResponseEntity.status(HttpStatus.OK).body("Comment Created Successfully");
-    }
-
-    @GetMapping("/comment/{diaryId}")
-    public List<ResponseComment> comments(@PathVariable("diaryId") Long diaryId) {
-        return diaryService.getComments(diaryId);
-    }
-
-//    @DeleteMapping("/comment/{commentId}")
-//    public ResponseEntity<String> deleteComment(@PathVariable("commentId") Long commentId,
-//                                                @RequestHeader("email") String email,
-//                                                @RequestBody RequestNickname request) {
-//        diaryService.deleteComment(email, commentId, request.getNickname());
-//        return ResponseEntity.status(HttpStatus.OK).body("Comment Deleted");
-//    }
 }
 

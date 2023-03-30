@@ -21,7 +21,6 @@ import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -120,7 +119,7 @@ public class DiaryServiceImpl implements DiaryService {
 
     @Override
     @Transactional
-    public ResponseDiary getDiary(Long diaryId) {
+    public ResponseDiary getDetailDiary(Long diaryId) {
         Diary diary = diaryRepository.findById(diaryId).orElse(null);
         ModelMapper mapper = new ModelMapper();
 
@@ -130,13 +129,16 @@ public class DiaryServiceImpl implements DiaryService {
         return response;
     }
 
-    @Override
     @Transactional
     public void cntLike(String email, Long diaryId) {
         Long userId = userServiceClient.getUserId(email);
         Diary diary = diaryRepository.findById(diaryId).orElse(null);
         diary.setLikeCnt(diary.getLikeCnt() + 1);
         DiaryLikeUser diaryLikeUser = new DiaryLikeUser();
+        DiaryLikeUser check = diaryLikeUserRepository.findByDiaryIdAndUserId(diaryId, userId);
+        if (check != null) {
+            throw new IllegalStateException("이미 좋아요한 게시글입니다.");
+        }
         diaryLikeUser.setDiaryId(diaryId);
         diaryLikeUser.setUserId(userId);
         diaryLikeUserRepository.save(diaryLikeUser);
@@ -180,52 +182,5 @@ public class DiaryServiceImpl implements DiaryService {
         diary.setPub(request.getPub());
         diaryRepository.save(diary);
     }
-
-    @Override
-    @Transactional
-    public void comment(String email, Long diaryId, RequestComment request) {
-        Long userId = userServiceClient.getUserId(email);
-        String nickname = userServiceClient.getNickname(userId);
-        LocalDateTime dateTime = LocalDateTime.now();
-        DiaryComment diaryComment = new DiaryComment();
-        diaryComment.setIsPublic("0");
-        diaryComment.setComment(request.getComment());
-        diaryComment.setCreateDt(Date.valueOf(String.valueOf(dateTime.toLocalDate())));
-        diaryComment.setNickname(nickname);
-        diaryComment.setDiaryId(diaryId);
-        diaryCommentRepository.save(diaryComment);
-    }
-
-    @Override
-    @Transactional
-    public List<ResponseComment> getComments(Long diaryId) {
-        List<ResponseComment> comments = new ArrayList<>();
-        List<DiaryComment> diariesComments = diaryCommentRepository.findAllByDiaryId(diaryId);
-
-        for(DiaryComment comment : diariesComments) {
-            ResponseComment commentComment = new ResponseComment();
-            commentComment.setId(comment.getId());
-            commentComment.setComment(comment.getComment());
-            commentComment.setNickname(comment.getNickname());
-            commentComment.setCreateDt(comment.getCreateDt());
-            comments.add(commentComment);
-        }
-
-        return comments;
-    }
-
-//    @Override
-//    @Transactional
-//    public void deleteComment(String email, Long commentId, String nickname) {
-//        Long userId = userServiceClient.getUserId(email);
-//        String checkNick = userServiceClient.getNickname(userId);
-//
-//        if(!nickname.equals(checkNick)) {
-//            throw new IllegalArgumentException("작성자가 아닙니다.");
-//        }
-//        Optional<DiaryComment> diaryComment = diaryCommentRepository.findById(commentId);
-//
-//        diaryCommentRepository.delete(diaryComment);
-//    }
 
 }

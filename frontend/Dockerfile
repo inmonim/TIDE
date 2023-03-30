@@ -1,27 +1,39 @@
-# Builder
-FROM node:18.12.1 as builder
+FROM node:18-alpine AS base
 
-WORKDIR /app
+# Install dependencies only when needed
+FROM base AS deps
+RUN apk add --no-cache libc6-compat
+WORKDIR /usr/src/app
 
-COPY package.json .
-COPY yarn.lock .
+# Install dependencies based on the preferred package manager
+COPY package.json yarn.lock ./
+RUN yarn --frozen-lockfile --production;
+RUN rm -rf ./.next/cache
 
-RUN yarn
-
+# Rebuild the source code only when needed
+FROM base AS builder
+WORKDIR /usr/src/app
+COPY --from=deps /usr/src/app/node_modules ./node_modules
 COPY . .
-
-RUN yarn add typescript
 RUN yarn build
 
-# Runner
-FROM nginx:stable-alpine as runner
+# Production image, copy all the files and run next
+FROM base AS runner
+WORKDIR /usr/src/app
 
-# Copy nginx.conf
-COPY nginx.conf /etc/nginx/nginx.conf
- 
-# Copy built files
-COPY --from=builder /app/dist /usr/share/nginx/html
+ENV NODE_ENV=production
+
+RUN addgroup --system --gid 1001 nodejs
+RUN adduser --system --uid 1001 nextjs
+
+COPY --from=builder /usr/src/app/public ./public
+COPY --from=builder --chown=nextjs:nodejs /usr/src/app/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /usr/src/app/.next/static ./.next/static
+
+USER nextjs
 
 EXPOSE 3000
 
-CMD ["nginx", "-g", "daemon off;"]
+ENV PORT 3000
+
+CMD ["node", "server.js"]

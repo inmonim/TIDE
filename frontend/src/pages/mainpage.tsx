@@ -115,6 +115,16 @@ function Mainpage() {
         id: 4,
         title: '롸익보이이이이이',
         image: `https://lh3.googleusercontent.com/6wTZg-bWv7Yax1_7G0QlqukOwDJHetzicZj84GHzI93-Axt0Nv638NoG7cC6RnbGSTn0-gZkwVxvnExs=w544-h544-l90-rj`
+      },
+      {
+        id: 5,
+        title: '롸익보이이이이이',
+        image: `https://lh3.googleusercontent.com/6wTZg-bWv7Yax1_7G0QlqukOwDJHetzicZj84GHzI93-Axt0Nv638NoG7cC6RnbGSTn0-gZkwVxvnExs=w544-h544-l90-rj`
+      },
+      {
+        id: 6,
+        title: '롸익보이이이이이',
+        image: `https://lh3.googleusercontent.com/6wTZg-bWv7Yax1_7G0QlqukOwDJHetzicZj84GHzI93-Axt0Nv638NoG7cC6RnbGSTn0-gZkwVxvnExs=w544-h544-l90-rj`
       }
     ]);
 
@@ -143,7 +153,15 @@ function Mainpage() {
         id: 5,
         title: '롸익보이이이이이',
         image: `https://lh3.googleusercontent.com/6wTZg-bWv7Yax1_7G0QlqukOwDJHetzicZj84GHzI93-Axt0Nv638NoG7cC6RnbGSTn0-gZkwVxvnExs=w544-h544-l90-rj`
+      },
+      {
+        id: 6,
+        title: '롸익보이이이이이',
+        image: `https://lh3.googleusercontent.com/6wTZg-bWv7Yax1_7G0QlqukOwDJHetzicZj84GHzI93-Axt0Nv638NoG7cC6RnbGSTn0-gZkwVxvnExs=w544-h544-l90-rj`
       }
+
+
+      
     ]);
   }, []);
 

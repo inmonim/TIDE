@@ -25,7 +25,7 @@ const MusicBar: FC<MusicBarProps> = props => {
   const [onBarClick, setOnBarClick] = useState<boolean>(false);
 
   useEffect(() => {
-    setSrc('https://www.youtube.com/watch?v=11cta61wi0g');
+    setSrc('https://www.youtube.com/watch?v=3XZLVtZeNFw');
     setPlaying(false);
     setInit(true);
   }, []);

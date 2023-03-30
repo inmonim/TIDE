@@ -75,23 +75,13 @@ public class UserSerivceImpl implements UserService {
         Long userId = user.getId();
         List<Long> list = new ArrayList<>();
         List<Follow> follows = followRepository.findAllByToUserAndAccept(userId, "1");
+        List<Follow> follower = followRepository.findAllByFromUserAndAccept(userId, "1");
 
         for (Follow follow : follows) {
             Long id = follow.getFromUser();
             list.add(id);
         }
-
-        return list;
-    }
-
-    @Override
-    public List<Long> searchFollower(String email) {
-        User user = userRepository.findByEmail(email);
-        Long userId = user.getId();
-        List<Long> list = new ArrayList<>();
-        List<Follow> follows = followRepository.findAllByFromUserAndAccept(userId, "1");
-
-        for (Follow follow : follows) {
+        for (Follow follow : follower) {
             Long id = follow.getToUser();
             list.add(id);
         }

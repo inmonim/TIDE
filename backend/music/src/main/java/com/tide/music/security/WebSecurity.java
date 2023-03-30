@@ -1,4 +1,4 @@
-package com.tide.diary.security;
+package com.tide.music.security;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;

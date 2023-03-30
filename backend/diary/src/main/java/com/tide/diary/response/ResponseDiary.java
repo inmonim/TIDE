@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class ResponseDiary {
+    private Long id;
     private String title;
     private String content;
     private String createDt;

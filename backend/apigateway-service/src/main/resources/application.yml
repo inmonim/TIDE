@@ -47,6 +47,17 @@ spring:
           filters:
             - RemoveRequestHeader=Cookie
             - RewritePath=/api/diary/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
+        - id: api-music
+          uri: lb://API-MUSIC
+          predicates:
+            - Path=/api/music/**
+            - Method=GET,PUT,DELETE,POST
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/api/music/(?<segment>.*), /$\{segment}
+            - AuthorizationHeaderFilter
+
 
 token:
   expiration_time: 864000000

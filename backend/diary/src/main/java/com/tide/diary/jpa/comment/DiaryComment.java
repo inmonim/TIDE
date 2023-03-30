@@ -24,7 +24,4 @@ public class DiaryComment {
     private String comment;
     @Column(name = "create_dt")
     private Date createDt;
-    @Column(name = "is_public")
-    private String isPublic;
-
 }

@@ -66,6 +66,7 @@ public class ProfileServiceImpl implements ProfileService {
         response.setNickname(user.getNickname());
         response.setIntroduce(profile.getIntroduce());
         response.setProfile_img_path(profile.getProfile_img_path());
+        response.setGender(user.getGender());
         
         return response;
     }

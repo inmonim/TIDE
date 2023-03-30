@@ -54,29 +54,29 @@ function Profile() {
               {/* 프로필 수정으로 이동 버튼*/}
 
               <button
-                className="text-md w-12 h-6 mt-[10%] ml-[60%] bg-blue-600 hover:bg-blue-500 rounded-lg md:w-20 md:text-xl md:h-8 md:ml-[80%] md:mt-[4%]"
+                className="text-md w-12 h-6 my-[5%] ml-[60%] bg-blue-600 hover:bg-blue-500 rounded-lg md:w-20 md:text-xl md:h-8 md:ml-[80%] md:my-[4%]"
                 onClick={gotoprofileEdit}>
                 수정
               </button>
             </div>
           </div>
         </div>
-        <div className="flex flex-col items-center mt-4 bg-green-600 justify-evenly md:flex md:flex-row ">
+        <div className="flex flex-col items-center justify-center mt-4 bg-green-600 md:flex md:flex-row md:justify-evenly">
           {/* 즐겨듣는 아티스트 */}
           <div>
-            <h2 className="text-lg font-semibold text-center md:text-2xl">
-              베스트
+            <h2 className="py-2 text-lg font-semibold text-center md:text-2xl">
+              다이어리
             </h2>
-            <div className="h-[200px] w-[200px] bg-red-400"></div>
+            <div className="h-[400px] w-[300px] bg-red-400 md:w-[400px]"></div>
           </div>
           {/* 스페이서 */}
-          <div className="w-10 h-10 bg-purple-600"></div>
+          <div className="h-10 my-4 bg-purple-600 w-cover"></div>
           {/* 팔로우 */}
           <div>
-            <h2 className="text-lg font-semibold text-center md:text-2xl">
+            <h2 className="py-2 text-lg font-semibold text-center md:text-2xl">
               팔로잉
             </h2>
-            <div className="h-[200px]"></div>
+            <div className="h-[400px] w-[300px] bg-red-400 md:w-[400px]"></div>
           </div>
         </div>
       </main>

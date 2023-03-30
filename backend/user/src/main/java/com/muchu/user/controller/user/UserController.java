@@ -1,12 +1,8 @@
 package com.muchu.user.controller.user;
 
 import com.muchu.user.request.UserCreateRequest;
-import com.muchu.user.request.UserInfoRequest;
-import com.muchu.user.request.UserNicknameRequest;
-import com.muchu.user.response.ResponseFollow;
-import com.muchu.user.response.ResponseProfile;
-import com.muchu.user.service.follow.FollowService;
 import com.muchu.user.service.user.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/")
+@Slf4j
 public class UserController {
 
     private Environment env;
@@ -50,6 +47,11 @@ public class UserController {
     @GetMapping("/getfollow")
     public List<Long> getFollowId(@RequestHeader("email") String email) {
         return userSerivce.searchFollowId(email);
+    }
+
+    @GetMapping("/getnickname")
+    public String getNickname(@RequestParam("userId") Long userId) {
+        return userSerivce.searchNickname(userId);
     }
 
 }

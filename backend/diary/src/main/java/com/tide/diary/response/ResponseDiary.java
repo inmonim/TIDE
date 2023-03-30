@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class ResponseDiary {
     private Long id;
+    private String nickname;
     private String title;
     private String content;
     private String createDt;

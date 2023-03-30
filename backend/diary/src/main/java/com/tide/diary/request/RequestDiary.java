@@ -8,7 +8,6 @@ import javax.persistence.Column;
 @Data
 @NoArgsConstructor
 public class RequestDiary {
-    private Long id;
     private String title;
     private String content;
     private String pub;

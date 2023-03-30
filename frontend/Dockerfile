@@ -20,7 +20,7 @@ FROM nginx:stable-alpine as runner
 COPY nginx.conf /etc/nginx/nginx.conf
 
 # Copy built files
-COPY --from=builder /app/dist /usr/share/nginx/html
+COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 
 EXPOSE 3000
 

@@ -6,6 +6,9 @@ import axios from 'axios';
 import {BsChevronCompactRight, BsChevronCompactLeft} from 'react-icons/bs';
 import Link from 'next/link';
 import {getCookie} from 'cookies-next';
+import cookie from 'react-cookies';
+import { useAppDispatch, useAppSelector } from 'store';
+import { profileAsync } from 'store/api/features/profileSlice';
 
 interface playlists {
   id: number;
@@ -25,6 +28,11 @@ interface Props {
 }
 
 function Mainpage() {
+  const dispatch = useAppDispatch();
+  const { nickname } = useAppSelector((state) => {
+    return state.profile
+  })
+  
   const [playlists, setPlaylists] = useState<playlists[]>([]);
   const [diarylist, setDiarylist] = useState<diarylist[]>([]);
 
@@ -85,6 +93,8 @@ function Mainpage() {
 
   // 더미 플레이리스트
   useEffect(() => {
+    // 내 프로필정보 요청
+    dispatch(profileAsync())
     setPlaylists([
       {
         id: 1,
@@ -136,6 +146,15 @@ function Mainpage() {
       }
     ]);
   }, []);
+
+  // 쿠키에 닉네임 추가
+  useEffect(() => {
+    cookie.save('nickname', nickname, {
+      path: '/'
+      // , expires
+      // , httpOnly: HTTP_ONLY // dev/prod 에 따라 true / false 로 받게 했다.
+    });
+  },[nickname])
 
   return (
     <>

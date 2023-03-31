@@ -6,10 +6,9 @@ import {motion} from 'framer-motion';
 import Link from 'next/link';
 import {loginAsync} from 'store/api/features/loginSlice';
 import {useRouter} from 'next/router';
-import {setToken} from '@/components/TokenManager'
-import { toast } from 'react-toastify';
-import { initStatus } from 'store/api/features/signUpSlice';
-
+import {setToken} from '@/components/TokenManager';
+import {toast} from 'react-toastify';
+import {initStatus} from 'store/api/features/signUpSlice';
 
 interface LoginInterFace {
   email: string;
@@ -119,13 +118,6 @@ const login = () => {
         </form>
         <div className="w-1/2 border-[0.1rem] my-4"></div>
         <div className={`w-60 flex flex-col h-60 justify-evenly items-center`}>
-          <div className={`w-full flex justify-center cursor-pointer`}>
-            <img
-              src={googleImage.current}
-              alt="google"
-              className="object-contain"
-            />
-          </div>
           <div className="text-md"> 계정이 없으신가요? </div>
           <Link
             className={`border-2 w-full rounded-md bg-sky-700 hover:bg-sky-500`}

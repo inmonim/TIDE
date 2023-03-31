@@ -84,13 +84,13 @@ public class FollowController {
     }
 
     // 다른 유저 팔로워 정보
-    @GetMapping("/userfollower")
+    @PostMapping("/userfollower")
     public List<ResponseProfile> getUserFollowers(@RequestBody UserNicknameRequest request) {
         return followService.getUserFollowers(request.getNickname());
     }
 
     // 다른 유저 팔로우 정보
-    @GetMapping("/userfollow")
+    @PostMapping("/userfollow")
     public List<ResponseProfile> getUserFollows(@RequestBody UserNicknameRequest request) {
         return followService.getUserFollows(request.getNickname());
     }

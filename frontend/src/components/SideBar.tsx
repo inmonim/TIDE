@@ -19,7 +19,6 @@ const SideBar: FC<SideBarProps> = props => {
   const [BarOpen, setBarOpen] = useState<Number>(0);
 
   const onLogOut = () => {
-
     deleteCookie('accessToken');
     deleteCookie('nickname');
     deleteCookie('email');
@@ -28,36 +27,37 @@ const SideBar: FC<SideBarProps> = props => {
   return (
     <>
       {/* 상단바 영역 */}
-      <div className={`${styles.topBgDiv} fixed`}>
-        {/* 검색창 영역 */}
-        <div className={styles.searchBox}>
-          <form action="." method="post">
-            <button type="submit"></button>
-            <input className={''} type="text" placeholder="Search" />
-          </form>
-        </div>
-        {/* 로고 영역 */}
-        <div className={styles.logoDiv}> </div>
+      {router.asPath.includes('/message/') ? null : (
+        <div className={`${styles.topBgDiv} fixed`}>
+          {/* 검색창 영역 */}
+          <div className={styles.searchBox}>
+            <form action="." method="post">
+              <button type="submit"></button>
+              <input className={''} type="text" placeholder="Search" />
+            </form>
+          </div>
+          {/* 로고 영역 */}
+          <div className={styles.logoDiv}> </div>
 
-        {/* 알림, 친구 */}
-        <div
-          className={`flex flex-row items-center gap-x-5 right-0 mr-[-20px] ${styles.rightIconDiv}`}>
+          {/* 알림, 친구 */}
           <div
-            className={`w-7 h-7 min-w-7 min-h-7 ${styles.alarmBtn}`}
-            onClick={() => (BarOpen === 1 ? setBarOpen(0) : setBarOpen(1))}>
-            {' '}
+            className={`flex flex-row items-center gap-x-5 right-0 mr-[-20px] ${styles.rightIconDiv}`}>
+            <div
+              className={`w-7 h-7 min-w-7 min-h-7 ${styles.alarmBtn}`}
+              onClick={() => (BarOpen === 1 ? setBarOpen(0) : setBarOpen(1))}>
+              {' '}
+            </div>
+            <div
+              className={`w-7 h-7  min-w-7 min-h-7 ${styles.friendBtn}`}
+              onClick={() => (BarOpen === 2 ? setBarOpen(0) : setBarOpen(2))}>
+              {' '}
+            </div>
+            <div
+              className={`w-7 h-7 min-w-7 min-h-7 bg-[url('../../public/buttons/Logout.png')] bg-cover bg-no-repeat ${styles.Btn}`}
+              onClick={onLogOut}></div>
           </div>
-          <div
-            className={`w-7 h-7  min-w-7 min-h-7 ${styles.friendBtn}`}
-            onClick={() => (BarOpen === 2 ? setBarOpen(0) : setBarOpen(2))}>
-            {' '}
-          </div>
-          <div
-          className={`w-7 h-7 min-w-7 min-h-7 bg-[url('../../public/buttons/Logout.png')] bg-cover bg-no-repeat ${styles.Btn}`}
-          onClick={onLogOut}>
         </div>
-        </div>
-      </div>
+      )}
 
       {/* 알림, 친구 */}
       <div
@@ -74,8 +74,7 @@ const SideBar: FC<SideBarProps> = props => {
         </div>
         <div
           className={`w-7 h-7 min-w-7 min-h-7 bg-[url('../../public/buttons/Logout.png')] bg-cover bg-no-repeat ${styles.Btn}`}
-          onClick={onLogOut}>
-        </div>
+          onClick={onLogOut}></div>
       </div>
 
       {/* 하단 메뉴바 영역 */}
@@ -134,9 +133,7 @@ const SideBar: FC<SideBarProps> = props => {
           src={Lp}
           alt="Lp"
           className={`w-[100%] h-[100%] animate-[spin_5s_linear_infinite] ${
-            isPlaying
-              ? `running`:`pause`
-
+            isPlaying ? `running` : `pause`
           }`}
         />
       </div>

@@ -158,7 +158,7 @@ const SideBar: FC<SideBarProps> = props => {
             <div
               className={`flex flex-row gap-x-4 justify-between  w-3/4 m-auto ${styles.MenuDiv}`}>
               <div className={styles.profileIcon}></div>
-              <div className="flex flex-row justify-center w-full text-sm">
+              <div className="flex flex-row justify-center w-full text-[16px]">
                 {' '}
                 <p> 프로필 </p>{' '}
               </div>
@@ -169,7 +169,7 @@ const SideBar: FC<SideBarProps> = props => {
             <div
               className={`flex flex-row gap-x-4 justify-between  w-3/4 m-auto ${styles.MenuDiv}`}>
               <div className={styles.diaryIcon}></div>
-              <div className="flex flex-row justify-center w-full text-sm">
+              <div className="flex flex-row justify-center w-full text-[16px]">
                 {' '}
                 <p> 개인 노트 </p>{' '}
               </div>
@@ -180,7 +180,7 @@ const SideBar: FC<SideBarProps> = props => {
             <div
               className={`flex flex-row gap-x-4 justify-between  w-3/4 m-auto ${styles.MenuDiv}`}>
               <div className={styles.playlistIcon}></div>
-              <div className="flex flex-row justify-center w-full text-sm">
+              <div className="flex flex-row justify-center w-full text-[16px]">
                 {' '}
                 <p> 플레이리스트 </p>{' '}
               </div>
@@ -191,7 +191,7 @@ const SideBar: FC<SideBarProps> = props => {
             <div
               className={`flex flex-row gap-x-4 justify-between  w-3/4 m-auto ${styles.MenuDiv}`}>
               <div className={styles.messageIcon}></div>
-              <div className="flex flex-row justify-center w-full text-sm">
+              <div className="flex flex-row justify-center w-full text-[16px]">
                 {' '}
                 <p> 메세지 </p>{' '}
               </div>

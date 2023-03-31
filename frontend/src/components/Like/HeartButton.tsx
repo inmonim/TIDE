@@ -2,7 +2,7 @@ import {useState, useEffect, useRef} from 'react';
 import HeartFilled from './buttons/HeartFilled.png';
 import HeartEmpty from './buttons/HeartEmpty.png';
 
-const HeartButton = () => {
+function HeartButton() {
   const [isLiked, setIsLiked] = useState<boolean>(false);
 
   const handleLike = () => {
@@ -12,11 +12,13 @@ const HeartButton = () => {
   return (
     <button onClick={handleLike}>
       <img
-        src={isLiked ? HeartFilled.toString() : HeartEmpty.toString()}
+        className="hover: animate-bounce"
+        src={`/buttons/${isLiked ? 'HeartFilled.png' : 'HeartEmpty.png'}`}
+        style={{width: '50px', height: '50px'}}
         alt="Like button"
       />
     </button>
   );
-};
+}
 
 export default HeartButton;

@@ -43,8 +43,8 @@ export default function DiaryDetail() {
 
   // 파이어베이스 메시지 방 생성
   const onSendMessage = async () => {
-    const test = await enterChat(router);
-    console.log(test);
+    const otherNickname =  router.query.nickname;
+    await enterChat(router, otherNickname);
   };
 
   useEffect(() => {

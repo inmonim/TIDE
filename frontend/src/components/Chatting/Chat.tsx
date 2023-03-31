@@ -29,8 +29,16 @@ import {
 // 컴포넌트
 import Message from './Message';
 
-const Chat = () => {
+interface ChatPropsInterFace {
+  usersNickName: string | string[] | undefined;
+  roomName: string | string[] | undefined;
+}
+
+const Chat = ({data}: {data : ChatPropsInterFace}) => {
+  const {usersNickName, roomName} = data;
+
   const dispatch = useAppDispatch();
+
   // 내 이메일 정보
   const myEmail = getCookie('email');
   // 채팅 div
@@ -50,7 +58,7 @@ const Chat = () => {
     dispatch(profileAsync());
 
     // 우선 query로 데이터 가져오기 두번째 인자 where로 조건문도 가능
-    const content = query(collection(dbService, 'test'), orderBy('createdAt'));
+    const content = query(collection(dbService, `${roomName}`), orderBy('createdAt'));
 
     // 실시간 변화 감지 최신버전
     onSnapshot(content, snapshot => {
@@ -79,19 +87,18 @@ const Chat = () => {
     // 파일 데이터 가져오기
     if (fileUpload !== '') {
       //파일 경로 참조 만들기
-      const imageFileRef = ref(storageService, `test/${uuidv4()}`);
+      const imageFileRef = ref(storageService, `${roomName}/${uuidv4()}`);
       //storage 참조 경로로 파일 업로드 하기
       await uploadString(imageFileRef, fileUpload, 'data_url');
       //storage 참조 경로에 있는 파일의 URL을 다운로드해서 downLoadUrl 변수에 넣어서 업데이트
       downLoadUrl = await getDownloadURL(imageFileRef);
     }
     // 메시지 데이터에 추가
-    await addDoc(collection(dbService, 'test'), {
+    await addDoc(collection(dbService, `${roomName}`), {
       email: myEmail,
       nickname: nickname,
       content: message,
       createdAt: serverTimestamp(),
-      type: 'text',
       downLoadUrl
     });
     setMessage('');
@@ -134,13 +141,18 @@ const Chat = () => {
 
   return (
     <div className="flex flex-col justify-center w-full h-full text-white ">
-      <div className='fixed top-[40px] w-full h-[5vh] bg-black bg-opacity-90 lg:hidden'>
-        <div className='flex items-center h-full text-lg hover:text-blue-300'>☜(ﾟヮﾟ☜) 상대방아이디</div>
+      <div className="relative top-0 w-full h-[5vh] bg-black bg-opacity-90 lg:hidden">
+        <div className="flex items-center h-full text-lg hover:text-blue-300">
+          &nbsp; ☜(ﾟヮﾟ☜) {usersNickName}
+        </div>
       </div>
       <div className="flex flex-col items-center justify-center w-full h-full bg-black rounded-lg bg-opacity-40">
         {/* 메시지들 보이는 곳 */}
-        <div ref={chatDiv} className="w-5/6 overflow-y-auto">
+        <div ref={chatDiv} className="w-5/6 h-full overflow-y-auto">
           {messageDatas.map((msg, index) => {
+            if (index === 0) {
+              return 
+            }
             // 상대방의 닉네임 처음 한번만
             let checkSameNick = true;
             if (

@@ -25,7 +25,7 @@ const initialState: FollowerListState = {
 
 // Thunk 예시
 export const followerListAsync = createAsyncThunk(
-  'followerListAsync/Async',
+  'followers/Async',
   async () => {
     const accessToken = getCookie('accessToken');
     const data = await axios({

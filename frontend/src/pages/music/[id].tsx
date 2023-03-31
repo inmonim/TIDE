@@ -2,6 +2,7 @@ import Head from 'next/head';
 import {useRouter} from 'next/router';
 import Image from 'next/image';
 import {useEffect} from 'react';
+import HeartButton from '@/components/Like/HeartButton';
 
 function Musicpage() {
   const router = useRouter();
@@ -59,12 +60,14 @@ function Musicpage() {
                   {MusicData.musicTitle}
                 </h1>
                 {/* 노래 플레이 버튼 */}
-                <img
-                  className="ml-6 mt-4 w-[60px] h-[60px] hover:cursor-pointer hover:opacity-80"
-                  // onClick={gotoartistpage}
-                  src="/buttons/playbutton.png"
-                  alt="playbutton"></img>
-                <img className="" src="" alt="" />
+                <div className="flex mt-4">
+                  <img
+                    className="w-[60px] h-[60px] hover:cursor-pointer hover:opacity-80 mx-8"
+                    // onClick={gotoartistpage}
+                    src="/buttons/playbutton.png"
+                    alt="playbutton"></img>
+                  <HeartButton />
+                </div>
               </div>
               <p className="ml-2 text-2xl font-semibold">
                 {MusicData.releaseYear}

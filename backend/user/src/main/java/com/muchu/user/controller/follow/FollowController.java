@@ -2,6 +2,7 @@ package com.muchu.user.controller.follow;
 
 import com.muchu.user.request.UserNicknameRequest;
 import com.muchu.user.response.ResponseFollow;
+import com.muchu.user.response.ResponseProfile;
 import com.muchu.user.service.follow.FollowService;
 import com.muchu.user.service.user.UserService;
 import org.springframework.core.env.Environment;
@@ -80,5 +81,17 @@ public class FollowController {
                                                  @RequestBody UserNicknameRequest request) {
         followService.cancelFollower(email, request.getNickname());
         return ResponseEntity.status(HttpStatus.OK).body("팔로워가 취소");
+    }
+
+    // 다른 유저 팔로워 정보
+    @GetMapping("/userfollower")
+    public List<ResponseProfile> getUserFollowers(@RequestBody UserNicknameRequest request) {
+        return followService.getUserFollowers(request.getNickname());
+    }
+
+    // 다른 유저 팔로우 정보
+    @GetMapping("/userfollow")
+    public List<ResponseProfile> getUserFollows(@RequestBody UserNicknameRequest request) {
+        return followService.getUserFollows(request.getNickname());
     }
 }

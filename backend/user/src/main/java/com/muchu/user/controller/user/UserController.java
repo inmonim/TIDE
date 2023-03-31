@@ -54,4 +54,14 @@ public class UserController {
         return userSerivce.searchNickname(userId);
     }
 
+    @GetMapping("/enablefollow")
+    public boolean enableFollow(@RequestHeader("email") String email, @RequestParam("nickname") String nickname) {
+        return userSerivce.enableFollow(email, nickname);
+    }
+
+    @GetMapping("/getid")
+    public Long getId(@RequestParam("nickname") String nickname) {
+        return userSerivce.getId(nickname);
+    }
+
 }

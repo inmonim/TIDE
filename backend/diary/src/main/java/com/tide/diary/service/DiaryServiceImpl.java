@@ -3,21 +3,17 @@ package com.tide.diary.service;
 import com.tide.diary.client.UserServiceClient;
 import com.tide.diary.jpa.Diary;
 import com.tide.diary.jpa.DiaryRepository;
-import com.tide.diary.jpa.comment.DiaryComment;
 import com.tide.diary.jpa.comment.DiaryCommentRepository;
 import com.tide.diary.jpa.like.DiaryLikeUser;
 import com.tide.diary.jpa.like.DiaryLikeUserRepository;
-import com.tide.diary.request.RequestComment;
 import com.tide.diary.request.RequestDiary;
 import com.tide.diary.request.RequestPub;
-import com.tide.diary.response.ResponseComment;
 import com.tide.diary.response.ResponseDiary;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.sql.Date;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -181,6 +177,32 @@ public class DiaryServiceImpl implements DiaryService {
         }
         diary.setPub(request.getPub());
         diaryRepository.save(diary);
+    }
+
+    @Override
+    public List<ResponseDiary> getUserDiaries(String email, String nickname) {
+        boolean check = userServiceClient.enableFollow(email, nickname);
+        Long userId = userServiceClient.getId(nickname);
+        ModelMapper mapper = new ModelMapper();
+        List<ResponseDiary> response = new ArrayList<>();
+        log.info(userId.toString(), check);
+        List<Diary> diaries = diaryRepository.findAllByPub("0");
+        for (Diary diary : diaries) {
+            ResponseDiary responseDiary = mapper.map(diary, ResponseDiary.class);
+            responseDiary.setNickname(nickname);
+            response.add(responseDiary);
+        }
+        if (!check) {
+            return response;
+        } else {
+            List<Diary> followDiaries = diaryRepository.findAllByPub("1");
+            for (Diary diary : followDiaries) {
+                ResponseDiary responseDiary = mapper.map(diary, ResponseDiary.class);
+                responseDiary.setNickname(nickname);
+                response.add(responseDiary);
+            }
+            return response;
+        }
     }
 
 }

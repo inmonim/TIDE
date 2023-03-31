@@ -1,4 +1,4 @@
-package com.tide.music.service;
+package com.tide.music.service.music;
 
 public class MusicServiceImpl implements MusicService{
 

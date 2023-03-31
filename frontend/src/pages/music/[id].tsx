@@ -84,13 +84,21 @@ function Musicpage() {
               </div>
             </div>
           </div>
-          <hr className="my-1 border-1 border-gray w-[1400px] ml-[100px]" />
+          <div className="w-[1500px]"></div>
+          <hr className="my-1 border-1 border-gray" />
           <div className="flex flex-row py-2 justify-evenly">
-            <div className="flex flex-col text-2xl font-semibold">
-              추천하는 유저들
+            <div className="flex flex-col items-center text-2xl font-semibold w-[500px]">
+              좋아하는 유저들
+              {/* 이 노래를 좋아하는 유저들 */}
+              <div className="flex justify-center w-full my-4 bg-red-600">
+                1
+              </div>
             </div>
-            <div className="flex flex-col text-2xl font-semibold">
+            <div className="flex flex-col items-center text-2xl font-semibold w-[500px]">
               노래 가사
+              <div className="flex justify-center w-full my-4 bg-green-600">
+                2
+              </div>
             </div>
           </div>
         </div>

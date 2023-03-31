@@ -37,7 +37,7 @@ export default function DiaryCreate() {
             className={`flex flex-row items-center justify-center w-[100%]  min-w-[260px] min-h-[250px] mb-[50px] mb86:mb-0`}>
             {/* 글 에디터 영역 */}
             <div className={`w-full grid grid-cols-1 h-[100%]`}>
-              <QuillWrapper />
+              <QuillWrapper/>
             </div>
           </div>
 

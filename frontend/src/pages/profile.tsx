@@ -10,13 +10,13 @@ import {useRouter} from 'next/router';
 import Seo from 'src/components/Seo'
 import {followerListAsync} from 'store/api/features/followerListSlice';
 import {followListAsync} from 'store/api/features/followListSlice';
+import { diaryMineAsync } from 'store/api/features/diaryMineSlice';
 
 function Profile() {
   const dispatch = useAppDispatch();
   const router = useRouter();
 
   const {nickname, profile_img_path, introduce} = useAppSelector(state => {
-    // console.log(state.profile, 333);
     return state.profile;
   });
 
@@ -32,10 +32,26 @@ function Profile() {
     return state.follows;
   });
 
+  interface diaryInterFace {
+    id:number,
+    nickname: string;
+    title: string,
+    content: string,
+    creatDt: Date,
+    pub:string,
+    like:number
+  }
+  
+  
+  const {diarys} = useAppSelector(state => {
+    return state.diaryMine;
+  });
+
   useEffect(() => {
     dispatch(profileAsync());
     dispatch(followerListAsync());
     dispatch(followListAsync());
+    dispatch(diaryMineAsync());
   }, []);
 
   const [FModalType,setFModalType] = useState<Number>(0);
@@ -148,6 +164,20 @@ function Profile() {
             
             {/* 영역 부분 */}
             <div className="w-[100%] h-[400px] bg-red-400 ">
+
+
+            {diarys ? diarys.map((p, id) => (
+            <Link href={`/`} className={` h-fit`}>
+              <div className={`flex bg-slate-800 rounded-md w-[100%] h-[70px] p-[2%] items-center gap-x-2 bg-opacity-80 justify-between hover:bg-blue-500 duration-300`}>
+                {`${p.title}`}
+              <div>
+                {/* <button 
+                onClick={()=>{type===1?onFollowDel({nickname:p.nickname}):onFollowerDel({nickname:p.nickname})}}
+                className={`border rounded-3xl p-[6px] text-sm bg-slate-500 shadow text-shadow-md hover:bg-slate-800 duration-300`}> {type===1?`언팔로우`:`팔로워 삭제`}</button> */}
+              </div>
+              </div>      
+            </Link>
+        )):null}  
               
             </div>
           </div>

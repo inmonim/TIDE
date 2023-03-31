@@ -1,5 +1,8 @@
 import React, {FC, useEffect} from 'react';
 import Link from 'next/link';
+import {useAppDispatch, useAppSelector} from 'store'; //스토어 생성단계에서 export한 커스텀 dispatch, selector hook
+import {followDelAsync} from 'store/api/features/followDelSlice';
+import {followerDelAsync} from 'store/api/features/followerDelSlice';
 
 interface listInterFace {
   nickname: string;
@@ -12,8 +15,29 @@ export type FollowModalProps = {
   list:listInterFace[]
 };
 
+interface followAPIInterFace {
+  nickname: string;
+}
+
 const MusicModal: FC<FollowModalProps> = props => {
   const {type, list} = props;
+
+  const dispatch = useAppDispatch();
+
+  const {status} = useAppSelector(state => {
+    return state.followDel;
+  });
+
+  const onFollowDel = (nick:followAPIInterFace) => {
+      dispatch(followDelAsync(nick));
+  };
+
+  const onFollowerDel = (nick:followAPIInterFace) => {
+    dispatch(followerDelAsync(nick));
+};
+
+  
+  
 
   return(
     <>
@@ -40,7 +64,9 @@ const MusicModal: FC<FollowModalProps> = props => {
           </div>
 
           <div>
-            <p> ❌</p>
+            <button 
+            onClick={()=>{type===1?onFollowDel({nickname:p.nickname}):onFollowerDel({nickname:p.nickname})}}
+            className={`border rounded-3xl p-[6px] text-sm bg-slate-500 shadow text-shadow-md hover:bg-slate-800 duration-300`}> {type===1?`언팔로우`:`팔로워 삭제`}</button>
           </div>
           </div>      
         </Link>

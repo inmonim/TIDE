@@ -3,34 +3,38 @@ import axios from 'axios';
 import {getCookie} from 'cookies-next';
 
 // 타입
-interface FollowListState {
+interface myDiaryListState {
   status: string;
   error: string | undefined;
-  follows: followInterFace[];
+  diarys: diaryInterFace[];
 }
 
-interface followInterFace {
+interface diaryInterFace {
+  id:number,
   nickname: string;
-  profile_img_path: string;
-  introduce: string;
+  title: string,
+  content: string,
+  creatDt: Date,
+  pub:string,
+  like:number
 }
 
 // 초기값
-const initialState: FollowListState = {
+const initialState: myDiaryListState = {
   status: '',
   error:'',
-  follows:[]
+  diarys:[]
 };
 
 
 // Thunk 예시
-export const followListAsync = createAsyncThunk(
-  'follows/Async',
+export const diaryMineAsync = createAsyncThunk(
+  'diaryMine/Async',
   async () => {
     const accessToken = getCookie('accessToken');
     const data = await axios({
       method: 'get',
-      url: `${process.env.NEXT_PUBLIC_API_URL}/api/user/followlist`,
+      url: `${process.env.NEXT_PUBLIC_API_URL}/api/diary/mine`,
       headers: {
         Authorization: `Bearer ${accessToken}`,
         email: getCookie('email')
@@ -41,28 +45,28 @@ export const followListAsync = createAsyncThunk(
 );
 
 // createSlice로 Slice생성
-export const followListSlice = createSlice({
-  name: 'follows',
+export const diaryMineSlice = createSlice({
+  name: 'diaryMine',
   initialState,
   reducers: {
   },
   // 비동기 처리를 위한 redux-thunk사용 extraReducers
   extraReducers: builder => {
     builder
-      .addCase(followListAsync.pending, state => {
+      .addCase(diaryMineAsync.pending, state => {
         state.status = 'loading';
       })
-      .addCase(followListAsync.fulfilled, (state,action) => {
+      .addCase(diaryMineAsync.fulfilled, (state,action) => {
         state.status = 'completed';
-        const followList = action.payload;
-        state.follows = followList;
-        console.log('팔로우 리스트 요청 성공', state.follows)
+        const diaryList = action.payload;
+        state.diarys = diaryList;
+        console.log('내 다이어리 리스트 요청 성공', state.diarys)
 
       })
-      .addCase(followListAsync.rejected, (state, action) => {
+      .addCase(diaryMineAsync.rejected, state => {
         state.status = 'failed';
-        // console.log('팔로우 대기 리스트 요청 실패', action.error);
+        console.log('내 다이어리리스트 요청 실패');
       });
   }
 });
-export default followListSlice.reducer;
+export default diaryMineSlice.reducer;

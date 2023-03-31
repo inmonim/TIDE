@@ -1,27 +1,33 @@
 import Head from 'next/head';
 import {useRouter} from 'next/router';
 import Image from 'next/image';
+import {useEffect} from 'react';
 
 function Musicpage() {
   const router = useRouter();
 
-  const MusicName = router.query.id;
+  const MusicId = router.query.id;
 
   const MusicData = {
     // 임시 데이터
-    musicTitle: '호랑 나비',
-    artistName: '김흥국',
+    musicTitle: 'Hype Boy',
+    artistName: 'New Jeans',
+    artistid: '3114174',
     artistImage:
-      'https://cdnimg.melon.co.kr/cm/artistcrop/images/000/01/194/1194_500.jpg?4867e82abe04463f1dd41663eba70eb4/melon/resize/416/quality/80/optimize',
-    albumName: 'Kim Heung Kook',
+      'https://cdnimg.melon.co.kr/cm2/artistcrop/images/031/14/174/3114174_20230102131651_500.jpg?5ca391ef957f06aa173cfb18a6b4859f/melon/resize/416/quality/80/optimize',
+    albumName: 'New Album',
     albumImage:
-      'https://cdnimg.melon.co.kr/cm/album/images/003/11/964/311964_500.jpg',
-    releaseYear: '1989',
+      'https://cdnimg.melon.co.kr/cm2/album/images/110/11/565/11011565_20220801102637_500.jpg',
+    releaseYear: '2022',
     musicUrl: 'avHH4syRR-A'
   };
 
-  const gotomusicplayer = () => {
-    router.push('/music/[id]/player', `/music/${MusicName}/player`);
+  useEffect(() => {
+    console.log(MusicId);
+  }, [MusicId]);
+
+  const gotoartistpage = () => {
+    router.push('/artist/[id]', `/artist/${MusicData.artistid}`);
   };
 
   return (
@@ -30,43 +36,64 @@ function Musicpage() {
         <title>Music</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main
-        className={`
-      p-[4rem] pt-[2rem] lg12:pr-[calc(200px)] lg12:pl-[calc(15%+100px)] pb-[240px] text-[#eeeeee] flex flex-col min-h-[100vh] pt-[calc(2rem+40px)] bg-gradient-to-t from-blue-900 to-slate-900 `}>
-        <div className="flex flex-row justify-center">
-          <img
-            className="w-[300px] h-[300px] rounded-lg border-2 md:w-[350px] md:h-[350px]"
-            src={MusicData.albumImage}
-            alt="album_image"
-          />
-          {/* 노래 제목, 출시일, 아티스트 이름 */}
-          <div className="flex flex-col ml-10">
-            <div className="flex flex-row items-center">
-              <h1 className="text-[50px] font-bold">{MusicData.musicTitle}</h1>
-              {/* 노래 플레이 버튼 */}
-              <img
-                className="ml-6 w-[70px] h-[70px] hover:cursor-pointer hover:opacity-80"
-                onClick={gotomusicplayer}
-                src="/buttons/playbutton.png"
-                alt="playbutton"></img>
-            </div>
-            <p className="ml-2 text-2xl font-semibold">
-              {MusicData.releaseYear}
-            </p>
-            <div className="flex flex-col items-center mr-28">
-              <img
-                className="w-[100px] h-[100px] mt-8 rounded-full border-2 md:w-[180px] md:h-[180px]"
-                src={MusicData.artistImage}
-                alt="artistImage"
-              />
-              <p className="flex flex-row my-2 text-xl font-semibold">
-                {MusicData.artistName}
+      <main className="flex flex-col min-h-[91vh] bg-gradient-to-t from-slate-700 to-slate-900">
+        <div
+          className="w-[88%] h-[840px] ml-[12%]"
+          style={{
+            backgroundImage: `url(${MusicData.albumImage})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            opacity: '0.25'
+          }}></div>
+        <div className="absolute flex flex-col justify-center left-[230px] w-[1690px] mt-12 text-white ">
+          <div className="flex flex-row justify-center">
+            <img
+              className="w-[300px] h-[300px] rounded-full border-4 md:w-[350px] md:h-[350px] animate-[spin_10s_linear_infinite] pause hover:running"
+              src={MusicData.albumImage}
+              alt="album_image"
+            />
+            {/* 노래 제목, 출시일, 아티스트 이름 */}
+            <div className="flex flex-col ml-10">
+              <div className="flex flex-row items-center">
+                <h1 className="text-[50px] font-bold">
+                  {MusicData.musicTitle}
+                </h1>
+                {/* 노래 플레이 버튼 */}
+                <img
+                  className="ml-6 mt-4 w-[60px] h-[60px] hover:cursor-pointer hover:opacity-80"
+                  // onClick={gotoartistpage}
+                  src="/buttons/playbutton.png"
+                  alt="playbutton"></img>
+                <img className="" src="" alt="" />
+              </div>
+              <p className="ml-2 text-2xl font-semibold">
+                {MusicData.releaseYear}
               </p>
+              <div className="flex flex-col items-center mr-32">
+                <img
+                  className="w-[100px] h-[100px] mt-8 rounded-full border-4 border-white md:w-[180px] md:h-[180px] hover:cursor-pointer hover:opacity-80"
+                  src={MusicData.artistImage}
+                  alt="artistImage"
+                  onClick={gotoartistpage}
+                />
+                <p
+                  className="flex flex-row my-2 text-xl font-semibold hover:cursor-pointer hover:opacity-80"
+                  onClick={gotoartistpage}>
+                  {MusicData.artistName}
+                </p>
+              </div>
+            </div>
+          </div>
+          <hr className="my-1 border-1 border-gray w-[1400px] ml-[100px]" />
+          <div className="flex flex-row py-2 justify-evenly">
+            <div className="flex flex-col text-2xl font-semibold">
+              추천하는 유저들
+            </div>
+            <div className="flex flex-col text-2xl font-semibold">
+              노래 가사
             </div>
           </div>
         </div>
-        <hr className="my-6 border-gray" />
-        <div className="bg-red-700">qeqeqeqqweqw</div>
       </main>
     </div>
   );

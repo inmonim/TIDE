@@ -98,6 +98,31 @@ public class UserSerivceImpl implements UserService {
 
     @Override
     @Transactional
+    public boolean enableFollow(String email, String nickname) {
+        Long userId = userRepository.findByEmail(email).getId();
+        Long checkId = userRepository.findByNickname(nickname).getId();
+        Follow follow1 = followRepository.findByFromUserAndToUserAndAccept(userId, checkId, "1");
+        if(follow1 != null) {
+            return true;
+        }
+        Follow follow2 = followRepository.findByToUserAndFromUserAndAccept(userId, checkId, "1");
+        if(follow2 != null) {
+            return true;
+        }
+
+        return false;
+    }
+
+    @Override
+    @Transactional
+    public Long getId(String nickname) {
+        User user = userRepository.findByNickname(nickname);
+        return user.getId();
+    }
+
+
+    @Override
+    @Transactional
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         User user = userRepository.findByEmail(username);
 

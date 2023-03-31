@@ -7,6 +7,7 @@ import com.muchu.user.jpa.profile.ProfileRepository;
 import com.muchu.user.jpa.user.User;
 import com.muchu.user.jpa.user.UserRepository;
 import com.muchu.user.response.ResponseFollow;
+import com.muchu.user.response.ResponseProfile;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.convention.MatchingStrategies;
@@ -197,6 +198,49 @@ public class FollowServiceImpl implements FollowService {
         log.info("{} 유저가 팔로우한 {} 유저를 취소", toUserId.toString(), fromUserId.toString());
         Follow follow = followRepository.findByFromUserAndToUser(fromUserId, toUserId);
         followRepository.delete(follow);
+    }
+
+    // 어떤 유저의 팔로워 보기
+    @Override
+    public List<ResponseProfile> getUserFollowers(String nickname) {
+        User user = userRepository.findByNickname(nickname);
+        Long userId = user.getId();
+        List<Follow> follows = followRepository.findAllByToUserAndAccept(userId,"1");
+        List<ResponseProfile> result = new ArrayList<>();
+        for (Follow follow : follows) {
+            ResponseProfile responseProfile = new ResponseProfile();
+            Profile profile = profileRepository.findByUserid(follow.getFromUser());
+            Optional<User> user1 = userRepository.findById(follow.getFromUser());
+            responseProfile.setProfile_img_path(profile.getProfile_img_path());
+            responseProfile.setPoint(profile.getPoint());
+            responseProfile.setGender(user1.get().getGender());
+            responseProfile.setIntroduce(profile.getIntroduce());
+            responseProfile.setNickname(user1.get().getNickname());
+            result.add(responseProfile);
+        }
+        
+        return result;
+    }
+
+    // 어떤 유저의 팔로잉 보기
+    public List<ResponseProfile> getUserFollows(String nickname) {
+        User user = userRepository.findByNickname(nickname);
+        Long userId = user.getId();
+        List<Follow> follows = followRepository.findAllByFromUserAndAccept(userId,"1");
+        List<ResponseProfile> result = new ArrayList<>();
+        for (Follow follow : follows) {
+            ResponseProfile responseProfile = new ResponseProfile();
+            Profile profile = profileRepository.findByUserid(follow.getToUser());
+            Optional<User> user1 = userRepository.findById(follow.getToUser());
+            responseProfile.setProfile_img_path(profile.getProfile_img_path());
+            responseProfile.setPoint(profile.getPoint());
+            responseProfile.setGender(user1.get().getGender());
+            responseProfile.setIntroduce(profile.getIntroduce());
+            responseProfile.setNickname(user1.get().getNickname());
+            result.add(responseProfile);
+        }
+
+        return result;
     }
 
 }

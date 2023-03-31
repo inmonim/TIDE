@@ -1,4 +1,4 @@
-package com.tide.diary.jpa.list;
+package com.tide.diary.jpa.diarylist;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,13 +10,15 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class DiaryList {
+@Table(name = "diary_diary_list")
+public class DiaryDiaryList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "user_id")
-    private Long userId;
-    @Column(name = "diary_list_title")
-    private String diaryListTitle;
+    @Column(name = "diary_list_id")
+    private Long diaryListId;
+    @Column(name = "diary_id")
+    private Long diaryId;
+    
 }

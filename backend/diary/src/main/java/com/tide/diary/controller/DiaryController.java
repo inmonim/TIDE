@@ -1,9 +1,6 @@
 package com.tide.diary.controller;
 
-import com.tide.diary.request.RequestComment;
-import com.tide.diary.request.RequestDiary;
-import com.tide.diary.request.RequestNickname;
-import com.tide.diary.request.RequestPub;
+import com.tide.diary.request.*;
 import com.tide.diary.response.ResponseComment;
 import com.tide.diary.response.ResponseDiary;
 import com.tide.diary.service.DiaryService;
@@ -52,6 +49,13 @@ public class DiaryController {
     @GetMapping("/follow")
     public List<ResponseDiary> getFollowDiaries(@RequestHeader("email") String email) {
         return diaryService.getFollowDiaries(email);
+    }
+
+    // 특정 닉네임 기준 다이어리 조회
+    @GetMapping("/user/diaries")
+    public List<ResponseDiary> getUserDiaries(@RequestHeader("email") String email,
+                                              @RequestBody RequestNickname request) {
+        return diaryService.getUserDiaries(email, request.getNickname());
     }
 
     // 다이어리 작성

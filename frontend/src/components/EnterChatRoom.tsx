@@ -7,14 +7,18 @@ import {doc, setDoc, getDoc} from 'firebase/firestore';
 import {dbService} from '@/firebase';
 import {serverTimestamp} from 'firebase/firestore';
 
-const enterChat = async (router: NextRouter) => {
-  const nickname = router.query.nickname;
+
+const enterChat = async (router: NextRouter, otherNickname: any) => {
+  const myNickName = getCookie('nickname');
+  const nickname = otherNickname;
+  console.log(nickname)
   // 방 이름 검색위해 두가지 다 검색
-  const roomName = `${getCookie('nickname')}${nickname}`;
-  const roomName2 = `${nickname}${getCookie('nickname')}`;
+  const roomName = `${myNickName}${nickname}`;
+  const roomName2 = `${nickname}${myNickName}`;
 
   const docSnap = await getDoc(doc(dbService, roomName, 'start'));
   const docSnap2 = await getDoc(doc(dbService, roomName2, 'start'));
+
 
   // 채팅방 존재 여부 체크후 이동
   if (docSnap.exists()) {
@@ -27,7 +31,6 @@ const enterChat = async (router: NextRouter) => {
           roomName: roomName
         }
       }
-      // `/message/${nickname}`
     );
     return;
   }
@@ -41,16 +44,21 @@ const enterChat = async (router: NextRouter) => {
           roomName: roomName2
         }
       }
-      // `/message/${nickname}`
     );
     return;
   }
+  // 나의 방 리스트 만듬
+  console.log('3');
+  await setDoc(doc(dbService, `${myNickName}`, `${nickname}`), {
+    nickname,
+    createdAt: serverTimestamp()
+  });
+
   // 앞에서 방을 못찾으면 방을 만듬
   await setDoc(doc(dbService, roomName, 'start'), {
     startTime: serverTimestamp(),
     createdAt: serverTimestamp()
   });
-  console.log('3');
   router.push(
     {
       pathname: '/message/[...nickname]',
@@ -59,7 +67,6 @@ const enterChat = async (router: NextRouter) => {
         roomName: roomName
       }
     }
-    // `/message/${nickname}`
   );
 };
 

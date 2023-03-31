@@ -28,15 +28,20 @@ public class DiaryLikeServiceImpl implements DiaryLikeService {
     public void cntLike(String email, Long diaryId) {
         Long userId = userServiceClient.getUserId(email);
         Diary diary = diaryRepository.findById(diaryId).orElse(null);
-        diary.setLikeCnt(diary.getLikeCnt() + 1);
         DiaryLikeUser diaryLikeUser = new DiaryLikeUser();
         DiaryLikeUser check = diaryLikeUserRepository.findByDiaryIdAndUserId(diaryId, userId);
         if (check != null) {
-            throw new IllegalStateException("이미 좋아요한 게시글입니다.");
+            log.info("좋아요 취소");
+            diary.setLikeCnt(diary.getLikeCnt() - 1);
+            diaryLikeUserRepository.delete(check);
+            diaryRepository.save(diary);
+        } else {
+            log.info("좋아요");
+            diary.setLikeCnt(diary.getLikeCnt() + 1);
+            diaryLikeUser.setDiaryId(diaryId);
+            diaryLikeUser.setUserId(userId);
+            diaryLikeUserRepository.save(diaryLikeUser);
+            diaryRepository.save(diary);
         }
-        diaryLikeUser.setDiaryId(diaryId);
-        diaryLikeUser.setUserId(userId);
-        diaryLikeUserRepository.save(diaryLikeUser);
-        diaryRepository.save(diary);
     }
 }

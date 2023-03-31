@@ -62,7 +62,7 @@ public class DiaryController {
     }
 
     // 공개여부 변경
-    @PutMapping("/pub/{diaryId}")
+    @PutMapping("/public/{diaryId}")
     public ResponseEntity<String> changeStatus(@RequestHeader("email") String email,
                                                @PathVariable("diaryId") Long diaryId,
                                                @RequestBody RequestPub request) {

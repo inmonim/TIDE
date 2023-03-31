@@ -37,7 +37,7 @@ public class ProfileController {
         profileService.deleteInfo(email);
         return ResponseEntity.status(HttpStatus.OK).body("User profile deleted");
     }
-    @GetMapping("/userinfo")
+    @PostMapping("/userinfo")
     public ResponseProfile getUserInfo(@RequestBody UserNicknameRequest request) {
         return profileService.getUserInfo(request.getNickname());
     }

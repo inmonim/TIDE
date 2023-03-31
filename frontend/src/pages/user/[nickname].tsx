@@ -5,12 +5,10 @@ import {followReqAsync} from 'store/api/features/followReqSlice';
 import {followAccAsync} from 'store/api/features/followAccSlice';
 import Seo from '@/components/Seo';
 import {useEffect, useState} from 'react';
-import {getCookie} from 'cookies-next';
 import {toast} from 'react-toastify';
+import { enterChat } from '@/components/EnterChatRoom';
 
-// 파이어베이스
-import {doc, setDoc} from 'firebase/firestore';
-import {dbService} from '@/firebase';
+
 
 interface followReqInterFace {
   nickname: string;
@@ -45,8 +43,8 @@ export default function DiaryDetail() {
 
   // 파이어베이스 메시지 방 생성
   const onSendMessage = async () => {
-    await setDoc(doc(dbService, `${getCookie('nickname')}${router.query.nickname}`, 'start'), {});
-    // router.push('/message');
+    const test = await enterChat(router);
+    console.log(test);
   };
 
   useEffect(() => {

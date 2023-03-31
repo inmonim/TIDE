@@ -9,15 +9,17 @@ import {followListAsync} from 'store/api/features/followListSlice';
 import { userInfoAsync } from 'store/api/features/userInfoSlice';
 import Seo from '@/components/Seo';
 import {useEffect, useState} from 'react';
+<<<<<<< HEAD
 import {getCookie} from 'cookies-next';
 import defaultImg from 'public/images/Logo/whiteLogo.png';
 import FollowModal from '@/components/Modal/FollowModal';
 import Image from 'next/image';
+=======
+>>>>>>> 59042779416476b46796ea957301ca68e0c31136
 import {toast} from 'react-toastify';
+import { enterChat } from '@/components/EnterChatRoom';
 
-// 파이어베이스
-import {doc, setDoc} from 'firebase/firestore';
-import {dbService} from '@/firebase';
+
 
 interface followReqInterFace {
   nickname: string;
@@ -80,8 +82,8 @@ export default function DiaryDetail() {
 
   // 파이어베이스 메시지 방 생성
   const onSendMessage = async () => {
-    await setDoc(doc(dbService, `${getCookie('nickname')}${router.query.nickname}`, 'start'), {});
-    // router.push('/message');
+    const otherNickname =  router.query.nickname;
+    await enterChat(router, otherNickname);
   };
 
   useEffect(() => {

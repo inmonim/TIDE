@@ -59,6 +59,13 @@ public class FollowController {
         return ResponseEntity.status(HttpStatus.OK).build();
     }
 
+    @DeleteMapping("/followrefuse")
+    public ResponseEntity<String> followRefuse(@RequestHeader("email") String email,
+                                               @RequestBody UserNicknameRequest request) {
+        followService.followRefuse(email, request.getNickname());
+        return ResponseEntity.status(HttpStatus.OK).body("followRefuse");
+    }
+
     // 언팔로우
     @DeleteMapping("/follow")
     public ResponseEntity<String> cancelFollow(@RequestHeader("email") String email,

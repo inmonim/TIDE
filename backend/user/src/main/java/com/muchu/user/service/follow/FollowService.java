@@ -13,4 +13,5 @@ public interface FollowService {
     void acceptFollow(String email, String nickname);
     void cancelFollower(String email, String nickname);
     void cancelFollow(String email, String nickname);
+    void followRefuse(String email, String nickname);
 }

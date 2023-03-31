@@ -22,6 +22,6 @@ public class DiaryLikeController {
     public ResponseEntity<String> cntLike(@RequestHeader("email")String email,
                                           @PathVariable("diaryId") Long diaryId) {
         diaryLikeService.cntLike(email, diaryId);
-        return ResponseEntity.status(HttpStatus.OK).body("좋아요 + 1");
+        return ResponseEntity.status(HttpStatus.OK).body("Like 처리");
     }
 }

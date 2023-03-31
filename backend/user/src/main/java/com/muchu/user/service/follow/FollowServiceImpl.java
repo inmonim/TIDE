@@ -146,6 +146,7 @@ public class FollowServiceImpl implements FollowService {
     }
 
     @Override
+    @Transactional
     public void acceptFollow(String email, String nickname) {
         User user = userRepository.findByEmail(email);
         Long fromUserId = user.getId();
@@ -163,6 +164,7 @@ public class FollowServiceImpl implements FollowService {
     }
 
     @Override
+    @Transactional
     public void cancelFollower(String email, String nickname) {
         User user = userRepository.findByEmail(email);
         Long fromUserId = user.getId();
@@ -174,6 +176,7 @@ public class FollowServiceImpl implements FollowService {
     }
 
     @Override
+    @Transactional
     public void cancelFollow(String email, String nickname) {
         User user = userRepository.findByEmail(email);
         Long toUserId = user.getId();
@@ -183,4 +186,17 @@ public class FollowServiceImpl implements FollowService {
         Follow follow = followRepository.findByToUserAndFromUser(toUserId, fromUserId);
         followRepository.delete(follow);
     }
+
+    @Override
+    @Transactional
+    public void followRefuse(String email, String nickname) {
+        User user = userRepository.findByEmail(email);
+        Long fromUserId = user.getId();
+        User toUser = userRepository.findByNickname(nickname);
+        Long toUserId = toUser.getId();
+        log.info("{} 유저가 팔로우한 {} 유저를 취소", toUserId.toString(), fromUserId.toString());
+        Follow follow = followRepository.findByFromUserAndToUser(fromUserId, toUserId);
+        followRepository.delete(follow);
+    }
+
 }

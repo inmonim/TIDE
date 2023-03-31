@@ -7,8 +7,8 @@ import {BsChevronCompactRight, BsChevronCompactLeft} from 'react-icons/bs';
 import Link from 'next/link';
 import {getCookie} from 'cookies-next';
 import cookie from 'react-cookies';
-import { useAppDispatch, useAppSelector } from 'store';
-import { profileAsync } from 'store/api/features/profileSlice';
+import {useAppDispatch, useAppSelector} from 'store';
+import {profileAsync} from 'store/api/features/profileSlice';
 
 interface playlists {
   id: number;
@@ -29,10 +29,10 @@ interface Props {
 
 function Mainpage() {
   const dispatch = useAppDispatch();
-  const { nickname } = useAppSelector((state) => {
-    return state.profile
-  })
-  
+  const {nickname} = useAppSelector(state => {
+    return state.profile;
+  });
+
   const [playlists, setPlaylists] = useState<playlists[]>([]);
   const [diarylist, setDiarylist] = useState<diarylist[]>([]);
 
@@ -94,7 +94,7 @@ function Mainpage() {
   // 더미 플레이리스트
   useEffect(() => {
     // 내 프로필정보 요청
-    dispatch(profileAsync())
+    dispatch(profileAsync());
     setPlaylists([
       {
         id: 1,
@@ -159,9 +159,6 @@ function Mainpage() {
         title: '롸익보이이이이이',
         image: `https://lh3.googleusercontent.com/6wTZg-bWv7Yax1_7G0QlqukOwDJHetzicZj84GHzI93-Axt0Nv638NoG7cC6RnbGSTn0-gZkwVxvnExs=w544-h544-l90-rj`
       }
-
-
-      
     ]);
   }, []);
 
@@ -172,7 +169,7 @@ function Mainpage() {
       // , expires
       // , httpOnly: HTTP_ONLY // dev/prod 에 따라 true / false 로 받게 했다.
     });
-  },[nickname])
+  }, [nickname]);
 
   return (
     <>

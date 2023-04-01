@@ -1,4 +1,4 @@
-package com.tide.music.jpa.playlistlike;
+package com.tide.music.jpa.playlist.song;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -6,19 +6,19 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "playlist_like_user")
-public class PlaylistLikeUser {
+@Table(name = "playlist_song")
+public class PlaylistSong {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "playlist_id")
     private Long playlistId;
-    @Column(name = "user_id")
-    private Long userId;
+    @Column(name = "song_id")
+    private Long songId;
 }

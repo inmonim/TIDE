@@ -1,10 +1,10 @@
 package com.tide.music.service.playlist;
 
 import com.tide.music.client.UserServiceClient;
-import com.tide.music.jpa.playlistlike.PlaylistLikeUser;
-import com.tide.music.jpa.playlistlike.PlaylistLikeUserRepository;
-import com.tide.music.jpa.playlistsong.PlaylistSong;
-import com.tide.music.jpa.playlistsong.PlaylistSongRepository;
+import com.tide.music.jpa.playlist.like.PlaylistLikeUser;
+import com.tide.music.jpa.playlist.like.PlaylistLikeUserRepository;
+import com.tide.music.jpa.playlist.song.PlaylistSong;
+import com.tide.music.jpa.playlist.song.PlaylistSongRepository;
 import com.tide.music.jpa.userplaylist.UserPlaylist;
 import com.tide.music.jpa.userplaylist.UserPlaylistRepository;
 import com.tide.music.request.RequestPlaylist;

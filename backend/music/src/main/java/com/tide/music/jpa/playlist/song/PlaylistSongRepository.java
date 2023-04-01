@@ -1,4 +1,4 @@
-package com.tide.music.jpa.playlistsong;
+package com.tide.music.jpa.playlist.song;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

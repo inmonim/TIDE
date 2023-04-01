@@ -229,7 +229,14 @@ function Mainpage() {
 
           {/* 오늘의 일기들 인기순 */}
           <div className={`mt-5`}>
+            <div className={`flex  items-center justify-between`}>
             <h2 className="mb-4 text-2xl font-semibold">Daily hot Diary</h2>
+            
+            <Link href={`/diary-public`}>
+              <button className={`border pl-2 pr-2 rounded-xl bg-slate-700 hover:bg-blue-400 duration-300`}> 모든 일기 보러가기</button>
+            </Link>
+            </div>
+
             <div
               className={`md:flex overflow-auto scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-blue-500 scrollbar-track-black border-t-2 border-b-2 pt-2 pb-2 md:max-h-[630px] max-h-[550px]`}>
               {diarylist.map((dl, id) => (

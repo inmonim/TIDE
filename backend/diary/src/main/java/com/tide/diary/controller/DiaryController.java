@@ -52,7 +52,7 @@ public class DiaryController {
     }
 
     // 특정 닉네임 기준 다이어리 조회
-    @GetMapping("/user/diaries")
+    @PostMapping("/user/diaries")
     public List<ResponseDiary> getUserDiaries(@RequestHeader("email") String email,
                                               @RequestBody RequestNickname request) {
         return diaryService.getUserDiaries(email, request.getNickname());
@@ -60,7 +60,8 @@ public class DiaryController {
 
     // 다이어리 작성
     @PostMapping("/write")
-    public ResponseEntity<String> addDiary(@RequestHeader("email") String email, @RequestBody RequestDiary request) {
+    public ResponseEntity<String> addDiary(@RequestHeader("email") String email,
+                                           @RequestBody RequestDiary request) {
         diaryService.addDiary(email, request);
         return ResponseEntity.status(HttpStatus.CREATED).body("Diary Added Successfully");
     }

@@ -1,6 +1,9 @@
 package com.tide.music.controller.playlist;
 
+import com.tide.music.request.RequestNickname;
 import com.tide.music.request.RequestPlaylist;
+import com.tide.music.request.RequestPlaylistId;
+import com.tide.music.request.RequestPlaylistInfo;
 import com.tide.music.response.ResponsePlaylist;
 import com.tide.music.service.playlist.PlaylistService;
 import org.springframework.core.env.Environment;
@@ -22,11 +25,6 @@ public class PlaylistController {
         this.playListService = playListService;
     }
 
-    @GetMapping("/health_check")
-    public String status() {
-        return String.format("Health check: %s", env.getProperty("local.server.port"));
-    }
-
     // 플레이리스트 추가
     @PostMapping("/playlist")
     public ResponseEntity<String> addPlaylist(@RequestHeader("email") String email,
@@ -34,10 +32,59 @@ public class PlaylistController {
         playListService.addPlaylist(email, request);
         return ResponseEntity.status(HttpStatus.CREATED).body("플레이리스트 저장 성공");
     }
-    
+
+    // 플레이리스트에 노래 추가
+    @PostMapping("/playlist/{songId}")
+    public ResponseEntity<String> addSongToPlaylist(@RequestHeader("email") String email,
+                                                    @PathVariable("songId") Long songId,
+                                                    @RequestBody RequestPlaylistId request) {
+        playListService.addSongToPlaylist(email, songId, request.getPlaylistId());
+        return ResponseEntity.status(HttpStatus.CREATED).body("플레이리스트에 노래 추가 성공");
+    }
+
+    // 타인의 플레이리스트 조회
+    @PostMapping("/playlist/user")
+    public List<ResponsePlaylist> getPlaylists(@RequestHeader("email") String email,
+                                               @RequestBody RequestNickname request) {
+        return playListService.getPlaylists(email, request.getNickname());
+    }
+
     // 본인의 플레이리스트 조회
     @GetMapping("/myplaylist")
     public List<ResponsePlaylist> getMyPlaylists(@RequestHeader("email") String email) {
         return playListService.getMyPlaylists(email);
+    }
+
+    // 플레이리스트 수정 (공개여부, 플레이리스트 이름)
+    @PutMapping("/playlist")
+    public ResponseEntity<String> updateSongInPlaylist(@RequestHeader("email") String email,
+                                                        @RequestBody RequestPlaylistInfo request) {
+        playListService.updateSongInPlaylist(email, request);
+        return ResponseEntity.status(HttpStatus.OK).body("플레이리스트 수정 완료");
+    }
+
+    // 플레이리스트 좋아요
+    @PutMapping("/playlist/like/{playlistId}")
+    public ResponseEntity<String> likePlaylist(@RequestHeader("email") String email,
+                                               @PathVariable Long playlistId) {
+        playListService.likePlaylist(email, playlistId);
+        return ResponseEntity.status(HttpStatus.OK).body("플레이리스트 좋아요 처리");
+    }
+
+    // 플레이리스트에 있는 노래 삭제
+    @DeleteMapping("/playlist/song/{songId}")
+    public ResponseEntity<String> deleteSongFromPlaylist(@RequestHeader("email") String email,
+                                                        @PathVariable("songId") Long songId,
+                                                        @RequestBody RequestPlaylistId request) {
+        playListService.deleteSongFromPlaylist(email, songId, request.getPlaylistId());
+        return ResponseEntity.status(HttpStatus.OK).body("플레이리스트에 노래 삭제완료");
+    }
+
+    // 플레이리스트 삭제
+    @DeleteMapping("/playlist/{playlistId}")
+    public ResponseEntity<String> deletePlaylist(@RequestHeader("email") String email,
+                                                 @PathVariable Long playlistId) {
+        playListService.deletePlaylist(email, playlistId);
+        return ResponseEntity.status(HttpStatus.OK).body("플레이리스트 삭제");
     }
 }

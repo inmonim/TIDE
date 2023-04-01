@@ -153,7 +153,6 @@ public class DiaryServiceImpl implements DiaryService {
             response.setNickname(userServiceClient.getNickname(diary.getUserId()));
             diaryList.add(response);
         }
-
         return diaryList;
     }
 
@@ -180,29 +179,29 @@ public class DiaryServiceImpl implements DiaryService {
     }
 
     @Override
+    @Transactional
     public List<ResponseDiary> getUserDiaries(String email, String nickname) {
         boolean check = userServiceClient.enableFollow(email, nickname);
         Long userId = userServiceClient.getId(nickname);
         ModelMapper mapper = new ModelMapper();
         List<ResponseDiary> response = new ArrayList<>();
         log.info(userId.toString(), check);
-        List<Diary> diaries = diaryRepository.findAllByPub("0");
-        for (Diary diary : diaries) {
-            ResponseDiary responseDiary = mapper.map(diary, ResponseDiary.class);
-            responseDiary.setNickname(nickname);
-            response.add(responseDiary);
-        }
-        if (!check) {
-            return response;
+        if(check) {
+            List<Diary> diaries = diaryRepository.findAllByUserIdAndPubNot(userId,"2");
+            for (Diary diary : diaries) {
+                ResponseDiary responseDiary = mapper.map(diary, ResponseDiary.class);
+                responseDiary.setNickname(nickname);
+                response.add(responseDiary);
+            }
         } else {
-            List<Diary> followDiaries = diaryRepository.findAllByPub("1");
+            List<Diary> followDiaries = diaryRepository.findAllByUserIdAndPub(userId, "0");
             for (Diary diary : followDiaries) {
                 ResponseDiary responseDiary = mapper.map(diary, ResponseDiary.class);
                 responseDiary.setNickname(nickname);
                 response.add(responseDiary);
             }
-            return response;
         }
+        return response;
     }
 
 }

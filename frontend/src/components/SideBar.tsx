@@ -37,8 +37,11 @@ const SideBar: FC<SideBarProps> = props => {
             </form>
           </div>
           {/* 로고 영역 */}
-          <div className={styles.logoDiv}> </div>
-
+          <div className={`${styles.logoDiv} flex justify-center`}>
+            <Link href="/mainpage">
+              <div className={`w-24 h-8`}></div>
+            </Link>
+          </div>
           {/* 알림, 친구 */}
           <div
             className={`flex flex-row items-center gap-x-5 right-0 mr-[-20px] ${styles.rightIconDiv}`}>

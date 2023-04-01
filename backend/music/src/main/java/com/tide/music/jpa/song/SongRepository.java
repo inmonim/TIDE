@@ -11,6 +11,6 @@ import java.util.List;
 @Repository
 public interface SongRepository extends JpaRepository<Song, Long> {
 
-    @Query("SELECT s FROM Song s WHERE REPLACE(s.title, ' ', '') LIKE %:title%")
+    @Query("SELECT s FROM Song s WHERE REPLACE(s.title, ' ', '') LIKE %:title% OR s.title LIKE %:title%")
     List<Song> findTitle(@Param("title") String title, Pageable pageable);
 }

@@ -31,16 +31,6 @@ function Profile() {
   const {follows} = useAppSelector(state => {
     return state.follows;
   });
-
-  interface diaryInterFace {
-    id:number,
-    nickname: string;
-    title: string,
-    content: string,
-    creatDt: Date,
-    pub:string,
-    like:number
-  }
   
   
   const {diarys} = useAppSelector(state => {
@@ -163,21 +153,22 @@ function Profile() {
             </div>
             
             {/* 영역 부분 */}
-            <div className="w-[100%] h-[400px] bg-red-400 ">
+            <div className="w-[100%] h-[400px] border-t border-b pt-3 pb-3">
 
 
-            {diarys ? diarys.map((p, id) => (
-            <Link href={`/`} className={` h-fit`}>
-              <div className={`flex bg-slate-800 rounded-md w-[100%] h-[70px] p-[2%] items-center gap-x-2 bg-opacity-80 justify-between hover:bg-blue-500 duration-300`}>
-                {`${p.title}`}
-              <div>
-                {/* <button 
-                onClick={()=>{type===1?onFollowDel({nickname:p.nickname}):onFollowerDel({nickname:p.nickname})}}
-                className={`border rounded-3xl p-[6px] text-sm bg-slate-500 shadow text-shadow-md hover:bg-slate-800 duration-300`}> {type===1?`언팔로우`:`팔로워 삭제`}</button> */}
+            {diarys && diarys.length >0 ? diarys.map((p, id) => (
+            <Link href={`/diary/${id}`} className={` h-fit`}>
+                <div className={`flex bg-slate-700 rounded-md w-[100%] h-[70px] p-[2%] items-center gap-x-2 bg-opacity-80 justify-between hover:bg-blue-500 duration-300`}>
+                  {`${p.title}`}
+                <div>
               </div>
               </div>      
             </Link>
-        )):null}  
+        )):
+        <div className={`w-full bg-slate-900 bg-opacity-60 text-center h-full items-center flex flex-row justify-center`}>
+          <p> 아직 작성된 일기가 없습니다. </p>
+        </div>
+        }  
               
             </div>
           </div>

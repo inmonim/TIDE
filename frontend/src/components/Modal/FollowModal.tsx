@@ -50,7 +50,7 @@ const MusicModal: FC<FollowModalProps> = props => {
       <div className={`mt-4 h-[90%] overflow-auto grid gap-y-2 scrollbar-hide`}>
 
       {list ? list.map((p, index) => (
-        <Link href={`/user/${p.nickname}`} className={` h-fit`}>
+        <Link href={`/user/${p.nickname}`} className={` h-fit`} key={index}>
           <div className={`flex bg-slate-800 rounded-md w-[100%] h-[70px] p-[2%] items-center gap-x-2 bg-opacity-80 justify-between hover:bg-blue-500 duration-300`}>
           
           <div className={`flex items-center`}>

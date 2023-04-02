@@ -37,7 +37,7 @@ export const publicDiaryAsync = createAsyncThunk(
       url: `${process.env.NEXT_PUBLIC_API_URL}/api/diary/public`,
       headers: {
         Authorization: `Bearer ${accessToken}`,
-        email: getCookie('email')
+        // email: getCookie('email')
       },
     });
     return data.data;

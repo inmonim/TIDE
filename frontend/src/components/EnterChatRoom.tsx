@@ -11,7 +11,7 @@ import {serverTimestamp} from 'firebase/firestore';
 const enterChat = async (router: NextRouter, otherNickname: any) => {
   const myNickName = getCookie('nickname');
   const nickname = otherNickname;
-  console.log(nickname)
+  
   // 방 이름 검색위해 두가지 다 검색
   const roomName = `${myNickName}${nickname}`;
   const roomName2 = `${nickname}${myNickName}`;
@@ -22,7 +22,7 @@ const enterChat = async (router: NextRouter, otherNickname: any) => {
 
   // 채팅방 존재 여부 체크후 이동
   if (docSnap.exists()) {
-    console.log('1');
+    // console.log('1');
     router.push(
       {
         pathname: '/message/[...nickname]',
@@ -35,7 +35,7 @@ const enterChat = async (router: NextRouter, otherNickname: any) => {
     return;
   }
   if (docSnap2.exists()) {
-    console.log('2');
+    // console.log('2');
     router.push(
       {
         pathname: '/message/[...nickname]',
@@ -48,7 +48,6 @@ const enterChat = async (router: NextRouter, otherNickname: any) => {
     return;
   }
   // 나의 방 리스트 만듬
-  console.log('3');
   await setDoc(doc(dbService, `${myNickName}`, `${nickname}`), {
     nickname,
     createdAt: serverTimestamp()

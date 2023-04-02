@@ -71,7 +71,6 @@ public class MusicServiceImpl implements MusicService{
         List<ResponseSearchSong> responseSearchSongList = new ArrayList<>();
         for (Song song : songs) {
             ResponseSearchSong responseSearchSong = new ResponseSearchSong();
-            log.info(song.toString());
             SongAlbum songAlbum = songAlbumRepository.findBySongId(song.getSongId());
             List<SongArtist> songArtists = songArtistRepository.findAllBySongId(song.getSongId());
             Album album = albumRepository.findByAlbumId(songAlbum.getAlbumId());

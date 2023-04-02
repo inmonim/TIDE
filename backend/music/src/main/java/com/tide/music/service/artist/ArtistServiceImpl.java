@@ -10,8 +10,12 @@ import com.tide.music.jpa.song.SongRepository;
 import com.tide.music.jpa.song.artist.SongArtist;
 import com.tide.music.jpa.song.artist.SongArtistRepository;
 import com.tide.music.response.ResponseArtistInfo;
+import com.tide.music.response.ResponseArtistList;
+import feign.Response;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -86,5 +90,23 @@ public class ArtistServiceImpl implements ArtistService {
             artist.setLikeCnt(artist.getLikeCnt() - 1);
             artistLikeUserRepository.delete(artistLikeUser);
         }
+    }
+
+    @Override
+    @Transactional
+    public List<ResponseArtistList> getArtistTopList() {
+        Pageable pageable = PageRequest.of(0, 6);
+        List<Artist> artists = artistRepository.findTopByLikeCnt(pageable);
+        List<ResponseArtistList> response = new ArrayList<>();
+        for(Artist artist : artists) {
+            ResponseArtistList temp = new ResponseArtistList();
+            temp.setArtistName(artist.getArtistName());
+            temp.setLikeCnt(artist.getLikeCnt());
+            temp.setArtistImgPath(artist.getArtistImgPath());
+            temp.setArtistId(artist.getArtistId());
+            response.add(temp);
+        }
+
+        return response;
     }
 }

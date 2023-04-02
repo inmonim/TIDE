@@ -19,6 +19,11 @@ import userFollowListSlice from './api/features/userFollowListSlice';
 import userFollowerListSlice from './api/features/userFollowerListSlice';
 import userDiarySlice from './api/features/userDiarySlice';
 import publicDiarySlice from './api/features/publicDiarySlice';
+import diaryDetailSlice from './api/features/diaryDetailSlice';
+import diaryListCreateSlice from './api/features/diaryListCreateSlice';
+import diaryListMineSlice from './api/features/diaryListMineSlice';
+import diaryListDelSlice from './api/features/diaryListDelSlice';
+import diaryListEditSlice from './api/features/diaryListEditSlice';
 
 // 리듀서들을 합쳐주는곳
 const combinedReducer = combineReducers({
@@ -38,9 +43,14 @@ const combinedReducer = combineReducers({
   followDel: followDelSlice,
   followerDel:followerDelSlice,
   userInfo:userInfoSlice,
+  diaryDetail:diaryDetailSlice,
   diaryMine:diaryMineSlice,
   userDiary:userDiarySlice,
-  publicDiary: publicDiarySlice
+  publicDiary: publicDiarySlice,
+  diaryListCreate: diaryListCreateSlice,
+  diaryListMine:diaryListMineSlice,
+  diaryListDel: diaryListDelSlice,
+  diaryListEdit: diaryListEditSlice
 });
 
 // Hydrate와 위에서 합친 reducer들을 rootReducer에 세팅

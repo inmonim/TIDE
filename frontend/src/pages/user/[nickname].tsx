@@ -24,7 +24,7 @@ interface nickInterFace {
   nickname: string;
 }
 
-export default function DiaryDetail() {
+export default function userDetail() {
   const router = useRouter();
   const dispatch = useAppDispatch();
   

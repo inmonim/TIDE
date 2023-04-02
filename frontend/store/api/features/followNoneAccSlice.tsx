@@ -25,9 +25,9 @@ const initialState: FollowAccState = {
 export const followNoneAccAsync = createAsyncThunk(
   'followNoneAcc/Async',
   async ({nickname}: FollowAccProps) => {
-    console.log("닉받앗다",nickname)
+    // console.log("닉받앗다",nickname)
     const accessToken = getCookie('accessToken');
-    console.log(`이메일: ${getCookie('email')} / 닉네임: ${nickname}`)
+    // console.log(`이메일: ${getCookie('email')} / 닉네임: ${nickname}`)
     const data = await axios({
       method: 'delete',
       url: `${process.env.NEXT_PUBLIC_API_URL}/api/user/followrefuse`,

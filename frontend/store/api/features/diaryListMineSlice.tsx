@@ -6,35 +6,32 @@ import {getCookie} from 'cookies-next';
 interface myDiaryListState {
   status: string;
   error: string | undefined;
-  diarys: diaryInterFace[];
+  diarylists: diaryListInterFace[];
 }
 
-interface diaryInterFace {
+interface diaryListInterFace {
   id:number,
-  nickname: string;
-  title: string,
-  content: string,
-  creatDt: string,
-  pub:string,
-  like:number
+  userId: number;
+  diaryListTitle: string,
+  isPublic:string
 }
 
 // 초기값
 const initialState: myDiaryListState = {
   status: '',
   error:'',
-  diarys:[]
+  diarylists:[]
 };
 
 
 // Thunk 예시
-export const diaryMineAsync = createAsyncThunk(
-  'diaryMine/Async',
+export const diaryListMineAsync = createAsyncThunk(
+  'diaryListMine/Async',
   async () => {
     const accessToken = getCookie('accessToken');
     const data = await axios({
       method: 'get',
-      url: `${process.env.NEXT_PUBLIC_API_URL}/api/diary/mine`,
+      url: `${process.env.NEXT_PUBLIC_API_URL}/api/diary/mylist`,
       headers: {
         Authorization: `Bearer ${accessToken}`,
         email: getCookie('email')
@@ -45,28 +42,28 @@ export const diaryMineAsync = createAsyncThunk(
 );
 
 // createSlice로 Slice생성
-export const diaryMineSlice = createSlice({
-  name: 'diaryMine',
+export const diaryListMineSlice = createSlice({
+  name: 'diaryListMine',
   initialState,
   reducers: {
   },
   // 비동기 처리를 위한 redux-thunk사용 extraReducers
   extraReducers: builder => {
     builder
-      .addCase(diaryMineAsync.pending, state => {
+      .addCase(diaryListMineAsync.pending, state => {
         state.status = 'loading';
       })
-      .addCase(diaryMineAsync.fulfilled, (state,action) => {
+      .addCase(diaryListMineAsync.fulfilled, (state,action) => {
         state.status = 'completed';
-        const diaryList = action.payload;
-        state.diarys = diaryList;
-        console.log('내 다이어리 리스트 요청 성공', state.diarys)
+        const diaryLists = action.payload;
+        state.diarylists = diaryLists;
+        console.log('내 일기장 모음 요청 성공',state.diarylists)
 
       })
-      .addCase(diaryMineAsync.rejected, state => {
+      .addCase(diaryListMineAsync.rejected, state => {
         state.status = 'failed';
-        console.log('내 다이어리리스트 요청 실패');
+        console.log('내 일기장 모음 요청 실패');
       });
   }
 });
-export default diaryMineSlice.reducer;
+export default diaryListMineSlice.reducer;

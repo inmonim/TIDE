@@ -42,6 +42,14 @@ spring:
         - id: api-diary
           uri: lb://API-DIARY
           predicates:
+            - Path=/api/diary/public
+            - Method=GET
+          filters:
+            - RemoveRequestHeader=Cookie
+            - RewritePath=/api/diary/(?<segment>.*), /$\{segment}
+        - id: api-diary
+          uri: lb://API-DIARY
+          predicates:
             - Path=/api/diary/**
             - Method=GET,PUT,DELETE,POST
           filters:

@@ -4,6 +4,7 @@ import com.tide.music.request.RequestPlaylist;
 import com.tide.music.request.RequestPlaylistId;
 import com.tide.music.request.RequestPlaylistInfo;
 import com.tide.music.response.ResponsePlaylist;
+import com.tide.music.response.ResponseSearchSong;
 
 import java.util.List;
 
@@ -23,4 +24,8 @@ public interface PlaylistService {
     void deletePlaylist(String email, Long playlistId);
 
     List<ResponsePlaylist> getPlaylists(String email, String nickname);
+
+    List<ResponseSearchSong> getPlaylistInfo(String email, Long playlistId);
+
+    List<ResponsePlaylist> getTopPlaylists();
 }

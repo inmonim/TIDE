@@ -1,22 +1,36 @@
 package com.tide.music.service.playlist;
 
 import com.tide.music.client.UserServiceClient;
+import com.tide.music.jpa.album.Album;
+import com.tide.music.jpa.album.AlbumRepository;
+import com.tide.music.jpa.artist.Artist;
+import com.tide.music.jpa.artist.ArtistRepository;
 import com.tide.music.jpa.playlist.like.PlaylistLikeUser;
 import com.tide.music.jpa.playlist.like.PlaylistLikeUserRepository;
 import com.tide.music.jpa.playlist.song.PlaylistSong;
 import com.tide.music.jpa.playlist.song.PlaylistSongRepository;
+import com.tide.music.jpa.song.Song;
+import com.tide.music.jpa.song.SongRepository;
+import com.tide.music.jpa.song.album.SongAlbum;
+import com.tide.music.jpa.song.album.SongAlbumRepository;
+import com.tide.music.jpa.song.artist.SongArtist;
+import com.tide.music.jpa.song.artist.SongArtistRepository;
 import com.tide.music.jpa.userplaylist.UserPlaylist;
 import com.tide.music.jpa.userplaylist.UserPlaylistRepository;
 import com.tide.music.request.RequestPlaylist;
 import com.tide.music.request.RequestPlaylistInfo;
 import com.tide.music.response.ResponsePlaylist;
+import com.tide.music.response.ResponseSearchSong;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Service
 @Slf4j
@@ -27,17 +41,32 @@ public class PlaylistServiceImpl implements PlaylistService {
     private UserServiceClient userServiceClient;
     private PlaylistSongRepository playlistSongRepository;
     private PlaylistLikeUserRepository playlistLikeUserRepository;
+    private SongRepository songRepository;
+    private AlbumRepository albumRepository;
+    private ArtistRepository artistRepository;
+    private SongAlbumRepository songAlbumRepository;
+    private SongArtistRepository songArtistRepository;
 
     public PlaylistServiceImpl(Environment env,
                                UserPlaylistRepository userPlayListRepository,
                                UserServiceClient userServiceClient,
                                PlaylistSongRepository playlistSongRepository,
-                               PlaylistLikeUserRepository playlistLikeUserRepository) {
+                               PlaylistLikeUserRepository playlistLikeUserRepository,
+                               SongRepository songRepository,
+                               AlbumRepository albumRepository,
+                               ArtistRepository artistRepository,
+                               SongAlbumRepository songAlbumRepository,
+                               SongArtistRepository songArtistRepository) {
         this.env = env;
         this.userPlayListRepository = userPlayListRepository;
         this.userServiceClient = userServiceClient;
         this.playlistSongRepository = playlistSongRepository;
         this.playlistLikeUserRepository = playlistLikeUserRepository;
+        this.songRepository = songRepository;
+        this.albumRepository = albumRepository;
+        this.artistRepository = artistRepository;
+        this.songAlbumRepository = songAlbumRepository;
+        this.songArtistRepository = songArtistRepository;
     }
 
     @Override
@@ -69,6 +98,63 @@ public class PlaylistServiceImpl implements PlaylistService {
         }
 
         return playlists;
+    }
+
+    @Override
+    @Transactional
+    public List<ResponseSearchSong> getPlaylistInfo(String email, Long playlistId) {
+        List<PlaylistSong> playlistsongs = playlistSongRepository.findAllByPlaylistId(playlistId);
+        List<Song> songs = new ArrayList<>();
+        for (PlaylistSong playlistSong : playlistsongs) {
+            songs.add(songRepository.findBySongId(playlistSong.getSongId()));
+        }
+        List<ResponseSearchSong> responseSearchSongList = new ArrayList<>();
+        for (Song song : songs) {
+            ResponseSearchSong responseSearchSong = new ResponseSearchSong();
+            SongAlbum songAlbum = songAlbumRepository.findBySongId(song.getSongId());
+            List<SongArtist> songArtists = songArtistRepository.findAllBySongId(song.getSongId());
+            Album album = albumRepository.findByAlbumId(songAlbum.getAlbumId());
+            if(songAlbum == null || songArtists == null || album == null) {
+                continue;
+            }
+            List<String> artistName = new ArrayList();
+            responseSearchSong.setTitle(song.getTitle());
+            for (SongArtist songArtist : songArtists) {
+                Artist temp = artistRepository.findByArtistId(songArtist.getArtistId());
+                if(temp == null) {continue;}
+                artistName.add(temp.getArtistName());
+            }
+            responseSearchSong.setSongId(song.getSongId());
+            responseSearchSong.setAlbumImgPath(album.getAlbumImgPath());
+            responseSearchSong.setArtist(artistName);
+            responseSearchSongList.add(responseSearchSong);
+        };
+        return responseSearchSongList;
+    }
+
+    @Override
+    @Transactional
+    public List<ResponsePlaylist> getTopPlaylists() {
+        Pageable pageable = PageRequest.of(0, 30);
+        List<ResponsePlaylist> response = new ArrayList<>();
+        List<UserPlaylist> userPlaylist30 = userPlayListRepository.findTopPlaylist(pageable);
+        List<UserPlaylist> userPlaylists = new ArrayList<>();
+        Random random = new Random();
+        for (int i = 0; i < 6; i++) {
+            int randomNumber = random.nextInt(userPlaylist30.size());
+            userPlaylists.add(userPlaylist30.get(randomNumber));
+            userPlaylist30.remove(randomNumber);
+        }
+        for (UserPlaylist userPlaylist : userPlaylists) {
+            ResponsePlaylist playlist = new ResponsePlaylist();
+            playlist.setPlaylistTitle(userPlaylist.getPlayListTitle());
+            playlist.setId(userPlaylist.getId());
+            playlist.setLikeCnt(userPlaylist.getLikeCnt());
+            playlist.setIsPublic(userPlaylist.getIsPublic());
+            response.add(playlist);
+        }
+
+        return response;
     }
 
     @Override

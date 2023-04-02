@@ -1,12 +1,15 @@
 package com.tide.music.controller.artist;
 
 import com.tide.music.response.ResponseArtistInfo;
+import com.tide.music.response.ResponseArtistList;
 import com.tide.music.service.artist.ArtistService;
 import feign.Response;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/")
@@ -23,6 +26,11 @@ public class ArtistController {
     @GetMapping("/artist/{artistId}")
     public ResponseArtistInfo getArtistInfo(@PathVariable("artistId") Long artistId) {
         return artistService.getArtistInfo(artistId);
+    }
+
+    @GetMapping("/artist/top")
+    public List<ResponseArtistList> getArtistTopList() {
+        return artistService.getArtistTopList();
     }
 
     @PutMapping("/like/artist/{artistId}")

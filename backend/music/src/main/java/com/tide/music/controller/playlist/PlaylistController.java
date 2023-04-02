@@ -5,6 +5,7 @@ import com.tide.music.request.RequestPlaylist;
 import com.tide.music.request.RequestPlaylistId;
 import com.tide.music.request.RequestPlaylistInfo;
 import com.tide.music.response.ResponsePlaylist;
+import com.tide.music.response.ResponseSearchSong;
 import com.tide.music.service.playlist.PlaylistService;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -53,6 +54,19 @@ public class PlaylistController {
     @GetMapping("/myplaylist")
     public List<ResponsePlaylist> getMyPlaylists(@RequestHeader("email") String email) {
         return playListService.getMyPlaylists(email);
+    }
+
+    // 플레이리스트 상세 조회
+    @GetMapping("/playlist/{playlistId}")
+    public List<ResponseSearchSong> getPlaylistInfo(@RequestHeader("email") String email,
+                                                    @PathVariable("playlistId") Long playlistId) {
+        return playListService.getPlaylistInfo(email, playlistId);
+    }
+
+    // 좋아요 상위 플레이리스트 6개
+    @GetMapping("/playlist/top")
+    public List<ResponsePlaylist> getTopPlaylists() {
+        return playListService.getTopPlaylists();
     }
 
     // 플레이리스트 수정 (공개여부, 플레이리스트 이름)

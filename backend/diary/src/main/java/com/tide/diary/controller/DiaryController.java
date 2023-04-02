@@ -28,6 +28,7 @@ public class DiaryController {
         return String.format("It's Working in User Service on PORT %s", env.getProperty("local.server.port"));
     }
 
+    // 공개 다이어리 조회
     @GetMapping("/public")
     public List<ResponseDiary> getDiaries() {
         return diaryService.getDiaries();

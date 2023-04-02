@@ -36,6 +36,7 @@ export const loginAsync = createAsyncThunk(
     });
     const token = data.headers.token;
     const myEmail = data.headers.email;
+    console.log(token, myEmail);
     return {token, myEmail};
   }
 );

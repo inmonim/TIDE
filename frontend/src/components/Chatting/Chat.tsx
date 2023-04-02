@@ -15,8 +15,10 @@ import {
   orderBy,
   onSnapshot,
   addDoc,
+  doc,
   collection,
-  serverTimestamp
+  serverTimestamp,
+  setDoc
 } from 'firebase/firestore';
 import {
   ref,
@@ -28,19 +30,27 @@ import {
 
 // 컴포넌트
 import Message from './Message';
+import {useRouter} from 'next/router';
 
 interface ChatPropsInterFace {
   usersNickName: string | string[] | undefined;
   roomName: string | string[] | undefined;
 }
 
-const Chat = ({data}: {data : ChatPropsInterFace}) => {
+// 내 이메일 정보
+const myEmail = getCookie('email');
+// 시간 옵션
+const options = {
+  year: 'numeric',
+  month: 'long',
+  weekday: 'long',
+  day: 'numeric'
+};
+
+const Chat = ({data}: {data: ChatPropsInterFace}) => {
   const {usersNickName, roomName} = data;
-
   const dispatch = useAppDispatch();
-
-  // 내 이메일 정보
-  const myEmail = getCookie('email');
+  const router = useRouter();
   // 채팅 div
   const chatDiv = useRef<HTMLDivElement>(null);
   // 유저 프로필 데이터
@@ -49,16 +59,25 @@ const Chat = ({data}: {data : ChatPropsInterFace}) => {
   });
   // 채팅메시지 데이터들
   const [messageDatas, setMessageDatas] = useState<any[]>([]);
+  // // 시간 계산
+  // const hourTime = useRef<number>((Math.floor(Date.now()/1000) - messageDatas[0]?.startTime.seconds)/3600);
+  // // 시간 세팅
+  // const [currentTime, setCurrentTime] = useState<any>("");
   // 파일이미지 데이터
   const [fileUpload, setFileUpload] = useState<string>('');
   const fileInput = useRef<HTMLInputElement>(null);
+
   // 채팅 데이터들 가져오기
   const getContents = async () => {
     // 유저 정보 요청
     dispatch(profileAsync());
 
     // 우선 query로 데이터 가져오기 두번째 인자 where로 조건문도 가능
-    const content = query(collection(dbService, `${roomName}`), orderBy('createdAt'));
+    const content = query(
+      // 여기 중요.. 바로 router에서 가져와서 해야함.. 안그러니까 한박자 느리네
+      collection(dbService, `${router.query.roomName}`),
+      orderBy('createdAt')
+    );
 
     // 실시간 변화 감지 최신버전
     onSnapshot(content, snapshot => {
@@ -101,6 +120,14 @@ const Chat = ({data}: {data : ChatPropsInterFace}) => {
       createdAt: serverTimestamp(),
       downLoadUrl
     });
+
+    // 방 리스트 최신화
+    await setDoc(doc(dbService, `${nickname}`, `${usersNickName}`), {
+      message: message,
+      nickname: usersNickName,
+      createdAt: serverTimestamp()
+    });
+
     setMessage('');
     setFileUpload('');
     fileInput.current!.value = '';
@@ -126,7 +153,7 @@ const Chat = ({data}: {data : ChatPropsInterFace}) => {
   // 처음 실행하는 곳
   useEffect(() => {
     getContents();
-  }, []);
+  }, [router]);
 
   useEffect(() => {
     // 채팅 스크롤 젤 밑으로
@@ -137,7 +164,7 @@ const Chat = ({data}: {data : ChatPropsInterFace}) => {
     setTimeout(() => {
       chatDiv.current!.scrollTop = chatDiv.current!.scrollHeight;
     }, 300);
-  }, [messageDatas]);
+  }, [messageDatas, fileUpload]);
 
   return (
     <div className="flex flex-col justify-center w-full h-full text-white ">
@@ -149,9 +176,17 @@ const Chat = ({data}: {data : ChatPropsInterFace}) => {
       <div className="flex flex-col items-center justify-center w-full h-full bg-black rounded-lg bg-opacity-40">
         {/* 메시지들 보이는 곳 */}
         <div ref={chatDiv} className="w-5/6 h-full overflow-y-auto">
+          {/* 대화 시작 시간 */}
+          <div className="flex items-center justify-center w-full pr-5 my-2 h-fit ">
+            <span className="px-5 py-1 text-base text-center w-fit h-fit bg-slate-800 rounded-3xl">
+              {messageDatas[0]?.startTime
+                .toDate()
+                .toLocaleDateString('ko-KR', options)}
+            </span>
+          </div>
           {messageDatas.map((msg, index) => {
             if (index === 0) {
-              return 
+              return;
             }
             // 상대방의 닉네임 처음 한번만
             let checkSameNick = true;

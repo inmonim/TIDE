@@ -10,8 +10,8 @@ class Song(db.Model):
     
     id = Column(Integer, primary_key=True)
     song_id = Column(Integer)
-    song_title = Column(String(100))
-    viedo_id = Column(String(100))
+    title = Column(String(100))
+    video_id = Column(String(100))
     
 class Artist(db.Model):
     
@@ -30,6 +30,7 @@ class Album(db.Model):
     album_id = Column(Integer)
     album_title = Column(String(80))
     album_img_path = Column(Text)
+    release_dt = Column(String(20))
     
 class SongEmotionKeyword(db.Model):
     
@@ -42,10 +43,6 @@ class SongEmotionKeyword(db.Model):
     emotion_3 = Column(Integer)
     key_sentence = Column(Text)
 
-    @classmethod
-    def get_query(cls):
-        return db.session.query(cls)
-
 
 class SongArtist(db.Model):
     
@@ -54,6 +51,7 @@ class SongArtist(db.Model):
     id = Column(Integer, primary_key=True)
     song_id = Column(Integer, ForeignKey('song.song_id', ondelete='CASCADE'))
     artist_id = Column(Integer, ForeignKey('artist.artist_id', ondelete='CASCADE'))
+    artist = relationship('Artist')
 
 class SongAlbum(db.Model):
     
@@ -62,5 +60,6 @@ class SongAlbum(db.Model):
     id = Column(Integer, primary_key=True)
     song_id = Column(Integer, ForeignKey('song.song_id', ondelete='CASCADE'))
     album_id = Column(Integer, ForeignKey('album.album_id', ondelete='CASCADE'))
+    album = relationship('Album')
 
 

@@ -137,9 +137,10 @@ public class PlaylistServiceImpl implements PlaylistService {
     public List<ResponsePlaylist> getTopPlaylists() {
         Pageable pageable = PageRequest.of(0, 30);
         List<ResponsePlaylist> response = new ArrayList<>();
-        List<UserPlaylist> userPlaylist30 = userPlayListRepository.findTopPlaylist(pageable);
+        List<UserPlaylist> userPlaylist30 = userPlayListRepository.findTopPlaylist(pageable,"0");
         List<UserPlaylist> userPlaylists = new ArrayList<>();
         Random random = new Random();
+        userPlaylists.add(userPlaylist30.get(0));
         for (int i = 0; i < 6; i++) {
             int randomNumber = random.nextInt(userPlaylist30.size());
             userPlaylists.add(userPlaylist30.get(randomNumber));

@@ -1,4 +1,4 @@
-package com.tide.music.jpa.song;
+package com.tide.music.jpa.lyrics;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,19 +10,16 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "song")
-public class Song {
+@Table(name = "lyrics")
+public class Lyrics {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
 
     @Column(name = "song_id")
     private Long songId;
-    @Column(name = "title")
-    private String title;
-    @Column(name = "video_id")
-    private String videoId;
 
-    @Column(name = "likecnt")
-    private Integer likeCnt;
+    @Column(name = "lyrics")
+    private String lyrics;
 }

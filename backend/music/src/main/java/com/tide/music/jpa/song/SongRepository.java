@@ -13,4 +13,7 @@ public interface SongRepository extends JpaRepository<Song, Long> {
 
     @Query("SELECT s FROM Song s WHERE REPLACE(s.title, ' ', '') LIKE %:title% OR s.title LIKE %:title%")
     List<Song> findTitle(@Param("title") String title, Pageable pageable);
+
+    Song findBySongId(Long songId);
+
 }

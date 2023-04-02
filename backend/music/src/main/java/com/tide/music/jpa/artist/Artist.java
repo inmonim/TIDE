@@ -25,4 +25,6 @@ public class Artist {
     private String artistImgPath;
     @Column(name = "is_group")
     private boolean isGroup;
+    @Column(name = "likecnt")
+    private Integer likeCnt;
 }

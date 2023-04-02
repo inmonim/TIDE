@@ -2,12 +2,12 @@ package com.tide.music.controller.music;
 
 import com.tide.music.request.RequestSearchSong;
 import com.tide.music.response.ResponseSearchSong;
+import com.tide.music.response.ResponseSongInfo;
 import com.tide.music.service.music.MusicService;
 import org.springframework.core.env.Environment;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,4 +28,15 @@ public class MusicController {
         return musicService.searchSongList(request.getTitle());
     }
 
+    @GetMapping("/song/{songId}")
+    public ResponseSongInfo searchSong(@PathVariable("songId") Long songId) {
+        return musicService.searchSong(songId);
+    }
+
+    @PutMapping("/like/{songId}")
+    public ResponseEntity<String> likeSong(@PathVariable("songId") Long songId,
+                                           @RequestHeader("email") String email) {
+        musicService.likeSong(songId, email);
+        return ResponseEntity.status(HttpStatus.OK).body("좋아요 처리");
+    }
 }

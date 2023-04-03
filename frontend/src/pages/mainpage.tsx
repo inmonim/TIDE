@@ -29,7 +29,7 @@ interface Props {
 
 function Mainpage() {
   const dispatch = useAppDispatch();
-  const {nickname} = useAppSelector(state => {
+  const {nickname, profile_img_path} = useAppSelector(state => {
     return state.profile;
   });
 
@@ -169,7 +169,12 @@ function Mainpage() {
       // , expires
       // , httpOnly: HTTP_ONLY // dev/prod 에 따라 true / false 로 받게 했다.
     });
-  }, [nickname]);
+    cookie.save('profile_img_path', profile_img_path, {
+      path: '/'
+      // , expires
+      // , httpOnly: HTTP_ONLY // dev/prod 에 따라 true / false 로 받게 했다.
+    });
+  }, [nickname, profile_img_path]);
 
   return (
     <>

@@ -9,6 +9,7 @@ import {query, onSnapshot, collection, orderBy} from 'firebase/firestore';
 import {enterChat} from '@/components/EnterChatRoom';
 import {useAppDispatch, useAppSelector} from 'store';
 import { userInfoAsync } from 'store/api/features/userInfoSlice';
+import { toast } from 'react-toastify';
 
 function Messages() {
   const router = useRouter();
@@ -39,10 +40,12 @@ function Messages() {
     );
     // 실시간 방목록 변화 감지
     onSnapshot(rooms, snapshot => {
-      const contentSnapshot = snapshot.docs.map(con => ({
-        ...con.data(),
-        id: con.id
-      }));
+      const contentSnapshot = snapshot.docs.map(con => {
+        return {
+          ...con.data(),
+          id: con.id
+        }
+      });
       setRoomList(prev => [...contentSnapshot]);
     });
   };
@@ -88,7 +91,7 @@ function Messages() {
                   <div className="w-12 h-12 overflow-hidden rounded-full">
                     <img
                       className="object-contain"
-                      src={room.profile_img_path}
+                      src={room.profilePath}
                       alt={room.nickname}
                     />
                   </div>

@@ -1,4 +1,4 @@
-from keybert import KeyBERT
+# from keybert import KeyBERT
 from kobert.pytorch_kobert import get_pytorch_kobert_model
 from kobert.utils import get_tokenizer
 
@@ -27,9 +27,9 @@ tokenizer = get_tokenizer()
 tok = nlp.data.BERTSPTokenizer(tokenizer, vocab, lower=False)
 print('LOADING SUCCESS tokenizer, bertmodel')
 
-print('LOADING keyBERT model')
-kw_model = KeyBERT(bertmodel)
-print('LOADING SUCCESS KeyBERT model')
+# print('LOADING keyBERT model')
+# kw_model = KeyBERT(bertmodel)
+# print('LOADING SUCCESS KeyBERT model')
 
 
 class BERTClassifier(nn.Module):
@@ -81,7 +81,7 @@ class BERTDataset(Dataset):
 
 def load_model_1():
     print('LOADING koBERT Classifier model 1')
-    PATH='recommend/ai_model/'
+    PATH='./ai_model/'
     model1 = BERTClassifier(bertmodel)
     model1.load_state_dict(torch.load(PATH + '10emotions_model_state_dict_1.pt', map_location='cpu'))
     print('LOADING SUCCESS koBERT Classifier model 1')
@@ -89,7 +89,7 @@ def load_model_1():
 
     
 def load_model_2():
-    PATH='recommend/ai_model/'
+    PATH='./ai_model/'
     print('LOADING koBERT Classifier model 2 - 10epoch')
     model2 = BERTClassifier(bertmodel)
     model2.load_state_dict(torch.load(PATH + '10emotions_model_state_dict_2_10epoch.pt', map_location='cpu'))
@@ -147,10 +147,6 @@ def recommend_cosine(df, input_emotion):
 
 # 키워드 추출기는 리소스를 굉장히 많이 사용하기 때문에 서버에서 구동할 수가 없다...
 
-def keyword_extrack(text):
-    keyword = kw_model.extract_keywords(text, keyphrase_ngram_range=(1, 1), stop_words=None, top_n=3)
-    print('SUCCESS keword extrack : ', keyword)
-    return keyword
 
 
 

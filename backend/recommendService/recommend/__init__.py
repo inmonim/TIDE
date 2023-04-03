@@ -15,9 +15,7 @@ def create_app():
     #ORM 활성화
     db.init_app(app)
     
-    
     from .views import song_recommend
     app.register_blueprint(song_recommend.bp)
-    
     
     return app

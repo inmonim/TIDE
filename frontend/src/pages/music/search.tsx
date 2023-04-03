@@ -12,11 +12,16 @@ function MusicSearch() {
 
   console.log(musicSearchResult, '결과');
 
-  const songIds = musicSearchResult.songId;
+  const songIds = musicSearchResult.map((item: any) => item.songId);
 
-  const gotoMusic = (songIds: number) => {
-    router.push(`/music/${songIds}`);
-  };
+  // const gotoMusic = (songIds: number) => {
+  //   router.push(`/music/${songIds}`);
+  // };
+
+  const handleClick =
+    (songIds: number) => (event: React.MouseEvent<HTMLDivElement>) => {
+      router.push(`/music/${songIds}`);
+    };
 
   useEffect(() => {
     console.log(musicSearchResult, '결과');
@@ -33,17 +38,16 @@ function MusicSearch() {
       <main className="flex flex-row min-h-[91vh] bg-gradient-to-t from-slate-700 to-slate-900 ">
         <div className="flex flex-row justify-center w-[88%] ml-[12%]">
           {/* 서치 리스트 랜더링 */}
-          <div className="flex flex-row flex-wrap text-white">
+          <div className="flex flex-row flex-wrap mb-14 text-white">
             {Array.isArray(musicSearchResult) &&
               musicSearchResult.map((item, songId) => (
                 <div
-                  className="flex flex-col items-center bg-blue-400 border-2 m-3 w-[200px]"
-                  key={songId}
-                  // onClick={}
-                >
+                  className="flex flex-col items-center bg-blue-400 border-2 m-8 w-[200px] h-[180px]"
+                  key={item.songId}
+                  onClick={handleClick(item.songId)}>
                   {/* <div>{item.songId}</div> */}
                   <img
-                    className="w-[100px]"
+                    className="w-[100px] h-[100px]"
                     src={item.albumImgPath}
                     alt="albumimage"
                   />

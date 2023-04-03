@@ -12,7 +12,7 @@ interface MusicSearchInterface {
 
 interface MusicSearchState {
   status: 'idle' | 'loading' | 'succeeded' | 'failed';
-  error: string | null;
+  error: string | undefined;
   musicSearchResult: MusicSearchInterface[];
 }
 
@@ -20,7 +20,7 @@ interface MusicSearchState {
 const initialState: MusicSearchState = {
   status: 'idle',
   musicSearchResult: [],
-  error: null
+  error: undefined
 };
 
 export const musicsearchAsync = createAsyncThunk(

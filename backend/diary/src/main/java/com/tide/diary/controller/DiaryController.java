@@ -53,10 +53,16 @@ public class DiaryController {
         return diaryService.getFollowDiaries(email);
     }
 
-    // 탑 3의 다이어리 조회
+    // 좋아요 탑 3의 다이어리 조회
     @GetMapping("/like/top/{songId}")
     public List<ResponseTopDiary> getTop3Diaries(@PathVariable("songId") Long songId) {
         return diaryService.getTop3Diaries(songId);
+    }
+
+    // 최신순 탑 3의 다이어리 조회
+    @GetMapping("/latest/top/{songId}")
+    public List<ResponseTopDiary> getLatest3Diaries(@PathVariable("songId") Long songId) {
+        return diaryService.getLatest3Diaries(songId);
     }
 
     // 특정 닉네임 기준 다이어리 조회

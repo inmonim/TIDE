@@ -28,4 +28,6 @@ public interface PlaylistService {
     List<ResponseSearchSong> getPlaylistInfo(String email, Long playlistId);
 
     List<ResponsePlaylist> getTopPlaylists();
+
+    boolean getLikedPlaylists(String email, Long playlistId);
 }

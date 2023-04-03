@@ -178,6 +178,24 @@ public class DiaryServiceImpl implements DiaryService {
 
     @Override
     @Transactional
+    public List<ResponseTopDiary> getLatest3Diaries(Long songId) {
+        List<ResponseTopDiary> response = new ArrayList<>();
+        Pageable pageable = PageRequest.of(0,3);
+        List<Diary> diaries = diaryRepository.findLatest3DiariesBySongId(songId, "0", pageable);
+        for(Diary d : diaries) {
+            ResponseTopDiary responseTopDiary = new ResponseTopDiary();
+            responseTopDiary.setTitle(d.getTitle());
+            responseTopDiary.setNickname(userServiceClient.getNickname(d.getUserId()));
+            responseTopDiary.setLike(d.getLikeCnt());
+            responseTopDiary.setId(d.getId());
+            responseTopDiary.setCreateDt(d.getCreateDt());
+            response.add(responseTopDiary);
+        }
+        return response;
+    }
+
+    @Override
+    @Transactional
     public void delete(String email, Long diaryId) {
         Long userId = userServiceClient.getUserId(email);
         Diary diary = diaryRepository.findById(diaryId).orElse(null);

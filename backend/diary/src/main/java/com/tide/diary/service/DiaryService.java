@@ -25,4 +25,6 @@ public interface DiaryService {
     List<ResponseDiary> getUserDiaries(String email, String nickname);
 
     List<ResponseTopDiary> getTop3Diaries(Long songId);
+
+    List<ResponseTopDiary> getLatest3Diaries(Long songId);
 }

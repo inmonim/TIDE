@@ -69,6 +69,13 @@ public class PlaylistController {
         return playListService.getTopPlaylists();
     }
 
+    // 플레이리스트 좋아요 체크
+    @GetMapping("/playlist/like/{playlistId}")
+    public boolean getLikedPlaylists(@PathVariable("playlistId") Long playlistId,
+                                                    @RequestHeader("email") String email) {
+        return playListService.getLikedPlaylists(email, playlistId);
+    }
+
     // 플레이리스트 수정 (공개여부, 플레이리스트 이름)
     @PutMapping("/playlist")
     public ResponseEntity<String> updateSongInPlaylist(@RequestHeader("email") String email,

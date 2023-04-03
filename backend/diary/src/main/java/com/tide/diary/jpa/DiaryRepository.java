@@ -18,8 +18,8 @@ public interface DiaryRepository extends JpaRepository<Diary, Long> {
 
     List<Diary> findAllByUserIdAndPubNot(Long userId, String s);
 
-    @Query("SELECT d FROM Diary d WHERE d.songId = :songId ORDER BY d.id DESC")
-    List<Diary> findLatest3DiariesBySongId(@Param("songId") Long songId, Pageable pageable);
+    @Query("SELECT d FROM Diary d WHERE d.songId = :songId AND d.pub = :pub ORDER BY d.id DESC")
+    List<Diary> findLatest3DiariesBySongId(@Param("songId") Long songId,@Param("pub") String pub, Pageable pageable);
 
     @Query("SELECT d FROM Diary d WHERE d.songId = :songId AND d.pub = :pub ORDER BY d.likeCnt DESC")
     List<Diary> findTop3DiariesBySongIdOrderByLikeCnt(@Param("songId") Long songId,@Param("pub") String pub, Pageable pageable);

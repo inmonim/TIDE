@@ -5,6 +5,7 @@ import com.tide.music.jpa.album.Album;
 import com.tide.music.jpa.album.AlbumRepository;
 import com.tide.music.jpa.artist.Artist;
 import com.tide.music.jpa.artist.ArtistRepository;
+import com.tide.music.jpa.like.SongLikeUser;
 import com.tide.music.jpa.playlist.like.PlaylistLikeUser;
 import com.tide.music.jpa.playlist.like.PlaylistLikeUserRepository;
 import com.tide.music.jpa.playlist.song.PlaylistSong;
@@ -188,6 +189,18 @@ public class PlaylistServiceImpl implements PlaylistService {
         }
 
         return playlists;
+    }
+
+    @Override
+    @Transactional
+    public boolean getLikedPlaylists(String email, Long playlistId) {
+        Long userId = userServiceClient.getUserId(email);
+        PlaylistLikeUser playlistLikeUser = playlistLikeUserRepository.findByUserIdAndPlaylistId(userId, playlistId);
+        if (playlistLikeUser != null) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     @Override

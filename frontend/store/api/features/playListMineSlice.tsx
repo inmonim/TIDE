@@ -59,11 +59,11 @@ export const playListMineSlice = createSlice({
       .addCase(playListMineAsync.fulfilled, (state, action) => {
         state.status = 'completed';
         state.myplaylist = action.payload
-        console.log('내 플레이리스트 조회 성공', state.myplaylist)
+        // console.log('내 플레이리스트 조회 성공', state.myplaylist)
       })
       .addCase(playListMineAsync.rejected, (state, action) => {
         state.status = 'failed';
-        console.log('내 플레이리스트 조회 실패')
+        // console.log('내 플레이리스트 조회 실패')
       });
   }
 });

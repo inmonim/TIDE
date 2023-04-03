@@ -60,11 +60,11 @@ export const playListCreateSlice = createSlice({
       })
       .addCase(playListCreateAsync.fulfilled, (state, action) => {
         state.status = 'completed';
-        console.log('플레이리스트 생성 성공')
+        // console.log('플레이리스트 생성 성공')
       })
       .addCase(playListCreateAsync.rejected, (state, action) => {
         state.status = 'failed';
-        console.log('플레이리스트 생성 실패')
+        // console.log('플레이리스트 생성 실패')
       });
   }
 });

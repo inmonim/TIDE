@@ -13,7 +13,7 @@ interface UserState {
 }
 
 interface userInfoProps {
-  nickname:string;
+  nickname: string | string[] | undefined;
 }
 
 // 초기값

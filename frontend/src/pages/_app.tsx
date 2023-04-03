@@ -9,12 +9,23 @@ import cookies from 'next-cookies';
 import {getCookie} from 'cookies-next';
 import {setToken} from '@/components/TokenManager';
 // import App from 'next/app';
-import {ToastContainer} from 'react-toastify';
+import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+// 파이어베이스
+import {
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+  updateDoc,
+  doc
+} from 'firebase/firestore';
+import {dbService} from '@/firebase';
 
 function App({Component, pageProps}: AppProps) {
   const router = useRouter();
-
+  const myNick = getCookie('nickname');
   const [isLogin, setIsLogin] = useState<boolean>(false);
 
   // 로그인 상태 체크
@@ -27,6 +38,60 @@ function App({Component, pageProps}: AppProps) {
       setIsLogin(false);
     }
   }, [router]);
+
+  // 채팅메시지 데이터들
+  const [alramDatas, setAlramDatas] = useState<any[]>([]);
+
+  // 알람 데이터들 가져오기
+  const getContents = async () => {
+    // 우선 query로 데이터 가져오기 두번째 인자 where로 조건문도 가능
+    const content = query(
+      // 여기 중요.. 바로 router에서 가져와서 해야함.. 안그러니까 한박자 느리네
+      collection(dbService, `alram`),
+      orderBy('createdAt')
+    );
+
+    // 실시간 알람 감지 최신버전
+    onSnapshot(content, snapshot => {
+      const alramSnapshot = snapshot.docs.map(con => {
+        return {
+          ...con.data(),
+          id: con.id
+        };
+      });
+      setAlramDatas(prev => [...alramSnapshot]);
+    });
+  };
+  useEffect(() => {
+    getContents();
+  }, []);
+  // 업데이트 알람
+  const updateAlram = async (id: string) => {
+    await updateDoc(doc(dbService, `alram`, `${id}`), {
+      check: true
+    });
+  };
+  // 메시지 감지
+  useEffect(() => {
+    let usernick = '';
+    let sendnick = '';
+    let check = false;
+    let id = '';
+    if (alramDatas && alramDatas.length > 0) {
+      [usernick] = alramDatas[alramDatas.length - 1].userNick;
+      sendnick = alramDatas[alramDatas.length - 1].nickname;
+      check = alramDatas[alramDatas.length - 1].check;
+      id = alramDatas[alramDatas.length - 1].id;
+    }
+    // 여기서부터 계속하자@@@@@@@@@@@@@@@
+    if (alramDatas && !check && usernick === myNick) {
+      console.log(id, check, "아이디")
+      console.log(usernick, myNick, "아이디22")
+      toast.info(`${sendnick}한테 메시지왔쪄염!!!!`);
+      updateAlram(id);
+    }
+  }, [alramDatas]);
+
   return (
     <>
       {isLogin && <MusicBar />}

@@ -8,7 +8,8 @@ import {dbService} from '@/firebase';
 import {query, onSnapshot, collection, orderBy} from 'firebase/firestore';
 import {enterChat} from '@/components/EnterChatRoom';
 import {useAppDispatch, useAppSelector} from 'store';
-import { userInfoAsync } from 'store/api/features/userInfoSlice';
+import {userInfoAsync} from 'store/api/features/userInfoSlice';
+import {toast} from 'react-toastify';
 
 function Messages() {
   const router = useRouter();
@@ -39,10 +40,12 @@ function Messages() {
     );
     // 실시간 방목록 변화 감지
     onSnapshot(rooms, snapshot => {
-      const contentSnapshot = snapshot.docs.map(con => ({
-        ...con.data(),
-        id: con.id
-      }));
+      const contentSnapshot = snapshot.docs.map(con => {
+        return {
+          ...con.data(),
+          id: con.id
+        };
+      });
       setRoomList(prev => [...contentSnapshot]);
     });
   };
@@ -56,10 +59,15 @@ function Messages() {
   };
 
   useEffect(() => {
-    const userNick = {
-      nickname : router.query.nickname
+    let userNick = undefined;
+    if (router.query.nickname) {
+      userNick = {
+        nickname: router.query.nickname![0]
+      };
     }
-    dispatch(userInfoAsync(userNick));
+    if (userNick) {
+      dispatch(userInfoAsync(userNick));
+    }
     setUsersNickName(router.query.nickname);
     setRoomName(router.query.roomName);
     getRooms();
@@ -69,7 +77,7 @@ function Messages() {
     <>
       {roomName && (
         <main
-          className={`${router.pathname === "/message" ? `w-full` : ""}
+          className={`${router.pathname === '/message' ? `w-full` : ''}
     lg:p-[4rem] lg:pr-[calc(200px)] lg:pl-[calc(15%+100px)] text-sm lg:text-lg lg:h-screen lg:pb-[9rem] h-screen text-white flex lg:pt-[calc(2rem+40px)] bg-gradient-to-t from-blue-900 to-slate-900 `}>
           <div className="hidden md:bg-black md:w-1/4 md:mr-1 md:overflow-y-auto md:block">
             {roomList.map(room => {
@@ -78,17 +86,19 @@ function Messages() {
                   key={room.nickname}
                   id={room.nickname}
                   onClick={event => {
+                    console.log(room.nickname, '1');
+                    console.log(router.query.nickname![0], '2');
                     enterChatting(event, room.nickname);
                   }}
                   className={`${
-                    router.query.nickname![0] === room.nickname[0]
+                    router.query.nickname![0] === room.nickname
                       ? `bg-gray-800`
                       : ''
                   } flex items-center h-20 text-lg text-white cursor-pointer justify-evenly hover:bg-gray-800`}>
                   <div className="w-12 h-12 overflow-hidden rounded-full">
                     <img
                       className="object-contain"
-                      src={room.profile_img_path}
+                      src={room.profilePath}
                       alt={room.nickname}
                     />
                   </div>
@@ -101,7 +111,10 @@ function Messages() {
               );
             })}
           </div>
-          <div className={`${router.pathname === "/message" ? `hidden` : ""} w-full md:w-3/4 md:block`}>
+          <div
+            className={`${
+              router.pathname === '/message' ? `hidden` : ''
+            } w-full md:w-3/4 md:block`}>
             <Chat data={propsData} />
           </div>
         </main>

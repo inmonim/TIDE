@@ -11,7 +11,10 @@ import {serverTimestamp} from 'firebase/firestore';
 const enterChat = async (router: NextRouter, otherNickname: any, profile_img_path?: string) => {
 
   const myNickName = getCookie('nickname');
+  const myProfilePath = getCookie('profile_img_path');
+  // const [nickname] = otherNickname;
   const nickname = otherNickname;
+  console.log(otherNickname, "닉네임")
   
   // 방 이름 검색위해 두가지 다 검색
   const roomName = `${myNickName}${nickname}`;
@@ -50,9 +53,16 @@ const enterChat = async (router: NextRouter, otherNickname: any, profile_img_pat
   }
   // 나의 방 리스트 만듬
   await setDoc(doc(dbService, `${myNickName}`, `${nickname}`), {
-    profile_img_path,
+    profilePath: profile_img_path,
     nickname,
-    createdAt: serverTimestamp()
+    createdAt: serverTimestamp(),
+  });
+
+  // 상대 방에도 리스트 만듬
+  await setDoc(doc(dbService, `${nickname}`, `${myNickName}`), {
+    profilePath: myProfilePath,
+    nickname: myNickName,
+    createdAt: serverTimestamp(),
   });
 
   // 앞에서 방을 못찾으면 방을 만듬

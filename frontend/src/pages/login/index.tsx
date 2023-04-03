@@ -9,6 +9,7 @@ import {useRouter} from 'next/router';
 import {setToken} from '@/components/TokenManager';
 import {toast} from 'react-toastify';
 import {initStatus} from 'store/api/features/signUpSlice';
+import { profileAsync } from 'store/api/features/profileSlice';
 
 interface LoginInterFace {
   email: string;

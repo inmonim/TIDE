@@ -78,7 +78,7 @@ function MessagesIndex() {
                 <div className="w-16 h-16 overflow-hidden rounded-full md:w-12 md:h-12">
                   <img
                     className="object-contain"
-                    src={room.profile_img_path}
+                    src={room.profilePath}
                     alt={room.nickname}
                   />
                 </div>

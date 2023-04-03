@@ -24,6 +24,7 @@ import diaryListCreateSlice from './api/features/diaryListCreateSlice';
 import diaryListMineSlice from './api/features/diaryListMineSlice';
 import diaryListDelSlice from './api/features/diaryListDelSlice';
 import diaryListEditSlice from './api/features/diaryListEditSlice';
+import musicSlice from './api/features/musicSlice';
 
 // 리듀서들을 합쳐주는곳
 const combinedReducer = combineReducers({
@@ -32,25 +33,26 @@ const combinedReducer = combineReducers({
   login: loginSlice,
   profile: profileSlice,
   profileEdit: profileEditSlice,
-  followReq : followReqSlice,
+  followReq: followReqSlice,
   followWait: followWaitSlice,
   followAcc: followAccSlice,
   followNoneAcc: followNoneAccSlice,
   followers: followerListSlice,
   follows: followListSlice,
-  userFollow : userFollowListSlice,
-  userFollower : userFollowerListSlice,
+  userFollow: userFollowListSlice,
+  userFollower: userFollowerListSlice,
   followDel: followDelSlice,
-  followerDel:followerDelSlice,
-  userInfo:userInfoSlice,
-  diaryDetail:diaryDetailSlice,
-  diaryMine:diaryMineSlice,
-  userDiary:userDiarySlice,
+  followerDel: followerDelSlice,
+  userInfo: userInfoSlice,
+  diaryDetail: diaryDetailSlice,
+  diaryMine: diaryMineSlice,
+  userDiary: userDiarySlice,
   publicDiary: publicDiarySlice,
   diaryListCreate: diaryListCreateSlice,
-  diaryListMine:diaryListMineSlice,
+  diaryListMine: diaryListMineSlice,
   diaryListDel: diaryListDelSlice,
-  diaryListEdit: diaryListEditSlice
+  diaryListEdit: diaryListEditSlice,
+  music: musicSlice
 });
 
 // Hydrate와 위에서 합친 reducer들을 rootReducer에 세팅

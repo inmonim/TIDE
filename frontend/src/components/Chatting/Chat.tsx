@@ -126,11 +126,12 @@ const Chat = ({data}: {data: ChatPropsInterFace}) => {
     });
 
     // 알림 데이터에 추가
-    await addDoc(collection(dbService, `alram`, 'alram'), {
+    await setDoc(doc(dbService, `alram`, 'message'), {
       type: "message",
       nickname: nickname,
       userNick: usersNickName,
       createdAt: serverTimestamp(),
+      check: false
     });
     
 

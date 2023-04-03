@@ -12,8 +12,9 @@ const enterChat = async (router: NextRouter, otherNickname: any, profile_img_pat
 
   const myNickName = getCookie('nickname');
   const myProfilePath = getCookie('profile_img_path');
-  console.log(myProfilePath, "쿠키");
+  // const [nickname] = otherNickname;
   const nickname = otherNickname;
+  console.log(otherNickname, "닉네임")
   
   // 방 이름 검색위해 두가지 다 검색
   const roomName = `${myNickName}${nickname}`;

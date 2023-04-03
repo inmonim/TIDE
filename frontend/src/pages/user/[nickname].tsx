@@ -60,7 +60,7 @@ export default function userDetail() {
       // console.log(state.profile, 333);
       return state.userInfo;
     });
-    console.log(profile_img_path, "여기오냐?")
+    console.log(profile_img_path, "여기오냐@@@@?")
     
 
     const [FModalType,setFModalType] = useState<Number>(0);

@@ -1,7 +1,6 @@
 /** @type {import('next').NextConfig} */
 // const path = require('path');
 // const withImages = require('next-images');
-
 module.exports = {
   reactStrictMode: false,
   output: 'standalone',
@@ -14,7 +13,16 @@ module.exports = {
         pathname: '/**'
       }
     ]
-  }
+  },
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/mainpage",
+        permanent: false,
+      }
+    ]
+  },
   // async rewrites() {
   //   if (process.env.NODE_ENV === 'production') {
   //     return [

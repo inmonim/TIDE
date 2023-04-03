@@ -129,20 +129,19 @@ const Chat = ({data}: {data: ChatPropsInterFace}) => {
     await setDoc(doc(dbService, `alram`, 'message'), {
       type: "message",
       nickname: nickname,
-      userNick: usersNickName,
+      userNick: usersNickName![0],
       createdAt: serverTimestamp(),
-      check: false
-    });
+    }, { merge: true });
     
 
     // 방 리스트 최신화 업데이트
-    await updateDoc(doc(dbService, `${nickname}`, `${usersNickName}`), {
+    await updateDoc(doc(dbService, `${nickname}`, `${usersNickName![0]}`), {
       message: message,
-      nickname: usersNickName,
+      nickname: usersNickName![0],
       createdAt: serverTimestamp(),
     });
     // 상대방 리스트 최신화 업데이트
-    await updateDoc(doc(dbService, `${usersNickName}`, `${nickname}`), {
+    await updateDoc(doc(dbService, `${usersNickName![0]}`, `${nickname}`), {
       message: message,
       nickname: nickname,
       createdAt: serverTimestamp(),

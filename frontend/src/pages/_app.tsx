@@ -39,20 +39,21 @@ function App({Component, pageProps}: AppProps) {
     }
   }, [router]);
 
-  // 채팅메시지 데이터들
+  // 알람메시지 데이터들
   const [alramDatas, setAlramDatas] = useState<any[]>([]);
 
   // 알람 데이터들 가져오기
   const getContents = async () => {
+
     // 우선 query로 데이터 가져오기 두번째 인자 where로 조건문도 가능
-    const content = query(
+    const alrams = query(
       // 여기 중요.. 바로 router에서 가져와서 해야함.. 안그러니까 한박자 느리네
       collection(dbService, `alram`),
       orderBy('createdAt')
     );
 
     // 실시간 알람 감지 최신버전
-    onSnapshot(content, snapshot => {
+    onSnapshot(alrams, snapshot => {
       const alramSnapshot = snapshot.docs.map(con => {
         return {
           ...con.data(),
@@ -71,22 +72,28 @@ function App({Component, pageProps}: AppProps) {
       check: true
     });
   };
+  // @@@@@@@@@여기부터 그 친구창에서 알림 누르면 사라지게 해보자
+  // 친구창의 실시간 생성도 알림 컴포넌트 갱신되는걸로 가져와보자
+  const updateAlramFalse = async (id: string) => {
+    await updateDoc(doc(dbService, `alram`, `${id}`), {
+      check: false
+    });
+  };
   // 메시지 감지
   useEffect(() => {
     let usernick = '';
     let sendnick = '';
-    let check = false;
+    let check = null;
     let id = '';
     if (alramDatas && alramDatas.length > 0) {
-      [usernick] = alramDatas[alramDatas.length - 1].userNick;
+      usernick = alramDatas[alramDatas.length - 1].userNick;
       sendnick = alramDatas[alramDatas.length - 1].nickname;
       check = alramDatas[alramDatas.length - 1].check;
       id = alramDatas[alramDatas.length - 1].id;
     }
     // 여기서부터 계속하자@@@@@@@@@@@@@@@
-    if (alramDatas && !check && usernick === myNick) {
-      console.log(id, check, "아이디")
-      console.log(usernick, myNick, "아이디22")
+
+    if (alramDatas && check === false && usernick === myNick) {
       toast.info(`${sendnick}한테 메시지왔쪄염!!!!`);
       updateAlram(id);
     }

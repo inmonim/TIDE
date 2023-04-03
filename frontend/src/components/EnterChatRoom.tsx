@@ -14,7 +14,6 @@ const enterChat = async (router: NextRouter, otherNickname: any, profile_img_pat
   const myProfilePath = getCookie('profile_img_path');
   // const [nickname] = otherNickname;
   const nickname = otherNickname;
-  console.log(otherNickname, "닉네임")
   
   // 방 이름 검색위해 두가지 다 검색
   const roomName = `${myNickName}${nickname}`;
@@ -64,7 +63,14 @@ const enterChat = async (router: NextRouter, otherNickname: any, profile_img_pat
     nickname: myNickName,
     createdAt: serverTimestamp(),
   });
-
+  // 알림 데이터에 추가
+  await setDoc(doc(dbService, `alram`, 'message'), {
+    type: "message",
+    nickname: myNickName,
+    userNick: nickname,
+    createdAt: serverTimestamp(),
+    check: false
+  });
   // 앞에서 방을 못찾으면 방을 만듬
   await setDoc(doc(dbService, roomName, 'start'), {
     startTime: serverTimestamp(),

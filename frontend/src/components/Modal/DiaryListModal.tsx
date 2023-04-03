@@ -1,12 +1,11 @@
-import React, {FC, useEffect, useRef, useState} from 'react';
+import React, {FC, useCallback, useEffect, useRef, useState} from 'react';
 import Link from 'next/link';
 import {useAppDispatch, useAppSelector} from 'store'; //스토어 생성단계에서 export한 커스텀 dispatch, selector hook
-import { diaryListCreateAsync } from 'store/api/features/diaryListCreateSlice';
+import { diaryListCreateAsync, diaryListCreateinitStatus } from 'store/api/features/diaryListCreateSlice';
 import {toast} from 'react-toastify';
 import { useRouter } from 'next/router';
 import { diaryListMineAsync } from 'store/api/features/diaryListMineSlice';
-import { diaryListEditAsync } from 'store/api/features/diaryListEditSlice';
-
+import { diaryListEditAsync, diaryListEditinitStatus} from 'store/api/features/diaryListEditSlice';
 interface listInterFace {
   nickname: string;
   profile_img_path: string;
@@ -55,29 +54,44 @@ const DiaryListModal: FC<DiaryModalProps> = props => {
       // if(edit_status!==undefined)console.log(edit_status.status)
   };
 
+
   useEffect(()=>{
       switch (create_status.status) {
         case 'completed':
-          toast.success('일기장 모음 생성 성공');
+          // toast.success('일기장 모음 생성 성공');
           dispatch(diaryListMineAsync());
           getModalType(0)
+          // dispatch(diaryListCreateinitStatus())
           break;
         case 'failed':
-          toast.error('일기장 모음 생성 실패');
+          // toast.error('일기장 모음 생성 실패');
+          // dispatch(diaryListCreateinitStatus())
           break;
       }
     
     switch (edit_status.status) {
       case 'completed':
-        // toast.success('이름 수정 성공');
+        toast.success('이름 수정 성공');
         // 갱신해주는 디스패치 한 번 
+        router.replace({
+          pathname: `/diary/list/${router.query.id}`,
+          query: {
+            diaryListTitle: diaryListTitle,
+            userId: router.query.userId,
+            isPublic: router.query.isPublic
+          }},          
+            `/diary/list/${router.query.id}`
+        );
+        dispatch(diaryListEditinitStatus())
+        console.log(edit_status.status)
         getModalType(0)
         break;
       case 'failed':
-        // toast.error('이름 수정 실패');
+        toast.error('이름 수정 실패');
+        dispatch(diaryListEditinitStatus())
         break;
       }
-    
+
   },[create_status,edit_status])
 
   const [diaryListTitle, setDiarylListTitle] = useState<string>('');
@@ -85,7 +99,7 @@ const DiaryListModal: FC<DiaryModalProps> = props => {
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     setDiarylListTitle(event.target.value);
-    console.log(diaryListTitle)
+    // console.log(diaryListTitle)
   };
   
 

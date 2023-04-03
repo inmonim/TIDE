@@ -8,7 +8,8 @@ import {dbService} from '@/firebase';
 import {serverTimestamp} from 'firebase/firestore';
 
 
-const enterChat = async (router: NextRouter, otherNickname: any) => {
+const enterChat = async (router: NextRouter, otherNickname: any, profile_img_path?: string) => {
+
   const myNickName = getCookie('nickname');
   const nickname = otherNickname;
   
@@ -49,6 +50,7 @@ const enterChat = async (router: NextRouter, otherNickname: any) => {
   }
   // 나의 방 리스트 만듬
   await setDoc(doc(dbService, `${myNickName}`, `${nickname}`), {
+    profile_img_path,
     nickname,
     createdAt: serverTimestamp()
   });

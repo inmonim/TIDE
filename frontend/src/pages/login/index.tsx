@@ -18,8 +18,6 @@ interface LoginInterFace {
 const login = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  // 구글가입 이미지
-  const googleImage = useRef<string>('/images/Logo/google.png');
 
   const [loginAccount, setLoginAccount] = useState<LoginInterFace>({
     email: '',
@@ -35,11 +33,11 @@ const login = () => {
   useEffect(() => {
     switch (status) {
       case 'completed':
-        toast.success('로그인 성공');
-        setToken(token, email);
         router.push({
           pathname: `/mainpage`
         });
+        toast.success('로그인 성공');
+        setToken(token, email);
         break;
       case 'failed':
         toast.error('로그인 실패');

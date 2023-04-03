@@ -27,7 +27,7 @@ const SideBar: FC<SideBarProps> = props => {
   return (
     <>
       {/* 상단바 영역 */}
-      {router.asPath.includes('/message/') ? null : (
+      {router.asPath.includes('/message') ? null : (
         <div className={`${styles.topBgDiv} fixed`}>
           {/* 검색창 영역 */}
           <div className={styles.searchBox}>

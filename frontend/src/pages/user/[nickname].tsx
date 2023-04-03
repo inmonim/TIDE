@@ -60,7 +60,8 @@ export default function userDetail() {
       // console.log(state.profile, 333);
       return state.userInfo;
     });
-      
+    console.log(profile_img_path, "여기오냐?")
+    
 
     const [FModalType,setFModalType] = useState<Number>(0);
 
@@ -86,7 +87,7 @@ export default function userDetail() {
   // 메시지 방 생성
   const onSendMessage = async () => {
     const otherNickname =  router.query.nickname;
-    await enterChat(router, otherNickname);
+    await enterChat(router, otherNickname, profile_img_path);
   };
 
   useEffect(() => {

@@ -1,6 +1,7 @@
-import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
+import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
 import axios from 'axios';
 import {getCookie} from 'cookies-next';
+import {RootState} from 'store';
 
 // 타입
 interface musicState {
@@ -15,6 +16,9 @@ interface musicState {
   albumName: string;
   albumId: number;
   releaseYear: number;
+  cntLike: number;
+  lyrics: string;
+  error: string | null;
 }
 // 초기값
 const initialState: musicState = {
@@ -28,22 +32,29 @@ const initialState: musicState = {
   albumImage: '',
   albumName: '',
   albumId: 0,
-  releaseYear: 0
+  releaseYear: 0,
+  cntLike: 0,
+  lyrics: '',
+  error: null
 };
 
 // Thunk 예시
-export const fetchAsync = createAsyncThunk('music/Async', async () => {
-  const accessToken = getCookie('accessToken');
-  const data = await axios({
-    method: 'get',
-    url: `${process.env.NEXT_PUBLIC_API_URL}/api/music/info`,
-    headers: {
-      Authorization: `Bearer ${accessToken}`,
-      email: getCookie('email')
-    }
-  });
-  return data.data;
-});
+export const musicAsync = createAsyncThunk(
+  'music/Async',
+  async (songId: any) => {
+    const accessToken = getCookie('accessToken');
+    const data = await axios({
+      method: 'get',
+      url: `${process.env.NEXT_PUBLIC_API_URL}/api/music/song/${songId}`,
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+        email: getCookie('email')
+      }
+    });
+    console.log(data.data);
+    return data.data;
+  }
+);
 
 // createSlice로 Slice생성
 export const musicSlice = createSlice({
@@ -53,36 +64,41 @@ export const musicSlice = createSlice({
   // 비동기 처리를 위한 redux-thunk사용 extraReducers
   extraReducers: builder => {
     builder
-      .addCase(fetchAsync.pending, state => {
+      .addCase(musicAsync.pending, state => {
         state.status = 'loading';
+        state.error = null;
       })
-      .addCase(fetchAsync.fulfilled, (state, action) => {
+      .addCase(musicAsync.fulfilled, (state, action: PayloadAction<any>) => {
         state.status = 'completed';
         const {
-          musicId,
-          musicTitle,
-          musicUrl,
+          title,
+          videoId,
           artistId,
           artistName,
-          artistImage,
-          albumImage,
-          albumName,
+          artistImgPath,
+          albumImgPath,
+          albumTitle,
           albumId,
-          releaseYear
+          releaseDt,
+          lyrics
         } = action.payload;
-        state.musicId = musicId;
-        state.musicTitle = musicTitle;
-        state.musicUrl = musicUrl;
+
+        state.musicTitle = title;
+        state.musicUrl = videoId;
         state.albumId = albumId;
         state.artistId = artistId;
         state.artistName = artistName;
-        state.artistImage = artistImage;
-        state.albumImage = albumImage;
-        state.albumName = albumName;
-        state.releaseYear = releaseYear;
+        state.artistImage = artistImgPath;
+        state.albumImage = albumImgPath;
+        state.albumName = albumTitle;
+        state.releaseYear = releaseDt;
+        state.lyrics = lyrics;
+        state.error = null;
+        console.log(action.payload, 4455);
       })
-      .addCase(fetchAsync.rejected, state => {
+      .addCase(musicAsync.rejected, (state, action: PayloadAction<any>) => {
         state.status = 'failed';
+        state.error = action.payload?.message ?? 'Unknown error';
       });
   }
 });

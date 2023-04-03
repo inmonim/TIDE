@@ -1,8 +1,12 @@
+# [TIDE](https://cyclic-guide-127.notion.site/E203-fcdffd4f909c4b9fa951e69e7bfded89)
+
 ## 🧭 목적
 
 ---
 
 - 음악과 함께하는 일기형 SNS 서비스
+- [TIDE notion](https://cyclic-guide-127.notion.site/E203-fcdffd4f909c4b9fa951e69e7bfded89)
+- [와이어프레임](https://www.figma.com/file/iSymbNoERl509z7AWtUCjw/%ED%8A%B9%ED%99%94E203?node-id=0%3A1&t=ljRkVCT2Z4SztVLt-1)
 
 ## 🦾 구성
 
@@ -75,8 +79,6 @@
 
 ---
 
-![73c17623388c22edaf7a03657d3ea64f.jpg](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/5d858712-0c71-4524-b414-54f585d7fd95/73c17623388c22edaf7a03657d3ea64f.jpg)
-
 - 해당 서비스를 기획하게 된 배경은 무엇인가?
   - 음악을 추천 받고 다른 사람과 의견을 나누면서 또 다른 새로운 음악 정보를 주고 받기 위함
   - 음악과 함께 나의 하루를 다른사람과 공유해 힘든날은 위로받고 기쁜날은 나누기 위함
@@ -94,7 +96,6 @@
 - 기존의 음악추천은 비슷한 장르를 추천해주기만 하다보니 새로운 장르의 노래를 접하기 어렵고 한 분야나 장르에 치우친 추천을 받을 수 있으나 이 부분을 다른 유저와 소통을 통해 새로운 분야의 노래를 접하고 개발자 입장에선 유저끼리 주고 받은 데이터를 기반으로 또 새로운 추천을 해줄 수 있을 것입니다.
 - 기록하고 공유함으로써 하루를 정리할 수 있고 기록한 데이터를 분석해 맞춤형 음악추천으로 기분좋은 마무리를 할 수 있다.
 - 음악 중심의 커뮤니티로써 색다른 SNS 플랫폼 구축
--
 
 ## 🌏 시장규모
 
@@ -102,14 +103,6 @@
 
 - 해당 서비스의 수요와 사용자층 시장 규모에 대한 지표를 제시
 - 강의장 내 조사, 설문조사, 보도자료 등등
-
-![art_16407631530491_65a6d8.jpg](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/6c8eec10-4517-4120-b3c1-76f6f27cd1ce/art_16407631530491_65a6d8.jpg)
-
-- 이 그래프로 오후에 교통수단이나 집에서 하루를 마무리하면서 음악을 많이 듣는다는 점을 강조하면 좋을듯
-
-![937118_627736_2132.jpg](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/2ac9b362-c885-451f-aacf-2b728c564b7c/937118_627736_2132.jpg)
-
-![G20220920_2.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/2ff4f6dc-d1d0-4f1b-a3f1-b8a9b06f0700/G20220920_2.png)
 
 ## ⚖️ 향후 기대효과
 

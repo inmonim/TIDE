@@ -25,6 +25,9 @@ import diaryListMineSlice from './api/features/diaryListMineSlice';
 import diaryListDelSlice from './api/features/diaryListDelSlice';
 import diaryListEditSlice from './api/features/diaryListEditSlice';
 import musicSlice from './api/features/musicSlice';
+import playListCreateSlice  from './api/features/playListCreateSlice';
+import playListMineSlice  from './api/features/playListMineSlice';
+import playListDeatilSlice from './api/features/playListDetailSlice';
 
 // 리듀서들을 합쳐주는곳
 const combinedReducer = combineReducers({
@@ -52,7 +55,10 @@ const combinedReducer = combineReducers({
   diaryListMine: diaryListMineSlice,
   diaryListDel: diaryListDelSlice,
   diaryListEdit: diaryListEditSlice,
-  music: musicSlice
+  music: musicSlice,
+  playListCreate:playListCreateSlice,
+  playListMine:playListMineSlice,
+  playListDetail:playListDeatilSlice
 });
 
 // Hydrate와 위에서 합친 reducer들을 rootReducer에 세팅

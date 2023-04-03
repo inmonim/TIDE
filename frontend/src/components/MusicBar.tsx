@@ -2,6 +2,7 @@ import React, {FC, useEffect, useRef, useState} from 'react';
 import SideBar from './SideBar';
 import styles from '@/styles/MusicBar.module.scss';
 import ReactPlayer from 'react-player';
+import {useAppSelector, useAppDispatch} from 'store';
 
 export type MusicBarProps = {};
 
@@ -24,11 +25,14 @@ const MusicBar: FC<MusicBarProps> = props => {
   // 재생바 클릭상태
   const [onBarClick, setOnBarClick] = useState<boolean>(false);
 
+  const musicplay = useAppSelector(state => state.nowmusic);
+
   useEffect(() => {
-    setSrc('https://www.youtube.com/watch?v=3XZLVtZeNFw');
+    console.log(musicplay, '지금플레이');
+    setSrc(`https://www.youtube.com/watch?v=${musicplay.videoId}`);
     setPlaying(false);
     setInit(true);
-  }, []);
+  }, [musicplay]);
 
   // 재생바에 마우스 올리면 거기까지 .... 시간과 바를 땡겨보여줌
   const BarTimeOn = (e: React.MouseEvent<HTMLElement>) => {

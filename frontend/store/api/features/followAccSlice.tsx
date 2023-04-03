@@ -56,11 +56,11 @@ export const followAccSlice = createSlice({
       })
       .addCase(followAccAsync.fulfilled, state => {
         state.status = 'completed';
-        console.log('팔로우 요청 수락 성공');
+        // console.log('팔로우 요청 수락 성공');
       })
       .addCase(followAccAsync.rejected, (state, action) => {
         state.status = 'failed';
-        console.log('팔로우 요청 수락 실패', action.error);
+        // console.log('팔로우 요청 수락 실패', action.error);
       });
   }
 });

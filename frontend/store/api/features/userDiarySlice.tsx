@@ -67,7 +67,7 @@ export const userDiarySlice = createSlice({
         state.status = 'completed';
         const diaryList = action.payload;
         state.diarys = diaryList;
-        console.log('남의 다이어리들 요청 성공', state.diarys)
+        // console.log('남의 다이어리들 요청 성공', state.diarys)
 
       })
       .addCase(userDiaryAsync.rejected, state => {

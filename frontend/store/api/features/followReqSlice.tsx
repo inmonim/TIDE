@@ -57,11 +57,11 @@ export const followReqSlice = createSlice({
       })
       .addCase(followReqAsync.fulfilled, state => {
         state.status = 'completed';
-        console.log('팔로우 요청 성공');
+        // console.log('팔로우 요청 성공');
       })
       .addCase(followReqAsync.rejected, (state, action) => {
         state.status = 'failed';
-        console.log('팔로우 요청 실패', action.error);
+        // console.log('팔로우 요청 실패', action.error);
       });
   }
 });

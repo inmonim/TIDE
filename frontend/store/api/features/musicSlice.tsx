@@ -17,6 +17,7 @@ interface musicState {
   albumId: number;
   releaseYear: number;
   cntLike: number;
+  lyrics: string;
   error: string | null;
 }
 // 초기값
@@ -33,6 +34,7 @@ const initialState: musicState = {
   albumId: 0,
   releaseYear: 0,
   cntLike: 0,
+  lyrics: '',
   error: null
 };
 

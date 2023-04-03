@@ -83,10 +83,12 @@ const Chat = ({data}: {data: ChatPropsInterFace}) => {
 
     // 실시간 변화 감지 최신버전
     onSnapshot(content, snapshot => {
-      const contentSnapshot = snapshot.docs.map(con => ({
-        ...con.data(),
-        id: con.id
-      }));
+      const contentSnapshot = snapshot.docs.map(con => {
+        return {
+          ...con.data(),
+          id: con.id
+        }
+      });
       setMessageDatas(prev => [...contentSnapshot]);
     });
   };
@@ -123,11 +125,26 @@ const Chat = ({data}: {data: ChatPropsInterFace}) => {
       downLoadUrl
     });
 
+    // 알림 데이터에 추가
+    await addDoc(collection(dbService, `alram`, 'alram'), {
+      type: "message",
+      nickname: nickname,
+      userNick: usersNickName,
+      createdAt: serverTimestamp(),
+    });
+    
+
     // 방 리스트 최신화 업데이트
     await updateDoc(doc(dbService, `${nickname}`, `${usersNickName}`), {
       message: message,
       nickname: usersNickName,
-      createdAt: serverTimestamp()
+      createdAt: serverTimestamp(),
+    });
+    // 상대방 리스트 최신화 업데이트
+    await updateDoc(doc(dbService, `${usersNickName}`, `${nickname}`), {
+      message: message,
+      nickname: nickname,
+      createdAt: serverTimestamp(),
     });
 
     setMessage('');

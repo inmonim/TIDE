@@ -22,6 +22,7 @@ const SideBar: FC<SideBarProps> = props => {
     deleteCookie('accessToken');
     deleteCookie('nickname');
     deleteCookie('email');
+    deleteCookie('profile_img_path');
     router.reload();
   };
   return (

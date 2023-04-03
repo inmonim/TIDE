@@ -45,4 +45,10 @@ public class MusicController {
                              @RequestHeader("email") String email) {
         return musicService.likeCheck(songId, email);
     }
+
+    // 다이어리 서비스와 통신
+    @GetMapping("/getsonginfo")
+    ResponseSearchSong getSongInfo(@RequestParam("songId") Long songId) {
+        return musicService.getSongInfo(songId);
+    }
 }

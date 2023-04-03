@@ -3,6 +3,7 @@ package com.tide.diary.controller;
 import com.tide.diary.request.*;
 import com.tide.diary.response.ResponseComment;
 import com.tide.diary.response.ResponseDiary;
+import com.tide.diary.response.ResponseTopDiary;
 import com.tide.diary.service.DiaryService;
 import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
@@ -50,6 +51,12 @@ public class DiaryController {
     @GetMapping("/follow")
     public List<ResponseDiary> getFollowDiaries(@RequestHeader("email") String email) {
         return diaryService.getFollowDiaries(email);
+    }
+
+    // 탑 3의 다이어리 조회
+    @GetMapping("/like/top/{songId}")
+    public List<ResponseTopDiary> getTop3Diaries(@PathVariable("songId") Long songId) {
+        return diaryService.getTop3Diaries(songId);
     }
 
     // 특정 닉네임 기준 다이어리 조회

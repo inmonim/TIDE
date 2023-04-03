@@ -10,8 +10,11 @@ import com.tide.diary.request.RequestDiary;
 import com.tide.diary.request.RequestPub;
 import com.tide.diary.response.ResponseDiary;
 import com.tide.diary.response.ResponseSearchSong;
+import com.tide.diary.response.ResponseTopDiary;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -154,6 +157,23 @@ public class DiaryServiceImpl implements DiaryService {
             diaryList.add(response);
         }
         return diaryList;
+    }
+
+    @Transactional
+    public List<ResponseTopDiary> getTop3Diaries(Long songId) {
+        List<ResponseTopDiary> response = new ArrayList<>();
+        Pageable pageable = PageRequest.of(0,3);
+        List<Diary> diaries = diaryRepository.findTop3DiariesBySongIdOrderByLikeCnt(songId, "0", pageable);
+        for(Diary d : diaries) {
+            ResponseTopDiary responseTopDiary = new ResponseTopDiary();
+            responseTopDiary.setTitle(d.getTitle());
+            responseTopDiary.setNickname(userServiceClient.getNickname(d.getUserId()));
+            responseTopDiary.setLike(d.getLikeCnt());
+            responseTopDiary.setId(d.getId());
+            responseTopDiary.setCreateDt(d.getCreateDt());
+            response.add(responseTopDiary);
+        }
+        return response;
     }
 
     @Override

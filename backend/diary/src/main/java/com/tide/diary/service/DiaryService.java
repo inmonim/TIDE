@@ -3,6 +3,7 @@ package com.tide.diary.service;
 import com.tide.diary.request.RequestDiary;
 import com.tide.diary.request.RequestPub;
 import com.tide.diary.response.ResponseDiary;
+import com.tide.diary.response.ResponseTopDiary;
 
 import java.util.List;
 
@@ -22,4 +23,6 @@ public interface DiaryService {
     void changeStatus(String email, Long diaryId, RequestPub request);
 
     List<ResponseDiary> getUserDiaries(String email, String nickname);
+
+    List<ResponseTopDiary> getTop3Diaries(Long songId);
 }

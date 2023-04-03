@@ -1,9 +1,22 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import Seo from '@/components/Seo';
+import { useAppDispatch, useAppSelector } from 'store';
+import { playListDetailAsync } from 'store/api/features/playListDetailSlice';
+import { useEffect, useState } from 'react';
+
 
 export default function DiaryDetail() {
   const router = useRouter();
+  const dispatch = useAppDispatch();
+  
+  const [playListId, setplayListId] = useState<Number>(Number(router.query.id));
+
+  useEffect(()=>{
+    if (playListId === Number(router.query.id))
+      dispatch(playListDetailAsync({playListId:Number(playListId)}))
+  },[playListId]);
+
   return (
     <>
       <Seo title={`Playlist ${router.query.id}`} />

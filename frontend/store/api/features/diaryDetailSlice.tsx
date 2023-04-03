@@ -72,12 +72,12 @@ export const diaryDeatilSlice = createSlice({
         state.status = 'completed';
         const this_diary = action.payload;
         state.diary = this_diary;
-        console.log('다이어리 상세 요청 성공')
+        // console.log('다이어리 상세 요청 성공')
 
       })
       .addCase(diaryDetailAsync.rejected, state => {
         state.status = 'failed';
-        console.log('다이어리 상세 요청 실패');
+        // console.log('다이어리 상세 요청 실패');
       });
   }
 });

@@ -46,7 +46,7 @@ export const diaryListCreateSlice = createSlice({
   name: 'diaryListCreate',
   initialState,
   reducers: {
-    initStatus(state) {
+    diaryListCreateinitStatus(state) {
       state.status = 'loading';
     }
   },
@@ -58,13 +58,13 @@ export const diaryListCreateSlice = createSlice({
       })
       .addCase(diaryListCreateAsync.fulfilled, (state, action) => {
         state.status = 'completed';
-        console.log('다이어리 리스트 생성 성공')
+        // console.log('다이어리 리스트 생성 성공')
       })
       .addCase(diaryListCreateAsync.rejected, (state, action) => {
         state.status = 'failed';
-        console.log('다이어리 리스트 생성 실패')
+        // console.log('다이어리 리스트 생성 실패')
       });
   }
 });
-
+export const {diaryListCreateinitStatus} = diaryListCreateSlice.actions;
 export default diaryListCreateSlice.reducer;

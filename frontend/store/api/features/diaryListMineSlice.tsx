@@ -57,12 +57,12 @@ export const diaryListMineSlice = createSlice({
         state.status = 'completed';
         const diaryLists = action.payload;
         state.diarylists = diaryLists;
-        console.log('내 일기장 모음 요청 성공',state.diarylists)
+        // console.log('내 일기장 모음 요청 성공',state.diarylists)
 
       })
       .addCase(diaryListMineAsync.rejected, state => {
         state.status = 'failed';
-        console.log('내 일기장 모음 요청 실패');
+        // console.log('내 일기장 모음 요청 실패');
       });
   }
 });

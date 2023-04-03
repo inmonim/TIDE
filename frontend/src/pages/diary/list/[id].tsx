@@ -12,6 +12,7 @@ import { diaryListDelAsync } from 'store/api/features/diaryListDelSlice';
 import { diaryListEditAsync } from 'store/api/features/diaryListEditSlice';
 import { toast } from 'react-toastify';
 import DiaryListModal from '@/components/Modal/DiaryListModal';
+import { diaryListDelinitStatus } from 'store/api/features/diaryListDelSlice';
 
 interface diaryInterFace {
   id:number,
@@ -32,6 +33,7 @@ export type DiaryListProps = {
 
 const DiaryListDetail: FC<DiaryListProps> = () => {
   const router = useRouter();
+  console.log(router.query)
   const dispatch = useAppDispatch();
 
   const [diaryListId, setDiaryListId] = useState<Number>(Number(router.query.id));
@@ -45,10 +47,18 @@ const DiaryListDetail: FC<DiaryListProps> = () => {
     return state.diaryListDel;
   });
 
-  const DiaryListDel = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const DiaryListDel = () => {
     console.log(diaryListId)
     if (!isNaN(Number(diaryListId)))
     dispatch(diaryListDelAsync({diaryListId:diaryListId}))
+  };
+
+
+  const [DiaryListType, setDiaryListType] = useState<Number>(0);
+  const getModalType = (type:Number) => {
+    setDiaryListType(type)
+  }
+  useEffect(()=>{
     switch (status) {
       case 'completed':
         toast.success('일기장 모음 삭제 성공');
@@ -60,38 +70,8 @@ const DiaryListDetail: FC<DiaryListProps> = () => {
         toast.error('일기장 모음 삭제 실패');
         break;
       }
-  };
-
-  // const [diaryListTitle, setDiarylListTitle] = useState<string>('');
-  
-  // const onChangeInput = (
-  //   event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  // ) => {
-  //   setDiarylListTitle(event.target.value);
-  //   // console.log(diaryListTitle)
-  // };
-
-  // const DiaryListEdit = (event: React.MouseEvent<HTMLButtonElement>) => {
-  //   console.log(diaryListId)
-  //   if (!isNaN(Number(diaryListId)))
-  //   dispatch(diaryListEditAsync({diaryListId:diaryListId, diaryListTitle:diaryListTitle}))
-  //   switch (status) {
-  //     case 'completed':
-  //       toast.success('이름 수정 성공');
-  //       // 갱신해주는 디스패치 한 번 
-  //       break;
-  //     case 'failed':
-  //       toast.error('이름 수정 실패');
-  //       break;
-  //     }
-  // };
-
-
-
-  const [DiaryListType, setDiaryListType] = useState<Number>(0);
-  const getModalType = (type:Number) => {
-    setDiaryListType(type)
-  }
+    dispatch(diaryListDelinitStatus())
+  },[status])
 
   return (
     <>
@@ -104,7 +84,12 @@ const DiaryListDetail: FC<DiaryListProps> = () => {
       <main className={`
       p-[4rem] pt-[2rem] lg12:pr-[calc(200px)] lg12:pl-[calc(15%+100px)] pb-[240px] text-[#eeeeee] flex flex-col min-h-[100vh] pt-[calc(2rem+40px)] bg-gradient-to-t from-blue-900 to-slate-900 `}>
         <div className={`text-[0.85rem] w-[100%] z-[2] select-none h-[100%] flex justify-between items-center`}>
-          <h1 className="text-5xl font-bold ml-[2rem] md86:ml-0"> 일기장 모음 {router.query.id}</h1>
+          
+          <div className={``}>
+          <h1 className="text-5xl font-bold ml-[2rem] md86:ml-0"> {router.query.diaryListTitle} </h1>
+          <p className={'ml-[2rem] md86:ml-0 text-lg'}> {router.query.userId} </p>
+          </div>
+ 
           <div className={``}>
           <button className={`border pl-1 pr-1 rounded-lg bg-slate-700 hover:bg-slate-400 duration-200 mr-3`}
           onClick={()=>setDiaryListType(2)}

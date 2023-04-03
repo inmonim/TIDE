@@ -167,7 +167,7 @@ export default function Diary() {
         </div>
 
         <div className={styles.diarySectionTitle}>
-          <h2 className="text-2xl font-bold text-sky-400 "> 일기장 </h2>
+          <h2 className="text-2xl font-bold text-sky-400 whitespace-nowrap"> 일기장 </h2>
           <input type="month"></input>
         </div>
 
@@ -182,7 +182,7 @@ export default function Diary() {
           </button>
         </div>
         <div className={styles.diarySection}>
-          <div className={styles.caroselWrapper} ref={caroselDivRef}>
+          <div className={`${styles.caroselWrapper} ${(diarys&&diarys.length>1)?`grid-cols-2`:`grid-cols-1`}`} ref={caroselDivRef}>
             {diarys && diarys.length >0 ? diarys.map((diary, id) => (
               <Link href={`/diary/${id}`}>
               <div className={styles.caroselItem} key={id}>
@@ -207,14 +207,14 @@ export default function Diary() {
                 </div>
               </div>
               </Link>
-            )):null}
+            )):<div className={`w-full h-full bg-black flex items-center justify-center bg-opacity-30`}><p> 작성된 일기가 없습니다.</p></div>}
           </div>
         </div>
 
         <div className={styles.caroselDotDiv}></div>
 
         <div className={`flex justify-between items-center mt-6`}>
-        <h2 className="text-2xl font-bold text-sky-400 "> 일기장 모음 </h2>
+        <h2 className="text-2xl font-bold text-sky-400 whitespace-nowrap "> 일기장 모음 </h2>
         <button 
         onClick={()=> setDiaryListType(1)}
         className={`border rounded-[50%] w-[25px] h-[25px] justify-center text-center items-center bg-slate-700 hover:bg-slate-500 duration-200`}> 
@@ -224,7 +224,17 @@ export default function Diary() {
         <div className={styles.diarySection}>
           <div className={`grid lg:grid-cols-6 md:grid-cols-4 grid-cols-2 p-2 gap-2`}>
             {diarylists && diarylists.length >0 ?diarylists.map((diaryList,id)=>(
-              <Link href={`/diary/list/${diaryList.id}`}>
+              <Link 
+              href={{
+                pathname: `/diary/list/${diaryList.id}`,
+                query: {
+                  diaryListTitle: diaryList.diaryListTitle,
+                  userId:diaryList.userId,
+                  isPublic:diaryList.isPublic
+                },
+              }}
+              as={`/diary/list/${diaryList.id}`}
+              >
               <div className={`h-[calc(10vw+40px)] p-2 flex items-center border rounded-xl justify-center flex-col overflow-hidden
                bg-blue-900 hover:bg-blue-500 bg-opacity-70 duration-200
               `}>

@@ -18,7 +18,8 @@ import {
   doc,
   collection,
   serverTimestamp,
-  setDoc
+  setDoc,
+  updateDoc
 } from 'firebase/firestore';
 import {
   ref,
@@ -31,6 +32,7 @@ import {
 // 컴포넌트
 import Message from './Message';
 import {useRouter} from 'next/router';
+import Link from 'next/link';
 
 interface ChatPropsInterFace {
   usersNickName: string | string[] | undefined;
@@ -81,10 +83,12 @@ const Chat = ({data}: {data: ChatPropsInterFace}) => {
 
     // 실시간 변화 감지 최신버전
     onSnapshot(content, snapshot => {
-      const contentSnapshot = snapshot.docs.map(con => ({
-        ...con.data(),
-        id: con.id
-      }));
+      const contentSnapshot = snapshot.docs.map(con => {
+        return {
+          ...con.data(),
+          id: con.id
+        }
+      });
       setMessageDatas(prev => [...contentSnapshot]);
     });
   };
@@ -121,11 +125,27 @@ const Chat = ({data}: {data: ChatPropsInterFace}) => {
       downLoadUrl
     });
 
-    // 방 리스트 최신화
-    await setDoc(doc(dbService, `${nickname}`, `${usersNickName}`), {
+    // 알림 데이터에 추가
+    await setDoc(doc(dbService, `alram`, 'message'), {
+      type: "message",
+      nickname: nickname,
+      userNick: usersNickName,
+      createdAt: serverTimestamp(),
+      check: false
+    });
+    
+
+    // 방 리스트 최신화 업데이트
+    await updateDoc(doc(dbService, `${nickname}`, `${usersNickName}`), {
       message: message,
       nickname: usersNickName,
-      createdAt: serverTimestamp()
+      createdAt: serverTimestamp(),
+    });
+    // 상대방 리스트 최신화 업데이트
+    await updateDoc(doc(dbService, `${usersNickName}`, `${nickname}`), {
+      message: message,
+      nickname: nickname,
+      createdAt: serverTimestamp(),
     });
 
     setMessage('');
@@ -168,11 +188,13 @@ const Chat = ({data}: {data: ChatPropsInterFace}) => {
 
   return (
     <div className="flex flex-col justify-center w-full h-full text-white ">
-      <div className="relative top-0 w-full h-[5vh] bg-black bg-opacity-90 lg:hidden">
-        <div className="flex items-center h-full text-lg hover:text-blue-300">
-          &nbsp; ☜(ﾟヮﾟ☜) {usersNickName}
+      <Link href={'/message'}>
+        <div className="relative top-0 w-full h-[5vh] bg-black bg-opacity-90 md:hidden">
+          <div className="flex items-center h-full text-lg hover:text-blue-300">
+            &nbsp; ☜(ﾟヮﾟ☜) {usersNickName}
+          </div>
         </div>
-      </div>
+      </Link>
       <div className="flex flex-col items-center justify-center w-full h-full bg-black rounded-lg bg-opacity-40">
         {/* 메시지들 보이는 곳 */}
         <div ref={chatDiv} className="w-5/6 h-full overflow-y-auto">

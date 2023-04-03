@@ -52,7 +52,7 @@ function Profile() {
 
       <div className={`${FModalType===0?'w-0 h-0':'bg-slate-900 w-[100%] opacity-90 h-[100%] fixed z-[3]'}`} onClick={()=>{setFModalType(0)}} >
       </div>
-      <FollowModal type={FModalType} list={FModalType==1?follows:followers}/>
+      <FollowModal type={FModalType} isMe={true} list={FModalType==1?follows:followers}/>
 
 
       {/* 뒷배경 */}

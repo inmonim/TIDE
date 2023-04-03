@@ -44,4 +44,15 @@ public class DiaryLikeServiceImpl implements DiaryLikeService {
             diaryRepository.save(diary);
         }
     }
+
+    @Override
+    @Transactional
+    public boolean likeCheck(Long diaryId, String email) {
+        Long userId = userServiceClient.getUserId(email);
+        DiaryLikeUser diaryLikeUser = diaryLikeUserRepository.findByDiaryIdAndUserId(diaryId, userId);
+        if(diaryLikeUser != null) {
+            return true;
+        }
+        return false;
+    }
 }

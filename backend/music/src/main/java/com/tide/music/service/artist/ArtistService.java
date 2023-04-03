@@ -11,4 +11,6 @@ public interface ArtistService {
     void likeArtist(String email, Long artistId);
 
     List<ResponseArtistList> getArtistTopList();
+
+    boolean likeCheck(Long artistId, String email);
 }

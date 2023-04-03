@@ -39,4 +39,10 @@ public class MusicController {
         musicService.likeSong(songId, email);
         return ResponseEntity.status(HttpStatus.OK).body("좋아요 처리");
     }
+
+    @GetMapping("/like/{songId}")
+    public boolean likeCheck(@PathVariable("songId") Long songId,
+                             @RequestHeader("email") String email) {
+        return musicService.likeCheck(songId, email);
+    }
 }

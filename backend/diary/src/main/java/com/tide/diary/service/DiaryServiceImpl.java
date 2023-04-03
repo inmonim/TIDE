@@ -11,7 +11,14 @@ import com.tide.diary.request.RequestPub;
 import com.tide.diary.response.ResponseDiary;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
@@ -109,6 +116,22 @@ public class DiaryServiceImpl implements DiaryService {
         diary.setCreateDt(String.valueOf(dateTime.toLocalDate()));
 
         // Content를 파이썬으로 보내는 코드 작성해야함
+        // 1. Header생성
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("content-type", "application/json");
+
+        // 2. Body생성
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("content", request.getContent());
+
+        // 3. HttpEntity생성
+        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(params, headers);
+
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<String> response = restTemplate
+                .exchange("http://127.0.0.1:4000/api", HttpMethod.POST, entity, String.class);
+
+        log.info("flask 통신 결과 ==========>", response);
 
         diaryRepository.save(diary);
     }
@@ -123,22 +146,6 @@ public class DiaryServiceImpl implements DiaryService {
         log.info("diary: ------------------>", diary.toString());
         response.setNickname(userServiceClient.getNickname(diary.getUserId()));
         return response;
-    }
-
-    @Transactional
-    public void cntLike(String email, Long diaryId) {
-        Long userId = userServiceClient.getUserId(email);
-        Diary diary = diaryRepository.findById(diaryId).orElse(null);
-        diary.setLikeCnt(diary.getLikeCnt() + 1);
-        DiaryLikeUser diaryLikeUser = new DiaryLikeUser();
-        DiaryLikeUser check = diaryLikeUserRepository.findByDiaryIdAndUserId(diaryId, userId);
-        if (check != null) {
-            throw new IllegalStateException("이미 좋아요한 게시글입니다.");
-        }
-        diaryLikeUser.setDiaryId(diaryId);
-        diaryLikeUser.setUserId(userId);
-        diaryLikeUserRepository.save(diaryLikeUser);
-        diaryRepository.save(diary);
     }
 
     @Override

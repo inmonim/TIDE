@@ -109,4 +109,15 @@ public class ArtistServiceImpl implements ArtistService {
 
         return response;
     }
+
+    @Override
+    @Transactional
+    public boolean likeCheck(Long artistId, String email) {
+        Long userId = userServiceClient.getUserId(email);
+        ArtistLikeUser artistLikeUser = artistLikeUserRepository.findByUserIdAndLikedArtistId(userId, artistId);
+        if(artistLikeUser != null) {
+            return true;
+        }
+        return false;
+    }
 }

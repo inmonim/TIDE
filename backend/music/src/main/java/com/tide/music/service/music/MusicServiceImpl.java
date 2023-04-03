@@ -31,7 +31,7 @@ import java.util.List;
 
 @Slf4j
 @Service
-public class MusicServiceImpl implements MusicService{
+public class MusicServiceImpl implements MusicService {
 
     private Environment env;
     private AlbumRepository albumRepository;
@@ -42,6 +42,7 @@ public class MusicServiceImpl implements MusicService{
     private LyricsRepository lyricsRepository;
     private SongLikeUserRepository songLikeUserRepository;
     private UserServiceClient userServiceClient;
+
     public MusicServiceImpl(Environment env,
                             AlbumRepository albumRepository,
                             SongRepository songRepository,
@@ -74,21 +75,24 @@ public class MusicServiceImpl implements MusicService{
             SongAlbum songAlbum = songAlbumRepository.findBySongId(song.getSongId());
             List<SongArtist> songArtists = songArtistRepository.findAllBySongId(song.getSongId());
             Album album = albumRepository.findByAlbumId(songAlbum.getAlbumId());
-            if(songAlbum == null || songArtists == null || album == null) {
+            if (songAlbum == null || songArtists == null || album == null) {
                 continue;
             }
             List<String> artistName = new ArrayList();
             responseSearchSong.setTitle(song.getTitle());
             for (SongArtist songArtist : songArtists) {
                 Artist temp = artistRepository.findByArtistId(songArtist.getArtistId());
-                if(temp == null) {continue;}
+                if (temp == null) {
+                    continue;
+                }
                 artistName.add(temp.getArtistName());
             }
             responseSearchSong.setSongId(song.getSongId());
             responseSearchSong.setAlbumImgPath(album.getAlbumImgPath());
             responseSearchSong.setArtist(artistName);
             responseSearchSongList.add(responseSearchSong);
-        };
+        }
+        ;
 
         return responseSearchSongList;
     }
@@ -100,16 +104,16 @@ public class MusicServiceImpl implements MusicService{
         Song song = songRepository.findBySongId(songId);
         Album album = albumRepository.findByAlbumId(songAlbumRepository.findBySongId(song.getSongId()).getAlbumId());
         List<SongArtist> songArtists = songArtistRepository.findAllBySongId(songId);
-        if(song == null || album == null || songArtists == null) {
+        if (song == null || album == null || songArtists == null) {
             throw new IllegalArgumentException("제대로 된 음악 정보 요청이 아닙니다.");
         }
         List<Artist> artists = new ArrayList<>();
-        for(SongArtist songArtist : songArtists){
+        for (SongArtist songArtist : songArtists) {
             Artist artist = artistRepository.findByArtistId(songArtist.getArtistId());
             artists.add(artist);
         }
         Lyrics lyrics = lyricsRepository.findBySongId(songId);
-        if(lyrics == null) {
+        if (lyrics == null) {
             responseSongInfo.setLyrics("가사정보가 존재하지 않습니다.");
         } else {
             responseSongInfo.setLyrics(lyrics.getLyrics());
@@ -138,12 +142,12 @@ public class MusicServiceImpl implements MusicService{
     @Transactional
     public void likeSong(Long songId, String email) {
         Song song = songRepository.findBySongId(songId);
-        if(song == null) {
+        if (song == null) {
             throw new IllegalStateException("존재하지 않는 노래입니다.");
         }
         Long userId = userServiceClient.getUserId(email);
         SongLikeUser songLikeUser = songLikeUserRepository.findBySongIdAndUserId(songId, userId);
-        if(songLikeUser == null) {
+        if (songLikeUser == null) {
             songLikeUser = new SongLikeUser();
             songLikeUser.setSongId(songId);
             songLikeUser.setUserId(userId);
@@ -153,6 +157,17 @@ public class MusicServiceImpl implements MusicService{
         } else {
             song.setLikeCnt(song.getLikeCnt() - 1);
             songLikeUserRepository.delete(songLikeUser);
+        }
+    }
+
+    @Override
+    public boolean likeCheck(Long songId, String email) {
+        Long userId = userServiceClient.getUserId(email);
+        SongLikeUser songLikeUser = songLikeUserRepository.findBySongIdAndUserId(songId, userId);
+        if (songLikeUser != null) {
+            return true;
+        } else {
+            return false;
         }
     }
 }

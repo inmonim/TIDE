@@ -17,6 +17,14 @@ public class DiaryLikeController {
         this.env = env;
         this.diaryLikeService = diaryLikeService;
     }
+
+    // 좋아요 체크
+    @GetMapping("/like/{diaryId}")
+    public boolean likeCheck(@PathVariable("diaryId") Long diaryId,
+                             @RequestHeader("email") String email) {
+        return diaryLikeService.likeCheck(diaryId, email);
+    }
+
     // like + 1
     @PutMapping("/like/{diaryId}")
     public ResponseEntity<String> cntLike(@RequestHeader("email")String email,

@@ -11,4 +11,6 @@ public interface MusicService {
     ResponseSongInfo searchSong(Long songId);
 
     void likeSong(Long songId, String email);
+
+    boolean likeCheck(Long songId, String email);
 }

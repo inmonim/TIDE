@@ -45,7 +45,7 @@ export default function Playlist() {
 
       <div className={`${playlistType===0?'w-0 h-0':'bg-slate-900 w-[100%] opacity-90 h-[100%] fixed z-[3]'}`} onClick={()=>{setPlaylistType(0)}} >
       </div>
-      <PlayListModal type={playlistType} getModalType={getModalType} playListId={undefined}/>
+      <PlayListModal type={playlistType} getModalType={getModalType} playlistId={undefined}/>
 
 
       <main className={`

@@ -7,6 +7,8 @@ import Lp from 'public/icons/lp.png';
 import styles from '@/styles/MusicBar.module.scss';
 import {deleteCookie} from 'cookies-next';
 import {useRouter} from 'next/router';
+import {useAppDispatch} from 'store';
+import {musicsearchAsync} from 'store/api/features/musicsearchSlice';
 
 export type SideBarProps = {
   isPlaying: boolean;
@@ -17,6 +19,21 @@ const SideBar: FC<SideBarProps> = props => {
   const {isPlaying} = props;
   const [RmenuOpen, setRmenuOpen] = useState<boolean>(false);
   const [BarOpen, setBarOpen] = useState<Number>(0);
+  const [title, setTitle] = useState<string>('');
+
+  const dispatch = useAppDispatch();
+
+  const musicsearch = dispatch(musicsearchAsync(title));
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(e.target.value);
+  };
+
+  const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    dispatch(musicsearchAsync(title));
+    router.push(`/music/search`);
+  };
 
   const onLogOut = () => {
     deleteCookie('accessToken');
@@ -32,9 +49,14 @@ const SideBar: FC<SideBarProps> = props => {
         <div className={`${styles.topBgDiv} fixed`}>
           {/* 검색창 영역 */}
           <div className={styles.searchBox}>
-            <form action="." method="post">
+            <form onSubmit={handleSearchSubmit}>
               <button type="submit"></button>
-              <input className={''} type="text" placeholder="Search" />
+              <input
+                value={title}
+                type="text"
+                placeholder="Search"
+                onChange={handleSearchChange}
+              />
             </form>
           </div>
           {/* 로고 영역 */}
@@ -150,9 +172,14 @@ const SideBar: FC<SideBarProps> = props => {
         </Link>
         {/* 검색창 영역 */}
         <div className={`${styles.searchBox} `}>
-          <form action="." method="post">
+          <form onSubmit={handleSearchSubmit}>
             <button type="submit"></button>
-            <input className={''} type="text" placeholder="Search" />
+            <input
+              type="text"
+              placeholder="Search"
+              value={title}
+              onChange={handleSearchChange}
+            />
           </form>
         </div>
 

@@ -30,7 +30,11 @@ const DiaryListModal: FC<PlayListModalProps> = props => {
 
   const dispatch = useAppDispatch();
   
-  const [playListAPI,setplayListAPI] = useState<PlayListAPIInterFace>({})
+  const [playListAPI,setplayListAPI] = useState<PlayListAPIInterFace>({
+    playlistId:0,
+    playlistTitle: '',
+    isPublic:''
+  })
 
   useEffect(()=>{
     if(router.query)

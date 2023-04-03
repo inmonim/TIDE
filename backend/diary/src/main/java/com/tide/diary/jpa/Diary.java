@@ -28,4 +28,10 @@ public class Diary {
     private String pub;
     @Column(name = "likecnt")
     private Integer likeCnt;
+
+    @Column(name = "rating")
+    private Integer rating;
+
+    @Column(name = "song_id")
+    private Long songId;
 }

@@ -1,24 +1,18 @@
 package com.tide.diary.service;
 
+import com.tide.diary.client.MusicServiceClient;
 import com.tide.diary.client.UserServiceClient;
 import com.tide.diary.jpa.Diary;
 import com.tide.diary.jpa.DiaryRepository;
 import com.tide.diary.jpa.comment.DiaryCommentRepository;
-import com.tide.diary.jpa.like.DiaryLikeUser;
 import com.tide.diary.jpa.like.DiaryLikeUserRepository;
 import com.tide.diary.request.RequestDiary;
 import com.tide.diary.request.RequestPub;
 import com.tide.diary.response.ResponseDiary;
+import com.tide.diary.response.ResponseSearchSong;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.client.RestTemplate;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
@@ -33,15 +27,18 @@ public class DiaryServiceImpl implements DiaryService {
     private final DiaryLikeUserRepository diaryLikeUserRepository;
     private final DiaryCommentRepository diaryCommentRepository;
     private final UserServiceClient userServiceClient;
+    private final MusicServiceClient musicServiceClient;
 
     public DiaryServiceImpl(DiaryRepository diaryRepository,
                             DiaryLikeUserRepository diaryLikeUserRepository,
                             DiaryCommentRepository diaryCommentRepository,
-                            UserServiceClient userServiceClient) {
+                            UserServiceClient userServiceClient,
+                            MusicServiceClient musicServiceClient) {
         this.diaryRepository = diaryRepository;
         this.diaryLikeUserRepository = diaryLikeUserRepository;
         this.diaryCommentRepository = diaryCommentRepository;
         this.userServiceClient = userServiceClient;
+        this.musicServiceClient = musicServiceClient;
     }
 
     @Transactional
@@ -114,25 +111,17 @@ public class DiaryServiceImpl implements DiaryService {
         diary.setContent(request.getContent());
         diary.setPub(request.getPub());
         diary.setCreateDt(String.valueOf(dateTime.toLocalDate()));
+        diary.setLikeCnt(0);
+        diary.setSongId(request.getSongId());
+        diary.setRating(0);
 
-        // Content를 파이썬으로 보내는 코드 작성해야함
-        // 1. Header생성
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("content-type", "application/json");
-
-        // 2. Body생성
-        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
-        params.add("content", request.getContent());
-
-        // 3. HttpEntity생성
-        HttpEntity<MultiValueMap<String, String>> entity = new HttpEntity<>(params, headers);
-
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<String> response = restTemplate
-                .exchange("http://127.0.0.1:4000/api", HttpMethod.POST, entity, String.class);
-
-        log.info("flask 통신 결과 ==========>", response);
-
+        ResponseSearchSong searchSong = musicServiceClient.getSongInfo(request.getSongId());
+        if(searchSong != null){
+            log.info("Searching =====================> ", searchSong.getTitle().toString());
+            System.out.println(searchSong);
+        }else {
+            log.info("노래 없음");
+        }
         diaryRepository.save(diary);
     }
 
@@ -141,10 +130,14 @@ public class DiaryServiceImpl implements DiaryService {
     public ResponseDiary getDetailDiary(Long diaryId) {
         Diary diary = diaryRepository.findById(diaryId).orElse(null);
         ModelMapper mapper = new ModelMapper();
-
+        Long songId = diary.getSongId();
+        ResponseSearchSong responseSearchSong = musicServiceClient.getSongInfo(songId);
         ResponseDiary response = mapper.map(diary, ResponseDiary.class);
-        log.info("diary: ------------------>", diary.toString());
         response.setNickname(userServiceClient.getNickname(diary.getUserId()));
+        response.setSongId(songId);
+        response.setTitle(responseSearchSong.getTitle());
+        response.setArtist(responseSearchSong.getArtist());
+        response.setAlbumImgPath(responseSearchSong.getAlbumImgPath());
         return response;
     }
 
@@ -193,8 +186,8 @@ public class DiaryServiceImpl implements DiaryService {
         ModelMapper mapper = new ModelMapper();
         List<ResponseDiary> response = new ArrayList<>();
         log.info(userId.toString(), check);
-        if(check) {
-            List<Diary> diaries = diaryRepository.findAllByUserIdAndPubNot(userId,"2");
+        if (check) {
+            List<Diary> diaries = diaryRepository.findAllByUserIdAndPubNot(userId, "2");
             for (Diary diary : diaries) {
                 ResponseDiary responseDiary = mapper.map(diary, ResponseDiary.class);
                 responseDiary.setNickname(nickname);

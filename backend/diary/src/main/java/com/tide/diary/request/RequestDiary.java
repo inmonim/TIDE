@@ -11,4 +11,5 @@ public class RequestDiary {
     private String title;
     private String content;
     private String pub;
+    private Long songId;
 }

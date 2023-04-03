@@ -104,13 +104,37 @@ public class MusicServiceImpl implements MusicService {
         Song song = songRepository.findBySongId(songId);
         Album album = albumRepository.findByAlbumId(songAlbumRepository.findBySongId(song.getSongId()).getAlbumId());
         List<SongArtist> songArtists = songArtistRepository.findAllBySongId(songId);
-        if (song == null || album == null || songArtists == null) {
+        if (song == null) {
             throw new IllegalArgumentException("제대로 된 음악 정보 요청이 아닙니다.");
         }
-        List<Artist> artists = new ArrayList<>();
-        for (SongArtist songArtist : songArtists) {
-            Artist artist = artistRepository.findByArtistId(songArtist.getArtistId());
-            artists.add(artist);
+        if (album == null) {
+            responseSongInfo.setAlbumTitle("앨범 정보 없음");
+        } else {
+            responseSongInfo.setAlbumTitle(album.getAlbumTitle());
+            responseSongInfo.setAlbumImgPath(album.getAlbumImgPath());
+            responseSongInfo.setReleaseDt(album.getReleaseDt());
+        }
+        if (songArtists == null) {
+            List<String> check = new ArrayList<>();
+            check.add("아티스트 정보 없음");
+            responseSongInfo.setArtistName(check);
+        } else {
+            List<Artist> artists = new ArrayList<>();
+            for (SongArtist songArtist : songArtists) {
+                Artist artist = artistRepository.findByArtistId(songArtist.getArtistId());
+                artists.add(artist);
+            }
+            List<Long> artistId = new ArrayList<>();
+            List<String> artistName = new ArrayList<>();
+            List<String> artistImgPath = new ArrayList<>();
+            for (Artist artist : artists) {
+                artistId.add(artist.getArtistId());
+                artistName.add(artist.getArtistName());
+                artistImgPath.add(artist.getArtistImgPath());
+            }
+            responseSongInfo.setArtistId(artistId);
+            responseSongInfo.setArtistName(artistName);
+            responseSongInfo.setArtistImgPath(artistImgPath);
         }
         Lyrics lyrics = lyricsRepository.findBySongId(songId);
         if (lyrics == null) {
@@ -118,23 +142,10 @@ public class MusicServiceImpl implements MusicService {
         } else {
             responseSongInfo.setLyrics(lyrics.getLyrics());
         }
-        List<Long> artistId = new ArrayList<>();
-        List<String> artistName = new ArrayList<>();
-        List<String> artistImgPath = new ArrayList<>();
-        for (Artist artist : artists) {
-            artistId.add(artist.getArtistId());
-            artistName.add(artist.getArtistName());
-            artistImgPath.add(artist.getArtistImgPath());
-        }
         responseSongInfo.setTitle(song.getTitle());
-        responseSongInfo.setArtistId(artistId);
-        responseSongInfo.setArtistName(artistName);
-        responseSongInfo.setArtistImgPath(artistImgPath);
-        responseSongInfo.setReleaseDt(album.getReleaseDt());
-        responseSongInfo.setAlbumTitle(album.getAlbumTitle());
-        responseSongInfo.setAlbumImgPath(album.getAlbumImgPath());
         responseSongInfo.setVideoId(song.getVideoId());
         responseSongInfo.setLikeCnt(song.getLikeCnt());
+
         return responseSongInfo;
     }
 
@@ -161,6 +172,7 @@ public class MusicServiceImpl implements MusicService {
     }
 
     @Override
+    @Transactional
     public boolean likeCheck(Long songId, String email) {
         Long userId = userServiceClient.getUserId(email);
         SongLikeUser songLikeUser = songLikeUserRepository.findBySongIdAndUserId(songId, userId);
@@ -169,5 +181,32 @@ public class MusicServiceImpl implements MusicService {
         } else {
             return false;
         }
+    }
+
+    @Override
+    @Transactional
+    public ResponseSearchSong getSongInfo(Long songId) {
+        Song song = songRepository.findBySongId(songId);
+        ResponseSearchSong responseSearchSong = new ResponseSearchSong();
+        SongAlbum songAlbum = songAlbumRepository.findBySongId(song.getSongId());
+        List<SongArtist> songArtists = songArtistRepository.findAllBySongId(song.getSongId());
+        Album album = albumRepository.findByAlbumId(songAlbum.getAlbumId());
+        if (songAlbum == null || songArtists == null || album == null) {
+            throw new IllegalStateException("Song not found");
+        }
+        List<String> artistName = new ArrayList();
+        responseSearchSong.setTitle(song.getTitle());
+        for (SongArtist songArtist : songArtists) {
+            Artist temp = artistRepository.findByArtistId(songArtist.getArtistId());
+            if (temp == null) {
+                continue;
+            }
+            artistName.add(temp.getArtistName());
+        }
+        responseSearchSong.setSongId(song.getSongId());
+        responseSearchSong.setAlbumImgPath(album.getAlbumImgPath());
+        responseSearchSong.setArtist(artistName);
+        log.info("요청이왔어요~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~", responseSearchSong.getTitle().toString());
+        return responseSearchSong;
     }
 }

@@ -33,6 +33,12 @@ public class ArtistController {
         return artistService.getArtistTopList();
     }
 
+    @GetMapping("/like/artist/{artistId}")
+    public boolean likeCheck(@PathVariable("artistId") Long artistId,
+                             @RequestHeader("email") String email){
+        return artistService.likeCheck(artistId, email);
+    }
+
     @PutMapping("/like/artist/{artistId}")
     public ResponseEntity<String> likeArtist(@RequestHeader("email") String email,
                                              @PathVariable("artistId") Long artistId) {

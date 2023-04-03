@@ -24,7 +24,7 @@ public class Diary {
     private String content;
     @Column(name = "create_dt")
     private String createDt;
-    @Column(name = "public")
+    @Column(name = "is_public")
     private String pub;
     @Column(name = "likecnt")
     private Integer likeCnt;

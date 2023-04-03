@@ -57,11 +57,11 @@ export const followNoneAccSlice = createSlice({
       })
       .addCase(followNoneAccAsync.fulfilled, state => {
         state.status = 'completed';
-        console.log('팔로우 요청 거절 성공');
+        // console.log('팔로우 요청 거절 성공');
       })
       .addCase(followNoneAccAsync.rejected, (state, action) => {
         state.status = 'failed';
-        console.log('팔로우 요청 거절 실패', action.error);
+        // console.log('팔로우 요청 거절 실패', action.error);
       });
   }
 });

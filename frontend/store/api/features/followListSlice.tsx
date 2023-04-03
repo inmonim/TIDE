@@ -56,7 +56,7 @@ export const followListSlice = createSlice({
         state.status = 'completed';
         const followList = action.payload;
         state.follows = followList;
-        console.log('팔로우 리스트 요청 성공', state.follows)
+        // console.log('팔로우 리스트 요청 성공', state.follows)
 
       })
       .addCase(followListAsync.rejected, (state, action) => {

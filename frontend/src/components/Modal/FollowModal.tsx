@@ -3,6 +3,7 @@ import Link from 'next/link';
 import {useAppDispatch, useAppSelector} from 'store'; //스토어 생성단계에서 export한 커스텀 dispatch, selector hook
 import {followDelAsync} from 'store/api/features/followDelSlice';
 import {followerDelAsync} from 'store/api/features/followerDelSlice';
+import { getCookie } from 'cookies-next';
 
 interface listInterFace {
   nickname: string;
@@ -12,6 +13,7 @@ interface listInterFace {
 
 export type FollowModalProps = {
   type:Number
+  isMe: boolean
   list:listInterFace[]
 };
 
@@ -20,7 +22,7 @@ interface followAPIInterFace {
 }
 
 const MusicModal: FC<FollowModalProps> = props => {
-  const {type, list} = props;
+  const {type, isMe, list} = props;
 
   const dispatch = useAppDispatch();
 
@@ -42,12 +44,14 @@ const MusicModal: FC<FollowModalProps> = props => {
   return(
     <>
     {type===0? null:
-    <div className={`left-[22%] right-[22%] top-[20%] min-w-[200px] rounded-md bg-slate-500 h-[60%] ml-[0vw]  bg-opacity-80 fixed p-[2%] text-white z-[23]`}> 
+    <div className={`left-[22%] right-[22%] top-[20%] min-w-[200px] rounded-md bg-slate-500 h-[60%] ml-[0vw]  bg-opacity-80 fixed p-[2%] text-white z-[23] overflow-hidden
+    
+    `}> 
       <p className={`text-xl font-bold`}> {type===1?'팔로우 ':'팔로워 '} 목록</p>
       
       {/*  감싸는 div */}
 
-      <div className={`mt-4 h-[90%] overflow-auto grid gap-y-2 scrollbar-hide`}>
+      <div className={`mt-4 h-[90%] overflow-auto grid scrollbar-hide grid-rows-[repeat(auto-fill,minmax(70px,1fr))] scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-slate-700 scrollbar-track-black`}>
 
       {list ? list.map((p, index) => (
         <Link href={`/user/${p.nickname}`} className={` h-fit`} key={index}>
@@ -63,11 +67,13 @@ const MusicModal: FC<FollowModalProps> = props => {
             <p> {p.nickname}</p>
           </div>
 
+            {isMe?
           <div>
             <button 
             onClick={()=>{type===1?onFollowDel({nickname:p.nickname}):onFollowerDel({nickname:p.nickname})}}
             className={`border rounded-3xl p-[6px] text-sm bg-slate-500 shadow text-shadow-md hover:bg-slate-800 duration-300`}> {type===1?`언팔로우`:`팔로워 삭제`}</button>
           </div>
+          :null}
           </div>      
         </Link>
         )):null}    

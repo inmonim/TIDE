@@ -44,7 +44,7 @@ export const diaryListEditSlice = createSlice({
   name: 'diaryListEdit',
   initialState,
   reducers: {
-    initStatus(state) {
+    diaryListEditinitStatus(state) {
       state.status = 'loading';
     }
   },
@@ -64,5 +64,5 @@ export const diaryListEditSlice = createSlice({
       });
   }
 });
-
+export const {diaryListEditinitStatus} = diaryListEditSlice.actions;
 export default diaryListEditSlice.reducer;

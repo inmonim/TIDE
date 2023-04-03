@@ -26,7 +26,7 @@ export function middleware(request: NextRequest) {
   }
   
   // 다른사람이 url로 채팅접근하는거 막음
-  if (token && request.url.includes("/message")) {
+  if (token && request.url.includes("/message/")) {
     // 인코딩 해야함 
     const encodeNickName = encodeURIComponent(nickname!);
     if (request.url.includes(`${encodeNickName}`)) {

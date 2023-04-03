@@ -60,7 +60,7 @@ export default function userDetail() {
       // console.log(state.profile, 333);
       return state.userInfo;
     });
-      
+    
 
     const [FModalType,setFModalType] = useState<Number>(0);
 
@@ -86,11 +86,17 @@ export default function userDetail() {
   // 메시지 방 생성
   const onSendMessage = async () => {
     const otherNickname =  router.query.nickname;
-    await enterChat(router, otherNickname);
+    await enterChat(router, otherNickname, profile_img_path);
   };
 
   useEffect(() => {
     setNick({nickname: `${router.query.nickname}`});
+    if(getCookie('nickname') === router.query.nickname)
+    {
+      router.push({
+        pathname: `/profile`,
+      });
+    }
   }, [router.query]);
 
   return (
@@ -100,7 +106,7 @@ export default function userDetail() {
 
       <div className={`${FModalType===0?'w-0 h-0':'bg-slate-900 w-[100%] opacity-90 h-[100%] fixed z-[3]'}`} onClick={()=>{setFModalType(0)}} >
       </div>
-      <FollowModal type={FModalType} list={FModalType==1?followers:follows}/>
+      <FollowModal type={FModalType} isMe={false} list={FModalType==1?followers:follows}/>
 
 
       {/* 뒷배경 */}

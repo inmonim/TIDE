@@ -28,6 +28,9 @@ import musicSlice from './api/features/musicSlice';
 import likeSlice from './api/features/likeSlice';
 import nowmusicSlice from './api/features/nowmusicSlice';
 import musicsearchSlice from './api/features/musicsearchSlice';
+import playListCreateSlice from './api/features/playListCreateSlice';
+import playListMineSlice from './api/features/playListMineSlice';
+import playListDeatilSlice from './api/features/playListDetailSlice';
 
 // 리듀서들을 합쳐주는곳
 const combinedReducer = combineReducers({
@@ -58,7 +61,10 @@ const combinedReducer = combineReducers({
   music: musicSlice,
   like: likeSlice,
   nowmusic: nowmusicSlice,
-  musicsearch: musicsearchSlice
+  musicsearch: musicsearchSlice,
+  playListCreate: playListCreateSlice,
+  playListMine: playListMineSlice,
+  playListDetail: playListDeatilSlice
 });
 
 // Hydrate와 위에서 합친 reducer들을 rootReducer에 세팅

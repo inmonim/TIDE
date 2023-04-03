@@ -3,38 +3,40 @@ import axios from 'axios';
 import { getCookie } from 'cookies-next';
 
 // 타입
-interface diaryListCreateState {
+interface playListCreateState {
   status: string;
   token: string;
   error: string | undefined;
 }
 
-interface diaryListProps {
-  diaryListTitle: string;
+interface playListProps {
+  playListTitle: string;
+  isPublic:string;
 }
 
 // 초기값
-const initialState: diaryListCreateState = {
+const initialState: playListCreateState = {
   status: '',
   token: '',
   error: ''
 };
 
 // Thunk 예시
-export const diaryListCreateAsync = createAsyncThunk(
-  'diaryListCreate/Async',
-  async ({diaryListTitle}: diaryListProps) => {
+export const playListCreateAsync = createAsyncThunk(
+  'playListCreate/Async',
+  async ({playListTitle,isPublic}: playListProps) => {
     const accessToken = getCookie('accessToken');
     // console.log('타이틀왓나?',diaryListTitle)
     const data = await axios({
       method: 'post',
-      url: `${process.env.NEXT_PUBLIC_API_URL}/api/diary/list`,
+      url: `${process.env.NEXT_PUBLIC_API_URL}/api/music/playlist`,
       headers: {
         Authorization: `Bearer ${accessToken}`,
         email: getCookie('email')
       },
       data: {
-        diaryListTitle
+        playListTitle,
+        isPublic
       }
     });
     return data.data;
@@ -42,29 +44,29 @@ export const diaryListCreateAsync = createAsyncThunk(
 );
 
 // createSlice로 Slice생성
-export const diaryListCreateSlice = createSlice({
-  name: 'diaryListCreate',
+export const playListCreateSlice = createSlice({
+  name: 'playListCreate',
   initialState,
   reducers: {
-    diaryListCreateinitStatus(state) {
+    playListCreateinitStatus(state) {
       state.status = 'loading';
     }
   },
   // 비동기 처리를 위한 redux-thunk사용 extraReducers
   extraReducers: builder => {
     builder
-      .addCase(diaryListCreateAsync.pending, state => {
+      .addCase(playListCreateAsync.pending, state => {
         state.status = 'loading';
       })
-      .addCase(diaryListCreateAsync.fulfilled, (state, action) => {
+      .addCase(playListCreateAsync.fulfilled, (state, action) => {
         state.status = 'completed';
-        // console.log('다이어리 리스트 생성 성공')
+        console.log('플레이리스트 생성 성공')
       })
-      .addCase(diaryListCreateAsync.rejected, (state, action) => {
+      .addCase(playListCreateAsync.rejected, (state, action) => {
         state.status = 'failed';
-        // console.log('다이어리 리스트 생성 실패')
+        console.log('플레이리스트 생성 실패')
       });
   }
 });
-export const {diaryListCreateinitStatus} = diaryListCreateSlice.actions;
-export default diaryListCreateSlice.reducer;
+export const {playListCreateinitStatus} = playListCreateSlice.actions;
+export default playListCreateSlice.reducer;

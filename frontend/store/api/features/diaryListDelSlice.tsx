@@ -41,7 +41,7 @@ export const diaryListDelSlice = createSlice({
   name: 'diaryListDel',
   initialState,
   reducers: {
-    initStatus(state) {
+    diaryListDelinitStatus(state) {
       state.status = 'loading';
     }
   },
@@ -53,13 +53,13 @@ export const diaryListDelSlice = createSlice({
       })
       .addCase(diaryListDelAsync.fulfilled, (state, action) => {
         state.status = 'completed';
-        console.log('다이어리 리스트 삭제 성공')
+        // console.log('다이어리 리스트 삭제 성공')
       })
       .addCase(diaryListDelAsync.rejected, (state, action) => {
         state.status = 'failed';
-        console.log('다이어리 리스트 삭제 실패')
+        // console.log('다이어리 리스트 삭제 실패')
       });
   }
 });
-
+export const {diaryListDelinitStatus} = diaryListDelSlice.actions;
 export default diaryListDelSlice.reducer;

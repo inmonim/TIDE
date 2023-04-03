@@ -33,7 +33,7 @@ export type DiaryListProps = {
 
 const DiaryListDetail: FC<DiaryListProps> = () => {
   const router = useRouter();
-  console.log(router.query)
+  // console.log(router.query)
   const dispatch = useAppDispatch();
 
   const [diaryListId, setDiaryListId] = useState<Number>(Number(router.query.id));

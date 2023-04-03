@@ -62,8 +62,16 @@ export default function Playlist() {
             
             {/* 플리 한묶음 */}
             {myplaylist.map((pl,id) => (
-            <Link href={`/playlist/${id}`}>
-
+              <Link 
+              href={{
+                pathname: `/playlist/${id}`,
+                query: {
+                  playlistTitle: pl.playlistTitle,
+                  isPublic:pl.isPublic
+                }
+              }}
+              as={`/playlist/${id}`}
+              >
               <div className={`max-w-[calc(12.25rem)] justify-center text-center ${styles.btn}`}>
               <div className="p-2 min-w-[calc(12.25rem)] min-h-[calc(12.25rem)] grid gap-1 items-center bg-black bg-opacity-60 rounded-lg overflow-hidden border border-black">
                 <div className="flex flex-col items-center" key={id}>

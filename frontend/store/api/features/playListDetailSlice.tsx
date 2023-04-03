@@ -35,7 +35,7 @@ export const playListDetailAsync = createAsyncThunk(
     const accessToken = getCookie('accessToken');
     const data = await axios({
       method: 'get',
-      url: `${process.env.NEXT_PUBLIC_API_URL}/api/playList/${playListId}`,
+      url: `${process.env.NEXT_PUBLIC_API_URL}/api/music/playlist/${playListId}`,
       headers: {
         Authorization: `Bearer ${accessToken}`,
         email: getCookie('email')
@@ -61,12 +61,12 @@ export const playListDeatilSlice = createSlice({
         state.status = 'completed';
         const playListSongs = action.payload;
         state.playListSongs = playListSongs;
-        console.log('플레이리스트 상세 요청 성공')
+        // console.log('플레이리스트 상세 요청 성공')
 
       })
       .addCase(playListDetailAsync.rejected, state => {
         state.status = 'failed';
-        console.log('플레이리스트 상세 요청 실패');
+        // console.log('플레이리스트 상세 요청 실패');
       });
   }
 });

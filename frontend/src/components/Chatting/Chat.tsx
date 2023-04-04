@@ -34,6 +34,7 @@ import {
 import Message from './Message';
 import {useRouter} from 'next/router';
 import Link from 'next/link';
+import { userInfoAsync } from 'store/api/features/userInfoSlice';
 
 interface ChatPropsInterFace {
   usersNickName: string | string[] | undefined;
@@ -49,9 +50,8 @@ const options = {
   weekday: 'long',
   day: 'numeric'
 };
-
-const Chat = ({data}: {data: ChatPropsInterFace}) => {
-  const {usersNickName, roomName} = data;
+// const Chat = ({data}: {data: ChatPropsInterFace}) => {
+const Chat = ( {usersNickName, roomName} : ChatPropsInterFace) => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   // 채팅 div
@@ -60,6 +60,8 @@ const Chat = ({data}: {data: ChatPropsInterFace}) => {
   const {nickname} = useAppSelector(state => {
     return state.profile;
   });
+  // 상대방 이미지 주소 << 앞에 ..nickname에서 상대정보 요청해놧음
+  const {profile_img_path} = useAppSelector(state => state.userInfo);
   // 채팅메시지 데이터들
   const [messageDatas, setMessageDatas] = useState<any[]>([]);
   // // 시간 계산
@@ -74,7 +76,6 @@ const Chat = ({data}: {data: ChatPropsInterFace}) => {
   const getContents = async () => {
     // 유저 정보 요청
     dispatch(profileAsync());
-
     // 우선 query로 데이터 가져오기 두번째 인자 where로 조건문도 가능
     const content = query(
       // 여기 중요.. 바로 router에서 가져와서 해야함.. 안그러니까 한박자 느리네
@@ -136,6 +137,7 @@ const Chat = ({data}: {data: ChatPropsInterFace}) => {
           type: 'message',
           nickname: usersNickName![0],
           userNick: nickname,
+          // profilePath: profile_img_path,
           createdAt: serverTimestamp()
         },
         {merge: true}
@@ -148,6 +150,7 @@ const Chat = ({data}: {data: ChatPropsInterFace}) => {
           type: 'message',
           nickname: usersNickName![0],
           userNick: nickname,
+          // profilePath: profile_img_path,
           createdAt: serverTimestamp(),
           check: false
         },
@@ -193,7 +196,19 @@ const Chat = ({data}: {data: ChatPropsInterFace}) => {
   // 처음 실행하는 곳
   useEffect(() => {
     getContents();
+
+    // // 상대 정보 요청
+    // let userNick = undefined;
+    // if (router.query.nickname) {
+    //   userNick = {
+    //     nickname: router.query.nickname![0]
+    //   };
+    // }
+    // if (userNick) {
+    //   dispatch(userInfoAsync(userNick));
+    // }
   }, [router]);
+  
 
   useEffect(() => {
     // 채팅 스크롤 젤 밑으로

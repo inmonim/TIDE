@@ -16,9 +16,9 @@ export default function DiaryCreate() {
     dispatch(recomMusicAsync({content:content}))
   }
 
-  const {result} = useAppSelector(state => {
-    return state.recomMusic;
-  });
+  // const {result} = useAppSelector(state => {
+  //   return state.recomMusic;
+  // });
 
 
   return (

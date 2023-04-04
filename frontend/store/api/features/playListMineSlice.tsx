@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import axios from 'axios';
-import { getCookie } from 'cookies-next';
+import {getCookie} from 'cookies-next';
 
 // 타입
 interface playListMineState {
@@ -10,10 +10,10 @@ interface playListMineState {
 }
 
 interface playListInterface {
-  id:number,
-  playlistTitle: string,
-  likeCnt: number
-  isPublic:string,
+  id: number;
+  playlistTitle: string;
+  likeCnt: number;
+  isPublic: string;
 }
 
 // 초기값
@@ -35,7 +35,7 @@ export const playListMineAsync = createAsyncThunk(
       headers: {
         Authorization: `Bearer ${accessToken}`,
         email: getCookie('email')
-      },
+      }
     });
     return data.data;
   }
@@ -58,7 +58,7 @@ export const playListMineSlice = createSlice({
       })
       .addCase(playListMineAsync.fulfilled, (state, action) => {
         state.status = 'completed';
-        state.myplaylist = action.payload
+        state.myplaylist = action.payload;
         // console.log('내 플레이리스트 조회 성공', state.myplaylist)
       })
       .addCase(playListMineAsync.rejected, (state, action) => {

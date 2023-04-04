@@ -23,13 +23,11 @@ const SideBar: FC<SideBarProps> = props => {
 
   const dispatch = useAppDispatch();
 
-  const musicsearch = dispatch(musicsearchAsync(title));
-
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTitle(e.target.value);
   };
 
-  const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSearchSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     dispatch(musicsearchAsync(title));
     router.push(`/music/search`);
@@ -49,8 +47,8 @@ const SideBar: FC<SideBarProps> = props => {
         <div className={`${styles.topBgDiv} fixed`}>
           {/* 검색창 영역 */}
           <div className={styles.searchBox}>
-            <form onSubmit={handleSearchSubmit}>
-              <button type="submit"></button>
+            <form>
+              <button type="submit" onClick={handleSearchSubmit}></button>
               <input
                 value={title}
                 type="text"
@@ -172,8 +170,8 @@ const SideBar: FC<SideBarProps> = props => {
         </Link>
         {/* 검색창 영역 */}
         <div className={`${styles.searchBox} `}>
-          <form onSubmit={handleSearchSubmit}>
-            <button type="submit"></button>
+          <form>
+            <button onClick={handleSearchSubmit}></button>
             <input
               type="text"
               placeholder="Search"

@@ -57,6 +57,7 @@ const musicsearchSlice = createSlice({
         state.status = 'succeeded';
         const musicSearchResult = action.payload;
         state.musicSearchResult = musicSearchResult;
+        //
         console.log('검색결과값?', musicSearchResult);
       })
       .addCase(musicsearchAsync.rejected, (state, action) => {

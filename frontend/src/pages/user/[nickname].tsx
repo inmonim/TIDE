@@ -17,7 +17,7 @@ import Image from 'next/image';
 import {toast} from 'react-toastify';
 import { enterChat } from '@/components/EnterChatRoom';
 import Message from 'public/buttons/Messege.png'
-
+import { userPlayListAsync } from 'store/api/features/userPlayListSlice';
 
 
 interface nickInterFace {
@@ -40,6 +40,7 @@ export default function userDetail() {
       dispatch(userfollowListAsync(Nick));      
       dispatch(userfollowerListAsync(Nick));
       dispatch(userDiaryAsync(Nick));
+      dispatch(userPlayListAsync(Nick));
     }
   },[Nick])
 
@@ -53,6 +54,10 @@ export default function userDetail() {
 
     const {diarys} = useAppSelector(state => {
       return state.userDiary;
+    });
+
+    const {playlists} = useAppSelector(state => {
+      return state.userPlayList;
     });
 
     // 요청 후 값 받아오기
@@ -99,6 +104,13 @@ export default function userDetail() {
     }
   }, [router.query]);
 
+    // true면 diary false면 playlist
+  const [dpChange,setdpChange] = useState<boolean>(true)
+  
+  const getModalType = (type:Number) =>{
+    setFModalType(type)
+  }
+
   return (
     <>
       <Seo title={`User ${router.query.nickname}`} />
@@ -106,7 +118,7 @@ export default function userDetail() {
 
       <div className={`${FModalType===0?'w-0 h-0':'bg-slate-900 w-[100%] opacity-90 h-[100%] fixed z-[3]'}`} onClick={()=>{setFModalType(0)}} >
       </div>
-      <FollowModal type={FModalType} isMe={false} list={FModalType==1?followers:follows}/>
+      <FollowModal getModalType={getModalType} type={FModalType} isMe={false} list={FModalType==1?followers:follows}/>
 
 
       {/* 뒷배경 */}
@@ -220,21 +232,24 @@ export default function userDetail() {
           <div className={``}>
             {/* 영역 전환 텍스트 */}
             <div className={`flex flex-row gap-x-10 justify-center mb-2`}>
-            <h2 className="py-2 text-lg font-semibold text-center md:text-2xl">
+            <h2 
+            className={`py-2 text-lg font-semibold text-center md:text-2xl ${dpChange?`text-white`:`text-slate-600 hover:text-slate-400`}`}
+            onClick={()=>setdpChange(true)}>
               Diary
             </h2>
-            <h2 className="py-2 text-lg font-semibold text-center text-slate-600 md:text-2xl">
+            <h2 className={`py-2 text-lg font-semibold text-center ${dpChange?`text-slate-600 hover:text-slate-400`:`text-white`} md:text-2xl`}
+            onClick={()=>setdpChange(false)}>
               Playlist
             </h2>
             </div>
             
             {/* 영역 부분 */}
-            <div className="w-[100%] h-[400px] border-t border-b pt-3 pb-3">
+            <div className="w-[100%] h-[400px] border-t border-b pt-3 pb-3 overflow-auto scrollbar-hide">
 
-
-            {diarys && diarys.length >0 ? diarys.map((p, id) => (
+            {dpChange?<>
+              {diarys && diarys.length >0 ? diarys.filter(function(c){ return c.pub==='0'; }).map((p, id) => (
             <Link href={`/diary/${id}`} className={` h-fit`}>
-                <div className={`flex bg-slate-700 rounded-md w-[100%] h-[70px] p-[2%] items-center gap-x-2 bg-opacity-80 justify-between hover:bg-blue-500 duration-300`}>
+                <div className={` mb-2 flex bg-slate-700 rounded-md w-[100%] h-[70px] p-[2%] items-center gap-2 bg-opacity-80 justify-between hover:bg-blue-500 duration-300`}>
                   {`${p.title}`}
                 <div>
               </div>
@@ -245,7 +260,32 @@ export default function userDetail() {
           <p> 아직 작성된 일기가 없습니다. </p>
         </div>
         }  
-              
+            </>:
+            <>
+            {playlists && playlists.length >0 ? playlists.filter(function(c){ return c.isPublic==='0'; }).map((p, id) => (
+            <Link               
+            href={{
+              pathname: `/playlist/${id}`,
+              query: {
+                playlistTitle: p.playlistTitle,
+                isPublic:p.isPublic
+              }
+            }}
+            as={`/playlist/${id}`}
+            className={` h-fit`}>
+                <div className={`mb-2 flex bg-slate-700 rounded-md w-[100%] h-[70px] p-[2%] items-center gap-2 bg-opacity-80 justify-between hover:bg-blue-500 duration-300`}>
+                  {`${p.playlistTitle}`}
+                <div>
+              </div>
+              </div>      
+            </Link>
+            )):
+            <div className={`w-full bg-slate-900 bg-opacity-60 text-center h-full items-center flex flex-row justify-center`}>
+              <p> 플레이리스트가 없습니다. </p>
+            </div>
+             }  
+            </>   
+            }
             </div>
           </div>          
         </div>

@@ -33,6 +33,9 @@ import playListMineSlice from './api/features/playListMineSlice';
 import playListDeatilSlice from './api/features/playListDetailSlice';
 import playListEditSlice from './api/features/playListEditSlice';
 import playListDelSlice from './api/features/playListDelSlice';
+import userPlayListSlice from './api/features/userPlayListSlice';
+import playListLikeSlice from './api/features/playListLikeSlice';
+import playListLikeCheckSlice from './api/features/playListLikeCheckSlice';
 
 // 리듀서들을 합쳐주는곳
 const combinedReducer = combineReducers({
@@ -69,6 +72,9 @@ const combinedReducer = combineReducers({
   like: likeSlice,
   nowmusic: nowmusicSlice,
   musicsearch: musicsearchSlice,
+  userPlayList:userPlayListSlice,
+  playListLike : playListLikeSlice,
+  playListLikeCheck : playListLikeCheckSlice
 
 });
 

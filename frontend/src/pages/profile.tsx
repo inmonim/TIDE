@@ -45,14 +45,16 @@ function Profile() {
   }, []);
 
   const [FModalType,setFModalType] = useState<Number>(0);
-
+  const getModalType = (type:Number) =>{
+    setFModalType(type)
+  }
   return (
     <>
       <Seo title={`Profile`}/>
 
       <div className={`${FModalType===0?'w-0 h-0':'bg-slate-900 w-[100%] opacity-90 h-[100%] fixed z-[3]'}`} onClick={()=>{setFModalType(0)}} >
       </div>
-      <FollowModal type={FModalType} isMe={true} list={FModalType==1?follows:followers}/>
+      <FollowModal getModalType={getModalType} type={FModalType} isMe={true} list={FModalType==1?follows:followers}/>
 
 
       {/* 뒷배경 */}

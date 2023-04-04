@@ -26,7 +26,7 @@ export const playListCreateAsync = createAsyncThunk(
   'playListCreate/Async',
   async ({playListTitle,isPublic}: playListProps) => {
     const accessToken = getCookie('accessToken');
-    // console.log('타이틀왓나?',diaryListTitle)
+    console.log('타이틀왓나?',playListTitle)
     const data = await axios({
       method: 'post',
       url: `${process.env.NEXT_PUBLIC_API_URL}/api/music/playlist`,

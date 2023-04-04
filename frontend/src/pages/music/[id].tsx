@@ -1,16 +1,21 @@
 import Head from 'next/head';
 import {useRouter} from 'next/router';
 import Image from 'next/image';
-import {useEffect} from 'react';
+import {useEffect, useState} from 'react';
 import HeartButton from '@/components/Like/HeartButton';
 import {useAppSelector, useAppDispatch} from 'store';
 import {musicAsync} from 'store/api/features/musicSlice';
 import {getvideoId} from 'store/api/features/nowmusicSlice';
-import Lp from 'public/icons/lp.png';
+import {playListSongAddAsync} from 'store/api/features/playListSongAddSlice';
+import MyPlaylist from '@/components/Modal/MyPlaylist';
+import {playListMineAsync} from 'store/api/features/playListMineSlice';
 
 function Musicpage() {
   const router = useRouter();
   const dispatch = useAppDispatch();
+
+  const [MyPlaylistModal, setMyPlaylistModal] = useState<Number>(0);
+
   const MusicId = router.query.id;
   const {
     musicId,
@@ -28,6 +33,14 @@ function Musicpage() {
     lyrics
   } = useAppSelector((state: any) => state.music);
 
+  const {myplaylist} = useAppSelector(state => {
+    return state.playListMine;
+  });
+
+  useEffect(() => {
+    dispatch(playListMineAsync());
+  }, []);
+
   useEffect(() => {
     if (MusicId) {
       dispatch(musicAsync(MusicId));
@@ -36,6 +49,14 @@ function Musicpage() {
 
   const playMusic = () => {
     dispatch(getvideoId(musicUrl));
+  };
+
+  const handlePlaylistAdd = () => {
+    dispatch(playListSongAddAsync(musicUrl));
+  };
+
+  const openPlaylistModal = () => {
+    setMyPlaylistModal(1);
   };
 
   const gotoartistpage = () => {
@@ -51,6 +72,18 @@ function Musicpage() {
         <title>Music</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
+
+      <div
+        className={`${
+          MyPlaylistModal === 0
+            ? 'w-0 h-0'
+            : 'bg-slate-900 w-[100%] opacity-90 h-[100%] fixed z-[3]'
+        }`}
+        onClick={() => {
+          setMyPlaylistModal(0);
+        }}></div>
+      <MyPlaylist type={MyPlaylistModal} isMe={true} list={myplaylist} />
+
       <main className="flex flex-col min-h-[91vh] bg-gradient-to-t from-slate-700 to-slate-900">
         {albumImage ? (
           <div
@@ -84,6 +117,11 @@ function Musicpage() {
                     src="/buttons/playbutton.png"
                     alt="playbutton"></img>
                   <HeartButton songId={musicId} />
+                  <div
+                    className="flex items-center mx-4 text-2xl"
+                    onClick={openPlaylistModal}>
+                    Playlist 추가
+                  </div>
                 </div>
               </div>
               <p className="ml-2 text-2xl font-semibold">{releaseYear}</p>

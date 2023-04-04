@@ -123,24 +123,29 @@ def recommend_cosine(df, input_emotion):
     
     input_rank = sorted(enumerate(input_emotion), key=lambda x:x[1], reverse=True)
 
-    top_bottom = input_rank[0:2] + input_rank[8:]
+    top_3 = input_rank[0:3]
+    bottom_2 = input_rank[8:]
 
-    input_rank = [i[0] for i in top_bottom]
+    input_t3_rank = [i[0] for i in top_3]
+    input_b2_rank = [i[0] for i in bottom_2]
 
-    input_array = np.array([[int(input_emotion[i]*1000) for i in input_rank]])
+    input_t3_array = np.array([[int(input_emotion[i]*1000) for i in input_t3_rank]])
+    input_b2_array = np.array([[int(input_emotion[i]*1000) for i in input_b2_rank]])
 
-    cons = cosine_similarity(df.iloc[:, input_rank].values, input_array)
-    
+    cons_t = cosine_similarity(df.iloc[:, input_t3_rank].values, input_t3_array)
+    cons_b = cosine_similarity(df.iloc[:, input_b2_rank].values, input_b2_array)
+
+    cons = cons_t + cons_b/5
+
     recommend_id_list = sorted(enumerate(cons), reverse=True, key=lambda x: x[1])
-    
-    recommend_id_list = [random.choice(recommend_id_list[:2])]
-    
+
+    recommend_id_list = recommend_id_list[:1]
+
     song_id_list = []
     for idx in recommend_id_list:
         song_id_list.append(df.iloc[idx[0], 1])
         
     return song_id_list
-
 
 
 # ========================================================================================================
@@ -152,9 +157,6 @@ def recommend_cosine(df, input_emotion):
 
 
 # 키워드 추출기는 리소스를 굉장히 많이 사용하기 때문에 서버에서 구동할 수가 없다...
-
-
-
 
 
 # 추출된 감성의 점수 상위 3개를 선정. 긍정 감성의 점수는 양수일 경우 편향값을 준다

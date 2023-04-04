@@ -9,6 +9,7 @@ COPY . /app
 
 # install necessary packages
 RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install flask-cors
 
 # set environment variables
 ENV FLASK_APP=recommend

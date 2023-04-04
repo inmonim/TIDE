@@ -21,6 +21,8 @@ const SideBar: FC<SideBarProps> = props => {
   const [BarOpen, setBarOpen] = useState<Number>(0);
   const [title, setTitle] = useState<string>('');
 
+  // 알람버튼 수정해야함@@@@@@@@@@@@@@@@@@@@@@@@@
+  
   const dispatch = useAppDispatch();
 
   const musicsearch = dispatch(musicsearchAsync(title));

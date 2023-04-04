@@ -121,13 +121,19 @@ def emotion_predict(model, predict_sentence):
 
 def recommend_cosine(df, input_emotion):
     
-    input_array = np.array([[int(i*1000) for i in input_emotion]])
+    input_rank = sorted(enumerate(input_emotion), key=lambda x:x[1], reverse=True)
 
-    cons = cosine_similarity(df.iloc[:, 2:12].values, input_array)
+    top_bottom = input_rank[0:2] + input_rank[8:]
+
+    input_rank = [i[0] for i in top_bottom]
+
+    input_array = np.array([[int(input_emotion[i]*1000) for i in input_rank]])
+
+    cons = cosine_similarity(df.iloc[:, input_rank].values, input_array)
     
     recommend_id_list = sorted(enumerate(cons), reverse=True, key=lambda x: x[1])
     
-    recommend_id_list = [random.choice(recommend_id_list[:4])]
+    recommend_id_list = [random.choice(recommend_id_list[:2])]
     
     song_id_list = []
     for idx in recommend_id_list:

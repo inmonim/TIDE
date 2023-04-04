@@ -15,7 +15,7 @@ interface listInterFace {
 
 export type FollowModalProps = {
   type: Number;
-  musicId: number;
+  songId: number;
   isMe: boolean;
   list: listInterFace[];
 };
@@ -24,20 +24,17 @@ interface followAPIInterFace {
   nickname: string;
 }
 
-
 const MusicModal: FC<FollowModalProps> = props => {
-  const {type, isMe, list, musicId} = props;
-
+  const {type, isMe, list, songId} = props;
+  console.log(songId, 'songId');
   const [playlistId, setPlaylistId] = useState<number>(0);
   // const [musicId, setMusicId] = useState<number>(0);
 
   const dispatch = useAppDispatch();
 
-  const handlePlaylistAdd = () => {
-    dispatch(playListSongAddAsync(playlistId, musicId));
+  const handlePlaylistAdd = (playlistId: number) => {
+    dispatch(playListSongAddAsync({playlistId, songId}));
   };
-
-  
 
   const {status} = useAppSelector(state => {
     return state.followDel;
@@ -62,10 +59,13 @@ const MusicModal: FC<FollowModalProps> = props => {
             {list
               ? list.map((p, index) => (
                   <div
-                    onClick={handlePlaylistAdd}
-                    className={`flex bg-slate-800 rounded-md w-[100%] h-[70px] p-[2%] items-center gap-x-2 bg-opacity-80 justify-between hover:bg-blue-500 duration-300`}>
+                    key={index}
+                    onClick={() => handlePlaylistAdd(p.id)}
+                    className={`flex bg-slate-800 rounded-md w-[100%] h-[70px] p-[2%] items-center gap-x-2 bg-opacity-80 justify-between hover:bg-blue-500 duration-300`}
+                    data-playlist-id={p.id}>
                     <div className={`flex items-center`}>
                       <p> {p.playlistTitle}</p>
+                      <p> {p.id}</p>
                     </div>
                   </div>
                 ))

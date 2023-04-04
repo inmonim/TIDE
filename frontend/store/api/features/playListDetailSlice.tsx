@@ -10,23 +10,22 @@ interface playListDetailState {
 }
 
 interface playListInterFace {
-  songId:number,
-  title: string,
-  artist: string[],
-  albumImgPath: string,
+  songId: number;
+  title: string;
+  artist: string[];
+  albumImgPath: string;
 }
 
 // 초기값
 const initialState: playListDetailState = {
   status: '',
-  error:'',
-  playListSongs:[]
+  error: '',
+  playListSongs: []
 };
 
 interface playListDetailProps {
-  playListId:Number;
+  playListId: Number;
 }
-
 
 // Thunk 예시
 export const playListDetailAsync = createAsyncThunk(
@@ -39,8 +38,9 @@ export const playListDetailAsync = createAsyncThunk(
       headers: {
         Authorization: `Bearer ${accessToken}`,
         email: getCookie('email')
-      },
+      }
     });
+    console.log(data.data, 222);
     return data.data;
   }
 );
@@ -49,24 +49,22 @@ export const playListDetailAsync = createAsyncThunk(
 export const playListDeatilSlice = createSlice({
   name: 'playListDeatil',
   initialState,
-  reducers: {
-  },
+  reducers: {},
   // 비동기 처리를 위한 redux-thunk사용 extraReducers
   extraReducers: builder => {
     builder
       .addCase(playListDetailAsync.pending, state => {
         state.status = 'loading';
       })
-      .addCase(playListDetailAsync.fulfilled, (state,action) => {
+      .addCase(playListDetailAsync.fulfilled, (state, action) => {
         state.status = 'completed';
         const playListSongs = action.payload;
         state.playListSongs = playListSongs;
-        // console.log('플레이리스트 상세 요청 성공')
-
+        console.log('플레이리스트 상세 요청 성공');
       })
       .addCase(playListDetailAsync.rejected, state => {
         state.status = 'failed';
-        // console.log('플레이리스트 상세 요청 실패');
+        console.log('플레이리스트 상세 요청 실패');
       });
   }
 });

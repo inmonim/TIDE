@@ -1,6 +1,6 @@
 import '@/styles/globals.css';
 import type {AppContext, AppProps} from 'next/app';
-import {wrapper} from 'store';
+import {useAppDispatch, wrapper} from 'store';
 import MusicBar from '@/components/MusicBar';
 import {useEffect, useState} from 'react';
 import {motion, AnimatePresence} from 'framer-motion';
@@ -8,6 +8,7 @@ import {useRouter} from 'next/router';
 import cookies from 'next-cookies';
 import {getCookie} from 'cookies-next';
 import {setToken} from '@/components/TokenManager';
+import {alramOn} from 'store/api/features/alramSlice';
 // import App from 'next/app';
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -25,6 +26,7 @@ import {dbService} from '@/firebase';
 
 function App({Component, pageProps}: AppProps) {
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const myNick = getCookie('nickname');
   const [isLogin, setIsLogin] = useState<boolean>(false);
 
@@ -44,11 +46,10 @@ function App({Component, pageProps}: AppProps) {
 
   // 알람 데이터들 가져오기
   const getContents = async () => {
-
     // 우선 query로 데이터 가져오기 두번째 인자 where로 조건문도 가능
     const alrams = query(
       // 여기 중요.. 바로 router에서 가져와서 해야함.. 안그러니까 한박자 느리네
-      collection(dbService, `alram`),
+      collection(dbService, `${myNick}alram`),
       orderBy('createdAt')
     );
 
@@ -68,34 +69,22 @@ function App({Component, pageProps}: AppProps) {
   }, []);
   // 업데이트 알람
   const updateAlram = async (id: string) => {
-    await updateDoc(doc(dbService, `alram`, `${id}`), {
+    await updateDoc(doc(dbService, `${myNick}alram`, `${id}`), {
       check: true
     });
   };
-  // @@@@@@@@@여기부터 그 친구창에서 알림 누르면 사라지게 해보자
-  // 친구창의 실시간 생성도 알림 컴포넌트 갱신되는걸로 가져와보자
-  const updateAlramFalse = async (id: string) => {
-    await updateDoc(doc(dbService, `alram`, `${id}`), {
-      check: false
-    });
-  };
+
   // 메시지 감지
   useEffect(() => {
-    let usernick = '';
-    let sendnick = '';
-    let check = null;
-    let id = '';
     if (alramDatas && alramDatas.length > 0) {
-      usernick = alramDatas[alramDatas.length - 1].userNick;
-      sendnick = alramDatas[alramDatas.length - 1].nickname;
-      check = alramDatas[alramDatas.length - 1].check;
-      id = alramDatas[alramDatas.length - 1].id;
-    }
-    // 여기서부터 계속하자@@@@@@@@@@@@@@@
+      const {userNick, check, id} = alramDatas[alramDatas.length - 1];
 
-    if (alramDatas && check === false && usernick === myNick) {
-      toast.info(`${sendnick}한테 메시지왔쪄염!!!!`);
-      updateAlram(id);
+      if (check === false && !router.query.roomName?.includes(`${userNick}`)) {
+        toast.info(`${userNick}한테 메시지왔쪄염!!!!`);
+        updateAlram(id);
+        // 알람 상태 on
+        dispatch(alramOn());
+      }
     }
   }, [alramDatas]);
 

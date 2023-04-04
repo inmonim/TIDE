@@ -15,6 +15,7 @@ export type FollowModalProps = {
   type:Number
   isMe: boolean
   list:listInterFace[]
+  getModalType:Function
 };
 
 interface followAPIInterFace {
@@ -22,7 +23,7 @@ interface followAPIInterFace {
 }
 
 const MusicModal: FC<FollowModalProps> = props => {
-  const {type, isMe, list} = props;
+  const {type, isMe, list, getModalType} = props;
 
   const dispatch = useAppDispatch();
 
@@ -54,7 +55,9 @@ const MusicModal: FC<FollowModalProps> = props => {
       <div className={`mt-4 h-[90%] overflow-auto grid scrollbar-hide grid-rows-[repeat(auto-fill,minmax(70px,1fr))] scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-slate-700 scrollbar-track-black`}>
 
       {list ? list.map((p, index) => (
-        <Link href={`/user/${p.nickname}`} className={` h-fit`} key={index}>
+        <Link href={`/user/${p.nickname}`} className={` h-fit`} key={index}
+        onClick={()=>{getModalType(0)}}
+        >
           <div className={`flex bg-slate-800 rounded-md w-[100%] h-[70px] p-[2%] items-center gap-x-2 bg-opacity-80 justify-between hover:bg-blue-500 duration-300`}>
           
           <div className={`flex items-center`}>

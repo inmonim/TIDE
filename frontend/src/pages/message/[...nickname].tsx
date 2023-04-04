@@ -11,10 +11,11 @@ import {useAppDispatch, useAppSelector} from 'store';
 import {userInfoAsync} from 'store/api/features/userInfoSlice';
 import {toast} from 'react-toastify';
 
+const myNickName = getCookie('nickname');
+
 function Messages() {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const myNickName = getCookie('nickname');
   // 상대방 이미지 주소
   const {profile_img_path} = useAppSelector(state => state.userInfo);
   // 상대방 닉네임
@@ -71,7 +72,7 @@ function Messages() {
     setUsersNickName(router.query.nickname);
     setRoomName(router.query.roomName);
     getRooms();
-  }, [router]);
+  }, [router.query]);
 
   return (
     <>
@@ -113,7 +114,8 @@ function Messages() {
             className={`${
               router.pathname === '/message' ? `hidden` : ''
             } w-full md:w-3/4 md:block`}>
-            <Chat data={propsData} />
+            {/* <Chat data={propsData} /> */}
+            <Chat usersNickName={usersNickName} roomName={roomName} />
           </div>
         </main>
       )}

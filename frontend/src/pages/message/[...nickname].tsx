@@ -86,8 +86,6 @@ function Messages() {
                   key={room.nickname}
                   id={room.nickname}
                   onClick={event => {
-                    console.log(room.nickname, '1');
-                    console.log(router.query.nickname![0], '2');
                     enterChatting(event, room.nickname);
                   }}
                   className={`${

@@ -6,6 +6,9 @@ import { playListDetailAsync } from 'store/api/features/playListDetailSlice';
 import { FC, useEffect, useState } from 'react';
 import PlayListModal from '@/components/Modal/PlayListModal';
 import { playListDelAsync } from 'store/api/features/playListDelSlice';
+import { playListLikeAsync } from 'store/api/features/playListLikeSlice';
+import { playListLikeCheckAsync } from 'store/api/features/playListLikeCheckSlice';
+// import HeartButton from '@/components/Like/HeartButton';
 
 
 export type PlayListProps = {
@@ -28,13 +31,19 @@ const PlayListDetail: FC<PlayListProps> = props => {
   const [isPublic, setisPublic] = useState<string>('');
 
   useEffect(()=>{
-
+    setplayListId(Number(router.query.id))
   },[ router.query ])
 
   useEffect(()=>{
     if (playListId === Number(router.query.id))
       dispatch(playListDetailAsync({playListId:Number(playListId)}))
+      dispatch(playListLikeCheckAsync({playListId:Number(playListId)}))
   },[playListId]);
+
+  const {isLike} = useAppSelector(state => {
+    return state.playListLikeCheck;
+  });
+
 
   const {playListSongs} = useAppSelector(state => {
     return state.playListDetail;
@@ -49,6 +58,11 @@ const PlayListDetail: FC<PlayListProps> = props => {
     console.log(playListId)
     if (!isNaN(Number(playListId)))
     dispatch(playListDelAsync({playListId:playListId}))
+  };
+
+  const playListLike = () => {
+    if (!isNaN(Number(playListId)))
+    dispatch(playListLikeAsync({playListId:playListId}))
   };
 
 
@@ -73,7 +87,13 @@ const PlayListDetail: FC<PlayListProps> = props => {
             onClick={playListDel}
             className={`text-md border pl-2 pr-2 rounded-lg h-8 bg-gray-800 hover:bg-gray-600 duration-200`}> 삭제 </button>
           </div>
-          </div>
+        </div>
+        <div>
+          <p className={`text-2xl w-fit bg-slate-500 hover:filter hover:sepia `}
+          onClick={playListLike}  
+          > {isLike?`❤`:`🖤`} </p>
+        </div>
+        
           {playListSongs && playListSongs.length >0 ? playListSongs.map((song,songId)=> (
             <div>
               <p> {song.title}</p>

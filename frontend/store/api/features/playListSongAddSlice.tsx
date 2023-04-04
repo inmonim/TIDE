@@ -22,7 +22,7 @@ const initialState: playListSongAddState = {
 
 // Thunk 예시
 export const playListSongAddAsync = createAsyncThunk(
-  'playListCreate/Async',
+  'playListSongAdd/Async',
   async (playlistId: any, songId: any) => {
     const accessToken = getCookie('accessToken');
     // console.log('타이틀왓나?',diaryListTitle)
@@ -42,8 +42,8 @@ export const playListSongAddAsync = createAsyncThunk(
 );
 
 // createSlice로 Slice생성
-export const playListCreateSlice = createSlice({
-  name: 'playListCreate',
+export const playListSongAddSlice = createSlice({
+  name: 'playListSongAdd',
   initialState,
   reducers: {},
   // 비동기 처리를 위한 redux-thunk사용 extraReducers
@@ -66,4 +66,4 @@ export const playListCreateSlice = createSlice({
   }
 });
 
-export default playListCreateSlice.reducer;
+export default playListSongAddSlice.reducer;

@@ -4,6 +4,7 @@ import {useAppDispatch, useAppSelector} from 'store'; //스토어 생성단계�
 import {followDelAsync} from 'store/api/features/followDelSlice';
 import {followerDelAsync} from 'store/api/features/followerDelSlice';
 import {getCookie} from 'cookies-next';
+import {playListSongAddAsync} from 'store/api/features/playListSongAddSlice';
 
 interface listInterFace {
   id: number;
@@ -14,6 +15,7 @@ interface listInterFace {
 
 export type FollowModalProps = {
   type: Number;
+  musicId: number;
   isMe: boolean;
   list: listInterFace[];
 };
@@ -23,7 +25,11 @@ interface followAPIInterFace {
 }
 
 const MusicModal: FC<FollowModalProps> = props => {
-  const {type, isMe, list} = props;
+  const {type, isMe, list, musicId} = props;
+
+  const handlePlaylistAdd = () => {
+    dispatch(playListSongAddAsync(playlistId, musicId));
+  };
 
   const dispatch = useAppDispatch();
 
@@ -40,7 +46,7 @@ const MusicModal: FC<FollowModalProps> = props => {
     `}>
           <p className={`text-xl font-bold`}>
             {' '}
-            {type === 1 ? '팔로우 ' : '팔로워 '} 목록
+            {type === 1 ? '팔로우 ' : '팔로워 '} 플레이리스트 목록
           </p>
 
           {/*  감싸는 div */}
@@ -49,14 +55,13 @@ const MusicModal: FC<FollowModalProps> = props => {
             className={`mt-4 h-[90%] overflow-auto grid scrollbar-hide grid-rows-[repeat(auto-fill,minmax(70px,1fr))] scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-slate-700 scrollbar-track-black`}>
             {list
               ? list.map((p, index) => (
-                  <Link href={`/user/${p.id}`} className={` h-fit`} key={index}>
-                    <div
-                      className={`flex bg-slate-800 rounded-md w-[100%] h-[70px] p-[2%] items-center gap-x-2 bg-opacity-80 justify-between hover:bg-blue-500 duration-300`}>
-                      <div className={`flex items-center`}>
-                        <p> {p.playlistTitle}</p>
-                      </div>
+                  <div
+                    onClick={handlePlaylistAdd}
+                    className={`flex bg-slate-800 rounded-md w-[100%] h-[70px] p-[2%] items-center gap-x-2 bg-opacity-80 justify-between hover:bg-blue-500 duration-300`}>
+                    <div className={`flex items-center`}>
+                      <p> {p.playlistTitle}</p>
                     </div>
-                  </Link>
+                  </div>
                 ))
               : null}
           </div>

@@ -21,7 +21,7 @@ const SideBar: FC<SideBarProps> = props => {
   const [RmenuOpen, setRmenuOpen] = useState<boolean>(false);
   const [BarOpen, setBarOpen] = useState<Number>(0);
   const [title, setTitle] = useState<string>('');
-  
+
   const dispatch = useAppDispatch();
 
   const {value} = useAppSelector(state => {
@@ -34,7 +34,7 @@ const SideBar: FC<SideBarProps> = props => {
     setTitle(e.target.value);
   };
 
-  const handleSearchSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSearchSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     dispatch(musicsearchAsync(title));
     router.push(`/music/search`);
@@ -54,8 +54,8 @@ const SideBar: FC<SideBarProps> = props => {
         <div className={`${styles.topBgDiv} fixed`}>
           {/* 검색창 영역 */}
           <div className={styles.searchBox}>
-            <form onSubmit={handleSearchSubmit}>
-              <button type="submit"></button>
+            <form>
+              <button type="submit" onClick={handleSearchSubmit}></button>
               <input
                 value={title}
                 type="text"
@@ -74,7 +74,12 @@ const SideBar: FC<SideBarProps> = props => {
           <div
             className={`flex flex-row items-center gap-x-5 right-0 mr-[-20px] ${styles.rightIconDiv}`}>
             <div
-              className={`cursor-pointer w-7 h-7 min-w-7 min-h-7 ${styles.alarmBtn} ${value && `drop-shadow-[0_0_5px_#8da0ff] animate-[ring_3s_infinite]`}`}
+              className={`cursor-pointer w-7 h-7 min-w-7 min-h-7 ${
+                styles.alarmBtn
+              } ${
+                value &&
+                `drop-shadow-[0_0_5px_#8da0ff] animate-[ring_3s_infinite]`
+              }`}
               onClick={() => (BarOpen === 1 ? setBarOpen(0) : setBarOpen(1))}>
               {' '}
             </div>
@@ -94,10 +99,15 @@ const SideBar: FC<SideBarProps> = props => {
       <div
         className={`flex flex-row items-center gap-x-5 fixed z-20 right-0 mr-[0px] bottom-[2.2rem] ${styles.rightIconDiv}`}>
         <div
-          className={`cursor-pointer w-7 h-7 min-w-7 min-h-7 ${styles.alarmBtn} ${value && `drop-shadow-[0_0_5px_#8da0ff] animate-[ring_3s_infinite]`}`}
+          className={`cursor-pointer w-7 h-7 min-w-7 min-h-7 ${
+            styles.alarmBtn
+          } ${
+            value && `drop-shadow-[0_0_5px_#8da0ff] animate-[ring_3s_infinite]`
+          }`}
           onClick={() => {
             dispatch(alramOff());
-            (BarOpen === 1 ? setBarOpen(0) : setBarOpen(1))}}>
+            BarOpen === 1 ? setBarOpen(0) : setBarOpen(1);
+          }}>
           {' '}
         </div>
         <div
@@ -179,8 +189,8 @@ const SideBar: FC<SideBarProps> = props => {
         </Link>
         {/* 검색창 영역 */}
         <div className={`${styles.searchBox} `}>
-          <form onSubmit={handleSearchSubmit}>
-            <button type="submit"></button>
+          <form>
+            <button onClick={handleSearchSubmit}></button>
             <input
               type="text"
               placeholder="Search"

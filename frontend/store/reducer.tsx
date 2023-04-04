@@ -33,6 +33,7 @@ import playListMineSlice from './api/features/playListMineSlice';
 import playListDeatilSlice from './api/features/playListDetailSlice';
 import playListEditSlice from './api/features/playListEditSlice';
 import playListDelSlice from './api/features/playListDelSlice';
+import playListSongAddSlice from './api/features/playListSongAddSlice';
 import userPlayListSlice from './api/features/userPlayListSlice';
 import playListLikeSlice from './api/features/playListLikeSlice';
 import playListLikeCheckSlice from './api/features/playListLikeCheckSlice';
@@ -69,22 +70,23 @@ const combinedReducer = combineReducers({
   diaryListDel: diaryListDelSlice,
   diaryListEdit: diaryListEditSlice,
   music: musicSlice,
-  playListCreate:playListCreateSlice,
-  playListMine:playListMineSlice,
-  playListDetail:playListDeatilSlice,
-  playListEdit:playListEditSlice,
-  playListDel:playListDelSlice,
+  playListCreate: playListCreateSlice,
+  playListMine: playListMineSlice,
+  playListDetail: playListDeatilSlice,
+  playListEdit: playListEditSlice,
+  playListDel: playListDelSlice,
   like: likeSlice,
   nowmusic: nowmusicSlice,
   musicsearch: musicsearchSlice,
-  userPlayList:userPlayListSlice,
-  playListLike : playListLikeSlice,
-  playListLikeCheck : playListLikeCheckSlice,
+  userPlayList: userPlayListSlice,
+  playListLike: playListLikeSlice,
+  playListLikeCheck: playListLikeCheckSlice,
   recomMusic: recomMusicSlice,
-  diaryContent:diaryContentSlice,
-  diaryLike:diaryLikeSlice,
-  diaryLikeCheck:diaryLikeCheckSlice,
-  alramStatus: alramSlice
+  diaryContent: diaryContentSlice,
+  diaryLike: diaryLikeSlice,
+  diaryLikeCheck: diaryLikeCheckSlice,
+  alramStatus: alramSlice,
+  playListSongAdd: playListSongAddSlice
 });
 
 // Hydrate와 위에서 합친 reducer들을 rootReducer에 세팅

@@ -1,4 +1,4 @@
-import React, {FC, useEffect} from 'react';
+import React, {FC, useEffect, useState} from 'react';
 import Link from 'next/link';
 import {useAppDispatch, useAppSelector} from 'store'; //스토어 생성단계에서 export한 커스텀 dispatch, selector hook
 import {followDelAsync} from 'store/api/features/followDelSlice';
@@ -24,14 +24,20 @@ interface followAPIInterFace {
   nickname: string;
 }
 
+
 const MusicModal: FC<FollowModalProps> = props => {
   const {type, isMe, list, musicId} = props;
+
+  const [playlistId, setPlaylistId] = useState<number>(0);
+  // const [musicId, setMusicId] = useState<number>(0);
+
+  const dispatch = useAppDispatch();
 
   const handlePlaylistAdd = () => {
     dispatch(playListSongAddAsync(playlistId, musicId));
   };
 
-  const dispatch = useAppDispatch();
+  
 
   const {status} = useAppSelector(state => {
     return state.followDel;

@@ -2,10 +2,14 @@ import React, {useRef, useState, useMemo} from 'react';
 import type {FC} from 'react';
 import 'react-quill/dist/quill.snow.css';
 import ReactQuill from 'react-quill';
+import {useAppDispatch, useAppSelector} from 'store';
+import { initContent, setContent } from 'store/api/features/diaryContentSlice';
 
 export type QuillEditorProps = {};
 
 const QuillEditor: FC<QuillEditorProps> = props => {
+  const dispatch = useAppDispatch();
+
   const QuillRef = useRef<ReactQuill>();
   const { compile } = require('html-to-text');
 
@@ -87,6 +91,8 @@ const QuillEditor: FC<QuillEditorProps> = props => {
       }
     };
 
+  
+
   return (
     <div className={`text-white bg-white h-full`}>
       <ReactQuill
@@ -96,7 +102,11 @@ const QuillEditor: FC<QuillEditorProps> = props => {
           }
         }}
         // value={contents}
-        onChange={()=>console.log([String(QuillRef.current?.value)].map(compiledConvert).join('\n'))}
+        onChange={ () =>
+          {
+            dispatch(setContent({ content: [String(QuillRef.current?.value)].map(compiledConvert).join('\n') , HTMLcontent:String(QuillRef.current?.value)}))
+          }
+        }
         modules={modules}
         theme="snow"
         placeholder="내용을 입력해주세요."

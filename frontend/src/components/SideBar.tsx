@@ -7,8 +7,9 @@ import Lp from 'public/icons/lp.png';
 import styles from '@/styles/MusicBar.module.scss';
 import {deleteCookie} from 'cookies-next';
 import {useRouter} from 'next/router';
-import {useAppDispatch} from 'store';
+import {useAppDispatch, useAppSelector} from 'store';
 import {musicsearchAsync} from 'store/api/features/musicsearchSlice';
+import {alramOff} from 'store/api/features/alramSlice';
 
 export type SideBarProps = {
   isPlaying: boolean;
@@ -20,10 +21,12 @@ const SideBar: FC<SideBarProps> = props => {
   const [RmenuOpen, setRmenuOpen] = useState<boolean>(false);
   const [BarOpen, setBarOpen] = useState<Number>(0);
   const [title, setTitle] = useState<string>('');
-
-  // 알람버튼 수정해야함@@@@@@@@@@@@@@@@@@@@@@@@@
   
   const dispatch = useAppDispatch();
+
+  const {value} = useAppSelector(state => {
+    return state.alramStatus;
+  });
 
   const musicsearch = dispatch(musicsearchAsync(title));
 
@@ -71,17 +74,17 @@ const SideBar: FC<SideBarProps> = props => {
           <div
             className={`flex flex-row items-center gap-x-5 right-0 mr-[-20px] ${styles.rightIconDiv}`}>
             <div
-              className={`w-7 h-7 min-w-7 min-h-7 ${styles.alarmBtn}`}
+              className={`cursor-pointer w-7 h-7 min-w-7 min-h-7 ${styles.alarmBtn} ${value && `drop-shadow-[0_0_5px_#8da0ff] animate-[ring_3s_infinite]`}`}
               onClick={() => (BarOpen === 1 ? setBarOpen(0) : setBarOpen(1))}>
               {' '}
             </div>
             <div
-              className={`w-7 h-7  min-w-7 min-h-7 ${styles.friendBtn}`}
+              className={`cursor-pointer w-7 h-7  min-w-7 min-h-7 ${styles.friendBtn}`}
               onClick={() => (BarOpen === 2 ? setBarOpen(0) : setBarOpen(2))}>
               {' '}
             </div>
             <div
-              className={`w-7 h-7 min-w-7 min-h-7 bg-[url('../../public/buttons/Logout.png')] bg-cover bg-no-repeat ${styles.Btn}`}
+              className={`cursor-pointer w-7 h-7 min-w-7 min-h-7 bg-[url('../../public/buttons/Logout.png')] bg-cover bg-no-repeat ${styles.Btn}`}
               onClick={onLogOut}></div>
           </div>
         </div>
@@ -91,17 +94,19 @@ const SideBar: FC<SideBarProps> = props => {
       <div
         className={`flex flex-row items-center gap-x-5 fixed z-20 right-0 mr-[0px] bottom-[2.2rem] ${styles.rightIconDiv}`}>
         <div
-          className={`w-7 h-7 min-w-7 min-h-7 ${styles.alarmBtn}`}
-          onClick={() => (BarOpen === 1 ? setBarOpen(0) : setBarOpen(1))}>
+          className={`cursor-pointer w-7 h-7 min-w-7 min-h-7 ${styles.alarmBtn} ${value && `drop-shadow-[0_0_5px_#8da0ff] animate-[ring_3s_infinite]`}`}
+          onClick={() => {
+            dispatch(alramOff());
+            (BarOpen === 1 ? setBarOpen(0) : setBarOpen(1))}}>
           {' '}
         </div>
         <div
-          className={`w-7 h-7  min-w-7 min-h-7 ${styles.friendBtn}`}
+          className={`cursor-pointer w-7 h-7  min-w-7 min-h-7 ${styles.friendBtn}`}
           onClick={() => (BarOpen === 2 ? setBarOpen(0) : setBarOpen(2))}>
           {' '}
         </div>
         <div
-          className={`w-7 h-7 min-w-7 min-h-7 bg-[url('../../public/buttons/Logout.png')] bg-cover bg-no-repeat ${styles.Btn}`}
+          className={`cursor-pointer w-7 h-7 min-w-7 min-h-7 bg-[url('../../public/buttons/Logout.png')] bg-cover bg-no-repeat ${styles.Btn}`}
           onClick={onLogOut}></div>
       </div>
 

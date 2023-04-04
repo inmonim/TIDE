@@ -4,10 +4,22 @@ import MusicModal from '@/components/Modal/MusicModal';
 import React, {useState} from 'react';
 import styles from '@/styles/Diary.module.scss';
 import QuillWrapper from '@/components/Quill/QuillWrapper';
-
+import { recomMusicAsync } from 'store/api/features/recomMusicSlice';
+import {useAppDispatch, useAppSelector} from 'store';
+import { Content } from 'next/font/google';
 
 export default function DiaryCreate() {
   const [musicModalType,setMusicModalType] = useState<Number>(0);
+  const dispatch = useAppDispatch();
+
+  const getMusic = (content:string) =>{
+    dispatch(recomMusicAsync({content:content}))
+  }
+
+  const {result} = useAppSelector(state => {
+    return state.recomMusic;
+  });
+
 
   return (
     <>

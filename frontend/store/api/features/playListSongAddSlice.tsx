@@ -23,7 +23,8 @@ const initialState: playListSongAddState = {
 // Thunk 예시
 export const playListSongAddAsync = createAsyncThunk(
   'playListSongAdd/Async',
-  async (playlistId: any, songId: any) => {
+  async (payload: {playlistId: number; songId: number}) => {
+    const {playlistId, songId} = payload;
     const accessToken = getCookie('accessToken');
     // console.log('타이틀왓나?',diaryListTitle)
     const data = await axios({

@@ -33,6 +33,8 @@ function Musicpage() {
     lyrics
   } = useAppSelector((state: any) => state.music);
 
+  console.log(MusicId, 'MusicId');
+
   const {myplaylist} = useAppSelector(state => {
     return state.playListMine;
   });
@@ -40,6 +42,7 @@ function Musicpage() {
   useEffect(() => {
     dispatch(playListMineAsync());
   }, []);
+  console.log(myplaylist, 'myplaylist');
 
   useEffect(() => {
     if (MusicId) {
@@ -82,7 +85,14 @@ function Musicpage() {
         onClick={() => {
           setMyPlaylistModal(0);
         }}></div>
-      <MyPlaylist type={MyPlaylistModal} isMe={true} list={myplaylist} />
+      {MusicId && (
+        <MyPlaylist
+          type={MyPlaylistModal}
+          isMe={true}
+          list={myplaylist}
+          songId={Number(Array.isArray(MusicId) ? MusicId[0] : MusicId)}
+        />
+      )}
 
       <main className="flex flex-col min-h-[91vh] bg-gradient-to-t from-slate-700 to-slate-900">
         {albumImage ? (

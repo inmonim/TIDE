@@ -14,6 +14,7 @@ import {
   query,
   orderBy,
   onSnapshot,
+  getDoc,
   addDoc,
   doc,
   collection,
@@ -87,7 +88,7 @@ const Chat = ({data}: {data: ChatPropsInterFace}) => {
         return {
           ...con.data(),
           id: con.id
-        }
+        };
       });
       setMessageDatas(prev => [...contentSnapshot]);
     });
@@ -125,26 +126,46 @@ const Chat = ({data}: {data: ChatPropsInterFace}) => {
       downLoadUrl
     });
 
-    // 알림 데이터에 추가
-    await setDoc(doc(dbService, `alram`, 'message'), {
-      type: "message",
-      nickname: nickname,
-      userNick: usersNickName![0],
-      createdAt: serverTimestamp(),
-    }, { merge: true });
-    
+    // 알림 데이터 체크위해 우선 가져옴
+    const docRef = doc(dbService, `${usersNickName![0]}alram`, 'message');
+    const docSnap = await getDoc(docRef);
+    if (docSnap.data()?.check === true) {
+      await setDoc(
+        doc(dbService, `${usersNickName![0]}alram`, 'message'),
+        {
+          type: 'message',
+          nickname: usersNickName![0],
+          userNick: nickname,
+          createdAt: serverTimestamp()
+        },
+        {merge: true}
+      );
+    } else {
+      // 알림 데이터에 추가
+      await setDoc(
+        doc(dbService, `${usersNickName![0]}alram`, 'message'),
+        {
+          type: 'message',
+          nickname: usersNickName![0],
+          userNick: nickname,
+          createdAt: serverTimestamp(),
+          check: false
+        },
+        {merge: true}
+      );
+    }
 
     // 방 리스트 최신화 업데이트
     await updateDoc(doc(dbService, `${nickname}`, `${usersNickName![0]}`), {
       message: message,
       nickname: usersNickName![0],
-      createdAt: serverTimestamp(),
+      createdAt: serverTimestamp()
     });
     // 상대방 리스트 최신화 업데이트
     await updateDoc(doc(dbService, `${usersNickName![0]}`, `${nickname}`), {
       message: message,
       nickname: nickname,
-      createdAt: serverTimestamp(),
+      createdAt: serverTimestamp()
     });
 
     setMessage('');

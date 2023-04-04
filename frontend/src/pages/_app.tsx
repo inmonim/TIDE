@@ -1,6 +1,6 @@
 import '@/styles/globals.css';
 import type {AppContext, AppProps} from 'next/app';
-import {wrapper} from 'store';
+import {useAppDispatch, wrapper} from 'store';
 import MusicBar from '@/components/MusicBar';
 import {useEffect, useState} from 'react';
 import {motion, AnimatePresence} from 'framer-motion';
@@ -8,6 +8,7 @@ import {useRouter} from 'next/router';
 import cookies from 'next-cookies';
 import {getCookie} from 'cookies-next';
 import {setToken} from '@/components/TokenManager';
+import {alramOn} from 'store/api/features/alramSlice';
 // import App from 'next/app';
 import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -25,6 +26,7 @@ import {dbService} from '@/firebase';
 
 function App({Component, pageProps}: AppProps) {
   const router = useRouter();
+  const dispatch = useAppDispatch();
   const myNick = getCookie('nickname');
   const [isLogin, setIsLogin] = useState<boolean>(false);
 
@@ -80,6 +82,8 @@ function App({Component, pageProps}: AppProps) {
       if (check === false && !router.query.roomName?.includes(`${userNick}`)) {
         toast.info(`${userNick}한테 메시지왔쪄염!!!!`);
         updateAlram(id);
+        // 알람 상태 on
+        dispatch(alramOn());
       }
     }
   }, [alramDatas]);

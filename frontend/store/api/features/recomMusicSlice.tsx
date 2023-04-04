@@ -6,7 +6,11 @@ import { getCookie } from 'cookies-next';
 interface recomMusicState {
   status: string;
   error: string | undefined;
-  result: MusicInterface | undefined
+  // result: MusicInterface | undefined
+  song_model1CosineTop:song| undefined;
+  song_model1T3Top:song| undefined;
+  song_model2CosineTop:song| undefined;
+  song_model2T3Top:song| undefined;
 }
 
 interface MusicInterface{
@@ -32,8 +36,12 @@ interface recomProps {
 const initialState: recomMusicState = {
   status: '',
   error: '',
-  result:undefined
-};
+  song_model1CosineTop:undefined,
+  song_model1T3Top:undefined,
+  song_model2CosineTop:undefined,
+  song_model2T3Top:undefined
+}
+;
 
 // Thunk 예시
 export const recomMusicAsync = createAsyncThunk(
@@ -74,8 +82,12 @@ export const recomMusicSlice = createSlice({
       })
       .addCase(recomMusicAsync.fulfilled, (state, action) => {
         state.status = 'completed';
-        state.result = action.payload
-        console.log('음악 추천 성공', state.result)
+        state.song_model1CosineTop = action.payload.song_list.song_model1CosineTop;
+        state.song_model1T3Top = action.payload.song_list.song_model1T3Top;
+        state.song_model2CosineTop = action.payload.song_list.song_model2CosineTop;
+        state.song_model2T3Top = action.payload.song_list.song_model2T3Top;
+
+        console.log('음악 추천 성공', state.song_model1CosineTop,state.song_model1T3Top,state.song_model2CosineTop,state.song_model2T3Top)
       })
       .addCase(recomMusicAsync.rejected, (state, action) => {
         state.status = 'failed';

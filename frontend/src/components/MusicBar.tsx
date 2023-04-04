@@ -30,7 +30,7 @@ const MusicBar: FC<MusicBarProps> = props => {
   useEffect(() => {
     console.log(musicplay, '지금플레이');
     setSrc(`https://www.youtube.com/watch?v=${musicplay.videoId}`);
-    setPlaying(false);
+    setPlaying(true);
     setInit(true);
   }, [musicplay]);
 

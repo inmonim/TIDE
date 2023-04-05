@@ -178,8 +178,17 @@ function Profile() {
             {dpChange?<>
               {diarys && diarys.length >0 ? diarys.filter(function(c){ return c.pub==='0'; }).map((p, id) => (
             <Link href={`/diary/${id}`} className={` h-fit`}>
-                <div className={` mb-2 flex bg-slate-700 rounded-md w-[100%] h-[70px] p-[2%] items-center gap-2 bg-opacity-80 justify-between hover:bg-blue-500 duration-300`}>
-                  {`${p.title}`}
+                <div className={` mb-2 flex bg-slate-900 rounded-md w-[100%] h-[70px] p-[2%] items-center gap-2 bg-opacity-80 justify-between hover:bg-blue-500 duration-300 overflow-hidden`}>
+
+                <div className={`md:w-[70%] w-[90%]`}>
+                  <p> {`${p.title}`}</p>
+                  </div>
+                  <div className={`md:flex md:gap-x-4`}>
+                    <p className={` invisible md:visible`}> {`${p.createDt}`} </p>
+                    <p> 💕 {`${p.like}`} </p>
+                  </div>
+
+                  
                 <div>
               </div>
               </div>      
@@ -202,7 +211,7 @@ function Profile() {
             }}
             as={`/playlist/${id}`}
             className={` h-fit`}>
-                <div className={`mb-2 flex bg-slate-700 rounded-md w-[100%] h-[70px] p-[2%] items-center gap-2 bg-opacity-80 justify-between hover:bg-blue-500 duration-300`}>
+                <div className={`mb-2 flex bg-slate-900 rounded-md w-[100%] h-[70px] p-[2%] items-center gap-2 bg-opacity-80 justify-between hover:bg-blue-500 duration-300`}>
                   {`${p.playlistTitle}`}
                 <div>
               </div>

@@ -16,6 +16,7 @@ export type DiaryModalProps = {
   type:Number,
   getModalType:Function
   diaryListId: Number | undefined
+  title: string | undefined
 };
 
 interface diaryListAPIInterFace {
@@ -24,7 +25,7 @@ interface diaryListAPIInterFace {
 
 const DiaryListModal: FC<DiaryModalProps> = props => {
   const router = useRouter();
-  const {type, getModalType, diaryListId} = props;
+  const {type, getModalType, diaryListId, title} = props;
 
   const dispatch = useAppDispatch();
 
@@ -118,7 +119,8 @@ const DiaryListModal: FC<DiaryModalProps> = props => {
         <form className={`w-full `}>
           <label className={`select-none p-3 w-full flex justify-between whitespace-nowrap items-center `}> 
           <p> 제목 입력</p>
-          <input 
+          <input
+          value={title}
           name="diaryListTitle"
           onChange={onChangeInput}
           type='text' id="title" className={`ml-3 w-[80%] rounded-md text-black p-1`}></input>

@@ -11,6 +11,7 @@ import Image from 'next/image';
 import Search from 'public/buttons/Search.png'
 import recom from 'public/icons/networking.png'
 import { useRouter } from 'next/router';
+import { diaryMineAsync } from 'store/api/features/diaryMineSlice';
 
 export default function DiaryCreate() {
   const router = useRouter();
@@ -45,6 +46,7 @@ export default function DiaryCreate() {
   const onDiaryCreate = () =>{
     if(selectSong && HTMLcontent && diaryTitleRef.current?.value!=='')
     {
+      console.log('셋송송아이디' , selectSong.songId)
       dispatch(diaryCreateAsync(
         {
           title: String(diaryTitleRef.current?.value), 
@@ -54,9 +56,10 @@ export default function DiaryCreate() {
         }
       ))
     }
-    console.log(selectSong && HTMLcontent && diaryTitleRef.current?.value!=='')
-    console.log(diaryTitleRef.current?.value, HTMLcontent,diaryPub,selectSong?.songId)
+    // console.log(selectSong && HTMLcontent && diaryTitleRef.current?.value!=='')
+    // console.log(diaryTitleRef.current?.value, HTMLcontent,diaryPub,selectSong?.songId)
     dispatch(setSong(undefined))
+    dispatch(diaryMineAsync());
     router.push({
       pathname: `/diary`,
     });

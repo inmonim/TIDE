@@ -19,6 +19,7 @@ import {
 } from 'firebase/firestore';
 import {dbService} from '@/firebase';
 import {enterChat} from './EnterChatRoom';
+import {barZero} from 'store/api/features/barOpenSlice';
 
 export type RightBarProps = {
   barType: Number;
@@ -60,11 +61,11 @@ const RightBar: FC<RightBarProps> = props => {
 
   // 알람 컴포넌트 지우기
   const deleteChatAlram = async (userNick: string) => {
+    dispatch(barZero());
     setAlramMessage([]);
     await deleteDoc(doc(dbService, `${myNick}alram`, `message`));
     // 채팅방 들어가기
     enterChat(router, userNick);
-
   };
   // 알람 컴포넌트용 데이터 세팅
   useEffect(() => {
@@ -73,7 +74,7 @@ const RightBar: FC<RightBarProps> = props => {
       const data = {userNick, nickname, check, id};
       // 현재 내가 그 채팅방이면
       if (router.query.roomName?.includes(`${userNick}`)) {
-        return
+        return;
       }
       setAlramMessage(prev => [data]);
     }
@@ -85,19 +86,9 @@ const RightBar: FC<RightBarProps> = props => {
     return state.followWait;
   });
 
-  const {followers} = useAppSelector(state => {
-    return state.followers;
-  });
-
-  const {follows} = useAppSelector(state => {
-    return state.follows;
-  });
-
   useEffect(() => {
     getContents();
     dispatch(followWaitAsync());
-    dispatch(followerListAsync());
-    dispatch(followListAsync());
   }, []);
 
   return (
@@ -138,7 +129,15 @@ const RightBar: FC<RightBarProps> = props => {
                 {followWaiters
                   ? followWaiters.map((followWaiter, index) => (
                       <Link href={`/user/${followWaiter.nickname}`}>
-                        <div className={`flex flex-row mb-2`} key={index}>
+                        <div
+                          onClick={() =>
+                            // 알림창 끄기
+                            {
+                              dispatch(barZero());
+                            }
+                          }
+                          className={`flex flex-row mb-2`}
+                          key={index}>
                           <div
                             className={`rounded-lg min-w-[3rem] min-h-[3rem] w-12 h-12 bg-white`}></div>
                           <div className={`ml-3 flex items-center`}>
@@ -153,42 +152,8 @@ const RightBar: FC<RightBarProps> = props => {
                   : null}
               </>
             </>
-          ) : barType === 2 ? (
-            <>
-              {followers
-                ? followers.map((follower, index) => (
-                    <Link href={`/user/${follower.nickname}`}>
-                      <div className={`flex flex-row mb-2`} key={index}>
-                        <div
-                          className={`rounded-lg min-w-[3rem] min-h-[3rem] w-12 h-12 bg-white`}></div>
-                        <div className={`ml-3 flex items-center`}>
-                          <p className={`text-xs text-white`}>
-                            {follower.nickname}은 당신을 팔로우하는
-                            팔로워입니다.
-                          </p>
-                        </div>
-                      </div>
-                    </Link>
-                  ))
-                : null}
-
-              {follows
-                ? follows.map((follow, index) => (
-                    <Link href={`/user/${follow.nickname}`}>
-                      <div className={`flex flex-row mb-2`} key={index}>
-                        <div
-                          className={`rounded-lg min-w-[3rem] min-h-[3rem] w-12 h-12 bg-white`}></div>
-                        <div className={`ml-3 flex items-center`}>
-                          <p className={`text-xs text-white`}>
-                            {follow.nickname}은 당신이 팔로우 한 사람입니다.
-                          </p>
-                        </div>
-                      </div>
-                    </Link>
-                  ))
-                : null}
-            </>
-          ) : null}
+          ) 
+           : null}
         </div>
       </div>
     </>

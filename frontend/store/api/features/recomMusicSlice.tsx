@@ -23,7 +23,7 @@ interface MusicInterface{
 
 interface song{
   albumImgPath: string,
-  albumTitle: string,
+  albumTitle: string | undefined,
   artist: string[],
   songId:Number,
   title: string
@@ -77,7 +77,7 @@ export const recomMusicSlice = createSlice({
     },
     setSong(state,action){
       state.selectSong = action.payload
-      console.log('선택된송 = ',state.selectSong)
+      // console.log('선택된송 = ',state.selectSong)
     }
   },
   // 비동기 처리를 위한 redux-thunk사용 extraReducers

@@ -42,7 +42,7 @@ function MusicSearch() {
             {Array.isArray(musicSearchResult) &&
               musicSearchResult.map((item, songId) => (
                 <div
-                  className="flex flex-col items-center bg-red-900 border-2 m-4 w-[240px] h-[240px] rounded-xl shadow-xl pt-2 hover:cursor-pointer"
+                  className="flex flex-col items-center bg-red-900 border-2 m-4 w-[240px] min-h-[240px] h-fit rounded-xl shadow-xl pt-2 hover:cursor-pointer"
                   key={item.songId}
                   onClick={handleClick(item.songId)}>
                   {/* <div>{item.songId}</div> */}

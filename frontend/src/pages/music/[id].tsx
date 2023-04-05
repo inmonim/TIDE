@@ -138,7 +138,7 @@ function Musicpage() {
                   </div>
                 </div>
               </div>
-              <p className="ml-2 text-2xl font-semibold">{releaseYear}</p>
+              <p className="text-2xl font-semibold ">{releaseYear}</p>
               {/* 아티스트 이미지 섹션 */}
               <div className="flex flex-col items-center mr-32">
                 {artistImage ? (

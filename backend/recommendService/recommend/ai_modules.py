@@ -78,7 +78,6 @@ class BERTDataset(Dataset):
         return (len(self.labels))
 
 
-
 def load_model_1():
     print('LOADING koBERT Classifier model 1')
     PATH='./ai_model/'
@@ -97,11 +96,11 @@ def load_model_2():
     return model2
 
 
-def emotion_predict(model, predict_sentence):
+def emotion_predict(model, predict_sentence, max_len):
 
     data = [[predict_sentence, '0']]
 
-    another_test = BERTDataset(data, 0, 1, tok, 512, True, False)
+    another_test = BERTDataset(data, 0, 1, tok, max_len, True, False)
     dataloader = torch.utils.data.DataLoader(another_test, batch_size=64, num_workers=2)
     
     model.eval()
@@ -137,15 +136,11 @@ def recommend_cosine(df, input_emotion):
 
     cons = cons_t + cons_b/5
 
-    recommend_id_list = sorted(enumerate(cons), reverse=True, key=lambda x: x[1])
+    recommend_id = sorted(enumerate(cons), reverse=True, key=lambda x: x[1])[0]
 
-    recommend_id_list = recommend_id_list[:1]
-
-    song_id_list = []
-    for idx in recommend_id_list:
-        song_id_list.append(df.iloc[idx[0], 1])
+    song_id = (df.iloc[recommend_id[0], 1])
         
-    return song_id_list
+    return song_id
 
 
 # ========================================================================================================

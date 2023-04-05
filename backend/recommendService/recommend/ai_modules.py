@@ -130,6 +130,9 @@ def recommend_cosine(df, input_emotion):
 
     input_t3_array = np.array([[int(input_emotion[i]*1000) for i in input_t3_rank]])
     input_b2_array = np.array([[int(input_emotion[i]*1000) for i in input_b2_rank]])
+    
+    input_t3_rank = [i+2 for i in input_t3_rank]
+    input_b2_rank = [i+2 for i in input_b2_rank]
 
     cons_t = cosine_similarity(df.iloc[:, input_t3_rank].values, input_t3_array)
     cons_b = cosine_similarity(df.iloc[:, input_b2_rank].values, input_b2_array)

@@ -34,7 +34,7 @@ function Musicpage() {
     lyrics
   } = useAppSelector((state: any) => state.music);
 
-  console.log(musicUrl, 'MusicId');
+  // console.log(MusicId, 'MusicId');
 
   const {myplaylist} = useAppSelector(state => {
     return state.playListMine;
@@ -43,12 +43,13 @@ function Musicpage() {
   useEffect(() => {
     dispatch(playListMineAsync());
   }, []);
-  console.log(myplaylist, 'myplaylist');
+  // console.log(myplaylist, 'myplaylist');
 
   useEffect(() => {
     if (MusicId) {
       dispatch(musicAsync(MusicId));
     }
+    
   }, [MusicId]);
 
   const playMusic = () => {
@@ -127,7 +128,7 @@ function Musicpage() {
                     onClick={playMusic}
                     src="/buttons/playbutton.png"
                     alt="playbutton"></img>
-                  <HeartButton songId={musicId} />
+                  <HeartButton songId={MusicId} />
                   <div
                     className="flex items-center mx-4 text-2xl"
                     onClick={openPlaylistModal}>

@@ -75,8 +75,8 @@ export const signUpSlice = createSlice({
   name: 'signup',
   initialState,
   reducers: {
-    initStatus(state) {
-      state.status = 'loading';
+    initStatusSignUp(state) {
+      state.status = '';
     }
   },
   // 비동기 처리를 위한 redux-thunk사용 extraReducers
@@ -95,5 +95,5 @@ export const signUpSlice = createSlice({
   }
 });
 
-export const {initStatus} = signUpSlice.actions;
+export const {initStatusSignUp} = signUpSlice.actions;
 export default signUpSlice.reducer;

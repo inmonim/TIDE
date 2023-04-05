@@ -29,7 +29,7 @@ const MusicBar: FC<MusicBarProps> = props => {
 
   useEffect(() => {
     console.log(musicplay, '지금플레이');
-    setSrc(`https://www.youtube.com/watch?v=${musicplay.videoId}`);
+    setSrc(`https://www.youtube.com/watch?v=${musicplay.musicUrl}`);
     setPlaying(true);
     setInit(true);
   }, [musicplay]);
@@ -125,18 +125,36 @@ const MusicBar: FC<MusicBarProps> = props => {
                   {/* 앨범 사진 */}
                   <div
                     className={`w-20 h-20 rounded-md bg-white min-w-20 min-h-20 ${styles.albumImg}`}>
-                    <img
-                      className="w-full h-full rounded-md"
-                      src="https://image.bugsm.co.kr/album/images/130/40780/4078016.jpg"
-                      alt="NewJeans"
-                    />{' '}
+                    {musicplay.albumImage ? (
+                      <img
+                        className="w-full h-full rounded-md"
+                        src={musicplay.albumImage}
+                        alt="NewJeans"
+                      />
+                    ) : (
+                      <img
+                        src="\favicon.ico"
+                        alt="tide-logo"
+                        className="p-1 bg-gray-600 rounded-md"
+                      />
+                    )}
                   </div>
                   {/* 음악 정보 */}
                   <div className={styles.musicDesc}>
-                    <div>
-                      <p className="font-mono text-xl"> Hype Boy</p>
-                      <p className="font-mono text-l"> NewJeans</p>
-                    </div>
+                    {musicplay.musicTitle ? (
+                      <div>
+                        <p className="font-mono text-lg font-semibold">
+                          {musicplay.musicTitle}
+                        </p>
+                        <p className="font-mono font-semibold text-md">
+                          {musicplay.artistName}
+                        </p>
+                      </div>
+                    ) : (
+                      <p className="font-mono font-semibold text-1">
+                        재생할 음악을 선택해 주세요
+                      </p>
+                    )}
                   </div>
                 </div>
                 {/* 바 */}

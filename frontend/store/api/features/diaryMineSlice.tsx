@@ -10,13 +10,17 @@ interface myDiaryListState {
 }
 
 interface diaryInterFace {
-  id:number,
+  id:number;
   nickname: string;
-  title: string,
-  content: string,
-  createDt: string,
-  pub:string,
-  like:number
+  title: string;
+  content: string;
+  createDt: string;
+  pub:string;
+  like:number;
+  albumImgPath:string;
+  artist:string[];
+  musicTitle: string;
+  songId:Number;
 }
 
 // 초기값

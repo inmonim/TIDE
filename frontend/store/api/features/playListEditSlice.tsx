@@ -35,9 +35,9 @@ export const playListEditAsync = createAsyncThunk(
         email: getCookie('email')
       },
       data:{
-        playlistId:playlistId,
-        playlistTitle:playlistTitle,
-        isPublic:isPublic
+        playlistId,
+        playlistTitle,
+        isPublic
       }
     });
     return data.data;

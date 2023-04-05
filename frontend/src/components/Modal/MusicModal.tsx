@@ -109,30 +109,18 @@ const MusicModal: FC<MusicModalProps> = props => {
               <button className={`border rounded-lg bg-slate-500 p-1 w-12 text-[8px] md:text-sm`}> 듣기 </button>
               <button 
               onClick={()=> {
-                music?onSetSong(music):null}}
+                music?onSetSong({
+                albumImgPath: music.albumImgPath,
+                artist: music.artist,
+                songId:music.songId,
+                title: music.title
+                  ,albumTitle:''}):null}}
               className={`border rounded-lg bg-slate-500 p-1 w-12 text-[8px] md:text-sm`}> 선택 </button>
             </div>
           </div>
         </div>
         </>
       )):null}
-        {/* <div className={`flex gap-2 bg-slate-700 w-[100%] h-[30%] p-[2%] overflow-hidden `}>
-          <img src={song1?.albumImgPath}></img>
-          <div>
-          <p className={`text-md md:text-lg whitespace-nowrap`}> {song1?.title}</p>
-            <p className={`text-[10px] md:text-sm whitespace-nowrap`}> album.{song1?.albumTitle} </p>
-            <p className={`text-[10px] md:text-sm whitespace-nowrap`}> {song1?.artist}</p>
-
-
-            <div className={`flex justify-start w-full gap-x-3 md:mt-0 mt-2`}>
-              <button className={`border rounded-lg bg-slate-500 p-1 w-12 text-[8px] md:text-sm`}> 듣기 </button>
-              <button 
-              onClick={()=> song1?onSetSong(song1):null}
-              className={`border rounded-lg bg-slate-500 p-1 w-12 text-[8px] md:text-sm`}> 선택 </button>
-            </div>
-          </div>
-        </div> */}
-
       </div>
       </div>
     </div>

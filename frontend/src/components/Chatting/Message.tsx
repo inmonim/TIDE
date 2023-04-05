@@ -91,7 +91,7 @@ const Message = ({
           <div className="w-full px-2">
             <div className="flex flex-col max-w-md lg:w-3/5 h-fit">
               {checkSameNick ? (
-                <div className='flex items-center justify-between w-[5.5rem] md:w-24'>
+                <div className='flex items-center w-fit'>
                   {data.profilePath && <div className="w-10 h-10 overflow-hidden rounded-full">
                     <img
                       className="object-fill"
@@ -99,7 +99,7 @@ const Message = ({
                       alt={data.profilePath}
                     />
                   </div>}
-                  <div className="my-1">{data.nickname}</div>
+                  <div className="m-1">{data.nickname}</div>
                 </div>
               ) : null}
               <div className="flex items-end my-[0.3rem] ml-12">

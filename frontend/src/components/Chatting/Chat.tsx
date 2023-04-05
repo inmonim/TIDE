@@ -50,8 +50,9 @@ const options = {
   weekday: 'long',
   day: 'numeric'
 };
-// const Chat = ({data}: {data: ChatPropsInterFace}) => {
-const Chat = ( {usersNickName, roomName} : ChatPropsInterFace) => {
+const Chat = ({data}: {data: ChatPropsInterFace}) => {
+// const Chat = ( {usersNickName, roomName} : ChatPropsInterFace) => {
+  const { usersNickName, roomName} = data
   const dispatch = useAppDispatch();
   const router = useRouter();
   // 채팅 div
@@ -207,7 +208,7 @@ const Chat = ( {usersNickName, roomName} : ChatPropsInterFace) => {
     // if (userNick) {
     //   dispatch(userInfoAsync(userNick));
     // }
-  }, [router]);
+  }, [data]);
   
 
   useEffect(() => {

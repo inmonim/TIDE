@@ -39,7 +39,6 @@ const login = () => {
         });
         toast.success('로그인 성공');
         setToken(token, email);
-        router.reload();
         break;
       case 'failed':
         toast.error('로그인 실패');

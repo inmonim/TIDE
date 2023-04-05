@@ -55,7 +55,7 @@ function MessagesIndex() {
 
   useEffect(() => {
     getRooms();
-  }, [router]);
+  }, []);
 
   return (
     <>

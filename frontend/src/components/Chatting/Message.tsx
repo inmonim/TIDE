@@ -10,6 +10,7 @@ interface MsgInterFace {
     type: string;
     id: string;
     downLoadUrl: string;
+    profilePath: string;
   };
   myEmail: any;
   checkSameNick: boolean;
@@ -61,15 +62,16 @@ const Message = ({
                 {date}
               </div>
 
-              {date && <div className="flex flex-col items-center px-3 py-2 break-words bg-gray-800 rounded-tr-none rounded-2xl w-fit">
-                {data.downLoadUrl && (
-                  <img src={data.downLoadUrl} alt={data.downLoadUrl} />
-                )}
-                {/* {data.downLoadUrl && (
+              {date && (
+                <div className="flex flex-col items-center px-3 py-2 break-words bg-gray-800 rounded-tr-none rounded-2xl w-fit">
+                  {data.downLoadUrl && (
+                    <img src={data.downLoadUrl} alt={data.downLoadUrl} />
+                  )}
+                  {/* {data.downLoadUrl && (
                   <div className="relative w-80 h-60"> */}
-                    {/* 외부 링크 쓸려면 next.config.js에 등록해야함 */}
-                    {/* https://png-pixel.com/ 에서 blurDataURL 처리 */}
-                    {/* <Image
+                  {/* 외부 링크 쓸려면 next.config.js에 등록해야함 */}
+                  {/* https://png-pixel.com/ 에서 blurDataURL 처리 */}
+                  {/* <Image
                       className="object-contain"
                       src={data.downLoadUrl}
                       alt={data.downLoadUrl}
@@ -80,26 +82,37 @@ const Message = ({
                     />
                   </div>
                 )} */}
-                {data.content}
-              </div>}
+                  {data.content}
+                </div>
+              )}
             </div>
           </div>
         ) : (
           <div className="w-full px-2">
             <div className="flex flex-col max-w-md lg:w-3/5 h-fit">
               {checkSameNick ? (
-                <div className="my-1">{data.nickname}</div>
+                <div className='flex items-center justify-between w-[5.5rem] md:w-24'>
+                  {data.profilePath && <div className="w-10 h-10 overflow-hidden rounded-full">
+                    <img
+                      className="object-fill"
+                      src={data.profilePath}
+                      alt={data.profilePath}
+                    />
+                  </div>}
+                  <div className="my-1">{data.nickname}</div>
+                </div>
               ) : null}
-              <div className="flex items-end my-[0.3rem] ">
-                {date && <div className="flex flex-col items-center py-2 px-3 border-[0.1rem] rounded-tl-none rounded-2xl break-words w-fit">
-                  {data.downLoadUrl && (
-                    <img src={data.downLoadUrl} alt={data.downLoadUrl} />
-                  )}
-                  {/*{data.downLoadUrl && (
+              <div className="flex items-end my-[0.3rem] ml-12">
+                {date && (
+                  <div className="flex flex-col items-center py-2 px-3 border-[0.1rem] rounded-tl-none rounded-2xl break-words w-fit">
+                    {data.downLoadUrl && (
+                      <img src={data.downLoadUrl} alt={data.downLoadUrl} />
+                    )}
+                    {/*{data.downLoadUrl && (
                     <div className="relative w-80 h-60">
                       {/* 외부 링크 쓸려면 next.config.js에 등록해야함 */}
-                  {/* https://png-pixel.com/ 에서 blurDataURL 처리 */}
-                  {/* <Image
+                    {/* https://png-pixel.com/ 에서 blurDataURL 처리 */}
+                    {/* <Image
                         className="object-contain"
                         src={data.downLoadUrl}
                         alt={data.downLoadUrl}
@@ -110,8 +123,9 @@ const Message = ({
                       />
                     </div>
                   )}*/}
-                  {data.content}
-                </div>}
+                    {data.content}
+                  </div>
+                )}
                 <div
                   className={`ml-2 text-sm text-slate-400 min-w-fit ${
                     checkLastTime || checkSameTime ? 'visible' : 'invisible'

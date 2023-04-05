@@ -10,6 +10,7 @@ import {useRouter} from 'next/router';
 import {useAppDispatch, useAppSelector} from 'store';
 import {musicsearchAsync} from 'store/api/features/musicsearchSlice';
 import {alramOff} from 'store/api/features/alramSlice';
+import { barOne, barTwo, barZero } from 'store/api/features/barOpenSlice';
 
 export type SideBarProps = {
   isPlaying: boolean;
@@ -19,13 +20,17 @@ const SideBar: FC<SideBarProps> = props => {
   const router = useRouter();
   const {isPlaying} = props;
   const [RmenuOpen, setRmenuOpen] = useState<boolean>(false);
-  const [BarOpen, setBarOpen] = useState<Number>(0);
+  // const [BarOpen, setBarOpen] = useState<Number>(0);
   const [title, setTitle] = useState<string>('');
 
   const dispatch = useAppDispatch();
 
   const {value} = useAppSelector(state => {
     return state.alramStatus;
+  });
+
+  const {BarOpen} = useAppSelector(state => {
+    return state.barOpen;
   });
 
   const musicsearch = dispatch(musicsearchAsync(title));
@@ -80,12 +85,7 @@ const SideBar: FC<SideBarProps> = props => {
                 value &&
                 `drop-shadow-[0_0_5px_#8da0ff] animate-[ring_3s_infinite]`
               }`}
-              onClick={() => (BarOpen === 1 ? setBarOpen(0) : setBarOpen(1))}>
-              {' '}
-            </div>
-            <div
-              className={`cursor-pointer w-7 h-7  min-w-7 min-h-7 ${styles.friendBtn}`}
-              onClick={() => (BarOpen === 2 ? setBarOpen(0) : setBarOpen(2))}>
+              onClick={() => (BarOpen === 1 ? dispatch(barZero()) : dispatch(barOne()))}>
               {' '}
             </div>
             <div
@@ -106,13 +106,8 @@ const SideBar: FC<SideBarProps> = props => {
           }`}
           onClick={() => {
             dispatch(alramOff());
-            BarOpen === 1 ? setBarOpen(0) : setBarOpen(1);
+            BarOpen === 1 ? dispatch(barZero()) : dispatch(barOne());
           }}>
-          {' '}
-        </div>
-        <div
-          className={`cursor-pointer w-7 h-7  min-w-7 min-h-7 ${styles.friendBtn}`}
-          onClick={() => (BarOpen === 2 ? setBarOpen(0) : setBarOpen(2))}>
           {' '}
         </div>
         <div

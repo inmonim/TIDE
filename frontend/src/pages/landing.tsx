@@ -30,7 +30,7 @@ function LandingPage() {
   const router = useRouter();
 
   const gotologin = () => {
-    router.push('/login');
+    router.replace('/login');
   };
 
   return (

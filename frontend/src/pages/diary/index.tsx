@@ -1,6 +1,6 @@
 import Link from 'next/link';
 import Seo from '@/components/Seo';
-import React, {useState, useEffect, useRef} from 'react';
+import React, {useState, useEffect, useRef, useCallback} from 'react';
 import styles from '@/styles/Diary.module.scss';
 import { diaryMineAsync } from 'store/api/features/diaryMineSlice';
 import { diaryListMineAsync } from 'store/api/features/diaryListMineSlice';
@@ -19,7 +19,7 @@ interface diaryInterFace {
 }
 
 
-export default function Diary() {
+export default function Diary({match}) {
 
   const [DiaryListType, setDiaryListType] = useState<Number>(0);
 
@@ -97,8 +97,10 @@ export default function Diary() {
   }
 
   useEffect(() => {
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    if(mdiarys.length>0){
+      window.addEventListener('resize', handleResize);
+      return () => window.removeEventListener('resize', handleResize);
+    }
   }, [windowSize.width, diaryMax, diaryCur]);
 
   // 캐러셀 이전버튼
@@ -162,17 +164,19 @@ export default function Diary() {
     setDiaryCur(caroselPage.current);
 
 
-    if (windowSize.width && windowSize.width <= 1600) {
-      if (diaryCur) setDiaryCur(diaryCur + 1);
-      setDiaryMax(mdiarys.length);
-    } else {
-      if (diaryCur) setDiaryCur(diaryCur + 2);
-      setDiaryMax(Math.ceil(mdiarys.length / 2));
-    }
-    if (caroselDivRef.current) {
+    // if (windowSize.width && windowSize.width <= 1600) {
+    //   if (diaryCur) setDiaryCur(diaryCur + 1);
+    //   setDiaryMax(mdiarys.length);
+    // } else {
+    //   if (diaryCur) setDiaryCur(diaryCur + 2);
+    //   setDiaryMax(Math.ceil(mdiarys.length / 2));
+    // }
+
+    // handleResize();
+    if (caroselDivRef.current && mdiarys.length===0) {
       if (windowSize.width && windowSize.width <= 860) {
         caroselDivRef.current.style.transform = `translateY(-${
-          501 * (caroselPage.current - 1)
+          0
         }px)`;
       } else {
         caroselDivRef.current.style.transform = `translateY(-${
@@ -180,13 +184,36 @@ export default function Diary() {
         }px)`;
       }
     }
-
-    
-
-
-    console.log(mdiarys,monthRef.current?.value);
+    // console.log(mdiarys,monthRef.current?.value);
   },[mdiarys])
 
+  useEffect(()=>{
+    let today = new Date();
+    let year = today.getFullYear();
+    let month = ('0' + (today.getMonth() + 1)).slice(-2);
+    let dateString = year + '-' + month;
+    if(monthRef.current) monthRef.current.value = dateString;
+    setMdiarys(diarys.filter((d)=>d.createDt.includes(String(monthRef.current?.value))))
+  },[monthRef.current])
+
+  // useEffect(()=>{
+  //   let today = new Date();
+  //   let year = today.getFullYear();
+  //   let month = ('0' + (today.getMonth() + 1)).slice(-2);
+  //   let dateString = year + '-' + month;
+  //   if(monthRef.current) monthRef.current.value = dateString;
+  //   setMdiarys(diarys.filter((d)=>d.createDt.includes(String(monthRef.current?.value))))
+  // },[monthRef.current])
+
+  const setMonth = useCallback(() =>{
+    let today = new Date();
+    let year = today.getFullYear();
+    let month = ('0' + (today.getMonth() + 1)).slice(-2);
+    let dateString = year + '-' + month;
+    if(monthRef.current) monthRef.current.value = dateString;
+    setMdiarys(diarys.filter((d)=>d.createDt.includes(String(monthRef.current?.value))))
+    console.log('셋먼쓰')
+  },[monthRef.current]);
 
   return (
     <>
@@ -275,7 +302,7 @@ export default function Diary() {
         </button>
         </div>
         <div className={styles.diarySection}>
-          <div className={`grid lg:grid-cols-6 md:grid-cols-4 grid-cols-2 p-2 gap-2`}>
+          <div className={`grid ${(diarylists&&diarylists.length>1)?`lg:grid-cols-6 md:grid-cols-4 grid-cols-2`:`grid-cols-1`} p-2 gap-2`}>
             {diarylists && diarylists.length >0 ?diarylists.map((diaryList,id)=>(
               <Link 
               href={{
@@ -295,11 +322,13 @@ export default function Diary() {
                 <p className={`whitespace-nowrap`}>{diaryList.diaryListTitle}</p>
               </div>
               </Link>
-            )):null}
-
-            
+            )):
+            <div className={`w-full h-full min-h-[300px] bg-black flex items-center justify-center bg-opacity-30`}>
+              <p> 작성된 일기장 모음이 없습니다.</p>
+            </div>
+            }
+            </div>
           </div>
-        </div>
       </main>
     </>
   );

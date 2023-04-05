@@ -34,11 +34,11 @@ const login = () => {
   useEffect(() => {
     switch (status) {
       case 'completed':
+        toast.success('로그인 성공');
+        setToken(token, email);
         router.push({
           pathname: `/mainpage`
         });
-        toast.success('로그인 성공');
-        setToken(token, email);
         break;
       case 'failed':
         toast.error('로그인 실패');

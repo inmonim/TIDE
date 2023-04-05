@@ -8,7 +8,8 @@ import {loginAsync} from 'store/api/features/loginSlice';
 import {useRouter} from 'next/router';
 import {setToken} from '@/components/TokenManager';
 import {toast} from 'react-toastify';
-import {initStatus} from 'store/api/features/signUpSlice';
+import {initStatus} from 'store/api/features/loginSlice';
+import {initStatusSignUp} from 'store/api/features/signUpSlice';
 import { profileAsync } from 'store/api/features/profileSlice';
 
 interface LoginInterFace {
@@ -46,6 +47,7 @@ const login = () => {
     }
     // status값 init
     dispatch(initStatus());
+    dispatch(initStatusSignUp());
   }, [status]);
 
   //input에 입력될 때마다 loginAccount state값 변경되게 하는 함수

@@ -10,47 +10,47 @@ interface DiaryDetailState {
 }
 
 interface diaryInterFace {
-  id:number,
-  nickname: string,
-  title: string,
-  content: string,
-  creatDt: string,
-  pub:string,
-  like:number
+  id: number;
+  nickname: string;
+  title: string;
+  content: string;
+  createDt: string;
+  pub: string;
+  like: number;
+  songId: number;
+  artist: [];
+  albumImgPath: string;
 }
 
 // 초기값
 const initialState: DiaryDetailState = {
   status: '',
-  error:'',
-  diary:{
-    id:0,
+  error: '',
+  diary: {
+    id: 0,
     nickname: '',
     title: '',
     content: '',
-    creatDt: '',
-    pub:'',
-    like:0
+    createDt: '',
+    pub: '',
+    like: 0,
+    songId: 0,
+    artist: [],
+    albumImgPath: ''
   }
 };
-
-interface diaryDetailProps {
-  id:Number;
-}
-
 
 // Thunk 예시
 export const diaryDetailAsync = createAsyncThunk(
   'diaryDeatil/Async',
-  async ({id}: diaryDetailProps) => {
+  async (id: number) => {
     const accessToken = getCookie('accessToken');
     const data = await axios({
       method: 'get',
-      url: `${process.env.NEXT_PUBLIC_API_URL}/api/diary/${id}`,
+      url: `${process.env.NEXT_PUBLIC_API_URL}/api/diary/detail/${id}`,
       headers: {
-        Authorization: `Bearer ${accessToken}`,
-        email: getCookie('email')
-      },
+        Authorization: `Bearer ${accessToken}`
+      }
     });
     return data.data;
   }
@@ -60,20 +60,16 @@ export const diaryDetailAsync = createAsyncThunk(
 export const diaryDeatilSlice = createSlice({
   name: 'diaryDeatil',
   initialState,
-  reducers: {
-  },
+  reducers: {},
   // 비동기 처리를 위한 redux-thunk사용 extraReducers
   extraReducers: builder => {
     builder
       .addCase(diaryDetailAsync.pending, state => {
         state.status = 'loading';
       })
-      .addCase(diaryDetailAsync.fulfilled, (state,action) => {
+      .addCase(diaryDetailAsync.fulfilled, (state, action) => {
         state.status = 'completed';
-        const this_diary = action.payload;
-        state.diary = this_diary;
-        // console.log('다이어리 상세 요청 성공')
-
+        state.diary = action.payload;
       })
       .addCase(diaryDetailAsync.rejected, state => {
         state.status = 'failed';

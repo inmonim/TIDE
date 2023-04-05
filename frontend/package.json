@@ -24,7 +24,7 @@
     "eslint-plugin-prettier": "^4.2.1",
     "firebase": "^9.18.0",
     "framer-motion": "^10.6.1",
-
+    "html-react-parser": "^3.0.15",
     "html-to-text": "^9.0.5",
     "next": "13.2.4",
     "next-cookies": "^2.0.3",

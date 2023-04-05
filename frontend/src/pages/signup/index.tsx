@@ -4,7 +4,7 @@ import {useAppDispatch, useAppSelector} from 'store'; //스토어 생성단계�
 import logoUrl from 'public/images/Logo/TideLogoFinal.png';
 import {motion} from 'framer-motion';
 import Link from 'next/link';
-import {initStatus, signUpAsync} from 'store/api/features/signUpSlice';
+import {initStatusSignUp, signUpAsync} from 'store/api/features/signUpSlice';
 import {useRouter} from 'next/router';
 import {toast} from 'react-toastify';
 
@@ -104,7 +104,7 @@ const signup = () => {
         break;
     }
     // status값 init
-    dispatch(initStatus());
+    dispatch(initStatusSignUp());
   }, [status]);
 
   return (

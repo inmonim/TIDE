@@ -14,7 +14,7 @@ interface diaryInterFace {
   nickname: string;
   title: string,
   content: string,
-  creatDt: string,
+  createDt: string,
   pub:string,
   like:number
 }

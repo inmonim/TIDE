@@ -8,6 +8,17 @@ import {useAppDispatch, useAppSelector} from 'store';
 import DiaryListModal from '@/components/Modal/DiaryListModal'
 import { query } from 'express';
 
+interface diaryInterFace {
+  id:number,
+  nickname: string;
+  title: string,
+  content: string,
+  createDt: string,
+  pub:string,
+  like:number
+}
+
+
 export default function Diary() {
 
   const [DiaryListType, setDiaryListType] = useState<Number>(0);
@@ -16,6 +27,7 @@ export default function Diary() {
   useEffect(() => {
     dispatch(diaryMineAsync());
     dispatch(diaryListMineAsync());
+    handleResize();
   }, []);
   const {diarys} = useAppSelector(state => {
     return state.diaryMine;
@@ -25,6 +37,14 @@ export default function Diary() {
   const {diarylists} = useAppSelector(state => {
     return state.diaryListMine;
   });
+
+  const monthRef = useRef<HTMLInputElement>(null)
+  const [mdiarys, setMdiarys] = useState<diaryInterFace[]>(diarys)
+  // useEffect(()=>{
+  //   setMdiarys(diarys.filter((d)=>d.createDt.includes(String(monthRef.current?.value))))
+  //   console.log(mdiarys,monthRef.current?.value )
+  // },[monthRef.current])
+
 
   // 윈도우 사이즈 CSR로 체크
   interface WindowSize {
@@ -44,7 +64,7 @@ export default function Diary() {
   // 일기장 캐러셀 현재 넘버
   const caroselPage = useRef<number>(1);
   // 일기장 전체 길이
-  const [diaryMax, setDiaryMax] = useState<number | undefined>(diarys.length);
+  const [diaryMax, setDiaryMax] = useState<number | undefined>(mdiarys.length);
   let [diaryCur, setDiaryCur] = useState<number | undefined>(1);
 
   function handleResize() {
@@ -54,11 +74,11 @@ export default function Diary() {
       height: window.innerHeight
     });
     if (windowSize.width && windowSize.width <= 1600) {
-      setDiaryMax(diarys.length);
+      setDiaryMax(mdiarys.length);
       caroselPage.current = diaryCur ? diaryCur : 1;
       setDiaryCur(caroselPage.current);
     } else {
-      setDiaryMax(Math.ceil(diarys.length / 2));
+      setDiaryMax(Math.ceil(mdiarys.length / 2));
       caroselPage.current = diaryCur ? Math.ceil(diaryCur / 2) : 1;
       setDiaryCur(2 * (caroselPage.current - 1) + 1);
     }
@@ -66,19 +86,15 @@ export default function Diary() {
     if (caroselDivRef.current) {
       if (windowSize.width && windowSize.width <= 860) {
         caroselDivRef.current.style.transform = `translateY(-${
-          500 * (caroselPage.current - 1)
+          501 * (caroselPage.current - 1)
         }px)`;
       } else {
         caroselDivRef.current.style.transform = `translateY(-${
-          436 * (caroselPage.current - 1)
+          418 * (caroselPage.current - 1)
         }px)`;
       }
     }
   }
-
-  useEffect(() => {
-    handleResize();
-  }, []);
 
   useEffect(() => {
     window.addEventListener('resize', handleResize);
@@ -98,11 +114,11 @@ export default function Diary() {
       if (caroselDivRef.current) {
         if (windowSize.width && windowSize.width <= 860) {
           caroselDivRef.current.style.transform = `translateY(-${
-            500 * (caroselPage.current - 1)
+            501 * (caroselPage.current - 1)
           }px)`;
         } else {
           caroselDivRef.current.style.transform = `translateY(-${
-            436 * (caroselPage.current - 1)
+            418 * (caroselPage.current - 1)
           }px)`;
         }
       }
@@ -124,11 +140,11 @@ export default function Diary() {
       if (caroselDivRef.current) {
         if (windowSize.width && windowSize.width <= 860) {
           caroselDivRef.current.style.transform = `translateY(-${
-            500 * (caroselPage.current - 1)
+            501 * (caroselPage.current - 1)
           }px)`;
         } else {
           caroselDivRef.current.style.transform = `translateY(-${
-            436 * (caroselPage.current - 1)
+            418 * (caroselPage.current - 1)
           }px)`;
         }
       }
@@ -139,6 +155,37 @@ export default function Diary() {
   const getModalType = (type:Number) => {
     setDiaryListType(type)
   }
+
+  useEffect(()=>{
+    setDiaryMax(mdiarys.length);
+    caroselPage.current = 1;
+    setDiaryCur(caroselPage.current);
+
+
+    if (windowSize.width && windowSize.width <= 1600) {
+      if (diaryCur) setDiaryCur(diaryCur + 1);
+      setDiaryMax(mdiarys.length);
+    } else {
+      if (diaryCur) setDiaryCur(diaryCur + 2);
+      setDiaryMax(Math.ceil(mdiarys.length / 2));
+    }
+    if (caroselDivRef.current) {
+      if (windowSize.width && windowSize.width <= 860) {
+        caroselDivRef.current.style.transform = `translateY(-${
+          501 * (caroselPage.current - 1)
+        }px)`;
+      } else {
+        caroselDivRef.current.style.transform = `translateY(-${
+          418 * (caroselPage.current - 1)
+        }px)`;
+      }
+    }
+
+    
+
+
+    console.log(mdiarys,monthRef.current?.value);
+  },[mdiarys])
 
 
   return (
@@ -168,7 +215,13 @@ export default function Diary() {
 
         <div className={styles.diarySectionTitle}>
           <h2 className="text-2xl font-bold text-sky-400 whitespace-nowrap"> 일기장 </h2>
-          <input type="month"></input>
+          <input type="month" 
+          ref={monthRef} 
+          // onClick={()=>console.log("2023-04-05".includes(String(monthRef.current?.value)))}
+          onChange={()=>{
+            setMdiarys(diarys.filter((d)=>d.createDt.includes(String(monthRef.current?.value))))
+          }}
+          ></input>
         </div>
 
         <div className={styles.btDiv}>
@@ -182,20 +235,20 @@ export default function Diary() {
           </button>
         </div>
         <div className={styles.diarySection}>
-          <div className={`${styles.caroselWrapper} ${(diarys&&diarys.length>1)?`grid-cols-2`:`grid-cols-1`}`} ref={caroselDivRef}>
-            {diarys && diarys.length >0 ? diarys.map((diary, id) => (
+          <div className={`${styles.caroselWrapper} ${(mdiarys&&mdiarys.length>1)?`grid-cols-2 md86:mt-4`:`grid-cols-1`}`} ref={caroselDivRef}>
+            {mdiarys && mdiarys.length >0 ? mdiarys.map((diary, id) => (
               <Link href={`/diary/${id}`}>
               <div className={styles.caroselItem} key={id}>
-                <div className={styles.caroselDiary}>
+                <div className={`${styles.caroselDiary} min-w-[230px] max-w-[230px] p-[24px]`}>
                   <h3 className="text-2xl font-bold">
                     {id} : {diary.title}
                   </h3>
-                  <p> {(String)(diary.creatDt)}</p>
+                  <p> {diary.createDt}</p>
                   <p> {diary.nickname}</p>
                   <br />
                   <div dangerouslySetInnerHTML={{ __html: diary.content }} />
                 </div>
-                <div className={styles.caroselMusic}>
+                <div className={`${styles.caroselMusic} min-w-[230px] max-w-[230px]`}>
                   <div className={`bg-[url('https://image.bugsm.co.kr/album/images/130/40780/4078016.jpg')] bg-no-repeat bg-cover animate-[spin_5s_linear_infinite] pause hover:running ${styles.cdBG}`}>
                   </div>
                   <h3 className="text-2xl font-bold"> 음악 제목</h3>

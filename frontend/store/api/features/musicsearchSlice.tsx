@@ -46,7 +46,12 @@ export const musicsearchAsync = createAsyncThunk(
 const musicsearchSlice = createSlice({
   name: 'musicsearch',
   initialState,
-  reducers: {},
+  reducers: {
+    searchinitStatus(state) {
+      state.status = 'loading';
+      state.musicSearchResult = [];
+    },
+  },
   // 비동기 처리를 위한 redux-thunk사용 extraReducers
   extraReducers: builder => {
     builder
@@ -65,5 +70,5 @@ const musicsearchSlice = createSlice({
     // createSlice로 Slice생성
   }
 });
-
+export const {searchinitStatus} = musicsearchSlice.actions;
 export default musicsearchSlice.reducer;

@@ -176,8 +176,8 @@ function Profile() {
             <div className="w-[100%] h-[400px] border-t border-b pt-3 pb-3 overflow-auto scrollbar-hide">
 
             {dpChange?<>
-              {diarys && diarys.length >0 ? diarys.filter(function(c){ return c.pub==='0'; }).map((p, id) => (
-            <Link href={`/diary/${id}`} className={` h-fit`}>
+              {diarys && diarys.length >0 ? diarys.filter(function(c){ return c.pub==='0'; }).map((p, index) => (
+            <Link href={`/diary/${p.id}`} className={` h-fit`}>
                 <div className={` mb-2 flex bg-slate-700 rounded-md w-[100%] h-[70px] p-[2%] items-center gap-2 bg-opacity-80 justify-between hover:bg-blue-500 duration-300`}>
                   {`${p.title}`}
                 <div>

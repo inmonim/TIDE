@@ -38,7 +38,7 @@ export const userDiaryAsync = createAsyncThunk(
     const accessToken = getCookie('accessToken');
     const data = await axios({
       method: 'get',
-      url: `${process.env.NEXT_PUBLIC_API_URL}/api/diary/mine`,
+      url: `${process.env.NEXT_PUBLIC_API_URL}/api/diary/user/diaries`,
       headers: {
         Authorization: `Bearer ${accessToken}`,
         email: getCookie('email')

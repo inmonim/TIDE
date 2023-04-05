@@ -67,12 +67,62 @@ const MusicModal: FC<MusicModalProps> = props => {
       <p className={`text-xl font-bold`}> {type===1?'전체 ':'추천 '}음악 목록</p>
       {status==='completed'?
       <>
+      {/* 추천1 */}
       <div className={`flex gap-2 bg-slate-700 w-[100%] h-[30%] p-[2%] `}>
-        <img src={song_model1CosineTop?.albumImgPath}></img>
+        <img src={song1?.albumImgPath}></img>
         <div>
-          <p className={`text-xl`}> {song_model1CosineTop?.title}</p>
-          <p> album.{song_model1CosineTop?.albumTitle} </p>
-          <p> {song_model1CosineTop?.artist}</p>
+          <p className={`text-xl`}> {song1?.title}</p>
+          <p> album.{song1?.albumTitle} </p>
+          <p> {song1?.artist}</p>
+
+          <div className={`flex justify-between`}>
+            <button className={`border rounded-lg bg-slate-500 p-1 w-12`}> 듣기 </button>
+            <button className={`border rounded-lg bg-slate-500 p-1 w-12`}> 선택 </button>
+          </div>
+        </div>
+      </div>
+
+      {/* 추천2 */}
+
+      <div className={`flex gap-2 bg-slate-700 w-[100%] h-[30%] p-[2%] `}>
+        <img src={song2?.albumImgPath}></img>
+        <div>
+          <p className={`text-xl`}> {song2?.title}</p>
+          <p> album.{song2?.albumTitle} </p>
+          <p> {song2?.artist}</p>
+
+          <div className={`flex justify-between`}>
+            <button className={`border rounded-lg bg-slate-500 p-1 w-12`}> 듣기 </button>
+            <button className={`border rounded-lg bg-slate-500 p-1 w-12`}> 선택 </button>
+          </div>
+        </div>
+      </div>
+
+
+      {/* 추천3 */}
+      <div className={`flex gap-2 bg-slate-700 w-[100%] h-[30%] p-[2%] `}>
+        <img src={song3?.albumImgPath}></img>
+        <div>
+          <p className={`text-xl`}> {song3?.title}</p>
+          <p> album.{song3?.albumTitle} </p>
+          <p> {song3?.artist}</p>
+
+          <div className={`flex justify-between`}>
+            <button className={`border rounded-lg bg-slate-500 p-1 w-12`}> 듣기 </button>
+            <button className={`border rounded-lg bg-slate-500 p-1 w-12`}> 선택 </button>
+          </div>
+        </div>
+      </div>
+
+
+      {/* 추천4 */}
+
+      <div className={`flex gap-2 bg-slate-700 w-[100%] h-[30%] p-[2%] `}>
+        <img src={song4?.albumImgPath}></img>
+        <div>
+          <p className={`text-xl`}> {song4?.title}</p>
+          <p> album.{song4?.albumTitle} </p>
+          <p> {song4?.artist}</p>
 
           <div className={`flex justify-between`}>
             <button className={`border rounded-lg bg-slate-500 p-1 w-12`}> 듣기 </button>

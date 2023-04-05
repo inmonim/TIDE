@@ -60,7 +60,7 @@ export const playListDeatilSlice = createSlice({
         state.status = 'completed';
         const playListSongs = action.payload;
         state.playListSongs = playListSongs;
-        console.log('플레이리스트 상세 요청 성공');
+        console.log('플레이리스트 상세 요청 성공', action.payload);
       })
       .addCase(playListDetailAsync.rejected, state => {
         state.status = 'failed';

@@ -10,13 +10,17 @@ interface myDiaryListState {
 }
 
 interface diaryInterFace {
-  id:number,
+  id:number;
   nickname: string;
-  title: string,
-  content: string,
-  createDt: string,
-  pub:string,
-  like:number
+  title: string;
+  content: string;
+  createDt: string;
+  pub:string;
+  like:number;
+  albumImgPath:string;
+  artist:string[];
+  musicTitle: string;
+  songId:Number;
 }
 
 // 초기값
@@ -60,7 +64,7 @@ export const diaryMineSlice = createSlice({
         state.status = 'completed';
         const diaryList = action.payload;
         state.diarys = diaryList;
-        // console.log('내 다이어리 리스트 요청 성공', state.diarys)
+        console.log('내 다이어리 리스트 요청 성공', diaryList)
 
       })
       .addCase(diaryMineAsync.rejected, state => {

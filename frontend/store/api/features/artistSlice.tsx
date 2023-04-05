@@ -6,7 +6,9 @@ import {getCookie} from 'cookies-next';
 interface artistState {
   status: string;
   artistId: number;
+  songId: number[];
   artistName: any;
+  title: string[];
   artistImgPath: string;
   is_group: boolean;
 }
@@ -14,7 +16,9 @@ interface artistState {
 const initialState: artistState = {
   status: '',
   artistId: 0,
+  songId: [],
   artistName: '',
+  title: [],
   artistImgPath: '',
   is_group: false
 };
@@ -48,9 +52,12 @@ export const artistSlice = createSlice({
       })
       .addCase(artistAsync.fulfilled, (state, action) => {
         state.status = 'completed';
-        const {artistId, artistName, artistImgPath, is_group} = action.payload;
+        const {artistId, artistName, title, artistImgPath, is_group, songId} =
+          action.payload;
         state.artistId = artistId;
+        state.songId = songId;
         state.artistName = artistName;
+        state.title = title;
         state.artistImgPath = artistImgPath;
         state.is_group = is_group;
       });

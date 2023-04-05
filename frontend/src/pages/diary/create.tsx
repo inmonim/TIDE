@@ -4,11 +4,16 @@ import MusicModal from '@/components/Modal/MusicModal';
 import React, {useRef, useState} from 'react';
 import styles from '@/styles/Diary.module.scss';
 import QuillWrapper from '@/components/Quill/QuillWrapper';
-import { recomMusicAsync } from 'store/api/features/recomMusicSlice';
+import { recomMusicAsync, setSong } from 'store/api/features/recomMusicSlice';
 import {useAppDispatch, useAppSelector} from 'store';
 import { diaryCreateAsync, diaryCreateinitStatus } from 'store/api/features/diaryCreateSlice';
+import Image from 'next/image';
+import Search from 'public/buttons/Search.png'
+import recom from 'public/icons/networking.png'
+import { useRouter } from 'next/router';
 
 export default function DiaryCreate() {
+  const router = useRouter();
   const [musicModalType,setMusicModalType] = useState<Number>(0);
   const dispatch = useAppDispatch();
 
@@ -51,6 +56,10 @@ export default function DiaryCreate() {
     }
     console.log(selectSong && HTMLcontent && diaryTitleRef.current?.value!=='')
     console.log(diaryTitleRef.current?.value, HTMLcontent,diaryPub,selectSong?.songId)
+    dispatch(setSong(undefined))
+    router.push({
+      pathname: `/diary`,
+    });
   }
 
   return (
@@ -60,7 +69,7 @@ export default function DiaryCreate() {
       <div className={styles.diaryNav}>
          <button onClick={onDiaryCreate}>
             {' '}
-            <p className="text-2xl ml-0.5">작성</p>{' '}
+            <p className="text-2xl ml-0.5">📑</p>{' '}
           </button>
       </div>
 
@@ -100,19 +109,22 @@ export default function DiaryCreate() {
               className={`w-full h-full grid gap-2 items-center md86:border-b-2 md86:pb-3 md86:mb-4`}>
               <div className={`rounded-lg ${styles.musicSelect}`} onClick={()=> musicModalType!==1? setMusicModalType(1) : setMusicModalType(0)}>
                 <p> 음악 찾기</p>
-                <div className={`w-[50px] h-[50px] bg-white`}></div>
+                <Image className={`w-[30px] h-[30px]`} src={Search} alt="Search"/>
               </div>
 
               <div className={` rounded-lg ${styles.musicSelect}`} onClick={()=> musicModalType!==2? setMusicModalType(2) : setMusicModalType(0)}>
                 <p> 추천 음악</p>
-                <div className={`w-[50px] h-[50px] bg-white`}></div>
+                <Image className={`w-[40px] h-[40px]`} src={recom} alt="recom"/>
               </div>
             </div>
             <div
+              onClick={()=>{dispatch(setSong(undefined))}}
               className={` rounded-lg  overflow-hidden ${styles.musicSelect}`}>
-              <img className={`w-[8rem] h-[8rem] bg-white `}
+              {selectSong?
+               <img className={`w-[8rem] h-[8rem] bg-white `}
               src={selectSong?.albumImgPath}
-              ></img>
+              ></img> :null}
+              
               <p className={`md86:mt-5 text-xl`}>
                 {' '}
                 {selectSong?.title}{' '}

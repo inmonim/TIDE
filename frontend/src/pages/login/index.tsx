@@ -9,7 +9,7 @@ import {useRouter} from 'next/router';
 import {setToken} from '@/components/TokenManager';
 import {toast} from 'react-toastify';
 import {initStatusSignUp} from 'store/api/features/signUpSlice';
-import { profileAsync } from 'store/api/features/profileSlice';
+import {profileAsync} from 'store/api/features/profileSlice';
 
 interface LoginInterFace {
   email: string;
@@ -48,6 +48,10 @@ const login = () => {
     dispatch(initStatus());
     dispatch(initStatusSignUp());
   }, [status]);
+
+  useEffect(() => {
+    
+  }, []);
 
   //input에 입력될 때마다 loginAccount state값 변경되게 하는 함수
   const onChangeAccount = (

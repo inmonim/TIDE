@@ -7,17 +7,18 @@ interface recomMusicState {
   status: string;
   error: string | undefined;
   // result: MusicInterface | undefined
-  song_model1CosineTop:song| undefined;
-  song_model1T3Top:song| undefined;
-  song_model2CosineTop:song| undefined;
-  song_model2T3Top:song| undefined;
+  songModel1CosineTop:song| undefined;
+  songModel1T3Top:song| undefined;
+  songModel2CosineTop:song| undefined;
+  songModel2T3Top:song| undefined;
+  selectSong:song | undefined;
 }
 
 interface MusicInterface{
-  song_model1CosineTop:song,
-  song_model1T3Top:song,
-  song_model2CosineTop:song,
-  song_model2T3Top:song
+  songModel1CosineTop:song,
+  songModel1T3Top:song,
+  songModel2CosineTop:song,
+  songModel2T3Top:song
 }
 
 interface song{
@@ -36,10 +37,11 @@ interface recomProps {
 const initialState: recomMusicState = {
   status: '',
   error: '',
-  song_model1CosineTop:undefined,
-  song_model1T3Top:undefined,
-  song_model2CosineTop:undefined,
-  song_model2T3Top:undefined
+  songModel1CosineTop:undefined,
+  songModel1T3Top:undefined,
+  songModel2CosineTop:undefined,
+  songModel2T3Top:undefined,
+  selectSong: undefined
 }
 ;
 
@@ -72,6 +74,10 @@ export const recomMusicSlice = createSlice({
   reducers: {
     recominitStatus(state) {
       state.status = 'loading';
+    },
+    setSong(state,action){
+      state.selectSong = action.payload
+      console.log('선택된송 = ',state.selectSong)
     }
   },
   // 비동기 처리를 위한 redux-thunk사용 extraReducers
@@ -82,12 +88,12 @@ export const recomMusicSlice = createSlice({
       })
       .addCase(recomMusicAsync.fulfilled, (state, action) => {
         state.status = 'completed';
-        state.song_model1CosineTop = action.payload.song_list.song_model1CosineTop;
-        state.song_model1T3Top = action.payload.song_list.song_model1T3Top;
-        state.song_model2CosineTop = action.payload.song_list.song_model2CosineTop;
-        state.song_model2T3Top = action.payload.song_list.song_model2T3Top;
+        state.songModel1CosineTop = action.payload.song_list.songModel1CosineTop;
+        state.songModel1T3Top = action.payload.song_list.songModel1T3Top;
+        state.songModel2CosineTop = action.payload.song_list.songModel2CosineTop;
+        state.songModel2T3Top = action.payload.song_list.songModel2T3Top;
 
-        console.log('음악 추천 성공', state.song_model1CosineTop,state.song_model1T3Top,state.song_model2CosineTop,state.song_model2T3Top)
+        console.log('음악 추천 성공', state.songModel1CosineTop,state.songModel1T3Top,state.songModel2CosineTop,state.songModel2T3Top)
       })
       .addCase(recomMusicAsync.rejected, (state, action) => {
         state.status = 'failed';
@@ -95,5 +101,5 @@ export const recomMusicSlice = createSlice({
       });
   }
 });
-export const {recominitStatus} = recomMusicSlice.actions;
+export const {recominitStatus, setSong} = recomMusicSlice.actions;
 export default recomMusicSlice.reducer;

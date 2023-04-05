@@ -26,17 +26,22 @@ class MusicRecommend(Resource):
         try:
             response = {}
             
-            emotion_list_1 = emotion_predict(model_1, txt)
-            emotion_list_2 = emotion_predict(model_2, txt)
+            max_len = 512 if len(txt) >= 512 else len(txt)
+            
+            emotion_list_1 = emotion_predict(model_1, txt, max_len)
+            emotion_list_2 = emotion_predict(model_2, txt, max_len)
             
             t3_model_1_song_id = recommend_song(t3_emotion_keysen, emotion_list_1)
             t3_model_2_song_id = recommend_song(t3_emotion_keysen, emotion_list_2)
+            
+            top_cos_model_1_song_id = recommend_cosine(ten_emotion, emotion_list_1)
+            top_cos_model_2_song_id = recommend_cosine(ten_emotion, emotion_list_2)
         
                 
             # 중요!
             # 아래 song_id_list와 song_cls는 매핑되는 관계이므로, 순서를 잘 맞춰줘야 함! 
-            song_id_list = recommend_cosine(ten_emotion, emotion_list_2) + recommend_cosine(ten_emotion, emotion_list_1) + [t3_model_2_song_id, t3_model_1_song_id]
-            song_cls = ['model1CosineTop', 'model2CosineTop', 'model1T3Top', 'model2T3Top']
+            song_id_list = [top_cos_model_2_song_id, top_cos_model_1_song_id, t3_model_2_song_id, t3_model_1_song_id]
+            song_cls = ['Model2CosineTop', 'Model1CosineTop', 'Model2T3Top', 'Model1T3Top']
             recommend_list = {}
             
             cnt = 0
@@ -74,7 +79,7 @@ class MusicRecommend(Resource):
                     artist_list.append(artist_nm)
                 song_dict['artist'] = artist_list
                     
-                recommend_list[f'song_{cls_nm}'] = song_dict
+                recommend_list[f'song{cls_nm}'] = song_dict
                 cnt += 1
             
             response = {'song_list' : recommend_list, }

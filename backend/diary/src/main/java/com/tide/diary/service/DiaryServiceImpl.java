@@ -176,7 +176,6 @@ public class DiaryServiceImpl implements DiaryService {
         return response;
     }
 
-    @Override
     @Transactional
     public List<ResponseTopDiary> getLatest3Diaries(Long songId) {
         List<ResponseTopDiary> response = new ArrayList<>();

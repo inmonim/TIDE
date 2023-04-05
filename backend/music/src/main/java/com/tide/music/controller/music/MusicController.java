@@ -28,6 +28,7 @@ public class MusicController {
         return musicService.searchSongList(request.getTitle());
     }
 
+    // 음악 상세
     @GetMapping("/song/{songId}")
     public ResponseSongInfo searchSong(@PathVariable("songId") Long songId) {
         return musicService.searchSong(songId);

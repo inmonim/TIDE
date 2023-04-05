@@ -12,8 +12,8 @@ interface diaryCreateState {
 interface diaryProps {
   title: string;
   content:string;
-  pub:string,
-  songId: Number
+  pub:string;
+  songId: Number;
 }
 
 // 초기값
@@ -28,7 +28,7 @@ export const diaryCreateAsync = createAsyncThunk(
   'diaryCreate/Async',
   async ({title, content, pub, songId}: diaryProps) => {
     const accessToken = getCookie('accessToken');
-    console.log('타이틀왓나?',title)
+    // console.log('노래는 왔나??',title, songId)
     const data = await axios({
       method: 'post',
       url: `${process.env.NEXT_PUBLIC_API_URL}/api/diary/write`,

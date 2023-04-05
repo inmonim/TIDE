@@ -40,10 +40,17 @@ export default function Diary() {
 
   const monthRef = useRef<HTMLInputElement>(null)
   const [mdiarys, setMdiarys] = useState<diaryInterFace[]>(diarys)
-  // useEffect(()=>{
-  //   setMdiarys(diarys.filter((d)=>d.createDt.includes(String(monthRef.current?.value))))
-  //   console.log(mdiarys,monthRef.current?.value )
-  // },[monthRef.current])
+
+  useEffect(()=>{
+    if(monthRef.current?.value !== '')
+    {
+      setMdiarys(diarys.filter((d)=>d.createDt.includes(String(monthRef.current?.value))))
+      console.log(mdiarys,monthRef.current?.value )
+    }
+    else {
+      setMdiarys(diarys) 
+    }
+  },[monthRef.current,diarys])
 
 
   // 윈도우 사이즈 CSR로 체크
@@ -187,15 +194,6 @@ export default function Diary() {
     // console.log(mdiarys,monthRef.current?.value);
   },[mdiarys])
 
-  useEffect(()=>{
-    let today = new Date();
-    let year = today.getFullYear();
-    let month = ('0' + (today.getMonth() + 1)).slice(-2);
-    let dateString = year + '-' + month;
-    if(monthRef.current) monthRef.current.value = dateString;
-    setMdiarys(diarys.filter((d)=>d.createDt.includes(String(monthRef.current?.value))))
-  },[monthRef.current])
-
   // useEffect(()=>{
   //   let today = new Date();
   //   let year = today.getFullYear();
@@ -205,15 +203,19 @@ export default function Diary() {
   //   setMdiarys(diarys.filter((d)=>d.createDt.includes(String(monthRef.current?.value))))
   // },[monthRef.current])
 
-  const setMonth = useCallback(() =>{
-    let today = new Date();
-    let year = today.getFullYear();
-    let month = ('0' + (today.getMonth() + 1)).slice(-2);
-    let dateString = year + '-' + month;
-    if(monthRef.current) monthRef.current.value = dateString;
-    setMdiarys(diarys.filter((d)=>d.createDt.includes(String(monthRef.current?.value))))
-    console.log('셋먼쓰')
-  },[monthRef.current]);
+
+  
+  // useEffect(()=>{
+  //   let today = new Date();
+  //   let year = today.getFullYear();
+  //   let month = ('0' + (today.getMonth() + 1)).slice(-2);
+  //   let dateString = year + '-' + month;
+  //   if(monthRef.current) monthRef.current.value = dateString;
+  //   setMdiarys(diarys.filter((d)=>d.createDt.includes(String(monthRef.current?.value))))
+  //   console.log('그래해라해라')
+  // },[])
+
+
 
   return (
     <>
@@ -231,7 +233,7 @@ export default function Diary() {
 
       <div className={`${DiaryListType===0?'w-0 h-0':'bg-slate-900 w-[100%] opacity-90 h-[100%] fixed z-[3]'}`} onClick={()=>{setDiaryListType(0)}} >
       </div>
-      <DiaryListModal type={DiaryListType} getModalType={getModalType} diaryListId={undefined}/>
+      <DiaryListModal type={DiaryListType} getModalType={getModalType} diaryListId={undefined} title={undefined}/>
 
       <main className={`
       p-[4rem] pt-[2rem] lg12:pr-[calc(200px)] lg12:pl-[calc(15%+100px)] pb-[240px] text-white flex flex-col min-h-[100vh] pt-[calc(2rem+40px)] bg-gradient-to-t from-blue-900 to-slate-900 `}>
@@ -293,7 +295,7 @@ export default function Diary() {
 
         <div className={styles.caroselDotDiv}></div>
 
-        <div className={`flex justify-between items-center mt-6`}>
+        {/* <div className={`flex justify-between items-center mt-6`}>
         <h2 className="text-2xl font-bold text-sky-400 whitespace-nowrap "> 일기장 모음 </h2>
         <button 
         onClick={()=> setDiaryListType(1)}
@@ -316,7 +318,7 @@ export default function Diary() {
               as={`/diary/list/${diaryList.id}`}
               >
               <div className={`h-[calc(10vw+40px)] p-2 flex items-center border rounded-xl justify-center flex-col overflow-hidden
-               bg-blue-900 hover:bg-blue-500 bg-opacity-70 duration-200
+               bg-blue-900 hover:bg-blue-500 bg-opacity-70 duration-200 select-none
               `}>
                 <p>{diaryList.id}</p>
                 <p className={`whitespace-nowrap`}>{diaryList.diaryListTitle}</p>
@@ -328,7 +330,9 @@ export default function Diary() {
             </div>
             }
             </div>
-          </div>
+        </div> */}
+
+
       </main>
     </>
   );

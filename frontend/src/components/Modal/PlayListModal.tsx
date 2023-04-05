@@ -142,9 +142,9 @@ const DiaryListModal: FC<PlayListModalProps> = props => {
     <>
       {type === 0 ? null : (
         <div
-          className={`left-[5%] right-[5%] md:left-[25%] md:right-[25%] top-[40%] min-w-[200px] rounded-md bg-slate-500 ${
+          className={`left-[5%] right-[5%] md:left-[25%] md:right-[25%] top-[30%] min-w-[200px] rounded-md bg-slate-500 ${
             type === 1 ? `` : ``
-          } ml-[0vw]  bg-opacity-80 fixed p-[2%] text-white z-[23] h-52 min-w-[240px]`}>
+          } ml-[0vw]  bg-opacity-80 fixed p-[2%] text-white z-[23] h-[240px + 2vw] min-w-[240px]`}>
           <p className={`text-xl font-bold`}>
             {' '}
             {type === 1 ? '플레이리스트 생성 ' : '일기장 모음 이름 수정 '}{' '}
@@ -197,7 +197,7 @@ const DiaryListModal: FC<PlayListModalProps> = props => {
                 </button>
               </div>
             ) : type == 2 ? (
-              <div className={`justify-center items-center flex flex-col h-20`}>
+              <div className={`justify-center items-center flex flex-col h-[240px+2vw]`}>
                 <form className={`w-full `}>
                   <label
                     className={`select-none p-3 w-full flex justify-between whitespace-nowrap items-center `}>

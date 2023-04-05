@@ -57,11 +57,13 @@ const Chat = ( {usersNickName, roomName} : ChatPropsInterFace) => {
   // 채팅 div
   const chatDiv = useRef<HTMLDivElement>(null);
   // 유저 프로필 데이터
-  const {nickname} = useAppSelector(state => {
+  const {nickname, profile_img_path} = useAppSelector(state => {
     return state.profile;
   });
+  // 내 이미지 주소
+
   // 상대방 이미지 주소 << 앞에 ..nickname에서 상대정보 요청해놧음
-  const {profile_img_path} = useAppSelector(state => state.userInfo);
+  // const {profile_img_path} = useAppSelector(state => state.userInfo);
   // 채팅메시지 데이터들
   const [messageDatas, setMessageDatas] = useState<any[]>([]);
   // 파일이미지 데이터
@@ -70,8 +72,7 @@ const Chat = ( {usersNickName, roomName} : ChatPropsInterFace) => {
 
   // 채팅 데이터들 가져오기
   const getContents = async () => {
-    // 유저 정보 요청
-    dispatch(profileAsync());
+
     // 우선 query로 데이터 가져오기 두번째 인자 where로 조건문도 가능
     const content = query(
       // 여기 중요.. 바로 router에서 가져와서 해야함.. 안그러니까 한박자 느리네
@@ -120,7 +121,8 @@ const Chat = ( {usersNickName, roomName} : ChatPropsInterFace) => {
       nickname: nickname,
       content: message,
       createdAt: serverTimestamp(),
-      downLoadUrl
+      downLoadUrl,
+      profilePath: profile_img_path
     });
 
     // 알림 데이터 체크위해 우선 가져옴
@@ -191,7 +193,9 @@ const Chat = ( {usersNickName, roomName} : ChatPropsInterFace) => {
 
   // 처음 실행하는 곳
   useEffect(() => {
-    getContents();
+    getContents();    
+    // 유저 정보 요청
+    dispatch(profileAsync());
 
     // // 상대 정보 요청
     // let userNick = undefined;
@@ -228,7 +232,7 @@ const Chat = ( {usersNickName, roomName} : ChatPropsInterFace) => {
       </Link>
       <div className="flex flex-col items-center justify-center w-full h-full bg-black rounded-lg bg-opacity-40">
         {/* 메시지들 보이는 곳 */}
-        <div ref={chatDiv} className="w-5/6 h-full overflow-y-auto">
+        <div ref={chatDiv} className="w-11/12 h-full overflow-y-auto">
           {/* 대화 시작 시간 */}
           <div className="flex items-center justify-center w-full pr-5 my-2 h-fit ">
             <span className="px-5 py-1 text-base text-center w-fit h-fit bg-slate-800 rounded-3xl">

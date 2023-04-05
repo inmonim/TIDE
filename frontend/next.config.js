@@ -17,12 +17,12 @@ module.exports = {
   async redirects() {
     return [
       {
-        source: "/",
-        destination: "/landing",
-        permanent: false,
+        source: '/',
+        destination: '/landing',
+        permanent: false
       }
-    ]
-  },
+    ];
+  }
   // async rewrites() {
   //   if (process.env.NODE_ENV === 'production') {
   //     return [

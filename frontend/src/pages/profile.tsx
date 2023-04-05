@@ -11,6 +11,7 @@ import Seo from 'src/components/Seo';
 import {followerListAsync} from 'store/api/features/followerListSlice';
 import {followListAsync} from 'store/api/features/followListSlice';
 import {diaryMineAsync} from 'store/api/features/diaryMineSlice';
+import { playListMineAsync } from 'store/api/features/playListMineSlice';
 
 function Profile() {
   const dispatch = useAppDispatch();
@@ -41,12 +42,23 @@ function Profile() {
     dispatch(followerListAsync());
     dispatch(followListAsync());
     dispatch(diaryMineAsync());
+    dispatch(playListMineAsync());
   }, []);
 
   const [FModalType, setFModalType] = useState<Number>(0);
   const getModalType = (type: Number) => {
     setFModalType(type);
   };
+
+  // true면 diary false면 playlist
+  const [dpChange,setdpChange] = useState<boolean>(true)
+
+
+  const {myplaylist} = useAppSelector(state => {
+    return state.playListMine;
+  });
+
+
   return (
     <>
       <Seo title={`Profile`} />
@@ -149,42 +161,62 @@ function Profile() {
           <div className={``}>
             {/* 영역 전환 텍스트 */}
             <div className={`flex flex-row gap-x-10 justify-center mb-2`}>
-              <h2 className="py-2 text-lg font-semibold text-center md:text-2xl">
-                Diary
-              </h2>
-              <h2 className="py-2 text-lg font-semibold text-center text-slate-600 md:text-2xl">
-                Playlist
-              </h2>
-            </div>
-
-            {/* 영역 부분 */}
-            <div className="w-[100%] h-[400px] border-t border-b pt-3 pb-3">
-              {diarys && diarys.length > 0 ? (
-                diarys.map((p, id) => (
-                  <Link href={`/diary/${id}`} className={` h-fit`}>
-                    <div
-                      className={`flex bg-slate-700 rounded-md w-[100%] h-[70px] p-[2%] items-center gap-x-2 bg-opacity-80 justify-between hover:bg-blue-500 duration-300`}>
-                      {`${p.title}`}
-                      <div></div>
-                    </div>
-                  </Link>
-                ))
-              ) : (
-                <div
-                  className={`w-full bg-slate-900 bg-opacity-60 text-center h-full items-center flex flex-row justify-center`}>
-                  <p> 아직 작성된 일기가 없습니다. </p>
-                </div>
-              )}
-            </div>
-          </div>
-
-          {/* 플리 */}
-          {/* <div>
-            <h2 className="py-2 text-lg font-semibold text-center md:text-2xl">
+            <h2 
+            className={`py-2 text-lg font-semibold text-center md:text-2xl ${dpChange?`text-white`:`text-slate-600 hover:text-slate-400`}`}
+            onClick={()=>setdpChange(true)}>
+              Diary
+            </h2>
+            <h2 className={`py-2 text-lg font-semibold text-center ${dpChange?`text-slate-600 hover:text-slate-400`:`text-white`} md:text-2xl`}
+            onClick={()=>setdpChange(false)}>
               Playlist
             </h2>
-          <div className="w-[100%] h-[300px] bg-red-400 "></div>
-          </div> */}
+            </div>
+            
+            {/* 영역 부분 */}
+            <div className="w-[100%] h-[400px] border-t border-b pt-3 pb-3 overflow-auto scrollbar-hide">
+
+            {dpChange?<>
+              {diarys && diarys.length >0 ? diarys.filter(function(c){ return c.pub==='0'; }).map((p, id) => (
+            <Link href={`/diary/${id}`} className={` h-fit`}>
+                <div className={` mb-2 flex bg-slate-700 rounded-md w-[100%] h-[70px] p-[2%] items-center gap-2 bg-opacity-80 justify-between hover:bg-blue-500 duration-300`}>
+                  {`${p.title}`}
+                <div>
+              </div>
+              </div>      
+            </Link>
+        )):
+        <div className={`w-full bg-slate-900 bg-opacity-60 text-center h-full items-center flex flex-row justify-center`}>
+          <p> 아직 작성된 일기가 없습니다. </p>
+        </div>
+        }  
+            </>:
+            <>
+            {myplaylist && myplaylist.length > 0 ? myplaylist.map((p, id) => (
+            <Link               
+            href={{
+              pathname: `/playlist/${id}`,
+              query: {
+                playlistTitle: p.playlistTitle,
+                isPublic:p.isPublic
+              }
+            }}
+            as={`/playlist/${id}`}
+            className={` h-fit`}>
+                <div className={`mb-2 flex bg-slate-700 rounded-md w-[100%] h-[70px] p-[2%] items-center gap-2 bg-opacity-80 justify-between hover:bg-blue-500 duration-300`}>
+                  {`${p.playlistTitle}`}
+                <div>
+              </div>
+              </div>      
+            </Link>
+            )):
+            <div className={`w-full bg-slate-900 bg-opacity-60 text-center h-full items-center flex flex-row justify-center`}>
+              <p> 플레이리스트가 없습니다. </p>
+            </div>
+             }  
+            </>   
+            }
+            </div>
+          </div>          
         </div>
       </main>
     </>

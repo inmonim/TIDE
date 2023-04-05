@@ -4,12 +4,18 @@ import axios from 'axios';
 // 타입
 interface nowmusicState {
   status: string;
-  videoId: string;
+  musicUrl: string;
+  albumImage: string;
+  musicTitle: string;
+  artistName: string;
 }
 // 초기값
 const initialState: nowmusicState = {
-  videoId: '',
-  status: ''
+  musicUrl: '',
+  status: '',
+  albumImage: '',
+  musicTitle: '',
+  artistName: ''
 };
 
 // createSlice로 Slice생성
@@ -18,7 +24,10 @@ export const nowmusicSlice = createSlice({
   initialState,
   reducers: {
     getvideoId(state, action) {
-      state.videoId = action.payload;
+      state.musicUrl = action.payload.musicUrl;
+      state.albumImage = action.payload.albumImage;
+      state.musicTitle = action.payload.musicTitle;
+      state.artistName = action.payload.artistName;
     }
   }
 });

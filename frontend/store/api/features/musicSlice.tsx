@@ -51,7 +51,7 @@ export const musicAsync = createAsyncThunk(
         email: getCookie('email')
       }
     });
-    console.log(data.data);
+    console.log(data.data, '여기뭐지');
     return data.data;
   }
 );

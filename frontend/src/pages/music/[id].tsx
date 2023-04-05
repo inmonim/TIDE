@@ -17,6 +17,7 @@ function Musicpage() {
   const [MyPlaylistModal, setMyPlaylistModal] = useState<Number>(0);
 
   const MusicId = router.query.id;
+
   const {
     musicId,
     musicTitle,
@@ -33,7 +34,7 @@ function Musicpage() {
     lyrics
   } = useAppSelector((state: any) => state.music);
 
-  console.log(MusicId, 'MusicId');
+  console.log(musicUrl, 'MusicId');
 
   const {myplaylist} = useAppSelector(state => {
     return state.playListMine;
@@ -51,7 +52,7 @@ function Musicpage() {
   }, [MusicId]);
 
   const playMusic = () => {
-    dispatch(getvideoId(musicUrl));
+    dispatch(getvideoId({musicUrl, albumImage, musicTitle, artistName}));
   };
 
   const handlePlaylistAdd = () => {

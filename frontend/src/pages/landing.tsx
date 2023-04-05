@@ -29,10 +29,6 @@ function LandingPage() {
 
   const router = useRouter();
 
-  const gotologin = () => {
-    router.replace('/login');
-  };
-
   return (
     <>
       <Head>
@@ -79,11 +75,11 @@ function LandingPage() {
             <p className="my-6 text-lg text-center text-white md:text-2xl">
               이미 계정이 있으신가요?
             </p>
-            <button
-              className="w-[200px] h-[50px] text-2xl text-center bg-blue-600 rounded-lg text-white cursor-pointer hover:bg-blue-500"
-              onClick={gotologin}>
-              로그인
-            </button>
+            <a href="/login">
+              <button className="w-[200px] h-[50px] text-2xl text-center bg-blue-600 rounded-lg text-white cursor-pointer hover:bg-blue-500">
+                로그인
+              </button>
+            </a>
           </div>
         </div>
 

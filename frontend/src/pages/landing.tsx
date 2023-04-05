@@ -6,6 +6,7 @@ import logo from 'public/images/Logo/TideLogoFinal.png';
 import landingImage1 from 'public/images/Landing/Tidelanding1.png';
 import landingImage2 from 'public/images/Landing/landingtest1.png';
 import Link from 'next/link';
+import {useRouter} from 'next/router';
 
 function LandingPage() {
   const firstDiv = useRef<HTMLDivElement>(null);
@@ -24,6 +25,12 @@ function LandingPage() {
         firstDiv.current?.scrollIntoView({behavior: 'smooth'});
       }, 600);
     }
+  };
+
+  const router = useRouter();
+
+  const gotologin = () => {
+    router.push('/login');
   };
 
   return (
@@ -72,11 +79,11 @@ function LandingPage() {
             <p className="my-6 text-lg text-center text-white md:text-2xl">
               이미 계정이 있으신가요?
             </p>
-            <Link href={`/login`}>
-              <button className="w-[200px] h-[50px] text-2xl text-center bg-blue-600 rounded-lg text-white cursor-pointer hover:bg-blue-500">
-                로그인
-              </button>
-            </Link>
+            <button
+              className="w-[200px] h-[50px] text-2xl text-center bg-blue-600 rounded-lg text-white cursor-pointer hover:bg-blue-500"
+              onClick={gotologin}>
+              로그인
+            </button>
           </div>
         </div>
 

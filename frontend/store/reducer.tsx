@@ -44,6 +44,7 @@ import diaryLikeCheckSlice from './api/features/diaryLikeCheckSlice';
 import alramSlice from './api/features/alramSlice';
 import diaryCreateSlice from './api/features/diaryCreateSlice';
 import barOpenSlice from './api/features/barOpenSlice';
+import artistSlice from './api/features/artistSlice';
 
 // 리듀서들을 합쳐주는곳
 const combinedReducer = combineReducers({
@@ -89,8 +90,9 @@ const combinedReducer = combineReducers({
   diaryLikeCheck: diaryLikeCheckSlice,
   alramStatus: alramSlice,
   playListSongAdd: playListSongAddSlice,
-  diaryCreate:diaryCreateSlice,
-  barOpen: barOpenSlice
+  diaryCreate: diaryCreateSlice,
+  barOpen: barOpenSlice,
+  artist: artistSlice
 });
 
 // Hydrate와 위에서 합친 reducer들을 rootReducer에 세팅

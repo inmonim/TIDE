@@ -161,21 +161,19 @@ function Musicpage() {
             </div>
           </div>
           <div className="w-[1500px]"></div>
-          <hr className="my-1 border-1 border-gray" />
+          <hr className="my-2 border-1 border-gray" />
           <div className="flex flex-row py-2 justify-evenly">
             <div className="flex flex-col items-center text-2xl font-semibold w-[500px]">
               좋아하는 유저들
               {/* 이 노래를 좋아하는 유저들 */}
-              <div className="flex justify-center w-full my-4 bg-red-600">
-                1
-              </div>
+              <div className="flex justify-center w-full my-4"></div>
             </div>
             <div className="flex flex-col items-center text-2xl font-semibold w-[500px]">
               노래 가사
               <div className="flex justify-center w-full h-[340px] my-4 overflow-auto scrollbar-hide">
                 <textarea
                   value={lyrics}
-                  className="overflow-auto  scrollbar-hide rounded-xl w-[500px] bg-slate-600 p-2"
+                  className="overflow-auto scrollbar-hide rounded-xl w-[500px] bg-slate-600 p-3"
                 />
               </div>
             </div>

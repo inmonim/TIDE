@@ -14,15 +14,15 @@ module.exports = {
       }
     ]
   },
-  // async redirects() {
-  //   return [
-  //     {
-  //       source: "/",
-  //       destination: "/mainpage",
-  //       permanent: false,
-  //     }
-  //   ]
-  // },
+  async redirects() {
+    return [
+      {
+        source: "/",
+        destination: "/login",
+        permanent: false,
+      }
+    ]
+  },
   // async rewrites() {
   //   if (process.env.NODE_ENV === 'production') {
   //     return [

@@ -9,6 +9,7 @@ import {getvideoId} from 'store/api/features/nowmusicSlice';
 import {playListSongAddAsync} from 'store/api/features/playListSongAddSlice';
 import MyPlaylist from '@/components/Modal/MyPlaylist';
 import {playListMineAsync} from 'store/api/features/playListMineSlice';
+import defaultImg from 'public/images/Logo/whiteLogo.png';
 
 function Musicpage() {
   const router = useRouter();
@@ -49,7 +50,6 @@ function Musicpage() {
     if (MusicId) {
       dispatch(musicAsync(MusicId));
     }
-    
   }, [MusicId]);
 
   const playMusic = () => {
@@ -111,7 +111,7 @@ function Musicpage() {
           <div className="flex flex-row justify-center">
             {albumImage ? (
               <img
-                className="w-[300px] h-[300px] rounded-full border-4 md:w-[350px] md:h-[350px] animate-[spin_10s_linear_infinite] pause hover:running"
+                className="w-[300px] h-[300px] rounded-full border-4 md:w-[350px] md:h-[350px] animate-[spin_50s_linear_infinite] "
                 src={albumImage}
                 alt="album_image"
               />
@@ -119,8 +119,10 @@ function Musicpage() {
 
             {/* 노래 제목, 출시일, 아티스트 이름 */}
             <div className="flex flex-col ml-10">
-              <div className="flex flex-row items-center">
-                <h1 className="text-[50px] font-bold">{musicTitle}</h1>
+              <div className="flex flex-row items-center md:w-[800px]">
+                <h1 className="md:w-[300px] md:text-[30px] font-bold">
+                  {musicTitle}
+                </h1>
                 {/* 노래 플레이 버튼 */}
                 <div className="flex mt-4">
                   <img
@@ -130,20 +132,26 @@ function Musicpage() {
                     alt="playbutton"></img>
                   <HeartButton songId={MusicId} />
                   <div
-                    className="flex items-center mx-4 text-2xl"
+                    className="flex items-center mx-6 text-2xl"
                     onClick={openPlaylistModal}>
                     Playlist 추가
                   </div>
                 </div>
               </div>
               <p className="ml-2 text-2xl font-semibold">{releaseYear}</p>
+              {/* 아티스트 이미지 섹션 */}
               <div className="flex flex-col items-center mr-32">
-                <img
-                  className="w-[100px] h-[100px] mt-8 rounded-full border-4 border-white md:w-[180px] md:h-[180px] hover:cursor-pointer hover:opacity-80"
-                  src={artistImage}
-                  alt="artistImage"
-                  onClick={gotoartistpage}
-                />
+                {artistImage ? (
+                  <img
+                    className="w-[100px] h-[100px] mt-8 rounded-full border-4 border-white md:w-[180px] md:h-[180px] hover:cursor-pointer hover:opacity-80"
+                    src={artistImage}
+                    alt="artistImage"
+                    onClick={gotoartistpage}
+                  />
+                ) : (
+                  <Image src={defaultImg} alt="default-artist" />
+                )}
+
                 <p
                   className="flex flex-row my-2 text-xl font-semibold hover:cursor-pointer hover:opacity-80"
                   onClick={gotoartistpage}>

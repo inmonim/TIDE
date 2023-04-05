@@ -7,7 +7,7 @@ export function middleware(request: NextRequest) {
   // token 확인후 로그인 페이지로 리다이렉트
 
   if (!token && request.nextUrl.pathname.startsWith('/mainpage')) {
-    return NextResponse.redirect(new URL('/landing', request.url));
+    return NextResponse.redirect(new URL('/login', request.url));
   }
   if (!token && request.nextUrl.pathname.startsWith('/diary')) {
     return NextResponse.redirect(new URL('/login', request.url));
@@ -38,6 +38,8 @@ export function middleware(request: NextRequest) {
   if (token && request.nextUrl.pathname.startsWith('/login')) {
     return NextResponse.redirect(new URL('/mainpage', request.url));
   }
+  
+  
   if (token && request.nextUrl.pathname.startsWith('/landing')) {
     return NextResponse.redirect(new URL('/mainpage', request.url));
   }

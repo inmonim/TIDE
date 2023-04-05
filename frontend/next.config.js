@@ -18,7 +18,7 @@ module.exports = {
     return [
       {
         source: "/",
-        destination: "/mainpage",
+        destination: "/landing",
         permanent: false,
       }
     ]

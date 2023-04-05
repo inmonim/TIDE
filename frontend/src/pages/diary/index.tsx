@@ -19,7 +19,7 @@ interface diaryInterFace {
 }
 
 
-export default function Diary({match}) {
+export default function Diary() {
 
   const [DiaryListType, setDiaryListType] = useState<Number>(0);
 

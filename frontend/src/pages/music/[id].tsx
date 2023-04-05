@@ -50,7 +50,6 @@ function Musicpage() {
     if (MusicId) {
       dispatch(musicAsync(MusicId));
     }
-    
   }, [MusicId]);
 
   const playMusic = () => {
@@ -112,7 +111,7 @@ function Musicpage() {
           <div className="flex flex-row justify-center">
             {albumImage ? (
               <img
-                className="w-[300px] h-[300px] rounded-full border-4 md:w-[350px] md:h-[350px] animate-[spin_10s_linear_infinite] pause hover:running"
+                className="w-[300px] h-[300px] rounded-full border-4 md:w-[350px] md:h-[350px] animate-[spin_50s_linear_infinite] "
                 src={albumImage}
                 alt="album_image"
               />

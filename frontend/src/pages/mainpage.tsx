@@ -9,6 +9,7 @@ import {getCookie} from 'cookies-next';
 import cookie from 'react-cookies';
 import {useAppDispatch, useAppSelector} from 'store';
 import {profileAsync} from 'store/api/features/profileSlice';
+import {likeTopSixAsync} from 'store/api/features/likeTopSixSlice';
 
 interface playlists {
   id: number;
@@ -74,6 +75,15 @@ function Mainpage() {
     const newIndex = isLastSlide ? 0 : currentIndex + 1;
     setCurrentIndex(newIndex);
   };
+
+  const topArtists = useAppSelector(state => {
+    return state.likeTopSix.topArtist;
+  });
+
+  useEffect(() => {
+    dispatch(likeTopSixAsync());
+  }, []);
+  console.log(topArtists, 'test');
 
   // 더미 플레이리스트
   useEffect(() => {

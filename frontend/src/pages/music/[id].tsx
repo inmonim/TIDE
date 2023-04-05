@@ -10,6 +10,8 @@ import {playListSongAddAsync} from 'store/api/features/playListSongAddSlice';
 import MyPlaylist from '@/components/Modal/MyPlaylist';
 import {playListMineAsync} from 'store/api/features/playListMineSlice';
 import defaultImg from 'public/images/Logo/whiteLogo.png';
+import MusicEmotion from '@/components/MusicEmotion';
+import {EmotionsItem} from '@/components/EmotionsItem';
 
 function Musicpage() {
   const router = useRouter();
@@ -36,6 +38,9 @@ function Musicpage() {
   } = useAppSelector((state: any) => state.music);
 
   // console.log(MusicId, 'MusicId');
+
+  const Emotions = EmotionsItem;
+  // console.log(Emotions, 'Emotions');
 
   const {myplaylist} = useAppSelector(state => {
     return state.playListMine;
@@ -163,17 +168,19 @@ function Musicpage() {
           <div className="w-[1500px]"></div>
           <hr className="my-2 border-1 border-gray" />
           <div className="flex flex-row py-2 justify-evenly">
+            {/* 이하 노래 감정 설문 */}
             <div className="flex flex-col items-center text-2xl font-semibold w-[500px]">
-              좋아하는 유저들
-              {/* 이 노래를 좋아하는 유저들 */}
-              <div className="flex justify-center w-full my-4"></div>
+              이 노래에는 어떤 감정이 느껴지나요?
+              <div className="flex justify-center w-full my-4 bg-slate-600 border-2 rounded-xl">
+                <MusicEmotion emotions={Emotions} />
+              </div>
             </div>
             <div className="flex flex-col items-center text-2xl font-semibold w-[500px]">
               노래 가사
               <div className="flex justify-center w-full h-[340px] my-4 overflow-auto scrollbar-hide">
                 <textarea
                   value={lyrics}
-                  className="overflow-auto scrollbar-hide rounded-xl w-[500px] bg-slate-600 p-3"
+                  className="overflow-auto scrollbar-hide rounded-xl w-[500px] bg-slate-600 border-2 p-3"
                 />
               </div>
             </div>

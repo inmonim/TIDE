@@ -4,11 +4,11 @@ import {useAppDispatch, useAppSelector} from 'store'; //스토어 생성단계�
 import logoUrl from 'public/images/Logo/TideLogoFinal.png';
 import {motion} from 'framer-motion';
 import Link from 'next/link';
-import {loginAsync} from 'store/api/features/loginSlice';
+import {loginAsync, initStatus} from 'store/api/features/loginSlice';
 import {useRouter} from 'next/router';
 import {setToken} from '@/components/TokenManager';
 import {toast} from 'react-toastify';
-import {initStatus} from 'store/api/features/signUpSlice';
+import {initStatusSignUp} from 'store/api/features/signUpSlice';
 import { profileAsync } from 'store/api/features/profileSlice';
 
 interface LoginInterFace {
@@ -34,12 +34,11 @@ const login = () => {
   useEffect(() => {
     switch (status) {
       case 'completed':
+        toast.success('로그인 성공');
+        setToken(token, email);
         router.push({
           pathname: `/mainpage`
         });
-        toast.success('로그인 성공');
-        setToken(token, email);
-        router.reload();
         break;
       case 'failed':
         toast.error('로그인 실패');
@@ -47,6 +46,7 @@ const login = () => {
     }
     // status값 init
     dispatch(initStatus());
+    dispatch(initStatusSignUp());
   }, [status]);
 
   //input에 입력될 때마다 loginAccount state값 변경되게 하는 함수

@@ -11,6 +11,8 @@ import {useAppDispatch, useAppSelector} from 'store';
 import {musicsearchAsync} from 'store/api/features/musicsearchSlice';
 import {alramOff} from 'store/api/features/alramSlice';
 import { barOne, barTwo, barZero } from 'store/api/features/barOpenSlice';
+import { initStatus } from 'store/api/features/loginSlice';
+import { initStatusSignUp } from 'store/api/features/signUpSlice';
 
 export type SideBarProps = {
   isPlaying: boolean;
@@ -50,6 +52,8 @@ const SideBar: FC<SideBarProps> = props => {
     deleteCookie('nickname');
     deleteCookie('email');
     deleteCookie('profile_img_path');
+    dispatch(initStatus());
+    dispatch(initStatusSignUp());
     router.reload();
   };
   return (

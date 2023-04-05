@@ -58,11 +58,11 @@ export const playListSongAddSlice = createSlice({
         const {songId, playlistId} = action.payload;
         state.songId = songId;
         state.playlistId = playlistId;
-        // console.log('플레이리스트 생성 성공')
+        console.log('플레이리스트 음악 추가 성공');
       })
       .addCase(playListSongAddAsync.rejected, (state, action) => {
         state.status = 'failed';
-        // console.log('플레이리스트 생성 실패')
+        console.log('플레이리스트 음악 추가 실패');
       });
   }
 });

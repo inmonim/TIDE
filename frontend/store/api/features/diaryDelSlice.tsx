@@ -9,9 +9,6 @@ interface DiaryDelState {
   error: string | undefined;
 }
 
-interface DiaryDelProps {
-  diaryId:string;
-}
 
 // 초기값
 const initialState: DiaryDelState = {
@@ -24,7 +21,7 @@ const initialState: DiaryDelState = {
 // Thunk 예시
 export const diaryDelAsync = createAsyncThunk(
   'diaryDel/Async',
-  async ({diaryId}: DiaryDelProps) => {
+  async (diaryId: number) => {
     const accessToken = getCookie('accessToken');
     const data = await axios({
       method: 'delete',

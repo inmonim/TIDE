@@ -10,9 +10,9 @@ import {useRouter} from 'next/router';
 import {useAppDispatch, useAppSelector} from 'store';
 import {musicsearchAsync} from 'store/api/features/musicsearchSlice';
 import {alramOff} from 'store/api/features/alramSlice';
-import { barOne, barTwo, barZero } from 'store/api/features/barOpenSlice';
-import { initStatus } from 'store/api/features/loginSlice';
-import { initStatusSignUp } from 'store/api/features/signUpSlice';
+import {barOne, barTwo, barZero} from 'store/api/features/barOpenSlice';
+import {initStatus} from 'store/api/features/loginSlice';
+import {initStatusSignUp} from 'store/api/features/signUpSlice';
 
 export type SideBarProps = {
   isPlaying: boolean;
@@ -89,7 +89,10 @@ const SideBar: FC<SideBarProps> = props => {
                 value &&
                 `drop-shadow-[0_0_5px_#8da0ff] animate-[ring_3s_infinite]`
               }`}
-              onClick={() => (BarOpen === 1 ? dispatch(barZero()) : dispatch(barOne()))}>
+              onClick={() => {
+                dispatch(alramOff());
+                BarOpen === 1 ? dispatch(barZero()) : dispatch(barOne());
+              }}>
               {' '}
             </div>
             <div

@@ -114,8 +114,8 @@ function Messages() {
             className={`${
               router.pathname === '/message' ? `hidden` : ''
             } w-full md:w-3/4 md:block`}>
-            {/* <Chat data={propsData} /> */}
-            <Chat usersNickName={usersNickName} roomName={roomName} />
+            <Chat data={propsData} />
+            {/* <Chat usersNickName={usersNickName} roomName={roomName} /> */}
           </div>
         </main>
       )}

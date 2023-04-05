@@ -46,7 +46,7 @@ export const loginSlice = createSlice({
   initialState,
   reducers: {
     initStatus(state) {
-      state.status = 'loading';
+      state.status = '';
     }
   },
   // 비동기 처리를 위한 redux-thunk사용 extraReducers
@@ -67,5 +67,5 @@ export const loginSlice = createSlice({
       });
   }
 });
-
+export const {initStatus} = loginSlice.actions;
 export default loginSlice.reducer;

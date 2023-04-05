@@ -64,10 +64,6 @@ const Chat = ( {usersNickName, roomName} : ChatPropsInterFace) => {
   const {profile_img_path} = useAppSelector(state => state.userInfo);
   // 채팅메시지 데이터들
   const [messageDatas, setMessageDatas] = useState<any[]>([]);
-  // // 시간 계산
-  // const hourTime = useRef<number>((Math.floor(Date.now()/1000) - messageDatas[0]?.startTime.seconds)/3600);
-  // // 시간 세팅
-  // const [currentTime, setCurrentTime] = useState<any>("");
   // 파일이미지 데이터
   const [fileUpload, setFileUpload] = useState<string>('');
   const fileInput = useRef<HTMLInputElement>(null);

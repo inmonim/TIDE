@@ -75,22 +75,6 @@ function Mainpage() {
     setCurrentIndex(newIndex);
   };
 
-  // 플레이 리스트 받아 오기
-  // useEffect(() => {
-  //   const Token = getCookie();
-  //   const Email = localStorage.getItem('email');
-  //   async function getPlaylists() {
-  //     try {
-  //       const response = await axios.get(url, {
-  //         // email 대문자인지 소문자 인지 나중에 확인
-  //         headers: {Authorization: Token, Email: Email}
-  //       });
-  //       setPlaylists(response.data);
-  //     } catch (error) {}
-  //   }
-  //   getPlaylists();
-  // }, []);
-
   // 더미 플레이리스트
   useEffect(() => {
     // 내 프로필정보 요청
@@ -235,11 +219,15 @@ function Mainpage() {
           {/* 오늘의 일기들 인기순 */}
           <div className={`mt-5`}>
             <div className={`flex  items-center justify-between`}>
-            <h2 className="mb-4 text-2xl font-semibold">Daily hot Diary</h2>
-            
-            <Link href={`/diary-public`}>
-              <button className={`border pl-2 pr-2 rounded-xl bg-slate-700 hover:bg-blue-400 duration-300`}> 모든 일기 보러가기</button>
-            </Link>
+              <h2 className="mb-4 text-2xl font-semibold">Daily hot Diary</h2>
+
+              <Link href={`/diary-public`}>
+                <button
+                  className={`border pl-2 pr-2 rounded-xl bg-slate-700 hover:bg-blue-400 duration-300`}>
+                  {' '}
+                  모든 일기 보러가기
+                </button>
+              </Link>
             </div>
 
             <div

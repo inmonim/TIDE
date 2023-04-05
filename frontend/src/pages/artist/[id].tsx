@@ -6,24 +6,11 @@ function Artist() {
 
   const ArtistId = router.query.id;
 
-  const ArtistInfo = {
-    '1': {
-      name: 'BTS',
-      image:
-        'https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/BTS_Wings_Tour_in_Seoul.jpg/220px-BTS_Wings_Tour_in_Seoul.jpg'
-    },
-    '2': {
-      name: 'BLACKPINK',
-      image:
-        'https://images.samsung.com/is/image/samsung/ph-feature-galaxy-a80-blackpink-176630227?$ORIGIN_JPG$'
-    }
-  };
-
   return (
     <div>
       <Head>
         <title>{router.query.name}</title>
-        <link rel="icon" href="/favicon.png" />
+        <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className="">
         {/* <h1 className="text-center text-white">{router.query.id}</h1> */}

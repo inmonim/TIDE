@@ -44,29 +44,6 @@ export default function userDetail() {
     }
   },[Nick])
 
-    const {followers} = useAppSelector(state => {
-      return state.userFollower;
-    });
-  
-    const {follows} = useAppSelector(state => {
-      return state.userFollow;
-    });
-
-    const {diarys} = useAppSelector(state => {
-      return state.userDiary;
-    });
-
-    const {playlists} = useAppSelector(state => {
-      return state.userPlayList;
-    });
-
-    // 요청 후 값 받아오기
-    const {nickname, profile_img_path, introduce} = useAppSelector(state => {
-      // console.log(state.profile, 333);
-      return state.userInfo;
-    });
-    
-
     const [FModalType,setFModalType] = useState<Number>(0);
 
   //팔로우 요청 form 제출
@@ -88,12 +65,38 @@ export default function userDetail() {
   };
 
 
+  const {followers} = useAppSelector(state => {
+    return state.userFollower;
+  });
+
+  const {follows} = useAppSelector(state => {
+    return state.userFollow;
+  });
+
+  const {diarys} = useAppSelector(state => {
+    return state.userDiary;
+  });
+
+  const {playlists} = useAppSelector(state => {
+    return state.userPlayList;
+  });
+
+  // 요청 후 값 받아오기
+  const {nickname, profile_img_path, introduce} = useAppSelector(state => {
+    // console.log(state.profile, 333);
+    return state.userInfo;
+  });
+  
+
+  
+
   // 메시지 방 생성
   const onSendMessage = async () => {
     const otherNickname =  router.query.nickname;
     await enterChat(router, otherNickname, profile_img_path);
   };
 
+  // 본인이면 프로필로 리다이렉트
   useEffect(() => {
     setNick({nickname: `${router.query.nickname}`});
     if(getCookie('nickname') === router.query.nickname)

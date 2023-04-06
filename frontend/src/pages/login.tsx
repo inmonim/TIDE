@@ -49,10 +49,6 @@ const login = () => {
     dispatch(initStatusSignUp());
   }, [status]);
 
-  useEffect(() => {
-    
-  }, []);
-
   //input에 입력될 때마다 loginAccount state값 변경되게 하는 함수
   const onChangeAccount = (
     event: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>

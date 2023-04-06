@@ -36,6 +36,7 @@ const MusicBar: FC<MusicBarProps> = props => {
     setSrc(`https://www.youtube.com/watch?v=${musicplay.videoId}`);
 
     setInit(true);
+    
   }, [musicplay]);
 
   // 재생바에 마우스 올리면 거기까지 .... 시간과 바를 땡겨보여줌
@@ -105,24 +106,25 @@ const MusicBar: FC<MusicBarProps> = props => {
     setPlaying(prev => !prev);
   };
 
-  // 최초 실행 시 fullplaytime 가져오기
+
   useEffect(() => {
-    if (youtube.current && Number.isNaN(fullplaytime)) {
-      const fullSet = setInterval(() => {
-        setFullPlaytime(parseInt(youtube.current.getDuration()));
-        if (playbarRef.current) playbarRef.current.value = '0';
-      }, 100);
-      return () => clearInterval(fullSet);
+    if (init && playMaybarRef.current) {
+      playbarRef.current.value = 0
     }
-  }, [init, fullplaytime]);
+  }, [playing]);
+
+
+
+
   const dispatch = useAppDispatch();
+
   
   return (
     <>
       <div
         className={`fixed bottom-0 z-10 w-screen md:mx-auto overflow-auto ${styles.navBgDiv}`}>
         <nav>
-          <div className="px-4">
+          <div className="px-4 select-none">
             <div className="flex justify-center">
               <div
                 className={`flex flex-row items-center m-2 ${styles.navSection}`}>
@@ -208,8 +210,13 @@ const MusicBar: FC<MusicBarProps> = props => {
                     <ReactPlayer
                       ref={youtube}
                       playing={playing}
-                      loop={true}
+                      loop={musicplay.plType===0?true:false}
                       url={src}
+                      onReady={()=>{setFullPlaytime(parseInt(youtube.current.getDuration()))}}
+                      onEnded={()=> 
+                        {
+                          dispatch(changeNextSong())
+                        }}
                       style={{display: 'none'}}
                     />
                   )}

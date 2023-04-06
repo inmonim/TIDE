@@ -151,7 +151,7 @@ const MusicBar: FC<MusicBarProps> = props => {
                         </p>
                       </div>
                     ) : (
-                      <p className="font-mono font-semibold text-1">
+                      <p className="font-mono text-sm font-semibold select-none">
                         재생할 음악을 선택해 주세요
                       </p>
                     )}

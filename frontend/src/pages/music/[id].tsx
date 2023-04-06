@@ -19,6 +19,9 @@ function Musicpage() {
 
   const [MyPlaylistModal, setMyPlaylistModal] = useState<Number>(0);
 
+  const getMyPlaylistModal = (type: Number) => {
+    setMyPlaylistModal(type);
+  };
   const MusicId = router.query.id;
 
   const {
@@ -94,6 +97,7 @@ function Musicpage() {
         }}></div>
       {MusicId && (
         <MyPlaylist
+          getMyPlaylistModal={getMyPlaylistModal}
           type={MyPlaylistModal}
           isMe={true}
           list={myplaylist}

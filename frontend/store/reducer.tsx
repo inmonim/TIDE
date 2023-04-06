@@ -47,6 +47,7 @@ import barOpenSlice from './api/features/barOpenSlice';
 import artistSlice from './api/features/artistSlice';
 import diaryListInputSlice from './api/features/diaryListInputSlice';
 import likeTopSixSlice from './api/features/likeTopSixSlice';
+import diaryPublicUpdateSlice from './api/features/diaryPublicUpdateSlice';
 import artistLikeSlice from './api/features/artistLikeSlice';
 
 // 리듀서들을 합쳐주는곳
@@ -98,6 +99,7 @@ const combinedReducer = combineReducers({
   artist: artistSlice,
   diaryListInput: diaryListInputSlice,
   likeTopSix: likeTopSixSlice,
+  diaryPublic: diaryPublicUpdateSlice,
   artistLike: artistLikeSlice
 });
 

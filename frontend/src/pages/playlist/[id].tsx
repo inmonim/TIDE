@@ -5,7 +5,7 @@ import {useAppDispatch, useAppSelector} from 'store';
 import {playListDetailAsync} from 'store/api/features/playListDetailSlice';
 import {FC, useEffect, useState} from 'react';
 import PlayListModal from '@/components/Modal/PlayListModal';
-import {playListDelAsync} from 'store/api/features/playListDelSlice';
+import {playListDelAsync, playListDelinitStatus} from 'store/api/features/playListDelSlice';
 import {playListLikeAsync} from 'store/api/features/playListLikeSlice';
 import {playListLikeCheckAsync} from 'store/api/features/playListLikeCheckSlice';
 import Image from 'next/image';
@@ -15,6 +15,7 @@ import { playListMusicDelAsync } from 'store/api/features/playListMusicDelSlice'
 import { playListAllDetailAsync, playListAllDetailinitStatus } from 'store/api/features/playListAllDetailSlice';
 import { getCookie } from 'cookies-next';
 import { getPlayList, getPlayListRandom } from 'store/api/features/nowmusicSlice';
+import { toast } from 'react-toastify';
 
 export type PlayListProps = {
   playlistTitle: string;
@@ -101,14 +102,33 @@ const PlayListDetail: FC<PlayListProps> = props => {
 
   const musicDel = (songId:Number) => {
     dispatch(playListMusicDelAsync({songId:songId, playlistId:playListId}))
-    dispatch(playListAllDetailAsync({playListId:plDetail.playlistId}))
-    router.push({
-      pathname: `/playlist/${plDetail.playlistId}`,
-      query: {
-        slug: 0
-      }
-    });
+    // router.reload();
+    // router.replace({
+    //   pathname: `/playlist`,
+    // });
   };
+
+  const {status} = useAppSelector(state => {
+    return state.playListMusicDel;
+  });
+
+  useEffect(()=>{
+    switch (status) {
+      case 'completed':
+        toast.success('음악 삭제 성공');
+        // dispatch(diaryListCreateinitStatus())
+
+        router.push({
+        pathname: `/playlist/${plDetail.playlistId}`,
+        });
+        break;
+      case 'failed':
+        toast.error('음악 삭제 실패');
+        // dispatch(diaryListCreateinitStatus())
+        break;
+      dispatch(playListDelinitStatus());
+    }
+  },[status])
 
   const handleClick =
   (songIds: number) => (event: React.MouseEvent<HTMLDivElement>) => {
@@ -198,7 +218,7 @@ const PlayListDetail: FC<PlayListProps> = props => {
 
           </div>
           {playListSongs && playListSongs.length > 0
-            ? playListSongs.map((song, songId) => (
+            ? playListSongs.map((song, id) => (
               <>
                 <div 
                 onClick={handleClick(song.songId)}
@@ -217,9 +237,9 @@ const PlayListDetail: FC<PlayListProps> = props => {
                <button 
                onClick={()=>{
                 musicDel(song.songId)
-                
+                playListSongs.filter(o => o.songId !== song.songId);
               }}
-               className={`mt-[calc(-90px)] ml-[70px] w-5 h-5 border rounded-[50%] bg-red-900 bg-opacity-70 hover:bg-red-400 z-[2] absolute`}> ❌ </button>
+               className={`mt-[calc(-100px)] ml-[70px] w-6 h-6 border rounded-[50%] bg-red-900 bg-opacity-70 hover:bg-red-400 z-[2] absolute focus:bg-black`}> ❌ </button>
                :
                     null
                }

@@ -103,11 +103,11 @@ export default function DiaryCreate() {
         <form
           className={`mt-5 w-full gap-x-2 grid md:grid-cols-[5fr_1fr] items-center`}>
           <label className="flex">
-            <p className={`mr-2 text-lg whitespace-nowrap mt-1`}> 일기 제목</p>
+            <p className={`mr-3 text-base whitespace-nowrap mt-1`}>일기 제목</p>
             <input
               ref={diaryTitleRef}
               type="text"
-              className={`rounded-lg w-full min-w-[150px] h-[36px] text-black`}
+              className={`rounded-lg w-full min-w-[150px] h-[36px] text-black px-2`}
             />
           </label>
           <div className="flex items-center w-full pb-1 mt-2 text-center md:mt-0">

@@ -12,6 +12,7 @@ import {playListMineAsync} from 'store/api/features/playListMineSlice';
 import defaultImg from 'public/images/Logo/whiteLogo.png';
 import MusicEmotion from '@/components/MusicEmotion';
 import {EmotionsItem} from '@/components/EmotionsItem';
+import {userIdAsync} from 'store/api/features/userIdSlice';
 
 function Musicpage() {
   const router = useRouter();
@@ -48,6 +49,16 @@ function Musicpage() {
   const {myplaylist} = useAppSelector(state => {
     return state.playListMine;
   });
+
+  const {userId} = useAppSelector(state => {
+    return state.userId;
+  });
+
+  useEffect(() => {
+    dispatch(userIdAsync());
+  }, []);
+
+  console.log(userId, 'userId');
 
   useEffect(() => {
     dispatch(playListMineAsync());
@@ -139,7 +150,7 @@ function Musicpage() {
                     onClick={playMusic}
                     src="/buttons/playbutton.png"
                     alt="playbutton"></img>
-                  <HeartButton songId={MusicId} />
+                  {MusicId && <HeartButton songId={MusicId} />}
                   <button
                     className="flex items-center p-1 mx-2 text-xs border-2 rounded-lg md:p-2 md:mx-6 md:text-xl"
                     onClick={openPlaylistModal}>

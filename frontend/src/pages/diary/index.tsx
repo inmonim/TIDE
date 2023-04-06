@@ -9,13 +9,17 @@ import DiaryListModal from '@/components/Modal/DiaryListModal'
 import { query } from 'express';
 
 interface diaryInterFace {
-  id:number,
+  id:number;
   nickname: string;
-  title: string,
-  content: string,
-  createDt: string,
-  pub:string,
-  like:number
+  title: string;
+  content: string;
+  createDt: string;
+  pub:string;
+  like:number;
+  albumImgPath:string;
+  artist:string[];
+  musicTitle: string;
+  songId:number;
 }
 
 
@@ -266,26 +270,32 @@ export default function Diary() {
         <div className={styles.diarySection}>
           <div className={`${styles.caroselWrapper} ${(mdiarys&&mdiarys.length>1)?`grid-cols-2 md86:mt-4`:`grid-cols-1`}`} ref={caroselDivRef}>
             {mdiarys && mdiarys.length >0 ? mdiarys.map((diary, id) => (
-              <Link href={`/diary/${id}`}>
-              <div className={styles.caroselItem} key={id}>
+              <Link href={`/diary/${diary.id}`}>
+              <div className={styles.caroselItem} key={diary.id}>
                 <div className={`${styles.caroselDiary} min-w-[230px] max-w-[230px] p-[24px]`}>
                   <h3 className="text-2xl font-bold">
-                    {id} : {diary.title}
+                    {diary.title}
                   </h3>
                   <p> {diary.createDt}</p>
                   <p> {diary.nickname}</p>
                   <br />
                   <div dangerouslySetInnerHTML={{ __html: diary.content }} />
                 </div>
-                <div className={`${styles.caroselMusic} min-w-[230px] max-w-[230px]`}>
-                  <div className={`bg-[url('https://image.bugsm.co.kr/album/images/130/40780/4078016.jpg')] bg-no-repeat bg-cover animate-[spin_5s_linear_infinite] pause hover:running ${styles.cdBG}`}>
+                <div className={`${styles.caroselMusic} min-w-[230px] max-w-[230px] min-h-[380px]`}>
+                  <div 
+                  style={{
+                    background: `url(${diary.albumImgPath})`
+                  }}
+                  className={`bg-[url('https://image.bugsm.co.kr/album/images/130/40780/4078016.jpg')] bg-no-repeat bg-cover animate-[spin_5s_linear_infinite] pause hover:running ${styles.cdBG}`}>
                   </div>
-                  <h3 className="text-2xl font-bold"> 음악 제목</h3>
-                  <p> 아티스트 이름</p>
-
+                  <div>
+                  <h3 className="text-2xl font-bold"> {diary.musicTitle}</h3>
+                  <p> {diary.artist}</p>
+                  </div>
+{/* 
                   <div className={styles.musicBar}></div>
 
-                  <div className={styles.musicUIBar}></div>
+                  <div className={styles.musicUIBar}></div> */}
                 </div>
               </div>
               </Link>

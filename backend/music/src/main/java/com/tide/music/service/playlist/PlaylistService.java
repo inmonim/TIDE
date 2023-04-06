@@ -3,6 +3,7 @@ package com.tide.music.service.playlist;
 import com.tide.music.request.RequestPlaylist;
 import com.tide.music.request.RequestPlaylistId;
 import com.tide.music.request.RequestPlaylistInfo;
+import com.tide.music.response.ResponseListSong;
 import com.tide.music.response.ResponsePlaylist;
 import com.tide.music.response.ResponseSearchSong;
 
@@ -25,7 +26,7 @@ public interface PlaylistService {
 
     List<ResponsePlaylist> getPlaylists(String email, String nickname);
 
-    List<ResponseSearchSong> getPlaylistInfo(String email, Long playlistId);
+    List<ResponseListSong> getPlaylistInfo(String email, Long playlistId);
 
     List<ResponsePlaylist> getTopPlaylists();
 

@@ -4,6 +4,7 @@ import com.tide.music.request.RequestNickname;
 import com.tide.music.request.RequestPlaylist;
 import com.tide.music.request.RequestPlaylistId;
 import com.tide.music.request.RequestPlaylistInfo;
+import com.tide.music.response.ResponseListSong;
 import com.tide.music.response.ResponsePlaylist;
 import com.tide.music.response.ResponseSearchSong;
 import com.tide.music.service.playlist.PlaylistService;
@@ -58,8 +59,8 @@ public class PlaylistController {
 
     // 플레이리스트 상세 조회
     @GetMapping("/playlist/{playlistId}")
-    public List<ResponseSearchSong> getPlaylistInfo(@RequestHeader("email") String email,
-                                                    @PathVariable("playlistId") Long playlistId) {
+    public List<ResponseListSong> getPlaylistInfo(@RequestHeader("email") String email,
+                                                  @PathVariable("playlistId") Long playlistId) {
         return playListService.getPlaylistInfo(email, playlistId);
     }
 

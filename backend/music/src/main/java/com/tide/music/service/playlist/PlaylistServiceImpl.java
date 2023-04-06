@@ -20,6 +20,7 @@ import com.tide.music.jpa.userplaylist.UserPlaylist;
 import com.tide.music.jpa.userplaylist.UserPlaylistRepository;
 import com.tide.music.request.RequestPlaylist;
 import com.tide.music.request.RequestPlaylistInfo;
+import com.tide.music.response.ResponseListSong;
 import com.tide.music.response.ResponsePlaylist;
 import com.tide.music.response.ResponseSearchSong;
 import lombok.extern.slf4j.Slf4j;
@@ -103,32 +104,33 @@ public class PlaylistServiceImpl implements PlaylistService {
 
     @Override
     @Transactional
-    public List<ResponseSearchSong> getPlaylistInfo(String email, Long playlistId) {
+    public List<ResponseListSong> getPlaylistInfo(String email, Long playlistId) {
         List<PlaylistSong> playlistsongs = playlistSongRepository.findAllByPlaylistId(playlistId);
         List<Song> songs = new ArrayList<>();
         for (PlaylistSong playlistSong : playlistsongs) {
             songs.add(songRepository.findBySongId(playlistSong.getSongId()));
         }
-        List<ResponseSearchSong> responseSearchSongList = new ArrayList<>();
+        List<ResponseListSong> responseSearchSongList = new ArrayList<>();
         for (Song song : songs) {
-            ResponseSearchSong responseSearchSong = new ResponseSearchSong();
+            ResponseListSong responseListSong = new ResponseListSong();
             SongAlbum songAlbum = songAlbumRepository.findBySongId(song.getSongId());
+            responseListSong.setVideoId(song.getVideoId());
             List<SongArtist> songArtists = songArtistRepository.findAllBySongId(song.getSongId());
             Album album = albumRepository.findByAlbumId(songAlbum.getAlbumId());
             if(songAlbum == null || songArtists == null || album == null) {
                 continue;
             }
             List<String> artistName = new ArrayList();
-            responseSearchSong.setTitle(song.getTitle());
+            responseListSong.setTitle(song.getTitle());
             for (SongArtist songArtist : songArtists) {
                 Artist temp = artistRepository.findByArtistId(songArtist.getArtistId());
                 if(temp == null) {continue;}
                 artistName.add(temp.getArtistName());
             }
-            responseSearchSong.setSongId(song.getSongId());
-            responseSearchSong.setAlbumImgPath(album.getAlbumImgPath());
-            responseSearchSong.setArtist(artistName);
-            responseSearchSongList.add(responseSearchSong);
+            responseListSong.setSongId(song.getSongId());
+            responseListSong.setAlbumImgPath(album.getAlbumImgPath());
+            responseListSong.setArtist(artistName);
+            responseSearchSongList.add(responseListSong);
         };
         return responseSearchSongList;
     }

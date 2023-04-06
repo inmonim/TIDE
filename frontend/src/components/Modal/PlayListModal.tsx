@@ -39,20 +39,20 @@ const DiaryListModal: FC<PlayListModalProps> = props => {
 
   const dispatch = useAppDispatch();
 
-  const [playListAPI, setplayListAPI] = useState<PlayListAPIInterFace>({
-    playlistId: 0,
-    playlistTitle: '',
-    isPublic: ''
-  });
+  // const [playListAPI, setplayListAPI] = useState<PlayListAPIInterFace>({
+  //   playlistId: 0,
+  //   playlistTitle: '',
+  //   isPublic: ''
+  // });
 
-  useEffect(() => {
-    if (router.query)
-      setplayListAPI({
-        playlistId: Number(playlistId),
-        playlistTitle: String(router.query.playlistTitle),
-        isPublic: String(router.query.isPublic)
-      });
-  }, [router.query, playlistId]);
+  // useEffect(() => {
+  //   if (router.query)
+  //     setplayListAPI({
+  //       playlistId: Number(playlistId),
+  //       playlistTitle: String(router.query.playlistTitle),
+  //       isPublic: String(router.query.isPublic)
+  //     });
+  // }, [router.query, playlistId]);
 
   const create_status = useAppSelector(state => {
     return state.playListCreate;
@@ -84,6 +84,7 @@ const DiaryListModal: FC<PlayListModalProps> = props => {
         toast.success('이름 수정 성공');
         // 갱신해주는 디스패치 한 번
         dispatch(playListEditinitStatus())
+        setIsPublic('0')
         getModalType(0)
         router.replace({
           pathname: `/playlist/${playlistId}`,
@@ -148,7 +149,7 @@ const DiaryListModal: FC<PlayListModalProps> = props => {
           } ml-[0vw]  bg-opacity-80 fixed p-[2%] text-white z-[23] h-[240px + 2vw] min-w-[240px]`}>
           <p className={`text-xl font-bold`}>
             {' '}
-            {type === 1 ? '플레이리스트 생성 ' : '일기장 모음 이름 수정 '}{' '}
+            {type === 1 ? '플레이리스트 생성 ' : '플레이리스트 수정 '}{' '}
           </p>
 
           {/*  감싸는 div */}

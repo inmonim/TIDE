@@ -3,6 +3,7 @@ import {useEffect, useRef, useState} from 'react';
 import {getCookie} from 'cookies-next';
 import styles from '@/styles/Diary.module.scss';
 import Seo from '@/components/Seo';
+import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 
 // 파이어베이스
 import {dbService} from '@/firebase';
@@ -64,12 +65,16 @@ function MessagesIndex() {
         className={`
     lg:p-[4rem] lg:pr-[calc(200px)] lg:pl-[calc(15%+100px)] text-sm lg:text-lg lg:h-screen lg:pb-[9rem] h-screen text-white flex lg:pt-[calc(2rem+40px)] bg-gradient-to-t from-blue-900 to-slate-900 `}>
         <div className="w-full overflow-y-auto bg-black md:mr-1 md:w-1/4">
-          <div
-            className={`my-6 flex items-center md:m-0 md:hidden`}>
-            <Link href={"/mainpage"}><div className="mx-2 text-lg cursor-pointer hover:text-blue-300 md:hidden">
-              ◀
-            </div></Link>
-            <div className={`text-2xl font-bold md:hidden ${styles.titleShadow}`}>CHATTING</div>
+          <div className={`my-6 flex items-center md:m-0 md:hidden`}>
+            <ArrowBackRoundedIcon
+              className="mx-2 md:hidden hover:text-blue-300"
+              fontSize="large"
+              onClick={() => router.push('/mainpage')}
+            />
+            <div
+              className={`text-2xl font-bold md:hidden ${styles.titleShadow}`}>
+              CHATTING
+            </div>
           </div>
           {roomList.map(room => {
             return (

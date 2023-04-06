@@ -49,6 +49,7 @@ import diaryListInputSlice from './api/features/diaryListInputSlice';
 import likeTopSixSlice from './api/features/likeTopSixSlice';
 import diaryPublicUpdateSlice from './api/features/diaryPublicUpdateSlice';
 import artistLikeSlice from './api/features/artistLikeSlice';
+import userIdSlice from './api/features/userIdSlice';
 
 // 리듀서들을 합쳐주는곳
 const combinedReducer = combineReducers({
@@ -100,7 +101,8 @@ const combinedReducer = combineReducers({
   diaryListInput: diaryListInputSlice,
   likeTopSix: likeTopSixSlice,
   diaryPublic: diaryPublicUpdateSlice,
-  artistLike: artistLikeSlice
+  artistLike: artistLikeSlice,
+  userId: userIdSlice
 });
 
 // Hydrate와 위에서 합친 reducer들을 rootReducer에 세팅

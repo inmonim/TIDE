@@ -60,6 +60,11 @@ public class DiaryServiceImpl implements DiaryService {
             response.setCreateDt(diary.getCreateDt());
             response.setPub(diary.getPub());
             response.setTitle(diary.getTitle());
+            response.setSongId(diary.getSongId());
+            ResponseSearchSong responseSearchSong = musicServiceClient.getSongInfo(response.getSongId());
+            response.setMusicTitle(responseSearchSong.getTitle());
+            response.setAlbumImgPath(responseSearchSong.getAlbumImgPath());
+            response.setArtist(responseSearchSong.getArtist());
             responseMyDiaries.add(response);
         }
         return responseMyDiaries;
@@ -84,6 +89,10 @@ public class DiaryServiceImpl implements DiaryService {
                 response.setCreateDt(diary.getCreateDt());
                 response.setPub(diary.getPub());
                 response.setTitle(diary.getTitle());
+                ResponseSearchSong responseSearchSong = musicServiceClient.getSongInfo(response.getSongId());
+                response.setMusicTitle(responseSearchSong.getTitle());
+                response.setAlbumImgPath(responseSearchSong.getAlbumImgPath());
+                response.setArtist(responseSearchSong.getArtist());
                 responseDiary.add(response);
             }
             for (Diary diary : diariesFollow) {
@@ -95,6 +104,10 @@ public class DiaryServiceImpl implements DiaryService {
                 response.setCreateDt(diary.getCreateDt());
                 response.setPub(diary.getPub());
                 response.setTitle(diary.getTitle());
+                ResponseSearchSong responseSearchSong = musicServiceClient.getSongInfo(response.getSongId());
+                response.setMusicTitle(responseSearchSong.getTitle());
+                response.setAlbumImgPath(responseSearchSong.getAlbumImgPath());
+                response.setArtist(responseSearchSong.getArtist());
                 responseDiary.add(response);
             }
         }
@@ -138,7 +151,7 @@ public class DiaryServiceImpl implements DiaryService {
         ResponseDiary response = mapper.map(diary, ResponseDiary.class);
         response.setNickname(userServiceClient.getNickname(diary.getUserId()));
         response.setSongId(songId);
-        response.setTitle(responseSearchSong.getTitle());
+        response.setMusicTitle(responseSearchSong.getTitle());
         response.setArtist(responseSearchSong.getArtist());
         response.setAlbumImgPath(responseSearchSong.getAlbumImgPath());
         return response;
@@ -154,6 +167,10 @@ public class DiaryServiceImpl implements DiaryService {
         for (Diary diary : diaries) {
             ResponseDiary response = mapper.map(diary, ResponseDiary.class);
             response.setNickname(userServiceClient.getNickname(diary.getUserId()));
+            ResponseSearchSong responseSearchSong = musicServiceClient.getSongInfo(response.getSongId());
+            response.setMusicTitle(responseSearchSong.getTitle());
+            response.setAlbumImgPath(responseSearchSong.getAlbumImgPath());
+            response.setArtist(responseSearchSong.getArtist());
             diaryList.add(response);
         }
         return diaryList;
@@ -228,6 +245,10 @@ public class DiaryServiceImpl implements DiaryService {
             for (Diary diary : diaries) {
                 ResponseDiary responseDiary = mapper.map(diary, ResponseDiary.class);
                 responseDiary.setNickname(nickname);
+                ResponseSearchSong responseSearchSong = musicServiceClient.getSongInfo(responseDiary.getSongId());
+                responseDiary.setMusicTitle(responseSearchSong.getTitle());
+                responseDiary.setAlbumImgPath(responseSearchSong.getAlbumImgPath());
+                responseDiary.setArtist(responseSearchSong.getArtist());
                 response.add(responseDiary);
             }
         } else {
@@ -235,6 +256,10 @@ public class DiaryServiceImpl implements DiaryService {
             for (Diary diary : followDiaries) {
                 ResponseDiary responseDiary = mapper.map(diary, ResponseDiary.class);
                 responseDiary.setNickname(nickname);
+                ResponseSearchSong responseSearchSong = musicServiceClient.getSongInfo(responseDiary.getSongId());
+                responseDiary.setMusicTitle(responseSearchSong.getTitle());
+                responseDiary.setAlbumImgPath(responseSearchSong.getAlbumImgPath());
+                responseDiary.setArtist(responseSearchSong.getArtist());
                 response.add(responseDiary);
             }
         }

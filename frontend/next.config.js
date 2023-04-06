@@ -11,7 +11,14 @@ module.exports = {
         hostname: 'firebasestorage.googleapis.com',
         port: '',
         pathname: '/**'
-      }
+      },
+      {
+        protocol: 'https',
+        hostname: 'cdnimg.melon.co.kr',
+        port: '',
+        pathname: '/**'
+      },
+
     ]
   },
   async redirects() {

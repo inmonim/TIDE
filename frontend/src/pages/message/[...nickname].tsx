@@ -2,6 +2,7 @@ import Chat from '@/components/Chatting/Chat';
 import {useRouter} from 'next/router';
 import {useEffect, useState} from 'react';
 import {getCookie} from 'cookies-next';
+import Seo from '@/components/Seo';
 
 // 파이어베이스
 import {dbService} from '@/firebase';
@@ -76,6 +77,7 @@ function Messages() {
 
   return (
     <>
+      <Seo title={`Message ${router.query.nickname}`} />
       {roomName && (
         <main
           className={`${router.pathname === '/message' ? `w-full` : ''}

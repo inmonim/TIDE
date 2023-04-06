@@ -34,7 +34,6 @@ import {
 import Message from './Message';
 import {useRouter} from 'next/router';
 import Link from 'next/link';
-import { userInfoAsync } from 'store/api/features/userInfoSlice';
 
 interface ChatPropsInterFace {
   usersNickName: string | string[] | undefined;
@@ -225,9 +224,9 @@ const Chat = ({data}: {data: ChatPropsInterFace}) => {
   return (
     <div className="flex flex-col justify-center w-full h-full text-white ">
       <Link href={'/message'}>
-        <div className="relative top-0 w-full h-[5vh] bg-black bg-opacity-90 md:hidden">
-          <div className="flex items-center h-full text-lg hover:text-blue-300">
-            &nbsp; ☜(ﾟヮﾟ☜) {usersNickName}
+        <div className="fixed z-10 top-0 w-full h-[5vh] bg-black md:hidden">
+          <div className="flex items-center h-full text-lg cursor-pointer hover:text-blue-300">
+            &nbsp; ◁ &nbsp;{usersNickName}
           </div>
         </div>
       </Link>

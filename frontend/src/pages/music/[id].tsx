@@ -72,7 +72,14 @@ function Musicpage() {
   }, [MusicId]);
 
   const playMusic = () => {
-    dispatch(getvideoId({videoId:musicUrl, albumImgPath:albumImage, title:musicTitle, artist:artistName}));
+    dispatch(
+      getvideoId({
+        videoId: musicUrl,
+        albumImgPath: albumImage,
+        title: musicTitle,
+        artist: artistName
+      })
+    );
   };
 
   const handlePlaylistAdd = () => {
@@ -115,18 +122,17 @@ function Musicpage() {
           songId={Number(Array.isArray(MusicId) ? MusicId[0] : MusicId)}
         />
       )}
-        {albumImage ? (
-          <div
-            className="fixed top-0 bottom-0 left-0 right-0 bg-center"
-            style={{
-              backgroundImage: `url(${albumImage})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              opacity: '0.25'
-            }}></div>
-        ) : null}
+      {albumImage ? (
+        <div
+          className="fixed top-0 bottom-0 left-0 right-0 bg-center"
+          style={{
+            backgroundImage: `url(${albumImage})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            opacity: '0.25'
+          }}></div>
+      ) : null}
       <main className="flex flex-col md:pt-0.5 md:w-screen md:min-h-screen md:bg-gradient-to-t md:from-slate-700 md:to-slate-900 bg-transparent min-w-screen min-h-screen w-screen h-screen pt-[60px] ">
-
         <div className="md:absolute absolute flex flex-col justify-center md:left-[230px] md:w-[1690px] md:mt-12 text-white ">
           <div className="flex flex-row justify-center">
             {/* 노래 제목, 출시일, 아티스트 이름 */}
@@ -140,7 +146,7 @@ function Musicpage() {
                   />
                 ) : null}
                 <div className="flex flex-col justify-center items-start md:w-[800px] w-3/5">
-                  <div className='mx-4'>
+                  <div className="mx-4">
                     <h1 className="md:w-[300px] md:text-[30px] font-bold w-full text-lg">
                       {musicTitle}
                     </h1>
@@ -192,8 +198,12 @@ function Musicpage() {
             {/* 이하 노래 감정 설문 */}
             <div className="flex flex-col items-center w-[90vw] font-semibold md:text-2xl text-lg">
               이 노래에는 어떤 감정이 느껴지나요?
-              <div className="flex justify-center w-full md:w-[500px] my-4 border-2 bg-slate-600 rounded-xl">
-                <MusicEmotion emotions={Emotions} />
+              <div className="flex justify-center md:w-[500px] my-4 border-2 bg-slate-600 rounded-xl w-[300px]">
+                <MusicEmotion
+                  songId={MusicId}
+                  emotions={Emotions}
+                  userId={userId}
+                />
               </div>
             </div>
             <div className="flex flex-col items-center w-[90vw] md:text-2xl font-semibold md:w-[500px] text-lg">

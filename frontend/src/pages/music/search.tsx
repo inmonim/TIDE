@@ -47,7 +47,7 @@ function MusicSearch() {
                   onClick={handleClick(item.songId)}>
                   {/* <div>{item.songId}</div> */}
                   <img
-                    className="w-[120px] h-[120px] m-2"
+                    className="w-[120px] h-[120px] rounded-md m-2"
                     src={item.albumImgPath}
                     alt="albumimage"
                   />

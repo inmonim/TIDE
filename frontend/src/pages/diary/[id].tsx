@@ -11,6 +11,7 @@ import {diaryDelAsync} from 'store/api/features/diaryDelSlice';
 import Modal from '@/components/Modal';
 import {v4 as uuidv4} from 'uuid';
 import {diaryPublicUpdateAsync} from 'store/api/features/diaryPublicUpdateSlice';
+import {getvideoId} from 'store/api/features/nowmusicSlice';
 
 export default function DiaryDetail() {
   const router = useRouter();
@@ -22,7 +23,7 @@ export default function DiaryDetail() {
   const {diary} = useAppSelector(state => {
     return state.diaryDetail;
   });
-  console.log(diary);
+  console.log(diary, '이거');
   // 다이어리 삭제 << 모달로 전달
   const deleteDiary = () => {
     setIsOpen(false);
@@ -52,6 +53,17 @@ export default function DiaryDetail() {
     // if(!isNaN(Number(router.query.id)) && diarys.find(e=>e.id===Number(router.query.id)))dispatch(diaryDetailAsync({id:Number(router.query.id)}))
   }, [router.query.id]);
 
+  useEffect(() => {
+    if (diary) {
+      const musicUrl = diary.videoId;
+      const albumImage = diary.albumImgPath;
+      const musicTitle = diary.musicTitle;
+      const artistName = diary.artist;
+      console.log(artistName);
+      dispatch(getvideoId({musicUrl, albumImage, musicTitle, artistName}));
+    }
+  }, [diary]);
+
   return (
     <>
       <Seo title={`Diary ${router.query.id}`} />
@@ -64,8 +76,8 @@ export default function DiaryDetail() {
         className={`
       md:p-[4rem] lg12:pr-[calc(200px)] lg12:pl-[calc(15%+100px)] lg12:h-screen lg12:pb-[240px] text-[#eeeeee] flex justify-center min-h-[100vh] pt-[calc(2rem+40px)] bg-gradient-to-t from-blue-900 to-slate-900 `}>
         <div className={`w-2/3 select-none h-full`}>
-          <div className={`flex flex-col md:flex md:flex-row md:items-end`}>
-            <h1 className="text-3xl font-bold break-words w-fit md86:text-4xl md86:ml-0">
+          <div className={`flex flex-col md:flex md:flex-row md:items-end `}>
+            <h1 className="text-3xl font-bold break-words md:mx-4 w-fit md86:text-4xl md86:ml-0">
               {diary.title}
             </h1>
             {myNick === diary.nickname ? (
@@ -89,7 +101,7 @@ export default function DiaryDetail() {
                 <button
                   type="button"
                   onClick={openModal}
-                  className="inline-flex justify-center min-w-[4.5rem] px-3 py-1 mx-1 text-sm md:text-base text-white bg-red-900 border border-transparent rounded-md hover:bg-red-800 focus:outline-none">
+                  className="inline-flex justify-center min-w-[4.5rem] px-3 py-1 md:mx-4 text-sm md:text-base text-white bg-red-900 border border-transparent rounded-md hover:bg-red-800 focus:outline-none">
                   {' '}
                   삭제{' '}
                 </button>

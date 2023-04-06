@@ -258,7 +258,7 @@ export default function userDetail() {
             <div className="w-[100%] h-[400px] border-t border-b pt-3 pb-3 overflow-auto scrollbar-hide">
 
             {dpChange?<>
-              {diarys && diarys.length >0 ? diarys.filter(function(c){ return c.pub==='0'; }).map((p, id) => (
+              {diarys && diarys.length >0 ? diarys.map((p, id) => (
             <Link href={`/diary/${p.id}`} className={` h-fit`}>
                 <div className={`grid items-center mb-2 md:flex bg-slate-900 rounded-md w-[100%] h-[90px] p-[2%] items-center gap-2 bg-opacity-80 md:justify-between hover:bg-blue-500 duration-300 overflow-hidden`}>
                   <div className={`md:w-[80%] w-[90%] whitespace-nowrap flex items-center`}>

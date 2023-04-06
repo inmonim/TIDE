@@ -149,7 +149,7 @@ function Mainpage() {
           <div className="pb-2 mb-1 text-4xl font-bold text-center">
             Top Artists
           </div>
-          <div className="md:w-[45%] w-[200px] md:h-[400px] h-[200px] m-auto flex flex-row justify-center ">
+          <div className="md:w-[45%] w-[200px] md:h-[400px] h-[200px] m-auto relative group flex flex-row justify-center ">
             {/* carousel wrapper */}
             <Link
               style={{
@@ -165,11 +165,11 @@ function Mainpage() {
             </Link>
 
             {/* Left Arrow */}
-            <div className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] left-4 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer">
+            <div className="md:hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] md:left-4 left-[-70px] text-2xl rounded-full p-2 bg-slate-700 md:bg-black/20 text-white cursor-pointer">
               <BsChevronCompactLeft onClick={prevSlide} size={40} />
             </div>
             {/* Right Arrow */}
-            <div className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] right-4 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer">
+            <div className="md:hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] md:right-4 right-[-70px] text-2xl rounded-full p-2 bg-slate-700 md:bg-black/20 text-white cursor-pointer">
               <BsChevronCompactRight onClick={nextSlide} size={40} />
             </div>
           </div>

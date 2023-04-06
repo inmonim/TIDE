@@ -51,7 +51,6 @@ export const musicAsync = createAsyncThunk(
         email: getCookie('email')
       }
     });
-    console.log(data.data, '여기뭐지');
     return data.data;
   }
 );
@@ -94,7 +93,6 @@ export const musicSlice = createSlice({
         state.releaseYear = releaseDt;
         state.lyrics = lyrics;
         state.error = null;
-        console.log(action.payload, 4455);
       })
       .addCase(musicAsync.rejected, (state, action: PayloadAction<any>) => {
         state.status = 'failed';

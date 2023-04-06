@@ -150,8 +150,8 @@ function Musicpage() {
                     onClick={gotoartistpage}
                   />
                 ) : null}
-                <div className="flex flex-col md:flex md:flex-row justify-center items-start md:items-center md:w-[800px] w-3/5">
-                  <div className="mx-2 md:h-40 md:flex md:flex-col md:justify-start">
+                <div className="flex flex-col md:flex md:flex-row justify-center items-start md:items-center md:mb-28 md:w-[800px] w-3/5">
+                  <div className="mx-2 md:h-36 md:flex md:flex-col md:justify-start ">
                     <h1 className="md:w-[300px] md:text-[30px] font-bold w-full text-lg break-words">
                       {musicTitle}
                     </h1>
@@ -186,7 +186,7 @@ function Musicpage() {
               <div className="hidden md:flex md:absolute md:left-[38%] md:top-[19.5%] md:flex-row md:items-center md:justify-center md:mr-32">
                 {artistImage ? (
                   <img
-                    className="w-32 h-32 rounded-full border-4 border-white md:w-[180px] md:h-[180px] hover:cursor-pointer hover:opacity-80"
+                    className="w-32 h-32 rounded-full border-4 md:mt-8 md:ml-32 border-white md:w-[180px] md:h-[180px] hover:cursor-pointer hover:opacity-80"
                     src={artistImage}
                     alt="artistImage"
                     onClick={gotoartistpage}
@@ -196,7 +196,7 @@ function Musicpage() {
                 )}
 
                 <div
-                  className="flex items-center h-full my-2 text-2xl font-semibold hover:cursor-pointer hover:opacity-80"
+                  className="flex items-center h-full my-2 text-2xl font-semibold hover:cursor-pointer hover:opacity-80 md:ml-[30px]"
                   onClick={gotoartistpage}>
                   {artistName}
                 </div>
@@ -205,7 +205,7 @@ function Musicpage() {
           </div>
           <div className="md:w-[1200px] w-screen"></div>
           <hr className="my-2 border-1 border-gray" />
-          <div className="flex flex-col justify-evenly items-center w-full md:py-2 md:flex-row md:flex md:justify-center min-h-[50vh]">
+          <div className="flex flex-col justify-evenly items-center w-full md:py-2 md:flex-row md:flex md:justify-center md:min-h-[45vh] min-h-[50vh]">
             {/* 이하 노래 감정 설문 */}
             <div className="flex flex-col items-center w-[90vw] md:w-[30vw] md:h-[35vh] font-semibold md:text-2xl text-base">
               이 노래에는 어떤 감정이 느껴지나요?
@@ -217,7 +217,7 @@ function Musicpage() {
                 />
               </div>
             </div>
-            <div className="flex flex-col items-center w-[90vw] md:text-2xl font-semibold md:w-[500px] md:h-[35vh] text-base">
+            <div className="flex flex-col   items-center w-[90vw] md:text-2xl font-semibold md:w-[500px] md:h-[35vh] text-base">
               {musicTitle}
               <div className="flex justify-center w-full md:w-full md:h-[340px] md:my-2 overflow-auto scrollbar-hide">
                 <textarea

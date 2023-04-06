@@ -203,7 +203,7 @@ const MusicModal: FC<MusicModalProps> = props => {
       //   borderWidth:3,
       // },
     },
-    cutout:60,
+    cutout:50,
   };
 
   return(

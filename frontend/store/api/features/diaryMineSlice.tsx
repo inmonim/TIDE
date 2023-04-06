@@ -20,7 +20,7 @@ interface diaryInterFace {
   albumImgPath:string;
   artist:string[];
   musicTitle: string;
-  songId:Number;
+  songId:number;
 }
 
 // 초기값
@@ -64,6 +64,7 @@ export const diaryMineSlice = createSlice({
         state.status = 'completed';
         const diaryList = action.payload;
         state.diarys = diaryList;
+        console.log('내 다이어리리스트 요청성공',state.diarys);
 
       })
       .addCase(diaryMineAsync.rejected, state => {

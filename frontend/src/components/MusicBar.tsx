@@ -133,7 +133,7 @@ const MusicBar: FC<MusicBarProps> = props => {
                       <img
                         src="\favicon.ico"
                         alt="tide-logo"
-                        className="p-1 bg-gray-600 rounded-md"
+                        className="p-1 rounded-md"
                       />
                     )}
                   </div>
@@ -149,7 +149,7 @@ const MusicBar: FC<MusicBarProps> = props => {
                         </p>
                       </div>
                     ) : (
-                      <p className="font-mono font-semibold text-1">
+                      <p className="font-mono text-sm font-semibold select-none">
                         재생할 음악을 선택해 주세요
                       </p>
                     )}

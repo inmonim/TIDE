@@ -19,6 +19,9 @@ function Musicpage() {
 
   const [MyPlaylistModal, setMyPlaylistModal] = useState<Number>(0);
 
+  const getMyPlaylistModal = (type: Number) => {
+    setMyPlaylistModal(type);
+  };
   const MusicId = router.query.id;
 
   const {
@@ -94,6 +97,7 @@ function Musicpage() {
         }}></div>
       {MusicId && (
         <MyPlaylist
+          getMyPlaylistModal={getMyPlaylistModal}
           type={MyPlaylistModal}
           isMe={true}
           list={myplaylist}
@@ -101,10 +105,10 @@ function Musicpage() {
         />
       )}
 
-      <main className="flex flex-col min-h-[91vh] bg-gradient-to-t from-slate-700 to-slate-900">
+      <main className="flex flex-col md:pt-0.5 md:ml-[12%] md:min-w-[80%] md:w-[88%] md:min-h-[90vh] md:bg-gradient-to-t from-slate-700 to-slate-900 w-[390px] pt-[60px] ">
         {albumImage ? (
           <div
-            className="w-[88%] h-[840px] ml-[12%]"
+            className="md:w-full md:h-[840px] w-[400px] h-[400px] md:bg-cover bg-center"
             style={{
               backgroundImage: `url(${albumImage})`,
               backgroundSize: 'cover',
@@ -112,43 +116,45 @@ function Musicpage() {
               opacity: '0.25'
             }}></div>
         ) : null}
-        <div className="absolute flex flex-col justify-center left-[230px] w-[1690px] mt-12 text-white ">
+        <div className="md:absolute absolute flex flex-col justify-center md:left-[230px] md:w-[1690px] md:mt-12 text-white ">
           <div className="flex flex-row justify-center">
             {albumImage ? (
               <img
-                className="w-[300px] h-[300px] rounded-full border-4 md:w-[350px] md:h-[350px] animate-[spin_50s_linear_infinite] "
+                className="w-[100px] h-[100px] rounded-full border-4 md:w-[350px] md:h-[350px] animate-[spin_50s_linear_infinite] "
                 src={albumImage}
                 alt="album_image"
               />
             ) : null}
 
             {/* 노래 제목, 출시일, 아티스트 이름 */}
-            <div className="flex flex-col ml-10">
-              <div className="flex flex-row items-center md:w-[800px]">
-                <h1 className="md:w-[300px] md:text-[30px] font-bold">
+            <div className="flex flex-col ml-4 md:ml-10">
+              <div className="flex flex-row items-center md:w-[800px] w-[300px]">
+                <h1 className="md:w-[300px] md:text-[30px] font-bold w-[100px] text-sm">
                   {musicTitle}
                 </h1>
                 {/* 노래 플레이 버튼 */}
                 <div className="flex mt-4">
                   <img
-                    className="w-[60px] h-[60px] hover:cursor-pointer hover:opacity-80 mx-8"
+                    className="w-[30px] h-[30px] hover:cursor-pointer hover:opacity-80 md:mx-8 mx-4 md:w-[60px] md:h-[60px]"
                     onClick={playMusic}
                     src="/buttons/playbutton.png"
                     alt="playbutton"></img>
                   <HeartButton songId={MusicId} />
-                  <div
-                    className="flex items-center mx-6 text-2xl"
+                  <button
+                    className="flex items-center p-1 mx-2 text-xs border-2 rounded-lg md:p-2 md:mx-6 md:text-xl"
                     onClick={openPlaylistModal}>
                     Playlist 추가
-                  </div>
+                  </button>
                 </div>
               </div>
-              <p className="text-2xl font-semibold ">{releaseYear}</p>
+              <p className="text-sm md:font-semibold md:text-2xl">
+                {releaseYear}
+              </p>
               {/* 아티스트 이미지 섹션 */}
               <div className="flex flex-col items-center mr-32">
                 {artistImage ? (
                   <img
-                    className="w-[100px] h-[100px] mt-8 rounded-full border-4 border-white md:w-[180px] md:h-[180px] hover:cursor-pointer hover:opacity-80"
+                    className="w-[80px] h-[80px] mt-8 rounded-full border-4 border-white md:w-[180px] md:h-[180px] hover:cursor-pointer hover:opacity-80"
                     src={artistImage}
                     alt="artistImage"
                     onClick={gotoartistpage}
@@ -165,22 +171,22 @@ function Musicpage() {
               </div>
             </div>
           </div>
-          <div className="w-[1500px]"></div>
+          <div className="md:w-[1200px] w-[600px]"></div>
           <hr className="my-2 border-1 border-gray" />
-          <div className="flex flex-row py-2 justify-evenly">
+          <div className="flex flex-col items-center md:py-2 md:flex-row md:flex md:justify-evenly">
             {/* 이하 노래 감정 설문 */}
-            <div className="flex flex-col items-center text-2xl font-semibold w-[500px]">
+            <div className="flex flex-col items-center md:text-2xl font-semibold w-[500px] text-md">
               이 노래에는 어떤 감정이 느껴지나요?
-              <div className="flex justify-center w-full my-4 bg-slate-600 border-2 rounded-xl">
+              <div className="flex justify-center md:w-[500px] my-4 border-2 bg-slate-600 rounded-xl w-[300px]">
                 <MusicEmotion emotions={Emotions} />
               </div>
             </div>
-            <div className="flex flex-col items-center text-2xl font-semibold w-[500px]">
+            <div className="flex flex-col items-center md:text-2xl font-semibold md:w-[500px] w-[200px] text-md">
               노래 가사
-              <div className="flex justify-center w-full h-[340px] my-4 overflow-auto scrollbar-hide">
+              <div className="flex justify-center md:w-full md:h-[340px] md:my-4 overflow-auto scrollbar-hide">
                 <textarea
                   value={lyrics}
-                  className="overflow-auto scrollbar-hide rounded-xl w-[500px] bg-slate-600 border-2 p-3"
+                  className="overflow-auto scrollbar-hide rounded-xl md:w-[500px] bg-slate-600 border-2 p-3"
                 />
               </div>
             </div>

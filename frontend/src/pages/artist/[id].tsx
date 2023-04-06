@@ -5,36 +5,52 @@ import {useAppSelector, useAppDispatch} from 'store';
 import {artistAsync} from 'store/api/features/artistSlice';
 import {musicAsync} from 'store/api/features/musicSlice';
 import DVD from 'images/Logo/dvd.png';
+import {
+  artistLikeAsync,
+  artistLikeCheckAsync
+} from 'store/api/features/artistLikeSlice';
 
 function Artist() {
   const router = useRouter();
-
-  const {id: ArtistId} = router.query;
+  const ArtistId = Number(router.query.id);
 
   const dispatch = useAppDispatch();
-  const [albumImgs, setAlbumImgs] = useState<string[]>([]);
-  const {artistId, artistName, title, artistImgPath, is_group, songId} =
-    useAppSelector(state => state.artist);
+  const {
+    artistId,
+    artistName,
+    title,
+    artistImgPath,
+    is_group,
+    songId,
+    likeCnt
+  } = useAppSelector(state => state.artist);
 
-  const {albumImage} = useAppSelector(state => state.music);
+  const {check} = useAppSelector(state => state.artistLike);
 
-  console.log(title, songId);
+  const [isLiked, setIsLiked] = useState<boolean>(false);
+
+  const handleartistLike = () => {
+    setIsLiked(prev => !prev);
+    dispatch(artistLikeAsync(ArtistId));
+  };
+
+  console.log(check, 'cpzm체크');
+  useEffect(() => {
+    if (check) {
+      setIsLiked(check);
+    }
+  }, [check]);
+  // console.log(title, songId);
 
   const gotomusicpage = (songId: number) => {
     router.push(`/music/${songId}`);
   };
 
-  // useEffect(() => {
-  //   songId.forEach(song => {
-  //     dispatch(musicAsync(song));
-  //   });
-  // }, [artistId]);
-
-  console.log(albumImgs);
-
   useEffect(() => {
-    if (typeof ArtistId === 'string') {
+    if (ArtistId) {
       dispatch(artistAsync(ArtistId));
+      // dispatch(artistLikeCheckAsync(ArtistId));
+      dispatch(artistLikeCheckAsync(ArtistId));
     }
   }, [ArtistId]);
 
@@ -44,15 +60,27 @@ function Artist() {
         <title>{artistName}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex flex-col min-h-[91vh] bg-gradient-to-t from-slate-700 to-slate-900">
-        <div className="flex justify-center w-[88%] h-[380px] ml-[12%] my-6">
-          <img className="rounded-md " src={artistImgPath} alt="" />
+      <main className="flex flex-col items-center min-h-[91vh] bg-gradient-to-t ml-[12%] from-slate-700 to-slate-900">
+        <div className="flex flex-row items-center justify-center w-[380px] h-[380px] mt-14 mb-4">
+          <div className="flex flex-col items-center justify-center ">
+            <img
+              className="flex rounded-md w-[360px] h-[360px]"
+              src={artistImgPath}
+              alt="artistImage"
+            />
+            <div
+              className="flex justify-center my-4 mb-10 text-lg text-white border-2 w-[100px] p-1 rounded-xl hover:cursor-pointer hover:bg-gray-500"
+              onClick={handleartistLike}>
+              {isLiked ? '좋아요 취소' : '좋아요'}
+            </div>
+          </div>
         </div>
-        <div className="flex flex-col ml-[12%] h-full items-center">
-          <div className="flex flex-row text-5xl justify-center w-[800px] text-white">
+
+        <div className="flex flex-col items-center h-full">
+          <div className="flex flex-row text-4xl justify-center w-[800px] text-white">
             {artistName}
           </div>
-          <div className="my-3 text-2xl text-white">아티스트의 노래</div>
+          <div className="my-2 text-xl text-white">아티스트의 노래</div>
           <div className="flex flex-col items-center w-[450px] h-[300px] overflow-auto scrollbar-hide border-2 rounded-lg bg-gray-400">
             {title.map((title, index) => (
               <div
@@ -60,7 +88,7 @@ function Artist() {
                 key={index}
                 onClick={() => gotomusicpage(songId[index])}>
                 <img
-                  className="w-12 ml-2 mr-6"
+                  className="w-12 my-4 ml-2 mr-6"
                   src="/images/Logo/dvd.png"
                   alt=""
                 />

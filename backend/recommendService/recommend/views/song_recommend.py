@@ -31,6 +31,12 @@ class MusicRecommend(Resource):
             emotion_list_1 = emotion_predict(model_1, txt, max_len)
             emotion_list_2 = emotion_predict(model_2, txt, max_len)
             
+            emotion_list = emotion_list_2.tolist()
+            emotion_list_message = {}
+            for i in range(10):
+                emotion_list_message[i] = round(emotion_list[i],4)
+            
+            
             m1t1, m1t2 = emotion_t2_rank(emotion_list_1)
             m2t1, m2t2 = emotion_t2_rank(emotion_list_2)
             
@@ -91,12 +97,13 @@ class MusicRecommend(Resource):
                         artist_nm = 'unknown artist'
                         
                     artist_list.append(artist_nm)
+                    
                 song_dict['artist'] = artist_list
                     
                 recommend_list[cls_nm] = song_dict
                 cnt += 1
             
-            response = {'songList' : recommend_list, 'messageList' : {'first':message_1, 'second' : message_2}}
+            response = {'songList' : recommend_list, 'messageList' : {'first':message_1, 'second' : message_2, 'emotionList' : emotion_list_message}}
             
             response = Response(json.dumps(response, ensure_ascii=False), headers=({'Access-Control-Allow-Origin': '*'}), content_type='application/json; charset=utf-8', status=200)
             return response

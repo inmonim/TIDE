@@ -60,7 +60,7 @@ export default function DiaryDetail() {
       const musicTitle = diary.musicTitle;
       const artistName = diary.artist;
       console.log(artistName);
-      dispatch(getvideoId({musicUrl, albumImage, musicTitle, artistName}));
+      dispatch(getvideoId({videoId:musicUrl, albumImgPath:albumImage, title: musicTitle, artist: artistName}));
     }
   }, [diary]);
 

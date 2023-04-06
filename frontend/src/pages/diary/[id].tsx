@@ -60,7 +60,14 @@ export default function DiaryDetail() {
       const musicTitle = diary.musicTitle;
       const artistName = diary.artist;
       console.log(artistName);
-      dispatch(getvideoId({videoId:musicUrl, albumImgPath:albumImage, title: musicTitle, artist: artistName}));
+      dispatch(
+        getvideoId({
+          videoId: musicUrl,
+          albumImgPath: albumImage,
+          title: musicTitle,
+          artist: artistName
+        })
+      );
     }
   }, [diary]);
 
@@ -74,14 +81,21 @@ export default function DiaryDetail() {
       />
       <main
         className={`
-      md:p-[4rem] lg12:pr-[calc(200px)] lg12:pl-[calc(15%+100px)] lg12:h-screen lg12:pb-[240px] text-[#eeeeee] flex justify-center min-h-[100vh] pt-[calc(2rem+40px)] bg-gradient-to-t from-blue-900 to-slate-900 `}>
-        <div className={`w-2/3 select-none h-full`}>
+      md:p-[4rem] lg12:pr-[calc(200px)] lg12:pl-[calc(15%+100px)] lg12:h-screen lg12:pb-[240px] text-[#eeeeee] flex justify-center w-screen h-screen pt-[calc(2rem+40px)] bg-gradient-to-t from-blue-900 to-slate-900 `}>
+        <div className={`w-[70vw] select-none h-full`}>
           <div className={`flex flex-col md:flex md:flex-row md:items-end `}>
-            <h1 className="text-3xl font-bold break-words md:mx-4 w-fit md86:text-4xl md86:ml-0">
+            <div className="w-full text-2xl font-bold break-words md:mx-4 md86:text-4xl md86:ml-0">
               {diary.title}
-            </h1>
+            </div>
             {myNick === diary.nickname ? (
               <div className="flex justify-start mt-4">
+                <div
+                  onClick={() => {
+                    router.back();
+                  }}
+                  className="flex items-end mr-2 text-xl cursor-pointer hover:text-blue-800">
+                  ◀
+                </div>
                 <select
                   // 키를 넣어주어야  defaultValue 값 반영됨
                   key={uuidv4()}
@@ -101,20 +115,20 @@ export default function DiaryDetail() {
                 <button
                   type="button"
                   onClick={openModal}
-                  className="inline-flex justify-center min-w-[4.5rem] px-3 py-1 md:mx-4 text-sm md:text-base text-white bg-red-900 border border-transparent rounded-md hover:bg-red-800 focus:outline-none">
+                  className="mx-2 inline-flex justify-center min-w-[4.5rem] px-3 py-1 md:mx-4 text-sm md:text-base text-white bg-red-900 border border-transparent rounded-md hover:bg-red-800 focus:outline-none">
                   {' '}
                   삭제{' '}
                 </button>
               </div>
             ) : null}
           </div>
-          <div className={`w-full h-full flex flex-col mt-10 `}>
+          <div className={`w-full flex flex-col mt-6 `}>
             <div
-              className={`w-[90%] md:min-h-[30vh] overflow-y-auto text-lg md86:text-xl md:p-4`}>
+              className={`w-full min-h-[25vh] max-h-[25vh] overflow-y-auto text-lg md86:text-xl md:p-4`}>
               {parse(diary.content)}
             </div>
-            <div className="w-[90%] flex flex-col items-center my-4 md:flex md:flex-row md:items-start">
-              <div className="w-40 h-40 overflow-hidden border-2 rounded-lg">
+            <div className="flex flex-col items-center w-full my-4 md:flex md:flex-row md:items-start">
+              <div className="w-[40vw] h-fit md:w-48 md:h-fit overflow-hidden border-2 rounded-lg">
                 <img
                   src={diary.albumImgPath}
                   className={`object-fill`}
@@ -122,8 +136,8 @@ export default function DiaryDetail() {
                 />
               </div>
               <div className="flex flex-col md:ml-4">
-                <div className="text-xl">{diary.musicTitle}</div>
-                <div className="text-lg">{diary.artist}</div>
+                <div className="text-lg">{diary.musicTitle}</div>
+                <div className="text-base">{diary.artist}</div>
               </div>
             </div>
           </div>

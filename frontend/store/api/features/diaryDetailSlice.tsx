@@ -21,6 +21,7 @@ interface diaryInterFace {
   artist: [];
   albumImgPath: string;
   musicTitle: string;
+  videoId: string;
 }
 
 // 초기값
@@ -38,7 +39,8 @@ const initialState: DiaryDetailState = {
     songId: 0,
     artist: [],
     albumImgPath: '',
-    musicTitle: ''
+    musicTitle: '',
+    videoId: ''
   }
 };
 

@@ -101,8 +101,13 @@ const PlayListDetail: FC<PlayListProps> = props => {
 
   const musicDel = (songId:Number) => {
     dispatch(playListMusicDelAsync({songId:songId, playlistId:playListId}))
-    if (playListId === Number(router.query.id))
-      dispatch(playListDetailAsync({playListId: Number(playListId)}));
+    dispatch(playListAllDetailAsync({playListId:plDetail.playlistId}))
+    router.push({
+      pathname: `/playlist/${plDetail.playlistId}`,
+      query: {
+        slug: 0
+      }
+    });
   };
 
   const handleClick =
@@ -194,6 +199,7 @@ const PlayListDetail: FC<PlayListProps> = props => {
           </div>
           {playListSongs && playListSongs.length > 0
             ? playListSongs.map((song, songId) => (
+              <>
                 <div 
                 onClick={handleClick(song.songId)}
                 className={` duration-200 mt-2 flex justify-between items-center border-t border-b p-2 hover:bg-sky-600 hover:bg-opacity-60`}>
@@ -204,16 +210,20 @@ const PlayListDetail: FC<PlayListProps> = props => {
                   <p> {song.artist}</p>
                   </div>
                   </div>
-        
-                  {
+                </div>
+
+                {
                (getCookie('nickname') === plDetail.nickname)?
                <button 
-               onClick={()=>musicDel(song.songId)}
-               className={`w-6 h-6 border rounded-[50%] bg-red-900 hover:bg-red-400`}> X </button>
+               onClick={()=>{
+                musicDel(song.songId)
+                
+              }}
+               className={`mt-[calc(-90px)] ml-[70px] w-5 h-5 border rounded-[50%] bg-red-900 bg-opacity-70 hover:bg-red-400 z-[2] absolute`}> ❌ </button>
                :
                     null
                }
-                </div>
+                </>
               ))
             : null}
         </div>

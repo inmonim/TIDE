@@ -195,13 +195,15 @@ const MusicModal: FC<MusicModalProps> = props => {
   };
 
   const options={
+    // responsive:false,
     elements:{
+      // responsive:false,
       // arc:{
       //   weight:0.5,
       //   borderWidth:3,
       // },
     },
-    cutout:150,
+    cutout:60,
   };
 
   return(
@@ -257,14 +259,16 @@ const MusicModal: FC<MusicModalProps> = props => {
 
       {status==='completed'?
       <div className={`overflow-y-auto scrollbar-hide`}>
-      <div className={` bg-slate-700  bg-oparcity-80 p-3`}>
-        <p> {fm1} </p>
+      <div className={` bg-slate-700  bg-oparcity-80 p-3 text-center`}>
+        <p className={`text-xl`}> {fm1} </p>
         <p> {fm2} </p>
       </div>
 
       {/* 차트영역 */}
-      <div className={`pb-5  bg-slate-700`}>
-      <Doughnut data={data} width={50} height={50} options={options}/>
+      <div className={`pb-5  bg-slate-700 grid grid-cols-1 items-center`}>
+        <div className={`max-h-[450px] items-center flex justify-center`}>
+          <Doughnut data={data} width={'10vw'} height={'10vh'} options={options}/>
+        </div>
       </div>
       
       {/* 추천1 */}

@@ -48,13 +48,13 @@ const PlayListDetail: FC<PlayListProps> = props => {
   useEffect(() => {
     dispatch(playListMineAsync())
     setplayListId(Number(router.query.id));
+    dispatch(playListMineAsync());
+    // dispatch(userPlayListAsync();
   }, [router.query]);
 
   useEffect(() => {
     if (playListId === Number(router.query.id))
       dispatch(playListDetailAsync({playListId: Number(playListId)}));
-    dispatch(playListLikeCheckAsync({playListId: Number(playListId)}));
-    dispatch(playListLikeCheckAsync({playListId: Number(playListId)}));
     dispatch(playListLikeCheckAsync({playListId: Number(playListId)}));
   }, [playListId]);
 
@@ -147,7 +147,8 @@ const PlayListDetail: FC<PlayListProps> = props => {
                   {' '}
                   {like ? `💕` : `🖤`} 
                 </p>
-                <p className={`text-lg`}> {lCnt<0?``:lCnt} </p>
+                {/* <p className={`text-lg`}> {lCnt<0?``:lCnt} 
+                </p> */}
               </div>
             
             {/* 재생관련영역 */}

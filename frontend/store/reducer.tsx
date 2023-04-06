@@ -48,6 +48,8 @@ import artistSlice from './api/features/artistSlice';
 import diaryListInputSlice from './api/features/diaryListInputSlice';
 import likeTopSixSlice from './api/features/likeTopSixSlice';
 import diaryPublicUpdateSlice from './api/features/diaryPublicUpdateSlice';
+import playListMusicDelSlice from './api/features/playListMusicDelSlice';
+import playListAllDetailSlice  from './api/features/playListAllDetailSlice';
 import artistLikeSlice from './api/features/artistLikeSlice';
 import userIdSlice from './api/features/userIdSlice';
 import emotionSongSlice from './api/features/MusicEmotionSlice';
@@ -102,6 +104,8 @@ const combinedReducer = combineReducers({
   diaryListInput: diaryListInputSlice,
   likeTopSix: likeTopSixSlice,
   diaryPublic: diaryPublicUpdateSlice,
+  playListMusicDel: playListMusicDelSlice,
+  playlistAllDetail: playListAllDetailSlice,
   artistLike: artistLikeSlice,
   userId: userIdSlice,
   emotionSong: emotionSongSlice

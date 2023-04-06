@@ -15,6 +15,7 @@ module.exports = {
     extend: {
       screens: {
         // pretiier-ignore
+        md50: '500px',
         md86: '860px',
         lg12: '1200px'
       },

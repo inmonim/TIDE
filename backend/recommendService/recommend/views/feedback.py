@@ -80,7 +80,7 @@ class MusicFeedback(Resource):
         
         db.session.commit()
         
-        return {1:1}
+        return {'status' : 200, 'message' : '입력 성공'}
 
 
 class TextLabelFeedback(Resource):
@@ -95,11 +95,10 @@ class TextLabelFeedback(Resource):
         text_feedback.user_id = user_id
         text_feedback.emotion_label = emotion_label
         
-        
         db.session.add(text_feedback)
         db.session.commit()
         
-        return {'status' : 200}
+        return {'status' : 200, 'message' : '입력 성공', 'data' : {'userId' : user_id, 'text' : text, 'emotionLabel' : emotion_label}}
         
         
         

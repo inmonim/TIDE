@@ -20,6 +20,7 @@ export async function getStaticProps() {
 export default function Diary(props: InferGetStaticPropsType<typeof getStaticProps>) {
   const {data} = props
   const diarys = data
+  console.log(diarys)
   return (
     <>
       <Seo title="Diary"/>
@@ -31,8 +32,8 @@ export default function Diary(props: InferGetStaticPropsType<typeof getStaticPro
         <h2 className="mt-6 text-2xl font-bold text-sky-400 "> 모든 일기장 </h2>
         <div className={styles.diarySection}>
           <div className={`${styles.diaryList} overflow-auto scrollbar-hide pt-2 pb-2`}>
-            {diarys && diarys.length >0 ? diarys.map((p: { title: string; nickname: string; createDt: string; like: number; }, id: number) => (
-              <Link href={`/diary/${id}`} className={` h-fit`}>
+            {diarys && diarys.length >0 ? diarys.map((p: { title: string; nickname: string; createDt: string; like: number; id:number; }) => (
+              <Link href={`/diary/${p.id}`} className={` h-fit`}>
                 <div className={`grid gap-x-1 rounded-xl hover:bg-sky-600 hover:border-sky-500 duration-300`}>
                 <div className={`flex overflow-hidden mb-1 bg-slate-900 rounded-md w-[100%] h-[100px] p-[3%] items-center gap-x-2 bg-opacity-80 hover:bg-sky-600 duration-300`}>
                     <div className={``}>

@@ -44,7 +44,6 @@ export default function userDetail() {
   useEffect(()=>{
     if (Nick.nickname === router.query.nickname)
     {
-      console.log(followWaiters.findIndex(e=>e.nickname === Nick.nickname))
       dispatch(userInfoAsync(Nick));
       dispatch(userfollowListAsync(Nick));      
       dispatch(userfollowerListAsync(Nick));
@@ -96,9 +95,6 @@ export default function userDetail() {
     return state.userPlayList;
   });
 
-  
-
-  
 
   // 메시지 방 생성
   const onSendMessage = async () => {
@@ -265,7 +261,8 @@ export default function userDetail() {
               {diarys && diarys.length >0 ? diarys.filter(function(c){ return c.pub==='0'; }).map((p, id) => (
             <Link href={`/diary/${p.id}`} className={` h-fit`}>
                 <div className={`grid items-center mb-2 md:flex bg-slate-900 rounded-md w-[100%] h-[90px] p-[2%] items-center gap-2 bg-opacity-80 md:justify-between hover:bg-blue-500 duration-300 overflow-hidden`}>
-                  <div className={`md:w-[80%] w-[90%] whitespace-nowrap`}>
+                  <div className={`md:w-[80%] w-[90%] whitespace-nowrap flex items-center`}>
+                    <p className={`pr-1 pl-1 border rounded-lg text-sm mr-2 ${p.pub ==='0'? `bg-blue-800 md:px-3` : `bg-red-800 md:px-3`}`}> {p.pub ==='0'? `공개` : `비공개`}</p>
                     <p> {`${p.title}`}</p>
                     </div>
                     <div className={` md:flex md:gap-x-4`}>

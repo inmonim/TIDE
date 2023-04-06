@@ -41,8 +41,8 @@ function Profile() {
     dispatch(profileAsync());
     dispatch(followerListAsync());
     dispatch(followListAsync());
-    dispatch(diaryMineAsync());
     dispatch(playListMineAsync());
+    dispatch(diaryMineAsync());
   }, []);
 
   const [FModalType, setFModalType] = useState<Number>(0);
@@ -177,7 +177,7 @@ function Profile() {
                 <div className={`grid items-center mb-2 md:flex bg-slate-900 rounded-md w-[100%] h-[90px] p-[2%] items-center gap-2 bg-opacity-80 md:justify-between hover:bg-blue-500 duration-300 overflow-hidden`}>
 
                 <div className={`md:w-[80%] w-[90%] whitespace-nowrap flex items-center`}>
-                  <p className={`pr-1 pl-1 border rounded-lg text-sm mr-2 ${p.pub ==='0'? `bg-blue-800 md:px-3` : `bg-red-800`}`}> {p.pub ==='0'? `공개` : `비공개`}</p>
+                  <p className={`pr-1 pl-1 border rounded-lg text-sm mr-2 ${p.pub ==='0'? `bg-blue-800 md:px-3` : `bg-red-800 md:px-3`}`}> {p.pub ==='0'? `공개` : `비공개`}</p>
                   <p> {`${p.title}`}</p>
                   </div>
                   <div className={` md:flex md:gap-x-4`}>

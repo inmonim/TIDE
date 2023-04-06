@@ -189,7 +189,11 @@ function Musicpage() {
             <div className="flex flex-col items-center md:text-2xl font-semibold w-[500px] text-md">
               이 노래에는 어떤 감정이 느껴지나요?
               <div className="flex justify-center md:w-[500px] my-4 border-2 bg-slate-600 rounded-xl w-[300px]">
-                <MusicEmotion emotions={Emotions} />
+                <MusicEmotion
+                  songId={MusicId}
+                  emotions={Emotions}
+                  userId={userId}
+                />
               </div>
             </div>
             <div className="flex flex-col items-center md:text-2xl font-semibold md:w-[500px] w-[200px] text-md">

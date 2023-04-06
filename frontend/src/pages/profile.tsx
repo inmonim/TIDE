@@ -177,7 +177,7 @@ function Profile() {
 
             {dpChange?<>
               {diarys && diarys.length >0 ? diarys.filter(function(c){ return c.pub==='0'; }).map((p, id) => (
-            <Link href={`/diary/${id}`} className={` h-fit`}>
+            <Link href={`/diary/${p.id}`} className={` h-fit`}>
                 <div className={` mb-2 flex bg-slate-900 rounded-md w-[100%] h-[70px] p-[2%] items-center gap-2 bg-opacity-80 justify-between hover:bg-blue-500 duration-300 overflow-hidden`}>
 
                 <div className={`md:w-[70%] w-[90%]`}>

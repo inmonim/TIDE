@@ -78,6 +78,10 @@
     //             inset 0 0 1.3rem #0777D9;
   }
 }
+.titleShadow {
+  font-family: 'Tilt Prism', cursive;
+  text-shadow: 0 0 7px #999, 0 0 10px #eee, 0 0 42px #0777d9;
+}
 
 .diarySection {
   margin: 2rem auto;

@@ -1,20 +1,10 @@
 import { Dialog, Transition } from '@headlessui/react'
 import { Fragment, useState } from 'react'
 
-export default function Modal({closeModal, isOpen} : any) {
+export default function Modal({deleteDiary, closeModal, isOpen} : any) {
 
   return (
     <>
-      {/* <div className="fixed inset-0 flex items-center justify-center">
-        <button
-          type="button"
-          onClick={openModal}
-          className="px-4 py-2 text-sm font-medium text-white bg-black rounded-md bg-opacity-20 hover:bg-opacity-30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75"
-        >
-          Open dialog
-        </button>
-      </div> */}
-
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-10" onClose={closeModal}>
           <Transition.Child
@@ -51,17 +41,17 @@ export default function Modal({closeModal, isOpen} : any) {
                   <div className="mt-4">
                     <button
                       type="button"
-                      className="inline-flex justify-center px-4 py-1 text-sm font-medium text-white bg-blue-900 border border-transparent rounded-md hover:bg-blue-800 focus:outline-none "
-                      onClick={closeModal}
+                      className="inline-flex justify-center min-w-[4.5rem] px-4 py-1 mr-2 text-sm font-medium text-white bg-red-900 border border-transparent rounded-md hover:bg-red-800 focus:outline-none "
+                      onClick={deleteDiary}
                     >
-                      네
+                      삭제
                     </button>
                     <button
                       type="button"
-                      className="inline-flex justify-center px-4 py-1 text-sm font-medium text-white bg-red-900 border border-transparent rounded-md hover:bg-red-800 focus:outline-none "
+                      className="inline-flex justify-center px-4 py-1 min-w-[4.5rem] text-sm font-medium text-white bg-blue-900 border border-transparent rounded-md hover:bg-blue-800 focus:outline-none "
                       onClick={closeModal}
                     >
-                      아니오
+                      취소
                     </button>
                   </div>
                 </Dialog.Panel>

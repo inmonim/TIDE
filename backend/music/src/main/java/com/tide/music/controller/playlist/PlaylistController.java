@@ -5,6 +5,7 @@ import com.tide.music.request.RequestPlaylist;
 import com.tide.music.request.RequestPlaylistId;
 import com.tide.music.request.RequestPlaylistInfo;
 import com.tide.music.response.ResponseListSong;
+import com.tide.music.response.ResponseListUser;
 import com.tide.music.response.ResponsePlaylist;
 import com.tide.music.response.ResponseSearchSong;
 import com.tide.music.service.playlist.PlaylistService;
@@ -62,6 +63,13 @@ public class PlaylistController {
     public List<ResponseListSong> getPlaylistInfo(@RequestHeader("email") String email,
                                                   @PathVariable("playlistId") Long playlistId) {
         return playListService.getPlaylistInfo(email, playlistId);
+    }
+
+    // 플레이리스트가 어느 유저의 것인가?
+    @GetMapping("/playlist/user/{playlistId}")
+    public ResponseListUser getPlaylistUsers(@RequestHeader("email") String email,
+                                             @PathVariable("playlistId") Long playlistId) {
+        return playListService.getPlaylistUsers(email, playlistId);
     }
 
     // 좋아요 상위 플레이리스트 6개

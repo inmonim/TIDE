@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import {useRouter} from 'next/router';
 import Seo from '@/components/Seo';
 import parse from 'html-react-parser';

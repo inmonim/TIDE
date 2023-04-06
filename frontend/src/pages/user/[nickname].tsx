@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import {useAppDispatch, useAppSelector} from 'store'; //스토어 생성단계에서 export한 커스텀 dispatch, selector hook
 import {useRouter} from 'next/router';
 import {followReqAsync} from 'store/api/features/followReqSlice';
@@ -259,10 +258,13 @@ export default function userDetail() {
 
             {dpChange?<>
               {diarys && diarys.length >0 ? diarys.map((p, id) => (
-            <Link href={`/diary/${p.id}`} className={` h-fit`}>
-                <div className={`grid items-center mb-2 md:flex bg-slate-900 rounded-md w-[100%] h-[90px] p-[2%] items-center gap-2 bg-opacity-80 md:justify-between hover:bg-blue-500 duration-300 overflow-hidden`}>
+                <div 
+                onClick={()=>{
+                  router.push(`/diary/${p.id}`)
+                }}
+                className={`grid items-center mb-2 md:flex bg-slate-900 rounded-md w-[100%] h-[90px] p-[2%] items-center gap-2 bg-opacity-80 md:justify-between hover:bg-blue-500 duration-300 overflow-hidden`}>
                   <div className={`md:w-[80%] w-[90%] whitespace-nowrap flex items-center`}>
-                    <p className={`pr-1 pl-1 border rounded-lg text-sm mr-2 ${p.pub ==='0'? `bg-blue-800 md:px-3` : `bg-red-800 md:px-3`}`}> {p.pub ==='0'? `공개` : `비공개`}</p>
+                    <p className={`pr-1 pl-1 border rounded-lg text-sm mr-2 ${p.pub ==='0'? `bg-blue-800 md:px-3` : `bg-red-800 md:px-3`}`}> {p.pub ==='0'? `공개` : `팔로워`}</p>
                     <p> {`${p.title}`}</p>
                     </div>
                     <div className={` md:flex md:gap-x-4`}>
@@ -274,7 +276,6 @@ export default function userDetail() {
                   <div>
                   </div>
                 </div>         
-            </Link>
         )):
         <div className={`w-full bg-slate-900 bg-opacity-60 text-center h-full items-center flex flex-row justify-center`}>
           <p> 아직 작성된 일기가 없습니다. </p>
@@ -283,27 +284,27 @@ export default function userDetail() {
             </>:
             <>
             {playlists && playlists.length >0 ? playlists.filter(function(c){ return c.isPublic==='0'; }).map((p, id) => (
-            <Link               
-            href={{
-              pathname: `/playlist/${p.id}`,
-              query: {
-                playlistTitle: p.playlistTitle,
-                isPublic:p.isPublic,
-                likeCnt:p.likeCnt
+
+           <div 
+           onClick={()=>{
+            router.push(
+              {
+                pathname: `/playlist/${p.id}`,
+                query: {
+                  playlistTitle: p.playlistTitle,
+                  isPublic:p.isPublic,
+                  likeCnt:p.likeCnt
+                }
               }
-            }}
-            as={`/playlist/${p.id}`}
-            className={` h-fit`}>
-
-
-           <div className={`grid items-center mb-2 md:flex bg-slate-900 rounded-md w-[100%] h-[90px] p-[2%] items-center gap-2 bg-opacity-80 md:justify-between hover:bg-blue-500 duration-300 overflow-hidden`}>
+              ,`/playlist/${p.id}`
+            )}}
+           className={`grid items-center mb-2 md:flex bg-slate-900 rounded-md w-[100%] h-[90px] p-[2%] items-center gap-2 bg-opacity-80 md:justify-between hover:bg-blue-500 duration-300 overflow-hidden`}>
                 <div className={`md:w-[80%] w-[90%] whitespace-nowrap`}>
                   <p> {`${p.playlistTitle}`}</p>
                   <p className={`text-sm whitespace-nowrap`}> 💕 {`${p.likeCnt}`} </p>
 
           </div>              </div> 
 
-            </Link>
             )):
             <div className={`w-full bg-slate-900 bg-opacity-60 text-center h-full items-center flex flex-row justify-center`}>
               <p> 플레이리스트가 없습니다. </p>

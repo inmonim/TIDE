@@ -7,18 +7,39 @@ interface recomMusicState {
   status: string;
   error: string | undefined;
   // result: MusicInterface | undefined
-  songModel1CosineTop:song| undefined;
-  songModel1T3Top:song| undefined;
-  songModel2CosineTop:song| undefined;
-  songModel2T3Top:song| undefined;
+
+  aModel2CategoryTop1One:song| undefined;
+  bModel2CategoryTop1Two:song| undefined;
+  cModel2CategoryTop2One:song| undefined;
+  dModel2CategoryTop2Two:song| undefined;
+  eModel1CategoryTop1:song| undefined;
+  fModel1CategoryTop2:song| undefined;
+
+  messageFirst:string;
+  messageSecond:string;
+
+  emotion0: number | undefined;
+  emotion1: number | undefined;
+  emotion2: number | undefined;
+  emotion3: number | undefined;
+  emotion4: number | undefined;
+  emotion5: number | undefined;
+  emotion6: number | undefined;
+  emotion7: number | undefined;
+  emotion8: number | undefined;
+  emotion9: number | undefined;
+
+
   selectSong:song | undefined;
 }
 
 interface MusicInterface{
-  songModel1CosineTop:song,
-  songModel1T3Top:song,
-  songModel2CosineTop:song,
-  songModel2T3Top:song
+  aModel2CategoryTop1One:song,
+  bModel2CategoryTop1Two:song,
+  cModel2CategoryTop2One:song,
+  dModel2CategoryTop2Two:song,
+  eModel1CategoryTop1:song,
+  fModel1CategoryTop2:song
 }
 
 interface song{
@@ -38,11 +59,25 @@ interface recomProps {
 const initialState: recomMusicState = {
   status: '',
   error: '',
-  songModel1CosineTop:undefined,
-  songModel1T3Top:undefined,
-  songModel2CosineTop:undefined,
-  songModel2T3Top:undefined,
-  selectSong: undefined
+  aModel2CategoryTop1One: undefined,
+  bModel2CategoryTop1Two: undefined,
+  cModel2CategoryTop2One: undefined,
+  dModel2CategoryTop2Two: undefined,
+  eModel1CategoryTop1: undefined,
+  fModel1CategoryTop2: undefined,
+  selectSong: undefined,
+  emotion0: undefined,
+  emotion1: undefined,
+  emotion2: undefined,
+  emotion3: undefined,
+  emotion4: undefined,
+  emotion5: undefined,
+  emotion6: undefined,
+  emotion7: undefined,
+  emotion8: undefined,
+  emotion9: undefined,
+  messageFirst: '',
+  messageSecond: ''
 }
 ;
 
@@ -89,12 +124,28 @@ export const recomMusicSlice = createSlice({
       })
       .addCase(recomMusicAsync.fulfilled, (state, action) => {
         state.status = 'completed';
-        state.songModel1CosineTop = action.payload.song_list.songModel1CosineTop;
-        state.songModel1T3Top = action.payload.song_list.songModel1T3Top;
-        state.songModel2CosineTop = action.payload.song_list.songModel2CosineTop;
-        state.songModel2T3Top = action.payload.song_list.songModel2T3Top;
+        state.aModel2CategoryTop1One = action.payload.songList.aModel2CategoryTop1One;
+        state.bModel2CategoryTop1Two = action.payload.songList.bModel2CategoryTop1Two;
+        state.cModel2CategoryTop2One = action.payload.songList.cModel2CategoryTop2One;
+        state.dModel2CategoryTop2Two = action.payload.songList.dModel2CategoryTop2Two;
+        state.eModel1CategoryTop1 = action.payload.songList.eModel1CategoryTop1;
+        state.fModel1CategoryTop2 = action.payload.songList.fModel1CategoryTop2;
+        state.emotion0 = action.payload.messageList.emotionList[0];
+        state.emotion1 = action.payload.messageList.emotionList[1];
+        state.emotion2 = action.payload.messageList.emotionList[2];
+        state.emotion3 = action.payload.messageList.emotionList[3];
+        state.emotion4 = action.payload.messageList.emotionList[4];
+        state.emotion5 = action.payload.messageList.emotionList[5];
+        state.emotion6 = action.payload.messageList.emotionList[6];
+        state.emotion7 = action.payload.messageList.emotionList[7];
+        state.emotion8 = action.payload.messageList.emotionList[8];
+        state.emotion9 = action.payload.messageList.emotionList[9];
+        state.messageFirst = action.payload.messageList.first;
+        state.messageSecond = action.payload.messageList.second;
 
-        console.log('음악 추천 성공', state.songModel1CosineTop,state.songModel1T3Top,state.songModel2CosineTop,state.songModel2T3Top)
+
+        console.log('음악 추천 성공')
+        console.log(action.payload)
       })
       .addCase(recomMusicAsync.rejected, (state, action) => {
         state.status = 'failed';

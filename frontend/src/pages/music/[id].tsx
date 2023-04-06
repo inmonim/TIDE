@@ -3,6 +3,7 @@ import {useRouter} from 'next/router';
 import Image from 'next/image';
 import {useEffect, useState} from 'react';
 import HeartButton from '@/components/Like/HeartButton';
+import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 import {useAppSelector, useAppDispatch} from 'store';
 import {musicAsync} from 'store/api/features/musicSlice';
 import {getvideoId} from 'store/api/features/nowmusicSlice';
@@ -58,8 +59,6 @@ function Musicpage() {
     dispatch(userIdAsync());
   }, []);
 
-  console.log(userId, 'userId');
-
   useEffect(() => {
     dispatch(playListMineAsync());
   }, []);
@@ -97,6 +96,7 @@ function Musicpage() {
   if (status === 'loading') {
     return <div>Loading...</div>;
   }
+
   return (
     <div>
       <Head>
@@ -134,13 +134,18 @@ function Musicpage() {
       ) : null}
       <main className="flex flex-col md:pb-[9rem] md:pt-0.5 md:w-screen md:min-h-screen md:bg-gradient-to-t md:from-slate-700 md:to-slate-900 bg-transparent min-w-screen min-h-screen w-screen h-screen pt-[45px] ">
         <div className="md:absolute absolute flex flex-col justify-center md:left-[230px] md:w-[1690px] md:mt-12 text-white ">
-          <div className="flex flex-row justify-center items-center min-h-[25vh]">
+          <ArrowBackRoundedIcon
+            className="ml-4 md:hidden hover:text-blue-300"
+            fontSize="medium"
+            onClick={() => router.back()}
+          />
+          <div className="flex flex-row justify-center items-center min-h-[22vh]">
             {/* 노래 제목, 출시일, 아티스트 이름 */}
             <div className="flex flex-col ml-4 md:ml-10">
-              <div className="flex items-center justify-center ">
+              <div className="flex w-[90vw] items-center justify-center md:w-full ">
                 {albumImage ? (
                   <img
-                    className="w-40 h-40 rounded-full border-4 md:w-[350px] md:h-[350px] animate-[spin_50s_linear_infinite] cursor-pointer hover:opacity-80"
+                    className="w-[38vw] h-fit rounded-full border-4 md:w-[350px] md:h-[350px] animate-[spin_50s_linear_infinite] cursor-pointer hover:opacity-80"
                     src={albumImage}
                     alt="album_image"
                     onClick={gotoartistpage}

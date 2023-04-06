@@ -140,10 +140,9 @@ public class PlaylistServiceImpl implements PlaylistService {
     @Override
     @Transactional
     public ResponseListUser getPlaylistUsers(String email, Long playlistId) {
-        Long userId = userServiceClient.getUserId(email);
         Optional<UserPlaylist> playlist = userPlayListRepository.findById(playlistId);
         Long check = playlist.get().getUserId();
-        String nickname = userServiceClient.getNickname(userId);
+        String nickname = userServiceClient.getNickname(check);
         ResponseListUser response = new ResponseListUser();
         response.setLikecnt(playlist.get().getLikeCnt());
         response.setPlaylistId(playlistId);

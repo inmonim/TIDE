@@ -228,7 +228,6 @@ export default function Diary() {
       <div className={styles.diaryNav}>
         <Link href="/diary/create">
           <button>
-            {' '}
             <p className="text-2xl ml-0.5">📝</p>{' '}
           </button>
         </Link>

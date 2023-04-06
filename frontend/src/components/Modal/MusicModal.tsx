@@ -5,6 +5,29 @@ import { initContent, setContent } from 'store/api/features/diaryContentSlice';
 import { recomMusicAsync, recominitStatus, setSong } from 'store/api/features/recomMusicSlice';
 import { musicsearchAsync,searchinitStatus } from 'store/api/features/musicsearchSlice';
 import { diaryMineAsync } from 'store/api/features/diaryMineSlice';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler,
+ } from "chart.js/auto";
+ ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement,
+  Title,
+  Tooltip,
+  Legend,
+  Filler,
+ );
+
+import { Doughnut } from 'react-chartjs-2';
 
 export type MusicModalProps = {
   type:Number
@@ -20,6 +43,7 @@ interface song{
 }
 
 const MusicModal: FC<MusicModalProps> = props => {
+
   const {type, getModalType} = props;
   const dispatch = useAppDispatch();
   const {content} = useAppSelector(state => {
@@ -38,32 +62,77 @@ const MusicModal: FC<MusicModalProps> = props => {
   },[type])
 
   const {status,
-    songModel1CosineTop,
-    songModel1T3Top,
-    songModel2CosineTop,
-    songModel2T3Top
+    aModel2CategoryTop1One,
+    bModel2CategoryTop1Two,
+    cModel2CategoryTop2One,
+    dModel2CategoryTop2Two,
+    eModel1CategoryTop1,
+    fModel1CategoryTop2,
+    emotion0,
+    emotion1,
+    emotion2,
+    emotion3,
+    emotion4,
+    emotion5,
+    emotion6,
+    emotion7,
+    emotion8,
+    emotion9,
+    messageFirst,
+    messageSecond
   } = useAppSelector(state => {
     return state.recomMusic;
   });
 
-  const [recStatus, setrecStatus] = useState<string>(status)
   const [song1, setsong1] = useState<song>();
   const [song2, setsong2] = useState<song>();
   const [song3, setsong3] = useState<song>();
   const [song4, setsong4] = useState<song>();
+  const [song5, setsong5] = useState<song>();
+  const [song6, setsong6] = useState<song>();
+  const [fm1,setfm1] = useState<string>();
+  const[fm2, setfm2] = useState<string>();
+
+  const [e0, sete0] = useState<number>();
+  const [e1, sete1] = useState<number>();
+  const [e2, sete2] = useState<number>();
+  const [e3, sete3] = useState<number>();
+  const [e4, sete4] = useState<number>();
+  const [e5, sete5] = useState<number>();
+  const [e6, sete6] = useState<number>();
+  const [e7, sete7] = useState<number>();
+  const [e8, sete8] = useState<number>();
+  const [e9, sete9] = useState<number>();
+
 
   useEffect(()=>{
     // setrecStatus(status)
     if(status==='completed')
     {    
-      setsong1(songModel1CosineTop)
-      setsong2(songModel1T3Top)
-      setsong3(songModel2CosineTop)
-      setsong4(songModel2T3Top)
+      setsong1(aModel2CategoryTop1One)
+      setsong2(bModel2CategoryTop1Two)
+      setsong3(cModel2CategoryTop2One)
+      setsong4(dModel2CategoryTop2Two)
+      setsong5(eModel1CategoryTop1)
+      setsong6(fModel1CategoryTop2)
+      setfm1(messageFirst)
+      setfm2(messageSecond)
+      sete0(emotion0)
+      sete1(emotion1)
+      sete2(emotion2)
+      sete3(emotion3)
+      sete4(emotion4)
+      sete5(emotion5)
+      sete6(emotion6)
+      sete7(emotion7)
+      sete8(emotion8)
+      sete9(emotion9)
+
     }
     // console.log('get' ,status, songModel1CosineTop,songModel1T3Top,songModel2CosineTop,songModel2T3Top)
     // console.log('re',recStatus, song1,song2,song3,song4)
   },[status])
+
 
   const onSetSong = (song:song) => {
       dispatch(setSong(song));
@@ -78,6 +147,62 @@ const MusicModal: FC<MusicModalProps> = props => {
   } = useAppSelector(state => {
     return state.musicsearch;
   });
+
+  const data={
+    backgroundColor:[
+      "rgb(204,61,61)",
+      "rgb(103,0,0)",
+      "rgb(2,88,255)",
+      "rgb(33,33,33)",
+      "rgb(255,166,72)",
+      "rgb(128,65,217)",
+      "rgb(0,87,102)",
+      "rgb(63,0,153)",
+      "rgb(255,178,217)",
+      "rgb(250,237,125)",
+    ],
+    labels:[ '분노', '악의','슬픔','절망','당황','걱정','컴플렉스','상처','사랑','행복'],
+    datasets:[
+      {
+        label: "감정분석표",
+        data:[
+          e0&&e0>0?e0:0,
+          e1&&e1>0?e1:0,
+          e2&&e2>0?e2:0,
+          e3&&e3>0?e3:0,
+          e4&&e4>0?e4:0,
+          e5&&e5>0?e5:0,
+          e6&&e6>0?e6:0,
+          e7&&e7>0?e7:0,
+          e8&&e8>0?e8:0,
+          e9&&e9>0?e9:0,
+        ],
+        backgroundColor:[
+          "rgb(204,61,61)",
+          "rgb(103,0,0)",
+          "rgb(2,88,255)",
+          "rgb(33,33,33)",
+          "rgb(255,166,72)",
+          "rgb(128,65,217)",
+          "rgb(0,87,102)",
+          "rgb(63,0,153)",
+          "rgb(255,178,217)",
+          "rgb(250,237,125)",
+        ],
+        hoverOffset:4,
+      },
+    ],
+  };
+
+  const options={
+    elements:{
+      // arc:{
+      //   weight:0.5,
+      //   borderWidth:3,
+      // },
+    },
+    cutout:150,
+  };
 
   return(
     <>
@@ -132,6 +257,16 @@ const MusicModal: FC<MusicModalProps> = props => {
 
       {status==='completed'?
       <div className={`overflow-y-auto scrollbar-hide`}>
+      <div className={` bg-slate-700  bg-oparcity-80 p-3`}>
+        <p> {fm1} </p>
+        <p> {fm2} </p>
+      </div>
+
+      {/* 차트영역 */}
+      <div className={`pb-5  bg-slate-700`}>
+      <Doughnut data={data} width={50} height={50} options={options}/>
+      </div>
+      
       {/* 추천1 */}
       <div className={`flex gap-2 bg-slate-700 w-[100%] h-[30%] p-[2%] overflow-hidden `}>
         <img src={song1?.albumImgPath}></img>
@@ -149,6 +284,9 @@ const MusicModal: FC<MusicModalProps> = props => {
           </div>
         </div>
       </div>
+
+
+      
 
       {/* 추천2 */}
 
@@ -201,6 +339,44 @@ const MusicModal: FC<MusicModalProps> = props => {
             <button className={`border rounded-lg bg-slate-500 p-1 w-12 text-[8px] md:text-sm`}> 듣기 </button>
             <button 
             onClick={()=> song4?onSetSong(song4):null}
+            className={`border rounded-lg bg-slate-500 p-1 w-12 text-[8px] md:text-sm`}> 선택 </button>
+          </div>
+        </div>
+      </div>
+
+      
+      {/* 추천5 */}
+
+      <div className={`flex gap-2 bg-slate-700 w-[100%] h-[30%] p-[2%] `}>
+        <img src={song5?.albumImgPath}></img>
+        <div>
+        <p className={`text-md md:text-lg whitespace-nowrap`}> {song5?.title}</p>
+          <p className={`text-[10px] md:text-sm whitespace-nowrap`}>  album.{song5?.albumTitle} </p>
+          <p className={`text-[10px] md:text-sm whitespace-nowrap`}>  {song5?.artist}</p>
+
+          <div className={`flex justify-start gap-x-3`}>
+            <button className={`border rounded-lg bg-slate-500 p-1 w-12 text-[8px] md:text-sm`}> 듣기 </button>
+            <button 
+            onClick={()=> song5?onSetSong(song5):null}
+            className={`border rounded-lg bg-slate-500 p-1 w-12 text-[8px] md:text-sm`}> 선택 </button>
+          </div>
+        </div>
+      </div>
+
+      
+      {/* 추천6 */}
+
+      <div className={`flex gap-2 bg-slate-700 w-[100%] h-[30%] p-[2%] `}>
+        <img src={song6?.albumImgPath}></img>
+        <div>
+        <p className={`text-md md:text-lg whitespace-nowrap`}> {song6?.title}</p>
+          <p className={`text-[10px] md:text-sm whitespace-nowrap`}>  album.{song6?.albumTitle} </p>
+          <p className={`text-[10px] md:text-sm whitespace-nowrap`}>  {song6?.artist}</p>
+
+          <div className={`flex justify-start gap-x-3`}>
+            <button className={`border rounded-lg bg-slate-500 p-1 w-12 text-[8px] md:text-sm`}> 듣기 </button>
+            <button 
+            onClick={()=> song6?onSetSong(song6):null}
             className={`border rounded-lg bg-slate-500 p-1 w-12 text-[8px] md:text-sm`}> 선택 </button>
           </div>
         </div>

@@ -28,9 +28,10 @@ tok = nlp.data.BERTSPTokenizer(tokenizer, vocab, lower=False)
 print('LOADING SUCCESS tokenizer, bertmodel')
 
 # print('LOADING keyBERT model')
-# kw_model = KeyBERT(bertmodel)
+# kw_model = KeyBERT(bertmodel),
 # print('LOADING SUCCESS KeyBERT model')
 
+emotion_list = ['분노', '악의', '슬픔', '절망', '당황', '걱정', '질투', '상처', '사랑', '행복']
 
 class BERTClassifier(nn.Module):
     def __init__(self,
@@ -113,9 +114,131 @@ def emotion_predict(model, predict_sentence, max_len):
         label = label.long().to(device)
 
         out = model(token_ids, valid_length, segment_ids)
-
+        
     print('SUCCESS emotion predict : ', out[0])
     return out[0]
+
+
+def emotion_t2_rank(emo_list):
+    emo_list = emo_list.tolist()
+    for i in range(len(emo_list)):
+        if emo_list[i] == max(emo_list):
+            t1 = i
+            break
+    del emo_list[t1]
+    for i in range(len(emo_list)):
+        if emo_list[i] == max(emo_list):
+            t2 = i
+            break
+    print(f'top 1 emo : {t1}, top 2 emo : {t2}')
+    return t1, t2
+
+
+
+
+def drow_id(select_score, colper):
+    
+    drow_box = []
+    for i in range(len(select_score)):
+        mul = 0
+        for k, v in colper.items():
+            mul += select_score.iloc[i, k] // v if select_score.iloc[i, k] else 0
+            
+        drow_box.extend([i] * mul)
+
+    select_1 = random.choice(drow_box)
+    select_2 = random.choice(drow_box)
+    while select_1 == select_2:
+        select_2 = random.choice(drow_box)
+
+    return (select_score.iloc[select_1, 0], select_score.iloc[select_2, 0])
+
+# sadly : 1 , calm : 2, love : 3, farewall : 4, cool : 5, myway : 6, comic : 7, anger : 8, exciting: 9
+
+def predict_category(score_board, t):
+# 분노 폭발
+    if t == 0:
+        select_score = score_board[(score_board.iloc[:, 8] > 0) | (score_board.iloc[:, 6] > 0)]
+        colper = {8: 10, 6: 20}
+        recommend_song_id = drow_id(select_score, colper)
+
+    # 분노 다스리기
+    elif t == 1:
+        select_score = score_board[(score_board.iloc[:, 2] > 0) | (score_board.iloc[:, 5] > 0)]
+        colper = {2: 10, 5: 30}
+        recommend_song_id = drow_id(select_score, colper)
+
+    # 슬픔 터뜨리기
+    elif t == 2:
+        select_score = score_board[(score_board.iloc[:, 1] > 0) | (score_board.iloc[:, 3] > 0)]
+        colper = {1: 10, 3: 20}
+        recommend_song_id = drow_id(select_score, colper)
+
+    # 절망 다스리기
+    elif t == 3:
+        select_score = score_board[(score_board.iloc[:, 2] > 0) | (score_board.iloc[:, 9] > 0)]
+        colper = {2: 10, 9: 20}
+        recommend_song_id = drow_id(select_score, colper)
+        
+    # 당황, 웃음
+    elif t == 4:
+        select_score = score_board[(score_board.iloc[:, 7] > 0) | (score_board.iloc[:, 9] > 0)]
+        colper = {7: 10, 9: 20}
+        recommend_song_id = drow_id(select_score, colper)
+
+    # 걱정은 당당하게
+    elif t == 5:
+        select_score = score_board[(score_board.iloc[:, 6] > 0) | (score_board.iloc[:, 9] > 0)]
+        colper = {6: 10, 9: 20}
+        recommend_song_id = drow_id(select_score, colper)
+
+    # 컴플렉스는 분노 폭발
+    elif t == 6:
+        select_score = score_board[(score_board.iloc[:, 6] > 0) | (score_board.iloc[:, 8] > 0)]
+        colper = {6: 10, 8: 20}
+        recommend_song_id = drow_id(select_score, colper)
+
+    # 상처는 노래로 위로
+    elif t == 7:
+        select_score = score_board[(score_board.iloc[:, 2] > 0) | (score_board.iloc[:, 3] > 0)]
+        colper = {2: 10, 3: 20}
+        recommend_song_id = drow_id(select_score, colper)
+
+    # 사랑은 더욱 사랑스럽게
+    elif t == 8:
+        select_score = score_board[(score_board.iloc[:, 3] > 0) | (score_board.iloc[:, 2] > 0)]
+        colper = {3: 10, 9: 30}
+        recommend_song_id = drow_id(select_score, colper)
+
+    # 행복함은 즐기기
+    elif t == 9:
+        select_score = score_board[(score_board.iloc[:, 2] > 0) | (score_board.iloc[:, 9] > 0) | (score_board.iloc[:, 5] > 0)]
+        colper = {3: 10, 5:20, 9: 30}
+        recommend_song_id = drow_id(select_score, colper)
+        
+    return recommend_song_id
+    
+    
+    
+    
+    
+    
+    
+    
+    
+
+# ========================================================================================================
+
+# 사용할지 미지수인 함수들
+
+# ========================================================================================================
+
+
+
+# 키워드 추출기는 리소스를 굉장히 많이 사용하기 때문에 서버에서 구동할 수가 없다...
+
+
+# 추출된 감성의 점수 상위 3개를 선정. 긍정 감성의 점수는 양수일 경우 편향값을 준다
 
 
 def recommend_cosine(df, input_emotion):
@@ -146,18 +269,7 @@ def recommend_cosine(df, input_emotion):
     return song_id
 
 
-# ========================================================================================================
 
-# 사용할지 미지수인 함수들
-
-# ========================================================================================================
-
-
-
-# 키워드 추출기는 리소스를 굉장히 많이 사용하기 때문에 서버에서 구동할 수가 없다...
-
-
-# 추출된 감성의 점수 상위 3개를 선정. 긍정 감성의 점수는 양수일 경우 편향값을 준다
 
 def emotion_rank(pre_result):
     if pre_result[8] >= math.sqrt(sum(abs(pre_result))/10):

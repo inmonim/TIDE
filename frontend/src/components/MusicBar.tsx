@@ -116,6 +116,16 @@ const MusicBar: FC<MusicBarProps> = props => {
     }
   }, [init, fullplaytime]);
   const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (youtube.current && fullplaytime === youtube.current.getDuration()) {
+      const fullSet = setInterval(() => {
+        setFullPlaytime(parseInt(youtube.current.getDuration()));
+        if (playbarRef.current) playbarRef.current.value = '0';
+      }, 100);
+      return () => clearInterval(fullSet);
+    }
+  }, [musicplay.videoId] );
   
   return (
     <>

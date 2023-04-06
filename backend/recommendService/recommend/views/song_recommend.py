@@ -61,7 +61,7 @@ class MusicRecommend(Resource):
             song_id_list = [category_rec_model_2_t1_song_id_1, category_rec_model_2_t1_song_id_2,
                             category_rec_model_2_t2_song_id_1, category_rec_model_2_t2_song_id_2,
                             category_rec_model_1_t1_song_id, category_rec_model_1_t2_song_id]
-            song_cls = ['1Model2CategoryTop1One', '2Model2CategoryTop1Two', '3Model2CategoryTop2One', '4Model2CategoryTop2Two', '5Model1CategoryTop1', '6Model1CategoryTop2']
+            song_cls = ['aModel2CategoryTop1One', 'bModel2CategoryTop1Two', 'cModel2CategoryTop2One', 'dModel2CategoryTop2Two', 'eModel1CategoryTop1', 'fModel1CategoryTop2']
             recommend_list = {}
             
             cnt = 0

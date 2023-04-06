@@ -284,7 +284,8 @@ export default function Diary() {
                 <div className={`${styles.caroselMusic} min-w-[230px] max-w-[230px] min-h-[380px]`}>
                   <div 
                   style={{
-                    background: `url(${diary.albumImgPath})`
+                    background: `url(${diary.albumImgPath})`,
+                    backgroundSize: `contain`
                   }}
                   className={`bg-[url('https://image.bugsm.co.kr/album/images/130/40780/4078016.jpg')] bg-no-repeat bg-cover animate-[spin_5s_linear_infinite] pause hover:running ${styles.cdBG}`}>
                   </div>

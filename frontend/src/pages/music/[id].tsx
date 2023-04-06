@@ -72,7 +72,7 @@ function Musicpage() {
   }, [MusicId]);
 
   const playMusic = () => {
-    dispatch(getvideoId({musicUrl, albumImage, musicTitle, artistName}));
+    dispatch(getvideoId({videoId:musicUrl, albumImgPath:albumImage, title:musicTitle, artist:artistName}));
   };
 
   const handlePlaylistAdd = () => {

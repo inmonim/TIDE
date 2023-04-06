@@ -3,6 +3,7 @@ import SideBar from './SideBar';
 import styles from '@/styles/MusicBar.module.scss';
 import ReactPlayer from 'react-player';
 import {useAppSelector, useAppDispatch} from 'store';
+import { changeNextSong, changePrevSong } from 'store/api/features/nowmusicSlice';
 
 export type MusicBarProps = {};
 
@@ -28,10 +29,12 @@ const MusicBar: FC<MusicBarProps> = props => {
   const musicplay = useAppSelector(state => state.nowmusic);
 
   useEffect(() => {
-    if (musicplay.musicUrl) {
+
+    if (musicplay.videoId) {
       setPlaying(true);
     }
-    setSrc(`https://www.youtube.com/watch?v=${musicplay.musicUrl}`);
+    setSrc(`https://www.youtube.com/watch?v=${musicplay.videoId}`);
+
     setInit(true);
   }, [musicplay]);
 
@@ -112,7 +115,8 @@ const MusicBar: FC<MusicBarProps> = props => {
       return () => clearInterval(fullSet);
     }
   }, [init, fullplaytime]);
-
+  const dispatch = useAppDispatch();
+  
   return (
     <>
       <div
@@ -126,10 +130,10 @@ const MusicBar: FC<MusicBarProps> = props => {
                   {/* 앨범 사진 */}
                   <div
                     className={`w-20 h-20 rounded-md bg-white min-w-20 min-h-20 ${styles.albumImg}`}>
-                    {musicplay.albumImage ? (
+                    {musicplay.albumImgPath ? (
                       <img
                         className="w-full h-full rounded-md"
-                        src={musicplay.albumImage}
+                        src={musicplay.albumImgPath}
                         alt="NewJeans"
                       />
                     ) : (
@@ -142,13 +146,13 @@ const MusicBar: FC<MusicBarProps> = props => {
                   </div>
                   {/* 음악 정보 */}
                   <div className={styles.musicDesc}>
-                    {musicplay.musicTitle ? (
+                    {musicplay.title ? (
                       <div>
                         <p className="font-mono text-lg font-semibold">
-                          {musicplay.musicTitle}
+                          {musicplay.title}
                         </p>
                         <p className="font-mono font-semibold text-md">
-                          {musicplay.artistName}
+                          {musicplay.artist}
                         </p>
                       </div>
                     ) : (
@@ -210,6 +214,7 @@ const MusicBar: FC<MusicBarProps> = props => {
                     />
                   )}
                   <div
+                    onClick={()=> dispatch(changePrevSong())}
                     className={`w-7 h-7 cursor-pointer ${styles.Back}`}></div>
                   {playing ? (
                     <div
@@ -221,6 +226,7 @@ const MusicBar: FC<MusicBarProps> = props => {
                       className={`w-7 h-7 cursor-pointer ${styles.Play}`}></div>
                   )}
                   <div
+                    onClick={()=> dispatch(changeNextSong())}
                     className={`w-7 h-7 cursor-pointer ${styles.Fast}`}></div>
                 </div>
               </div>

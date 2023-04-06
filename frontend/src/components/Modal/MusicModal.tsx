@@ -36,6 +36,10 @@ ChartJS.register(
 import {Doughnut} from 'react-chartjs-2';
 import {getvideoId} from 'store/api/features/nowmusicSlice';
 import {musicAsync} from 'store/api/features/musicSlice';
+import { diarytextFeedbackAsync, diarytextFeedbackinitStatus } from 'store/api/features/diarytextFeedbackSlice';
+import { userIdAsync } from 'store/api/features/userIdSlice';
+import { toast } from 'react-toastify';
+
 
 export type MusicModalProps = {
   type: Number;
@@ -235,10 +239,60 @@ const MusicModal: FC<MusicModalProps> = props => {
 
   useEffect(() => {
     if (musicUrl) {
-      console.log('야호야호야호');
       playMusic();
     }
   }, [musicUrl]);
+
+  useEffect(()=>{
+    dispatch(userIdAsync())
+    setIsFeed(false)
+  },[])
+
+  const {userId} = useAppSelector(state => {
+    return state.userId;
+  });
+
+  const dCon = useAppSelector(state => {
+    return state.diaryContent;
+  });
+
+  useEffect(()=>{
+    setIsFeed(false)
+  },[dCon])
+
+  const feebackNum = useRef<HTMLSelectElement>(null)
+
+  const diaryFeedback = () => {
+    // console.log(userId, dCon.content,Number(feebackNum.current?.value))
+    dispatch(diarytextFeedbackAsync({
+      userId: 1,
+      text:String(dCon.content),
+      emotionLabel:Number(feebackNum.current?.value),
+    }))  
+  }
+
+  
+  const feedback = useAppSelector(state => {
+    return state.diarytextFeedback;
+  });
+
+  const [isFeed, setIsFeed] = useState<boolean>(false)
+
+  useEffect(() => {
+    switch (feedback.status) {
+      case 'completed':
+        toast.success('참여해주셔서 감사합니다.');
+        setIsFeed(true)
+        dispatch(diarytextFeedbackinitStatus());
+        break;
+      case 'failed':
+        toast.error('피드백 요청 실패');
+        dispatch(diarytextFeedbackinitStatus());
+        // dispatch(diaryListCreateinitStatus())
+        break;
+    }
+  }, [feedback]);
+
 
   return (
     <>
@@ -330,7 +384,7 @@ const MusicModal: FC<MusicModalProps> = props => {
             </p>
 
             {status === 'completed' ? (
-              <div className={`overflow-y-auto scrollbar-hide`}>
+              <div className={`overflow-y-auto scrollbar-hide select-none`}>
                 <div
                   className={` bg-slate-700  bg-oparcity-80 p-3 text-center`}>
                   <p className={`text-xl`}> {fm1} </p>
@@ -350,6 +404,36 @@ const MusicModal: FC<MusicModalProps> = props => {
                     />
                   </div>
                 </div>
+
+                {/* 피드백 영역 */}
+                {isFeed?null:
+                <div className={`p-5 text-center bg-slate-700 pb-10`}>
+                  <p> 내 진짜 감정은... </p>
+                  <div className="selectBox">
+                    <select name="감정" ref={feebackNum}
+                      className="bg-slate-700 relative rounded-md border-2 border-sky-400 p-1">
+                      <option className={`bg-sky-200 text-blue-900`} value={0} >분노</option>
+                      <option className={`bg-sky-200 text-blue-900`} value={1} >악의</option>
+                      <option className={`bg-sky-200 text-blue-900`} value={2} >슬픔</option>
+                      <option className={`bg-sky-200 text-blue-900`} value={3} >절망</option>
+                      <option className={`bg-sky-200 text-blue-900`} value={4} >당황</option>
+                      <option className={`bg-sky-200 text-blue-900`} value={5} >걱정</option>
+                      <option className={`bg-sky-200 text-blue-900`} value={6} >컴플렉스</option>
+                      <option className={`bg-sky-200 text-blue-900`} value={7} >상처</option>
+                      <option className={`bg-sky-200 text-blue-900`} value={8} >사랑</option>
+                      <option className={`bg-sky-200 text-blue-900`} value={9} selected >행복</option>
+                    </select>
+                    <span><img 
+                    src="https://freepikpsd.com/media/2019/10/down-arrow-icon-png-7-Transparent-Images.png" alt=""/></span>
+                </div>
+                <p> 입니다.</p>
+
+                <button 
+                onClick={()=>diaryFeedback()}
+                className={`p-1 border rounded-xl bg-sky-500 mt-3 hover:bg-blue-700 duration-300`}> 피드백 제출 </button>
+
+                </div>
+                }
 
                 {/* 추천1 */}
                 <div

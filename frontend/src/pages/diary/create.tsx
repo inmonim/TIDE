@@ -139,12 +139,12 @@ export default function DiaryCreate() {
           </div>
         </form>
 
-        <div className={`${styles.writeDiv} mb-[240px] mt-7 pb-[100px]`}>
+        <div className={`${styles.writeDiv} mb-[240px] mt-7 pb-[100px] overflow-auto`}>
           {/* 글 작성 영역 */}
           <div
             className={`flex flex-row items-center justify-center w-[100%]  min-w-[260px] min-h-[250px] mb-[50px] mb86:mb-0`}>
             {/* 글 에디터 영역 */}
-            <div className={`w-full grid grid-cols-1 h-[100%]`}>
+            <div className={`w-full grid grid-cols-1 h-[100%] pb-[50px] overflow-auto md:h-[100%]`}>
               <QuillWrapper />
             </div>
           </div>

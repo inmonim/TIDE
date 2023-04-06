@@ -165,11 +165,11 @@ function Mainpage() {
             </Link>
 
             {/* Left Arrow */}
-            <div className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] left-4 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer">
+            <div className="mt-[160px] mr-[30%] absolute group-hover:block  -translate-x-0 translate-y-[-50%] text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer z-[30]">
               <BsChevronCompactLeft onClick={prevSlide} size={40} />
             </div>
             {/* Right Arrow */}
-            <div className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] right-4 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer">
+            <div className="mt-[160px]  ml-[30%] absolute group-hover:block  -translate-x-0 translate-y-[-50%]  text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer">
               <BsChevronCompactRight onClick={nextSlide} size={40} />
             </div>
           </div>
@@ -215,7 +215,7 @@ function Mainpage() {
                 .map((dl, id) => (
                   <Link href={`/diary/${dl.id}`}>
                     <div
-                      className={`grid grid-cols-1 hover:bg-gradient-to-bl bg-blue-900 hover:from-blue-500 hover:to-slate-800 md:min-w-[300px]`}
+                      className={`min-h-[300px] grid grid-cols-1 hover:bg-gradient-to-bl bg-blue-900 hover:from-blue-500 hover:to-slate-800 md:min-w-[300px]`}
                       key={id}>
                       <div
                         className={`border rounded-lg p-5 md:min-h-[400px] overflow-hidden scrollbar-hide `}>

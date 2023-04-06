@@ -48,6 +48,9 @@ export const followReqSlice = createSlice({
   name: 'followReq',
   initialState,
   reducers: {
+    initReq(state){
+      state.status = 'loading';
+    }
   },
   // 비동기 처리를 위한 redux-thunk사용 extraReducers
   extraReducers: builder => {
@@ -67,5 +70,5 @@ export const followReqSlice = createSlice({
 });
 
 // createSlice의 reducers 에서 만든 state 변경 함수를 export 하기
-// export const {increment, decrement} = followReqSlice.actions;
+export const {initReq} = followReqSlice.actions;
 export default followReqSlice.reducer;

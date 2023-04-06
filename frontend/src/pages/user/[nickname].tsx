@@ -1,6 +1,6 @@
 import {useAppDispatch, useAppSelector} from 'store'; //스토어 생성단계에서 export한 커스텀 dispatch, selector hook
 import {useRouter} from 'next/router';
-import {followReqAsync} from 'store/api/features/followReqSlice';
+import {followReqAsync, initReq} from 'store/api/features/followReqSlice';
 import {followAccAsync} from 'store/api/features/followAccSlice';
 import {followNoneAccAsync} from 'store/api/features/followNoneAccSlice';
 import { userInfoAsync } from 'store/api/features/userInfoSlice';
@@ -66,6 +66,25 @@ export default function userDetail() {
     if (Nick.nickname === router.query.nickname)
       dispatch(followReqAsync(Nick));
   };
+
+  const {status} = useAppSelector(state => {
+    return state.followReq;
+  });
+
+  useEffect(() => {
+    switch (status) {
+      case 'completed':
+        toast.success('팔로우 요청을 보냈습니다.');
+        dispatch(initReq());
+        break;
+      case 'failed':
+        toast.error('팔로우 요청을 보낼 수 없습니다');
+        dispatch(initReq());
+        // dispatch(diaryListCreateinitStatus())
+        break;
+    }
+  }, [status]);
+
 
   const onFollowAcc = (event: React.MouseEvent<HTMLButtonElement>) => {
     if (Nick.nickname === router.query.nickname)
@@ -177,8 +196,8 @@ export default function userDetail() {
                 {nickname}
                 <form
                 onSubmit={onSubmitFollowReqForm}>
-
-{followWaiters.findIndex(e=>e.nickname === nickname)?                <button className={`ml-2 mb-1 w-26 h-5 bg-blue-400 rounded-lg pl-2 pr-2 text-sm hover:bg-blue-600 duration-200`}>
+                {followWaiters.findIndex(e=>e.nickname === nickname)?                
+                <button className={`ml-2 mb-1 w-26 h-5 bg-blue-400 rounded-lg pl-2 pr-2 text-sm hover:bg-blue-600 duration-200`}>
                   {' '}
                   팔로우{' '}
                 </button>

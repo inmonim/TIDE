@@ -3,6 +3,7 @@ from flask_restful import Resource, Api
 
 import pandas as pd
 
+from sqlalchemy import and_
 
 from recommend.models import db, SongCategory, TextFeedback, SongCategoryVotedUser
 
@@ -79,14 +80,22 @@ class MusicFeedback(Resource):
             elif emo_idx == 8:
                 req.exciting += 1
                 
-        vote = SongCategoryVotedUser()
-        vote.song_id = song_id
-        vote.user_id = user_id
+        existing_entry = SongCategoryVotedUser.query.filter(and_(SongCategoryVotedUser.song_id == song_id, SongCategoryVotedUser.user_id == user_id)).first()
         
-        db.session.add(vote)
-        db.session.commit()
+        if existing_entry:
+            response = Response(json.dumps({'status' : 400, 'message' : '이미 해당 노래에 투표를 했습니다.'}, ensure_ascii=False), headers=({'Access-Control-Allow-Origin': '*'}), content_type='application/json; charset=utf-8', status=400)
+            
+        else:
+            vote = SongCategoryVotedUser()
+            vote.song_id = song_id
+            vote.user_id = user_id
+            
+            db.session.add(vote)
+            db.session.commit()
+            
+            response = Response(json.dumps({'status' : 200, 'message' : '입력 성공'}, ensure_ascii=False), headers=({'Access-Control-Allow-Origin': '*'}), content_type='application/json; charset=utf-8', status=200)
         
-        return {'status' : 200, 'message' : '입력 성공'}
+        return response
 
 
 class TextLabelFeedback(Resource):

@@ -9,7 +9,7 @@ import {playListDelAsync} from 'store/api/features/playListDelSlice';
 import {playListLikeAsync} from 'store/api/features/playListLikeSlice';
 import {playListLikeCheckAsync} from 'store/api/features/playListLikeCheckSlice';
 import Image from 'next/image';
-import runButton from 'public/buttons/playTrack.png'
+import runButton from 'public/buttons/PlayTrack.png'
 import {playListMineAsync} from 'store/api/features/playListMineSlice';
 import {userPlayListAsync} from 'store/api/features/userPlayListSlice';
 

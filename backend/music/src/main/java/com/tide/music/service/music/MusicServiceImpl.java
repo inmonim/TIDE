@@ -213,6 +213,7 @@ public class MusicServiceImpl implements MusicService {
         }
         responseSearchSong.setTitle(song.getTitle());
         responseSearchSong.setSongId(song.getSongId());
+        responseSearchSong.setVideoId(song.getVideoId());
         return responseSearchSong;
     }
 }

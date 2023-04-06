@@ -12,4 +12,5 @@ public class ResponseSearchSong {
     private String title;
     private List<String> artist;
     private String albumImgPath;
+    private String videoId;
 }

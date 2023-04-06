@@ -19,4 +19,5 @@ public class ResponseDiary {
     private String musicTitle;
     private List<String> artist;
     private String albumImgPath;
+    private String videoId;
 }

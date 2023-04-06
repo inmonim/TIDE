@@ -135,7 +135,7 @@ const MusicBar: FC<MusicBarProps> = props => {
                       <img
                         src="\favicon.ico"
                         alt="tide-logo"
-                        className="p-1 bg-gray-600 rounded-md"
+                        className="p-1 rounded-md"
                       />
                     )}
                   </div>

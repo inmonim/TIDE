@@ -4,7 +4,7 @@ from flask_restful import Resource, Api
 import pandas as pd
 
 
-from recommend.models import db, SongCategory, TextFeedback
+from recommend.models import db, SongCategory, TextFeedback, SongCategoryVotedUser
 
 
 bp = Blueprint('feedback', __name__, url_prefix='/api/v1/feedback')
@@ -12,6 +12,7 @@ api = Api(bp)
 
 class MusicFeedback(Resource):
     def post(self):
+        user_id = request.json['userId']
         song_id = request.json['songId']
         emo_idx = request.json['emotion']
         req = SongCategory.query.filter(SongCategory.song_id == song_id).first()
@@ -77,7 +78,12 @@ class MusicFeedback(Resource):
                 req.anger += 1
             elif emo_idx == 8:
                 req.exciting += 1
+                
+        vote = SongCategoryVotedUser()
+        vote.song_id = song_id
+        vote.user_id = user_id
         
+        db.session.add(vote)
         db.session.commit()
         
         return {'status' : 200, 'message' : '입력 성공'}

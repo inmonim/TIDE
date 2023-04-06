@@ -148,7 +148,7 @@ public class PlaylistServiceImpl implements PlaylistService {
         response.setPlaylistId(playlistId);
         response.setPlaylistTitle(playlist.get().getPlayListTitle());
         response.setNickname(nickname);
-
+        response.setIsPublic(playlist.get().getIsPublic());
         return response;
     }
 

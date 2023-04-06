@@ -10,4 +10,5 @@ public class ResponseListUser {
     private String playlistTitle;
     private String nickname;
     private Integer likecnt;
+    private String isPublic;
 }

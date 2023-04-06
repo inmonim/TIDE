@@ -245,7 +245,7 @@ export default function Diary() {
           <h1 className="text-5xl font-bold"> Diary</h1>
         </div>
 
-        <div className={styles.diarySectionTitle}>
+        <div className={`h-30 flex justify-between rounded-3xl text-black pl-1 pr-1`}>
           <h2 className="text-2xl font-bold text-sky-400 whitespace-nowrap">
             {' '}
             일기장{' '}

@@ -173,9 +173,9 @@ function Profile() {
 
             {dpChange?<>
               {diarys && diarys.length >0 ? diarys.map((p, id) => (
-            <Link href={`/diary/${p.id}`} className={` h-fit`}>
-                <div className={`grid items-center mb-2 md:flex bg-slate-900 rounded-md w-[100%] h-[90px] p-[2%] items-center gap-2 bg-opacity-80 md:justify-between hover:bg-blue-500 duration-300 overflow-hidden`}>
-
+                <div 
+                onClick={()=>router.push(`/diary/${p.id}`)}
+                className={`grid items-center mb-2 md:flex bg-slate-900 rounded-md w-[100%] h-[90px] p-[2%] items-center gap-2 bg-opacity-80 md:justify-between hover:bg-blue-500 duration-300 overflow-hidden`}>
                 <div className={`md:w-[80%] w-[90%] whitespace-nowrap flex items-center`}>
                   <p className={`pr-1 pl-1 border rounded-lg text-sm mr-2 ${p.pub ==='0'? `bg-blue-800 md:px-3` : `bg-red-800 md:px-3`}`}> {p.pub ==='0'? `공개` : `비공개`}</p>
                   <p> {`${p.title}`}</p>
@@ -184,12 +184,10 @@ function Profile() {
                     <p className={`text-sm whitespace-nowrap`}> {`${p.createDt}`} </p>
                     <p className={`text-sm whitespace-nowrap`}> 💕 {`${p.like}`} </p>
                   </div>
-
-                  
                 <div>
               </div>
               </div>      
-            </Link>
+
         )):
         <div className={`w-full bg-slate-900 bg-opacity-60 text-center h-full items-center flex flex-row justify-center`}>
           <p> 아직 작성된 일기가 없습니다. </p>
@@ -198,19 +196,19 @@ function Profile() {
             </>:
             <>
             {myplaylist && myplaylist.length > 0 ? myplaylist.map((p, id) => (
-            <Link               
-            href={{
-              pathname: `/playlist/${p.id}`,
-              query: {
-                playlistTitle: p.playlistTitle,
-                isPublic:p.isPublic,
-                likeCnt:p.likeCnt
-              }
-            }}
-            as={`/playlist/${p.id}`}
-            className={` h-fit`}>
-
-          <div className={`items-center mb-2 flex bg-slate-900 rounded-md w-[100%] h-[90px] p-[2%] items-center bg-opacity-80 md:justify-start hover:bg-blue-500 duration-300 overflow-hidden`}>
+          <div 
+            onClick={()=>
+                router.push({
+                  pathname: `/playlist/${p.id}`,
+                  query: {
+                    playlistTitle: p.playlistTitle,
+                    isPublic:p.isPublic,
+                    likeCnt:p.likeCnt
+                  }
+                }
+                ,`/playlist/${p.id}`
+                )}
+          className={`items-center mb-2 flex bg-slate-900 rounded-md w-[100%] h-[90px] p-[2%] items-center bg-opacity-80 md:justify-start hover:bg-blue-500 duration-300 overflow-hidden`}>
                 <p className={` whitespace-nowrap pr-1 pl-1 border rounded-lg text-sm mr-2 ${p.isPublic ==='0'? `bg-blue-800 md:px-3` : `bg-red-800`}`}> {p.isPublic ==='0'? `공개` : `비공개`}</p>
                 <div className={`md:w-[80%] w-[90%] whitespace-nowrap`}>
                   <p> {`${p.playlistTitle}`}</p>
@@ -218,7 +216,6 @@ function Profile() {
 
           </div>
               </div>     
-            </Link>
             )):
             <div className={`w-full bg-slate-900 bg-opacity-60 text-center h-full items-center flex flex-row justify-center`}>
               <p> 플레이리스트가 없습니다. </p>

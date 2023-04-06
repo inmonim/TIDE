@@ -38,16 +38,16 @@ function MusicSearch() {
       <main className="flex flex-row justify-center min-h-[91vh] bg-gradient-to-t from-slate-700 to-slate-900">
         <div className="flex flex-row justify-center w-[88%] md:ml-[12%]">
           {/* 서치 리스트 랜더링 */}
-          <div className="flex flex-row flex-wrap justify-center mt-4 text-white md:mb-28">
+          <div className="flex flex-row flex-wrap justify-center mt-8 text-white mb-28 md:mb-28">
             {Array.isArray(musicSearchResult) &&
               musicSearchResult.map((item, songId) => (
                 <div
-                  className="flex flex-col items-center bg-red-900 border-2 m-4 w-[240px] min-h-[240px] h-fit rounded-xl shadow-xl pt-2 hover:cursor-pointer"
+                  className="flex flex-col items-center shadow-md bg-red-900 border-4 m-4 w-[240px] min-h-[240px] h-fit rounded-xl shadow-xl pt-2 hover:cursor-pointer"
                   key={item.songId}
                   onClick={handleClick(item.songId)}>
                   {/* <div>{item.songId}</div> */}
                   <img
-                    className="w-[120px] h-[120px] rounded-md m-2"
+                    className="w-[120px] h-[120px] rounded-md border-2 shadow-md m-2"
                     src={item.albumImgPath}
                     alt="albumimage"
                   />

@@ -4,7 +4,11 @@ import {getCookie} from 'cookies-next';
 
 interface likeTopSixState {
   status: string;
-  topArtist: [];
+  topArtist: Array<{
+    artistId: string;
+    artistImgPath: string;
+    artistName: string;
+  }>;
 }
 
 const initialState: likeTopSixState = {

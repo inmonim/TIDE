@@ -11,6 +11,7 @@ interface artistState {
   title: string[];
   artistImgPath: string;
   is_group: boolean;
+  likeCnt: number;
 }
 
 const initialState: artistState = {
@@ -20,7 +21,8 @@ const initialState: artistState = {
   artistName: '',
   title: [],
   artistImgPath: '',
-  is_group: false
+  is_group: false,
+  likeCnt: 0
 };
 
 // Thunk 예시
@@ -52,14 +54,22 @@ export const artistSlice = createSlice({
       })
       .addCase(artistAsync.fulfilled, (state, action) => {
         state.status = 'completed';
-        const {artistId, artistName, title, artistImgPath, is_group, songId} =
-          action.payload;
+        const {
+          artistId,
+          artistName,
+          title,
+          artistImgPath,
+          is_group,
+          songId,
+          likeCnt
+        } = action.payload;
         state.artistId = artistId;
         state.songId = songId;
         state.artistName = artistName;
         state.title = title;
         state.artistImgPath = artistImgPath;
         state.is_group = is_group;
+        state.likeCnt = likeCnt;
       });
   }
 });

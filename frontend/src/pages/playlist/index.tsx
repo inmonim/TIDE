@@ -64,17 +64,18 @@ export default function Playlist() {
             {myplaylist.map((pl,id) => (
               <Link 
               href={{
-                pathname: `/playlist/${id}`,
+                pathname: `/playlist/${pl.id}`,
                 query: {
                   playlistTitle: pl.playlistTitle,
-                  isPublic:pl.isPublic
+                  isPublic:pl.isPublic,
+                  likeCnt:pl.likeCnt
                 }
               }}
-              as={`/playlist/${id}`}
+              as={`/playlist/${pl.id}`}
               >
               <div className={`max-w-[calc(12.25rem)] justify-center text-center ${styles.btn}`}>
               <div className="p-2 min-w-[calc(12.25rem)] min-h-[calc(12.25rem)] grid gap-1 items-center bg-black bg-opacity-60 rounded-lg overflow-hidden border border-black">
-                <div className="flex flex-col items-center" key={id}>
+                <div className="flex flex-col items-center" key={pl.id}>
                 {/* <img
                   className="w-24 h-24  drop-shadow-2xl min-w-[6rem]"
                   src={pl.image}

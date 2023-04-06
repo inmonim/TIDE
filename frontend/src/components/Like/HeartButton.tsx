@@ -25,19 +25,10 @@ function HeartButton({songId}: {songId: any}) {
   }, [check]);
 
   return (
-    // <button onClick={handleLike}>
-    //   <img
-    //     className="hover: animate-bounce"
-    //     src={`/buttons/${isLiked ? 'HeartFilled.png' : 'HeartEmpty.png'}`}
-    //     style={{width: '50px', height: '50px'}}
-    //     alt="Like button"
-    //   />
-    // </button>
     <button onClick={likeSongID}>
       <img
-        className="hover: animate-bounce"
+        className="md:w-[60px] md:h-[60px] w-[30px] h-[30px]"
         src={`/buttons/${isLiked ? 'HeartFilled.png' : 'HeartEmpty.png'}`}
-        style={{width: '50px', height: '50px'}}
         alt="Like button"
       />
     </button>

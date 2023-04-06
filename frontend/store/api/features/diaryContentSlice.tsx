@@ -27,7 +27,7 @@ export const diaryContentSlice = createSlice({
       const Contents = action.payload;
       state.content = Contents.content;
       state.HTMLcontent = Contents.HTMLcontent;
-      console.log(Contents)
+      // console.log(Contents)
     }
   },
   // 비동기 처리를 위한 redux-thunk사용 extraReducers

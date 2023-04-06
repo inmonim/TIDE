@@ -5,9 +5,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Data
 @NoArgsConstructor
-public class ResponseSearchSong {
+@Data
+public class ResponseListSong {
     private Long songId;
     private String title;
     private List<String> artist;

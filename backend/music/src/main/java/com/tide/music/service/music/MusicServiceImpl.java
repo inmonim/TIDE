@@ -191,22 +191,29 @@ public class MusicServiceImpl implements MusicService {
         SongAlbum songAlbum = songAlbumRepository.findBySongId(song.getSongId());
         List<SongArtist> songArtists = songArtistRepository.findAllBySongId(song.getSongId());
         Album album = albumRepository.findByAlbumId(songAlbum.getAlbumId());
-        if (songAlbum == null || songArtists == null || album == null) {
-            throw new IllegalStateException("Song not found");
+        if (songAlbum == null || album == null) {
+            responseSearchSong.setAlbumImgPath(null);
+        } else {
+            responseSearchSong.setAlbumImgPath(album.getAlbumImgPath());
         }
-        List<String> artistName = new ArrayList();
-        responseSearchSong.setTitle(song.getTitle());
-        for (SongArtist songArtist : songArtists) {
-            Artist temp = artistRepository.findByArtistId(songArtist.getArtistId());
-            if (temp == null) {
-                continue;
+
+        if (songArtists == null) {
+            responseSearchSong.setArtist(null);
+        } else {
+            List<String> artistName = new ArrayList();
+            responseSearchSong.setTitle(song.getTitle());
+            for (SongArtist songArtist : songArtists) {
+                Artist temp = artistRepository.findByArtistId(songArtist.getArtistId());
+                if (temp == null) {
+                    continue;
+                }
+                artistName.add(temp.getArtistName());
             }
-            artistName.add(temp.getArtistName());
+            responseSearchSong.setArtist(artistName);
         }
+        responseSearchSong.setTitle(song.getTitle());
         responseSearchSong.setSongId(song.getSongId());
-        responseSearchSong.setAlbumImgPath(album.getAlbumImgPath());
-        responseSearchSong.setArtist(artistName);
-        log.info("요청이왔어요~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~", responseSearchSong.getTitle().toString());
+        responseSearchSong.setVideoId(song.getVideoId());
         return responseSearchSong;
     }
 }

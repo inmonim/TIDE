@@ -14,6 +14,9 @@ public interface UserServiceClient {
     @GetMapping("/getid")
     Long getId(@RequestParam("nickname") String nickname);
 
+    @GetMapping("/getnickname")
+    String getNickname(@RequestParam("userId") Long userId);
+
     @GetMapping("/enablefollow")
     boolean enableFollow(@RequestHeader("email") String email, @RequestParam("nickname") String nickname);
 }

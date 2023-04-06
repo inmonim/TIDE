@@ -49,10 +49,11 @@ import diaryListInputSlice from './api/features/diaryListInputSlice';
 import likeTopSixSlice from './api/features/likeTopSixSlice';
 import diaryPublicUpdateSlice from './api/features/diaryPublicUpdateSlice';
 import playListMusicDelSlice from './api/features/playListMusicDelSlice';
-import playListAllDetailSlice  from './api/features/playListAllDetailSlice';
+import playListAllDetailSlice from './api/features/playListAllDetailSlice';
 import artistLikeSlice from './api/features/artistLikeSlice';
 import userIdSlice from './api/features/userIdSlice';
 import emotionSongSlice from './api/features/MusicEmotionSlice';
+import playlisttopSlice from './api/features/playlisttopSlice';
 
 // 리듀서들을 합쳐주는곳
 const combinedReducer = combineReducers({
@@ -108,7 +109,8 @@ const combinedReducer = combineReducers({
   playlistAllDetail: playListAllDetailSlice,
   artistLike: artistLikeSlice,
   userId: userIdSlice,
-  emotionSong: emotionSongSlice
+  emotionSong: emotionSongSlice,
+  playlisttop: playlisttopSlice
 });
 
 // Hydrate와 위에서 합친 reducer들을 rootReducer에 세팅

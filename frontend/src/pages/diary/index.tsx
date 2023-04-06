@@ -2,29 +2,27 @@ import Link from 'next/link';
 import Seo from '@/components/Seo';
 import React, {useState, useEffect, useRef, useCallback} from 'react';
 import styles from '@/styles/Diary.module.scss';
-import { diaryMineAsync } from 'store/api/features/diaryMineSlice';
-import { diaryListMineAsync } from 'store/api/features/diaryListMineSlice';
-import {useAppDispatch, useAppSelector} from 'store'; 
-import DiaryListModal from '@/components/Modal/DiaryListModal'
-import { query } from 'express';
+import {diaryMineAsync} from 'store/api/features/diaryMineSlice';
+import {diaryListMineAsync} from 'store/api/features/diaryListMineSlice';
+import {useAppDispatch, useAppSelector} from 'store';
+import DiaryListModal from '@/components/Modal/DiaryListModal';
+import {query} from 'express';
 
 interface diaryInterFace {
-  id:number;
+  id: number;
   nickname: string;
   title: string;
   content: string;
   createDt: string;
-  pub:string;
-  like:number;
-  albumImgPath:string;
-  artist:string[];
+  pub: string;
+  like: number;
+  albumImgPath: string;
+  artist: string[];
   musicTitle: string;
-  songId:number;
+  songId: number;
 }
 
-
 export default function Diary() {
-
   const [DiaryListType, setDiaryListType] = useState<Number>(0);
 
   const dispatch = useAppDispatch();
@@ -37,25 +35,23 @@ export default function Diary() {
     return state.diaryMine;
   });
 
-
   const {diarylists} = useAppSelector(state => {
     return state.diaryListMine;
   });
 
-  const monthRef = useRef<HTMLInputElement>(null)
-  const [mdiarys, setMdiarys] = useState<diaryInterFace[]>(diarys)
+  const monthRef = useRef<HTMLInputElement>(null);
+  const [mdiarys, setMdiarys] = useState<diaryInterFace[]>(diarys);
 
-  useEffect(()=>{
-    if(monthRef.current?.value !== '')
-    {
-      setMdiarys(diarys.filter((d)=>d.createDt.includes(String(monthRef.current?.value))))
-      console.log(mdiarys,monthRef.current?.value )
+  useEffect(() => {
+    if (monthRef.current?.value !== '') {
+      setMdiarys(
+        diarys.filter(d => d.createDt.includes(String(monthRef.current?.value)))
+      );
+      console.log(mdiarys, monthRef.current?.value);
+    } else {
+      setMdiarys(diarys);
     }
-    else {
-      setMdiarys(diarys) 
-    }
-  },[monthRef.current,diarys])
-
+  }, [monthRef.current, diarys]);
 
   // 윈도우 사이즈 CSR로 체크
   interface WindowSize {
@@ -108,7 +104,7 @@ export default function Diary() {
   }
 
   useEffect(() => {
-    if(mdiarys.length>0){
+    if (mdiarys.length > 0) {
       window.addEventListener('resize', handleResize);
       return () => window.removeEventListener('resize', handleResize);
     }
@@ -165,15 +161,14 @@ export default function Diary() {
     // console.log(caroselPage.current);
   };
 
-  const getModalType = (type:Number) => {
-    setDiaryListType(type)
-  }
+  const getModalType = (type: Number) => {
+    setDiaryListType(type);
+  };
 
-  useEffect(()=>{
+  useEffect(() => {
     setDiaryMax(mdiarys.length);
     caroselPage.current = 1;
     setDiaryCur(caroselPage.current);
-
 
     // if (windowSize.width && windowSize.width <= 1600) {
     //   if (diaryCur) setDiaryCur(diaryCur + 1);
@@ -184,11 +179,9 @@ export default function Diary() {
     // }
 
     // handleResize();
-    if (caroselDivRef.current && mdiarys.length===0) {
+    if (caroselDivRef.current && mdiarys.length === 0) {
       if (windowSize.width && windowSize.width <= 860) {
-        caroselDivRef.current.style.transform = `translateY(-${
-          0
-        }px)`;
+        caroselDivRef.current.style.transform = `translateY(-${0}px)`;
       } else {
         caroselDivRef.current.style.transform = `translateY(-${
           418 * (caroselPage.current - 1)
@@ -196,7 +189,7 @@ export default function Diary() {
       }
     }
     // console.log(mdiarys,monthRef.current?.value);
-  },[mdiarys])
+  }, [mdiarys]);
 
   // useEffect(()=>{
   //   let today = new Date();
@@ -207,8 +200,6 @@ export default function Diary() {
   //   setMdiarys(diarys.filter((d)=>d.createDt.includes(String(monthRef.current?.value))))
   // },[monthRef.current])
 
-
-  
   // useEffect(()=>{
   //   let today = new Date();
   //   let year = today.getFullYear();
@@ -218,8 +209,6 @@ export default function Diary() {
   //   setMdiarys(diarys.filter((d)=>d.createDt.includes(String(monthRef.current?.value))))
   //   console.log('그래해라해라')
   // },[])
-
-
 
   return (
     <>
@@ -233,27 +222,45 @@ export default function Diary() {
         </Link>
       </div>
 
+      <div
+        className={`${
+          DiaryListType === 0
+            ? 'w-0 h-0'
+            : 'bg-slate-900 w-[100%] opacity-90 h-[100%] fixed z-[3]'
+        }`}
+        onClick={() => {
+          setDiaryListType(0);
+        }}></div>
+      <DiaryListModal
+        type={DiaryListType}
+        getModalType={getModalType}
+        diaryListId={undefined}
+        title={undefined}
+      />
 
-      <div className={`${DiaryListType===0?'w-0 h-0':'bg-slate-900 w-[100%] opacity-90 h-[100%] fixed z-[3]'}`} onClick={()=>{setDiaryListType(0)}} >
-      </div>
-      <DiaryListModal type={DiaryListType} getModalType={getModalType} diaryListId={undefined} title={undefined}/>
-
-      <main className={`
+      <main
+        className={`
       p-[4rem] pt-[2rem] lg12:pr-[calc(200px)] lg12:pl-[calc(15%+100px)] pb-[240px] text-white flex flex-col min-h-[100vh] pt-[calc(2rem+40px)] bg-gradient-to-t from-blue-900 to-slate-900 `}>
-
         <div className={styles.description}>
           <h1 className="text-5xl font-bold"> Diary</h1>
         </div>
 
         <div className={styles.diarySectionTitle}>
-          <h2 className="text-2xl font-bold text-sky-400 whitespace-nowrap"> 일기장 </h2>
-          <input type="month" 
-          ref={monthRef} 
-          // onClick={()=>console.log("2023-04-05".includes(String(monthRef.current?.value)))}
-          onChange={()=>{
-            setMdiarys(diarys.filter((d)=>d.createDt.includes(String(monthRef.current?.value))))
-          }}
-          ></input>
+          <h2 className="text-2xl font-bold text-sky-400 whitespace-nowrap">
+            {' '}
+            일기장{' '}
+          </h2>
+          <input
+            type="month"
+            ref={monthRef}
+            // onClick={()=>console.log("2023-04-05".includes(String(monthRef.current?.value)))}
+            onChange={() => {
+              setMdiarys(
+                diarys.filter(d =>
+                  d.createDt.includes(String(monthRef.current?.value))
+                )
+              );
+            }}></input>
         </div>
 
         <div className={styles.btDiv}>
@@ -267,39 +274,54 @@ export default function Diary() {
           </button>
         </div>
         <div className={styles.diarySection}>
-          <div className={`${styles.caroselWrapper} ${(mdiarys&&mdiarys.length>1)?`grid-cols-2 md86:mt-4`:`grid-cols-1`}`} ref={caroselDivRef}>
-            {mdiarys && mdiarys.length >0 ? mdiarys.map((diary, id) => (
-              <Link href={`/diary/${diary.id}`}>
-              <div className={styles.caroselItem} key={diary.id}>
-                <div className={`${styles.caroselDiary} min-w-[230px] max-w-[230px] p-[24px]`}>
-                  <h3 className="text-2xl font-bold">
-                    {diary.title}
-                  </h3>
-                  <p> {diary.createDt}</p>
-                  <p> {diary.nickname}</p>
-                  <br />
-                  <div dangerouslySetInnerHTML={{ __html: diary.content }} />
-                </div>
-                <div className={`${styles.caroselMusic} min-w-[230px] max-w-[230px] min-h-[380px]`}>
-                  <div 
-                  style={{
-                    background: `url(${diary.albumImgPath})`,
-                    backgroundSize: `contain`
-                  }}
-                  className={`bg-[url('https://image.bugsm.co.kr/album/images/130/40780/4078016.jpg')] bg-no-repeat bg-cover animate-[spin_5s_linear_infinite] pause hover:running ${styles.cdBG}`}>
-                  </div>
-                  <div>
-                  <h3 className="text-2xl font-bold"> {diary.musicTitle}</h3>
-                  <p> {diary.artist}</p>
-                  </div>
-{/* 
+          <div
+            className={`${styles.caroselWrapper} ${
+              mdiarys && mdiarys.length > 1
+                ? `grid-cols-2 md86:mt-4`
+                : `grid-cols-1`
+            }`}
+            ref={caroselDivRef}>
+            {mdiarys && mdiarys.length > 0 ? (
+              mdiarys.map((diary, id) => (
+                <Link href={`/diary/${diary.id}`}>
+                  <div className={styles.caroselItem} key={diary.id}>
+                    <div
+                      className={`${styles.caroselDiary} min-w-[230px] max-w-[230px] p-[24px]`}>
+                      <h3 className="text-2xl font-bold">{diary.title}</h3>
+                      <p> {diary.createDt}</p>
+                      <p> {diary.nickname}</p>
+                      <br />
+                      <div dangerouslySetInnerHTML={{__html: diary.content}} />
+                    </div>
+                    <div
+                      className={`${styles.caroselMusic} min-w-[230px] max-w-[230px] min-h-[380px]`}>
+                      <div
+                        style={{
+                          background: `url(${diary.albumImgPath})`,
+                          backgroundSize: `contain`
+                        }}
+                        className={`bg-[url('https://image.bugsm.co.kr/album/images/130/40780/4078016.jpg')] bg-no-repeat bg-cover animate-[spin_5s_linear_infinite] pause hover:running ${styles.cdBG}`}></div>
+                      <div>
+                        <h3 className="text-2xl font-bold">
+                          {' '}
+                          {diary.musicTitle}
+                        </h3>
+                        <p> {diary.artist}</p>
+                      </div>
+                      {/* 
                   <div className={styles.musicBar}></div>
 
                   <div className={styles.musicUIBar}></div> */}
-                </div>
+                    </div>
+                  </div>
+                </Link>
+              ))
+            ) : (
+              <div
+                className={`w-full h-full bg-black flex items-center justify-center bg-opacity-30`}>
+                <p> 작성된 일기가 없습니다.</p>
               </div>
-              </Link>
-            )):<div className={`w-full h-full bg-black flex items-center justify-center bg-opacity-30`}><p> 작성된 일기가 없습니다.</p></div>}
+            )}
           </div>
         </div>
 
@@ -341,8 +363,6 @@ export default function Diary() {
             }
             </div>
         </div> */}
-
-
       </main>
     </>
   );

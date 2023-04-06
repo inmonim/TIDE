@@ -154,6 +154,7 @@ public class DiaryServiceImpl implements DiaryService {
         response.setMusicTitle(responseSearchSong.getTitle());
         response.setArtist(responseSearchSong.getArtist());
         response.setAlbumImgPath(responseSearchSong.getAlbumImgPath());
+        response.setVideoId(responseSearchSong.getVideoId());
         return response;
     }
 

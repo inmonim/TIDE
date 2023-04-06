@@ -54,6 +54,7 @@ import artistLikeSlice from './api/features/artistLikeSlice';
 import userIdSlice from './api/features/userIdSlice';
 import emotionSongSlice from './api/features/MusicEmotionSlice';
 import playlisttopSlice from './api/features/playlisttopSlice';
+import diarytextFeedbackSlice from './api/features/diarytextFeedbackSlice';
 
 // 리듀서들을 합쳐주는곳
 const combinedReducer = combineReducers({
@@ -110,7 +111,8 @@ const combinedReducer = combineReducers({
   artistLike: artistLikeSlice,
   userId: userIdSlice,
   emotionSong: emotionSongSlice,
-  playlisttop: playlisttopSlice
+  playlisttop: playlisttopSlice,
+  diarytextFeedback: diarytextFeedbackSlice
 });
 
 // Hydrate와 위에서 합친 reducer들을 rootReducer에 세팅

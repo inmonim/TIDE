@@ -63,3 +63,30 @@ class SongAlbum(db.Model):
     album = relationship('Album')
 
 
+class SongCategory(db.Model):
+    
+    __tablename__ = 'song_category'
+    
+    id = Column(Integer, primary_key=True)
+    song_id = Column(Integer)
+    sadly = Column(Integer)
+    calm = Column(Integer)
+    love = Column(Integer)
+    farewell = Column(Integer)
+    cool = Column(Integer)
+    myway = Column(Integer)
+    commic = Column(Integer)
+    anger = Column(Integer)
+    exciting = Column(Integer)
+    
+    def as_list(self):
+        return [self.sadly, self.calm, self.love, self.farewell, self.cool, self.myway, self.commic, self.anger, self.exciting]
+    
+class TextFeedback(db.Model):
+    
+    __tablename__ = 'text_feedback'
+    
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(Integer)
+    text = Column(Text)
+    emotion_label = Column(Integer)

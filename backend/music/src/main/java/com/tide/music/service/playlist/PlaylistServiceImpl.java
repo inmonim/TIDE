@@ -5,7 +5,6 @@ import com.tide.music.jpa.album.Album;
 import com.tide.music.jpa.album.AlbumRepository;
 import com.tide.music.jpa.artist.Artist;
 import com.tide.music.jpa.artist.ArtistRepository;
-import com.tide.music.jpa.like.SongLikeUser;
 import com.tide.music.jpa.playlist.like.PlaylistLikeUser;
 import com.tide.music.jpa.playlist.like.PlaylistLikeUserRepository;
 import com.tide.music.jpa.playlist.song.PlaylistSong;
@@ -21,8 +20,8 @@ import com.tide.music.jpa.userplaylist.UserPlaylistRepository;
 import com.tide.music.request.RequestPlaylist;
 import com.tide.music.request.RequestPlaylistInfo;
 import com.tide.music.response.ResponseListSong;
+import com.tide.music.response.ResponseListUser;
 import com.tide.music.response.ResponsePlaylist;
-import com.tide.music.response.ResponseSearchSong;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
 import org.springframework.data.domain.PageRequest;
@@ -32,6 +31,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -117,22 +117,40 @@ public class PlaylistServiceImpl implements PlaylistService {
             responseListSong.setVideoId(song.getVideoId());
             List<SongArtist> songArtists = songArtistRepository.findAllBySongId(song.getSongId());
             Album album = albumRepository.findByAlbumId(songAlbum.getAlbumId());
-            if(songAlbum == null || songArtists == null || album == null) {
+            if (songAlbum == null || songArtists == null || album == null) {
                 continue;
             }
             List<String> artistName = new ArrayList();
             responseListSong.setTitle(song.getTitle());
             for (SongArtist songArtist : songArtists) {
                 Artist temp = artistRepository.findByArtistId(songArtist.getArtistId());
-                if(temp == null) {continue;}
+                if (temp == null) {
+                    continue;
+                }
                 artistName.add(temp.getArtistName());
             }
             responseListSong.setSongId(song.getSongId());
             responseListSong.setAlbumImgPath(album.getAlbumImgPath());
             responseListSong.setArtist(artistName);
             responseSearchSongList.add(responseListSong);
-        };
+        }
         return responseSearchSongList;
+    }
+
+    @Override
+    @Transactional
+    public ResponseListUser getPlaylistUsers(String email, Long playlistId) {
+        Long userId = userServiceClient.getUserId(email);
+        Optional<UserPlaylist> playlist = userPlayListRepository.findById(playlistId);
+        Long check = playlist.get().getUserId();
+        String nickname = userServiceClient.getNickname(userId);
+        ResponseListUser response = new ResponseListUser();
+        response.setLikecnt(playlist.get().getLikeCnt());
+        response.setPlaylistId(playlistId);
+        response.setPlaylistTitle(playlist.get().getPlayListTitle());
+        response.setNickname(nickname);
+
+        return response;
     }
 
     @Override
@@ -140,7 +158,7 @@ public class PlaylistServiceImpl implements PlaylistService {
     public List<ResponsePlaylist> getTopPlaylists() {
         Pageable pageable = PageRequest.of(0, 30);
         List<ResponsePlaylist> response = new ArrayList<>();
-        List<UserPlaylist> userPlaylist30 = userPlayListRepository.findTopPlaylist(pageable,"0");
+        List<UserPlaylist> userPlaylist30 = userPlayListRepository.findTopPlaylist(pageable, "0");
         List<UserPlaylist> userPlaylists = new ArrayList<>();
         Random random = new Random();
         userPlaylists.add(userPlaylist30.get(0));

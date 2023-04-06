@@ -35,6 +35,7 @@ const initialState: DiaryListState = {
 export const userDiaryAsync = createAsyncThunk(
   'userDiary/Async',
   async ({nickname}: userInfoProps) => {
+    console.log(nickname, "유저 다이어리 요청하냐?");
     const accessToken = getCookie('accessToken');
     const data = await axios({
       method: 'post',
@@ -47,6 +48,7 @@ export const userDiaryAsync = createAsyncThunk(
         nickname
       }
     });
+    console.log(data.data, "유저 다이어리 요청하냐?");
     return data.data;
   }
 );

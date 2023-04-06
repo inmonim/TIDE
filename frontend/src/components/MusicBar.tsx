@@ -29,9 +29,16 @@ const MusicBar: FC<MusicBarProps> = props => {
   const musicplay = useAppSelector(state => state.nowmusic);
 
   useEffect(() => {
+<<<<<<< HEAD
     console.log(musicplay, '지금플레이');
     setSrc(`https://www.youtube.com/watch?v=${musicplay.videoId}`);
     setPlaying(true);
+=======
+    if (musicplay.musicUrl) {
+      setPlaying(true);
+    }
+    setSrc(`https://www.youtube.com/watch?v=${musicplay.musicUrl}`);
+>>>>>>> 67698905c812a6eebf2be2495358446d14d0c7e9
     setInit(true);
   }, [musicplay]);
 
@@ -137,7 +144,7 @@ const MusicBar: FC<MusicBarProps> = props => {
                       <img
                         src="\favicon.ico"
                         alt="tide-logo"
-                        className="p-1 bg-gray-600 rounded-md"
+                        className="p-1 rounded-md"
                       />
                     )}
                   </div>

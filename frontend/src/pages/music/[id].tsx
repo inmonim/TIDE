@@ -144,7 +144,7 @@ function Musicpage() {
               <div className="flex w-[90vw] items-center justify-center md:w-full ">
                 {albumImage ? (
                   <img
-                    className="w-[38vw] h-fit rounded-full border-4 md:w-[350px] md:h-[350px] animate-[spin_50s_linear_infinite] cursor-pointer hover:opacity-80"
+                    className="w-[38vw] h-fit max-h-[10rem] rounded-full border-4 md:w-[350px] md:h-[350px] animate-[spin_50s_linear_infinite] cursor-pointer hover:opacity-80"
                     src={albumImage}
                     alt="album_image"
                     onClick={gotoartistpage}

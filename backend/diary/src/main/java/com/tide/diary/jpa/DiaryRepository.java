@@ -14,7 +14,8 @@ public interface DiaryRepository extends JpaRepository<Diary, Long> {
 
     List<Diary> findAllByUserIdAndPub(Long userId, String pub);
 
-    List<Diary> findAllByPub(String s);
+    @Query("SELECT d FROM Diary d WHERE d.pub = :is_public ORDER BY d.id DESC")
+    List<Diary> findAllByPub(@Param("is_public") String s);
 
     List<Diary> findAllByUserIdAndPubNot(Long userId, String s);
 

@@ -9,12 +9,18 @@ import {playListDelAsync} from 'store/api/features/playListDelSlice';
 import {playListLikeAsync} from 'store/api/features/playListLikeSlice';
 import {playListLikeCheckAsync} from 'store/api/features/playListLikeCheckSlice';
 import Image from 'next/image';
+<<<<<<< HEAD
 import runButton from 'public/buttons/PlayTrack.png'
 import shuffleButton from 'public/buttons/Shuffle.png'
 import { playListMusicDelAsync } from 'store/api/features/playListMusicDelSlice';
 import { playListAllDetailAsync, playListAllDetailinitStatus } from 'store/api/features/playListAllDetailSlice';
 import { getCookie } from 'cookies-next';
 import { getPlayList, getPlayListRandom } from 'store/api/features/nowmusicSlice';
+=======
+import runButton from 'public/buttons/PlayTrack.png';
+import {playListMineAsync} from 'store/api/features/playListMineSlice';
+import {userPlayListAsync} from 'store/api/features/userPlayListSlice';
+>>>>>>> 67698905c812a6eebf2be2495358446d14d0c7e9
 
 export type PlayListProps = {
   playlistTitle: string;
@@ -33,7 +39,6 @@ const PlayListDetail: FC<PlayListProps> = props => {
   const dispatch = useAppDispatch();
   const {playlistTitle, isPublic, likeCnt} = router.query;
 
-  
   // 본인이면 프로필로 리다이렉트
   // useEffect(() => {
   //   setNick({nickname: `${router.query.nickname}`});
@@ -48,7 +53,11 @@ const PlayListDetail: FC<PlayListProps> = props => {
   const [playListId, setplayListId] = useState<Number>(Number(router.query.id));
 
   useEffect(() => {
+<<<<<<< HEAD
     dispatch(playListAllDetailAsync({playListId:Number(router.query.id)}))
+=======
+    dispatch(playListMineAsync());
+>>>>>>> 67698905c812a6eebf2be2495358446d14d0c7e9
     setplayListId(Number(router.query.id));
     // dispatch(userPlayListAsync();
   }, [router.query]);
@@ -63,6 +72,7 @@ const PlayListDetail: FC<PlayListProps> = props => {
     return state.playListLikeCheck;
   });
 
+<<<<<<< HEAD
   const [like,setlike] = useState<boolean>(false);
 
   const {plDetail} = useAppSelector(state => {
@@ -71,11 +81,34 @@ const PlayListDetail: FC<PlayListProps> = props => {
 
   // const [isPublic, setisPublic] = useState<string>('0');
 
+=======
+  const [like, setlike] = useState<boolean>(false);
+  const [lCnt, setlCnt] = useState<Number>(0);
+
+  useEffect(() => {
+    setlike(isLike);
+    // if(thisP)
+    //   setlCnt(thisP.likeCnt)
+    // else
+    //   setlCnt(-1)
+  }, [isLike]);
+
+  const {playlists} = useAppSelector(state => {
+    return state.userPlayList;
+  });
+
+  const {myplaylist} = useAppSelector(state => {
+    return state.playListMine;
+  });
+
+  const allPL = {...playlists, ...myplaylist};
+  console.log(allPL, 'allPL');
+  // const thisP = allPL.filter(e=>e.id === playListId)[0]
+>>>>>>> 67698905c812a6eebf2be2495358446d14d0c7e9
 
   const {playListSongs} = useAppSelector(state => {
     return state.playListDetail;
   });
-
 
   const [playlistType, setPlaylistType] = useState<Number>(0);
   const getModalType = (type: Number) => {
@@ -86,15 +119,16 @@ const PlayListDetail: FC<PlayListProps> = props => {
     console.log(playListId);
     if (!isNaN(Number(playListId)))
       dispatch(playListDelAsync({playListId: playListId}));
-      router.replace({
-        pathname: `/playlist`,
-  })
+    router.replace({
+      pathname: `/playlist`
+    });
   };
 
   const playListLike = () => {
     if (!isNaN(Number(playListId)))
     {
       dispatch(playListLikeAsync({playListId: playListId}));
+<<<<<<< HEAD
       dispatch(playListLikeCheckAsync({playListId: playListId}));
       setlike(isLike)
     }
@@ -110,6 +144,9 @@ const PlayListDetail: FC<PlayListProps> = props => {
   const handleClick =
   (songIds: number) => (event: React.MouseEvent<HTMLDivElement>) => {
     router.push(`/music/${songIds}`);
+=======
+    setlike(!like);
+>>>>>>> 67698905c812a6eebf2be2495358446d14d0c7e9
   };
 
   return (
@@ -136,15 +173,21 @@ const PlayListDetail: FC<PlayListProps> = props => {
       p-[4rem] pt-[2rem] lg12:pr-[calc(200px)] lg12:pl-[calc(15%+100px)] pb-[240px] text-[#eeeeee] flex flex-col min-h-[100vh] pt-[calc(2rem+40px)] bg-gradient-to-t from-blue-900 to-slate-900 `}>
         <div className={`text-[0.85rem] w-[100%] z-[2] select-none h-[100%]`}>
           <div className={`md:flex justify-between items-center`}>
-            
             <div className={``}>
+<<<<<<< HEAD
             <h1 className="mb-1 text-xl font-bold md:text-5xl md86:ml-0">
               {plDetail.playlistTitle}
             </h1>
+=======
+              <h1 className="mb-1 text-xl md:text-5xl font-bold md:ml-[2rem] md86:ml-0">
+                {router.query.playlistTitle}{' '}
+              </h1>
+>>>>>>> 67698905c812a6eebf2be2495358446d14d0c7e9
               <div className={`flex gap-x-2 mb-2`}>
                 <p>{plDetail.nickname}</p>
                 <p
                   className={`text-lg w-fit hover:filter hover:sepia `}
+<<<<<<< HEAD
                   onClick={()=>
                     {                    
                       if(getCookie('nickname') !== plDetail.nickname)playListLike()
@@ -153,8 +196,14 @@ const PlayListDetail: FC<PlayListProps> = props => {
                   {like || (getCookie('nickname') === plDetail.nickname) ? `💕` : `🖤`} 
                 </p>
                 <p className={`text-lg`}> {plDetail.likecnt} 
+=======
+                  onClick={playListLike}>
+                  {' '}
+                  {like ? `💕` : `🖤`}
+>>>>>>> 67698905c812a6eebf2be2495358446d14d0c7e9
                 </p>
               </div>
+<<<<<<< HEAD
             
             {/* 재생관련영역 */}
             <div className={'flex'}>
@@ -194,6 +243,47 @@ const PlayListDetail: FC<PlayListProps> = props => {
             </div>
 
 
+=======
+
+              {/* 재생관련영역 */}
+              <div className={'flex'}>
+                <Image
+                  src={runButton}
+                  alt={'재생'}
+                  className={`border p-1 w-8 h-8`}
+                />
+                <Image
+                  src={runButton}
+                  alt={'셔플'}
+                  className={`border p-1 w-8 h-8`}
+                />
+              </div>
+            </div>
+
+            <div>
+              <p
+                className={`w-full border p-2 rounded-lg text-center ${
+                  isPublic === '0' ? `bg-blue-700` : `bg-red-700`
+                } mb-2`}>
+                {' '}
+                {isPublic === '0' ? `공개` : `비공개`}{' '}
+              </p>
+              <div className={`grid gap-2 grid-cols-2`}>
+                <button
+                  onClick={() => setPlaylistType(2)}
+                  className={`text-md border pl-2 pr-2 rounded-lg h-8 bg-gray-800 hover:bg-gray-600 duration-200`}>
+                  {' '}
+                  수정{' '}
+                </button>
+                <button
+                  onClick={playListDel}
+                  className={`text-md border pl-2 pr-2 rounded-lg h-8 bg-gray-800 hover:bg-gray-600 duration-200`}>
+                  {' '}
+                  삭제{' '}
+                </button>
+              </div>
+            </div>
+>>>>>>> 67698905c812a6eebf2be2495358446d14d0c7e9
           </div>
           {playListSongs && playListSongs.length > 0
             ? playListSongs.map((song, songId) => (

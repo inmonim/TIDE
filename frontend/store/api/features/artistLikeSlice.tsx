@@ -3,65 +3,62 @@ import axios from 'axios';
 import {getCookie} from 'cookies-next';
 
 // 타입
-interface likeState {
+interface artistLikeState {
   status: string;
   likeCnt: number;
-  likedSongs: number[];
   check: boolean | undefined;
 }
 
-const initialState: likeState = {
+const initialState: artistLikeState = {
   status: '',
   likeCnt: 0,
-  likedSongs: [],
   check: false
 };
 
-// 음악 좋아요 요청
-export const likeSong = createAsyncThunk(
-  'like/likeSong',
-  async (songId: number) => {
+export const artistLikeAsync = createAsyncThunk(
+  'artistLike/artistLike',
+  async (artistId: any) => {
     const accessToken = getCookie('accessToken');
     const data = await axios({
       method: 'put',
-      url: `${process.env.NEXT_PUBLIC_API_URL}/api/music/like/${songId}`,
+      url: `${process.env.NEXT_PUBLIC_API_URL}/api/music/like/artist/${artistId}`,
       headers: {
         Authorization: `Bearer ${accessToken}`,
         email: getCookie('email')
       }
     });
-
     return data.data;
   }
 );
 
 // 음악 좋아요 체크 요청
-export const likeSongCheck = createAsyncThunk(
-  'like/likeSongCheck',
-  async (songId: number) => {
+export const artistLikeCheckAsync = createAsyncThunk(
+  'artistLike/artistLikeCheck',
+  async (artistId: any) => {
+    console.log(artistId, '아티스트 아이디');
     const accessToken = getCookie('accessToken');
     const data = await axios({
       method: 'get',
-      url: `${process.env.NEXT_PUBLIC_API_URL}/api/music/like/${songId}`,
+      url: `${process.env.NEXT_PUBLIC_API_URL}/api/music/like/artist/${artistId}`,
       headers: {
         Authorization: `Bearer ${accessToken}`,
         email: getCookie('email')
       }
     });
-
+    console.log(data);
     return data.data;
   }
 );
 
 // createSlice로 Slice생성
-export const likeSlice = createSlice({
-  name: 'like',
+export const artistLike = createSlice({
+  name: 'artistLike',
   initialState,
   reducers: {},
   // 비동기 처리를 위한 redux-thunk사용 extraReducers
   extraReducers: builder => {
     builder
-      .addCase(likeSong.pending, state => {
+      .addCase(artistLikeAsync.pending, state => {
         state.status = 'loading';
       })
       // .addCase(likeSong.fulfilled, (state, action) => {
@@ -72,14 +69,17 @@ export const likeSlice = createSlice({
       //     parseInt(songId, 10)
       //   );
       // })
-      .addCase(likeSong.fulfilled, state => {
+      .addCase(artistLikeAsync.fulfilled, state => {
         state.status = 'completed';
+        state.check = true;
+        console.log('아티스트 좋아요 성공');
       })
-      .addCase(likeSongCheck.fulfilled, (state, action) => {
+      .addCase(artistLikeCheckAsync.fulfilled, (state, action) => {
         state.status = 'CheckCompleted';
         state.check = action.payload;
+        console.log('아티스트 좋아요 체크 성공', action.payload);
       });
   }
 });
 
-export default likeSlice.reducer;
+export default artistLike.reducer;

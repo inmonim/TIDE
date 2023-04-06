@@ -19,6 +19,9 @@ function Musicpage() {
 
   const [MyPlaylistModal, setMyPlaylistModal] = useState<Number>(0);
 
+  const getMyPlaylistModal = (type:Number) => {
+    setMyPlaylistModal(type)
+  }
   const MusicId = router.query.id;
 
   const {
@@ -94,6 +97,7 @@ function Musicpage() {
         }}></div>
       {MusicId && (
         <MyPlaylist
+          getMyPlaylistModal = {getMyPlaylistModal}
           type={MyPlaylistModal}
           isMe={true}
           list={myplaylist}
@@ -171,7 +175,7 @@ function Musicpage() {
             {/* 이하 노래 감정 설문 */}
             <div className="flex flex-col items-center text-2xl font-semibold w-[500px]">
               이 노래에는 어떤 감정이 느껴지나요?
-              <div className="flex justify-center w-full my-4 bg-slate-600 border-2 rounded-xl">
+              <div className="flex justify-center w-full my-4 border-2 bg-slate-600 rounded-xl">
                 <MusicEmotion emotions={Emotions} />
               </div>
             </div>

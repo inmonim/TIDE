@@ -46,7 +46,11 @@ export const playListSongAddAsync = createAsyncThunk(
 export const playListSongAddSlice = createSlice({
   name: 'playListSongAdd',
   initialState,
-  reducers: {},
+  reducers: {
+    playListSongAddinitStatus(state) {
+      state.status = 'loading';
+    }
+  },
   // 비동기 처리를 위한 redux-thunk사용 extraReducers
   extraReducers: builder => {
     builder
@@ -66,5 +70,7 @@ export const playListSongAddSlice = createSlice({
       });
   }
 });
+
+export const {playListSongAddinitStatus} = playListSongAddSlice.actions;
 
 export default playListSongAddSlice.reducer;

@@ -55,6 +55,7 @@ export const playListLikeSlice = createSlice({
       .addCase(playListLikeAsync.fulfilled, (state, action) => {
         state.status = 'completed';
         // console.log('내 플레이리스트 조회 성공', state.myplaylist)
+        console.log('좋아요홋')
       })
       .addCase(playListLikeAsync.rejected, (state, action) => {
         state.status = 'failed';

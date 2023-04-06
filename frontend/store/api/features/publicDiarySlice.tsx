@@ -14,9 +14,13 @@ interface diaryInterFace {
   nickname: string;
   title: string,
   content: string,
-  creatDt: Date,
+  createDt: string,
   pub:string,
-  like:number
+  like:number,
+  songId:number,
+  musicTitle:string,
+  artist:string[],
+  albumImgPath:string,
 }
 
 // 초기값
@@ -34,7 +38,7 @@ export const publicDiaryAsync = createAsyncThunk(
     const accessToken = getCookie('accessToken');
     const data = await axios({
       method: 'get',
-      url: `${process.env.NEXT_PUBLIC_API_URL}/api/diary/public`,
+      url: `https://tideapi.duckdns.org/api/diary/public`,
       headers: {
         Authorization: `Bearer ${accessToken}`,
         // email: getCookie('email')
@@ -60,7 +64,7 @@ export const publicDiarySlice = createSlice({
         state.status = 'completed';
         const diaryList = action.payload;
         state.diarys = diaryList;
-        // console.log('남의 다이어리들 요청 성공', state.diarys)
+        console.log('남의 다이어리들 요청 성공', state.diarys)
 
       })
       .addCase(publicDiaryAsync.rejected, state => {

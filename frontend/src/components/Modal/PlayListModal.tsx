@@ -5,7 +5,7 @@ import {
   playListCreateAsync,
   playListCreateinitStatus
 } from 'store/api/features/playListCreateSlice';
-import {playListEditAsync} from 'store/api/features/playListEditSlice';
+import {playListEditAsync, playListEditinitStatus} from 'store/api/features/playListEditSlice';
 import {toast} from 'react-toastify';
 import {useRouter} from 'next/router';
 import {playListMineAsync} from 'store/api/features/playListMineSlice';
@@ -62,6 +62,8 @@ const DiaryListModal: FC<PlayListModalProps> = props => {
     return state.playListEdit;
   });
 
+  
+
   useEffect(() => {
     switch (create_status.status) {
       case 'completed':
@@ -77,28 +79,27 @@ const DiaryListModal: FC<PlayListModalProps> = props => {
         break;
     }
 
-    // switch (edit_status.status) {
-    //   case 'completed':
-    //     toast.success('이름 수정 성공');
-    //     // 갱신해주는 디스패치 한 번
-    //     router.replace({
-    //       pathname: `/diary/list/${router.query.id}`,
-    //       query: {
-    //         diaryListTitle: diaryListTitle,
-    //         userId: router.query.userId,
-    //         isPublic: router.query.isPublic
-    //       }},
-    //         `/diary/list/${router.query.id}`
-    //     );
-    //     dispatch(diaryListEditinitStatus())
-    //     console.log(edit_status.status)
-    //     getModalType(0)
-    //     break;
-    //   case 'failed':
-    //     toast.error('이름 수정 실패');
-    //     dispatch(diaryListEditinitStatus())
-    //     break;
-    //   }
+    switch (edit_status.status) {
+      case 'completed':
+        toast.success('이름 수정 성공');
+        // 갱신해주는 디스패치 한 번
+        dispatch(playListEditinitStatus())
+        getModalType(0)
+        router.replace({
+          pathname: `/playlist/${playlistId}`,
+          query: {
+            playlistTitle: playlistTitle,
+            userId: router.query.userId,
+            isPublic: router.query.isPublic
+          }},
+            `/playlist/${playlistId}`
+        );
+        break;
+      case 'failed':
+        toast.error('이름 수정 실패');
+        dispatch(playListEditinitStatus())
+        break;
+      }
   }, [create_status, edit_status]);
 
   const [playlistTitle, setplaylistTitle] = useState<string>('');

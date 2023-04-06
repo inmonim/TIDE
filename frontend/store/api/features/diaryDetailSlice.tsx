@@ -20,6 +20,7 @@ interface diaryInterFace {
   songId: number;
   artist: [];
   albumImgPath: string;
+  musicTitle: string;
 }
 
 // 초기값
@@ -36,7 +37,8 @@ const initialState: DiaryDetailState = {
     like: 0,
     songId: 0,
     artist: [],
-    albumImgPath: ''
+    albumImgPath: '',
+    musicTitle: ''
   }
 };
 

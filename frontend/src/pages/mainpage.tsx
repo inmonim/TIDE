@@ -215,7 +215,7 @@ function Mainpage() {
                 .map((dl, id) => (
                   <Link href={`/diary/${dl.id}`}>
                     <div
-                      className={`grid grid-cols-1 hover:bg-gradient-to-bl bg-blue-900 hover:from-blue-500 hover:to-slate-800 md:min-w-[300px]`}
+                      className={`min-h-[300px] grid grid-cols-1 hover:bg-gradient-to-bl bg-blue-900 hover:from-blue-500 hover:to-slate-800 md:min-w-[300px]`}
                       key={id}>
                       <div
                         className={`border rounded-lg p-5 md:min-h-[400px] overflow-hidden scrollbar-hide `}>

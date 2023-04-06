@@ -133,10 +133,6 @@ function Profile() {
                     }>
                     <p> 팔로워 {followers.length}</p>
                   </div>
-
-                  <div className={` font-bold`}>
-                    <p> 🔷 500 </p>
-                  </div>
                 </div>
               </div>
             </div>
@@ -176,16 +172,17 @@ function Profile() {
             <div className="w-[100%] h-[400px] border-t border-b pt-3 pb-3 overflow-auto scrollbar-hide">
 
             {dpChange?<>
-              {diarys && diarys.length >0 ? diarys.filter(function(c){ return c.pub==='0'; }).map((p, id) => (
+              {diarys && diarys.length >0 ? diarys.map((p, id) => (
             <Link href={`/diary/${p.id}`} className={` h-fit`}>
-                <div className={` mb-2 flex bg-slate-900 rounded-md w-[100%] h-[70px] p-[2%] items-center gap-2 bg-opacity-80 justify-between hover:bg-blue-500 duration-300 overflow-hidden`}>
+                <div className={`grid items-center mb-2 md:flex bg-slate-900 rounded-md w-[100%] h-[90px] p-[2%] items-center gap-2 bg-opacity-80 md:justify-between hover:bg-blue-500 duration-300 overflow-hidden`}>
 
-                <div className={`md:w-[70%] w-[90%]`}>
+                <div className={`md:w-[80%] w-[90%] whitespace-nowrap flex items-center`}>
+                  <p className={`pr-1 pl-1 border rounded-lg text-sm mr-2 ${p.pub ==='0'? `bg-blue-800 md:px-3` : `bg-red-800`}`}> {p.pub ==='0'? `공개` : `비공개`}</p>
                   <p> {`${p.title}`}</p>
                   </div>
-                  <div className={`md:flex md:gap-x-4`}>
-                    <p className={` invisible md:visible`}> {`${p.createDt}`} </p>
-                    <p> 💕 {`${p.like}`} </p>
+                  <div className={` md:flex md:gap-x-4`}>
+                    <p className={`text-sm whitespace-nowrap`}> {`${p.createDt}`} </p>
+                    <p className={`text-sm whitespace-nowrap`}> 💕 {`${p.like}`} </p>
                   </div>
 
                   
@@ -203,19 +200,24 @@ function Profile() {
             {myplaylist && myplaylist.length > 0 ? myplaylist.map((p, id) => (
             <Link               
             href={{
-              pathname: `/playlist/${id}`,
+              pathname: `/playlist/${p.id}`,
               query: {
                 playlistTitle: p.playlistTitle,
-                isPublic:p.isPublic
+                isPublic:p.isPublic,
+                likeCnt:p.likeCnt
               }
             }}
-            as={`/playlist/${id}`}
+            as={`/playlist/${p.id}`}
             className={` h-fit`}>
-                <div className={`mb-2 flex bg-slate-900 rounded-md w-[100%] h-[70px] p-[2%] items-center gap-2 bg-opacity-80 justify-between hover:bg-blue-500 duration-300`}>
-                  {`${p.playlistTitle}`}
-                <div>
-              </div>
-              </div>      
+
+          <div className={`items-center mb-2 flex bg-slate-900 rounded-md w-[100%] h-[90px] p-[2%] items-center bg-opacity-80 md:justify-start hover:bg-blue-500 duration-300 overflow-hidden`}>
+                <p className={` whitespace-nowrap pr-1 pl-1 border rounded-lg text-sm mr-2 ${p.isPublic ==='0'? `bg-blue-800 md:px-3` : `bg-red-800`}`}> {p.isPublic ==='0'? `공개` : `비공개`}</p>
+                <div className={`md:w-[80%] w-[90%] whitespace-nowrap`}>
+                  <p> {`${p.playlistTitle}`}</p>
+                  <p className={`text-sm whitespace-nowrap`}> 💕 {`${p.likeCnt}`} </p>
+
+          </div>
+              </div>     
             </Link>
             )):
             <div className={`w-full bg-slate-900 bg-opacity-60 text-center h-full items-center flex flex-row justify-center`}>

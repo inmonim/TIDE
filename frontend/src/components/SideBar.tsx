@@ -126,7 +126,7 @@ const SideBar: FC<SideBarProps> = props => {
       <div
         className={` ${
           styles.recordMenuDiv
-        }   border-slate-700 border-2 w-[100px] h-[100px] fixed left-[calc(50%-50px)] bottom-[calc(40px+0.5vw)] bg-[#170207] rounded-[50%] z-[9] flex justify-center  ${
+        }   border-slate-700 border-2 w-[100px] h-[100px] fixed left-[calc(50%-50px)] bottom-[calc(30px+0.5vw)] md50:bottom-[calc(40px+0.5vw)]  bg-[#170207] rounded-[50%] z-[9] flex justify-center  ${
           RmenuOpen ? 'z-[10]' : 'w-0 h-0'
         }`}
         onClick={() => setRmenuOpen(!RmenuOpen)}>

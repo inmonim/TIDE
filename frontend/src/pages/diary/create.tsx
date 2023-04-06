@@ -12,6 +12,8 @@ import Search from 'public/buttons/Search.png'
 import recom from 'public/icons/networking.png'
 import { useRouter } from 'next/router';
 import { diaryMineAsync } from 'store/api/features/diaryMineSlice';
+import { Select, Option} from "@material-tailwind/react";
+import { toast } from 'react-toastify';
 
 export default function DiaryCreate() {
   const router = useRouter();
@@ -41,28 +43,31 @@ export default function DiaryCreate() {
 
   const diaryTitleRef = useRef<HTMLInputElement>(null);
   // const [diaryTitle, setDiaryTitle] = useState<string>('');
-  const [diaryPub, setDiaryPub] = useState<string>('0');
+  const [pubType,setpubType] = useState<string>('');
 
   const onDiaryCreate = () =>{
-    if(selectSong && HTMLcontent && diaryTitleRef.current?.value!=='')
+    if(selectSong && HTMLcontent && diaryTitleRef.current?.value!=='' && pubType!=='')
     {
       console.log('셋송송아이디' , selectSong.songId)
       dispatch(diaryCreateAsync(
         {
           title: String(diaryTitleRef.current?.value), 
           content: HTMLcontent, 
-          pub: diaryPub, 
+          pub: pubType, 
           songId: selectSong.songId,
         }
       ))
+      dispatch(setSong(undefined))
+      dispatch(diaryMineAsync());
+      router.push({
+        pathname: `/diary`,
+      });
+    }
+    else{
+      toast.error('빈 칸을 채워주세요');
     }
     // console.log(selectSong && HTMLcontent && diaryTitleRef.current?.value!=='')
     // console.log(diaryTitleRef.current?.value, HTMLcontent,diaryPub,selectSong?.songId)
-    dispatch(setSong(undefined))
-    dispatch(diaryMineAsync());
-    router.push({
-      pathname: `/diary`,
-    });
   }
 
   return (
@@ -80,19 +85,33 @@ export default function DiaryCreate() {
       </div>
       <MusicModal type={musicModalType} getModalType={getModalType}/>
       
-      <main className={`
-      p-[4rem] pt-[2rem] lg12:pr-[calc(200px)] lg12:pl-[calc(15%+100px)] pb-[240px] text-white flex flex-col min-h-[100vh] pt-[calc(2rem+40px)] bg-gradient-to-t from-blue-900 to-slate-900 `}>
+      <main className={` pl-2 pr-2
+      md:p-[4rem] pt-[2rem] lg12:pr-[calc(200px)] lg12:pl-[calc(15%+100px)] pb-[240px] text-white flex flex-col min-h-[100vh] pt-[calc(2rem+40px)] bg-gradient-to-t from-blue-900 to-slate-900 `}>
         <div className={styles.description}>
           <h1 className="text-5xl font-bold ml-[2rem] md86:ml-0"> Write</h1>
         </div>
           
-          <form className={`mt-5 w-ful`}>
+          <form className={`mt-5 w-full gap-x-2 grid md:grid-cols-[5fr_1fr] items-center`}>
             <label className='flex'>
-              <p className={`mr-2 text-lg whitespace-nowrap`}> 일기 제목</p>
+              <p className={`mr-2 text-lg whitespace-nowrap mt-1`}> 일기 제목</p>
               <input 
               ref={diaryTitleRef}
-              type="text" className={`rounded-lg w-full min-w-[180px] text-black`}/>
+              type="text" className={`rounded-lg w-full min-w-[150px] h-[36px] text-black`}/>
             </label>
+            <div className="flex items-center w-full pb-1 mt-2 text-center md:mt-0">     
+                <p className={`whitespace-nowrap mr-3 items-center`}>공개 여부</p>
+                <Select className={`text-center ${pubType==='1'?`pb-4 pr-28`:pubType==='2'?`pb-4 pr-12`:`pb-4 pr-10`}`}>
+                    <Option onClick={()=>setpubType('0')}
+                    className={`text-center text-black`}
+                    >공개</Option>
+                    <Option onClick={()=>setpubType('1')}
+                    className={`text-center text-black`}
+                    >팔로워 한정 공개</Option>
+                    <Option onClick={()=>setpubType('2')}
+                    className={`text-center text-black`}
+                    >비공개</Option>
+                </Select>
+            </div>
           </form>
 
         <div className={`${styles.writeDiv} mb-[240px] mt-7 pb-[100px]`}>

@@ -18,7 +18,7 @@ import {toast} from 'react-toastify';
 import { enterChat } from '@/components/EnterChatRoom';
 import Message from 'public/buttons/Messege.png'
 import { userPlayListAsync } from 'store/api/features/userPlayListSlice';
-
+import { followWaitAsync } from 'store/api/features/followWaitSlice';
 
 interface nickInterFace {
   nickname: string;
@@ -34,8 +34,17 @@ export default function userDetail() {
   });
 
   useEffect(()=>{
+    dispatch(followWaitAsync())
+  },[])
+
+  const {followWaiters} = useAppSelector((state)=>{
+    return state.followWait
+  })
+
+  useEffect(()=>{
     if (Nick.nickname === router.query.nickname)
     {
+      console.log(followWaiters.findIndex(e=>e.nickname === Nick.nickname))
       dispatch(userInfoAsync(Nick));
       dispatch(userfollowListAsync(Nick));      
       dispatch(userfollowerListAsync(Nick));
@@ -43,6 +52,12 @@ export default function userDetail() {
       dispatch(userPlayListAsync(Nick));
     }
   },[Nick])
+
+  // 요청 후 값 받아오기
+  const {nickname, profile_img_path, introduce} = useAppSelector(state => {
+    // console.log(state.profile, 333);
+    return state.userInfo;
+  });
 
     const [FModalType,setFModalType] = useState<Number>(0);
 
@@ -81,11 +96,6 @@ export default function userDetail() {
     return state.userPlayList;
   });
 
-  // 요청 후 값 받아오기
-  const {nickname, profile_img_path, introduce} = useAppSelector(state => {
-    // console.log(state.profile, 333);
-    return state.userInfo;
-  });
   
 
   
@@ -116,7 +126,7 @@ export default function userDetail() {
 
   return (
     <>
-      <Seo title={`User ${router.query.nickname}`} />
+      <Seo title={`${nickname}`} />
 
 
       <div className={`${FModalType===0?'w-0 h-0':'bg-slate-900 w-[100%] opacity-90 h-[100%] fixed z-[3]'}`} onClick={()=>{setFModalType(0)}} >
@@ -127,23 +137,8 @@ export default function userDetail() {
       {/* 뒷배경 */}
       <div className='absolute w-full md:h-[200px] h-[115px] bg-slate-700'>
       </div>
+      
 
-      <div className='absolute w-full text-white text-shadow-lg md:right-2'>
-      <div className="w-full flex md:flex-col flex-row md:justify-end justify-center items-end text-sm h-[calc(240px+2vw)] gap-2">
-          <button
-            className={`w-30  text-sm h-6 bg-blue-600 pl-1 pr-1 rounded-lg hover:bg-blue-400 duration-200 z-[2]`}
-            onClick={onFollowAcc}>
-            {' '}
-            팔로우 요청 수락{' '}
-          </button>
-          <button
-            className={`w-30 h-6 text-sm bg-red-600 pl-1 pr-1 rounded-lg hover:bg-red-500 duration-200 z-[2]`}
-            onClick={onFollowNoneAcc}>
-            {' '}
-            팔로우 요청 거절{' '}
-          </button>
-        </div>
-      </div>
 
       <main
         className={`
@@ -187,10 +182,27 @@ export default function userDetail() {
                 {nickname}
                 <form
                 onSubmit={onSubmitFollowReqForm}>
-                <button className={`ml-2 mb-1 w-26 h-5 bg-blue-400 rounded-lg pl-2 pr-2 text-sm hover:bg-blue-600 duration-200`}>
+
+{followWaiters.findIndex(e=>e.nickname === nickname)?                <button className={`ml-2 mb-1 w-26 h-5 bg-blue-400 rounded-lg pl-2 pr-2 text-sm hover:bg-blue-600 duration-200`}>
                   {' '}
                   팔로우{' '}
                 </button>
+                :
+                <div className='grid h-full ml-2 md:flex'>
+                                <button
+                  className={`w-30  text-sm h-6 bg-blue-800 pl-1 pr-1 rounded-lg hover:bg-blue-400 duration-200 z-[2]`}
+                  onClick={onFollowAcc}>
+                  {' '}
+                  팔로우 수락{' '}
+                </button>
+                <button
+                  className={`w-30 h-6 text-sm bg-red-800 pl-1 pr-1 rounded-lg hover:bg-red-500 duration-200 z-[2]`}
+                  onClick={onFollowNoneAcc}>
+                  {' '}
+                  팔로우 거절{' '}
+                </button>
+                </div>
+                }
                 </form>
               </div>
 
@@ -251,12 +263,20 @@ export default function userDetail() {
 
             {dpChange?<>
               {diarys && diarys.length >0 ? diarys.filter(function(c){ return c.pub==='0'; }).map((p, id) => (
-            <Link href={`/diary/${id}`} className={` h-fit`}>
-                <div className={` mb-2 flex bg-slate-900 rounded-md w-[100%] h-[70px] p-[2%] items-center gap-2 bg-opacity-80 justify-between hover:bg-blue-500 duration-300`}>
-                  {`${p.title}`}
-                <div>
-              </div>
-              </div>      
+            <Link href={`/diary/${p.id}`} className={` h-fit`}>
+                <div className={`grid items-center mb-2 md:flex bg-slate-900 rounded-md w-[100%] h-[90px] p-[2%] items-center gap-2 bg-opacity-80 md:justify-between hover:bg-blue-500 duration-300 overflow-hidden`}>
+                  <div className={`md:w-[80%] w-[90%] whitespace-nowrap`}>
+                    <p> {`${p.title}`}</p>
+                    </div>
+                    <div className={` md:flex md:gap-x-4`}>
+                      <p className={`text-sm whitespace-nowrap`}> {`${p.createDt}`} </p>
+                      <p className={`text-sm whitespace-nowrap`}> 💕 {`${p.like}`} </p>
+                    </div>
+
+                    
+                  <div>
+                  </div>
+                </div>         
             </Link>
         )):
         <div className={`w-full bg-slate-900 bg-opacity-60 text-center h-full items-center flex flex-row justify-center`}>
@@ -268,19 +288,24 @@ export default function userDetail() {
             {playlists && playlists.length >0 ? playlists.filter(function(c){ return c.isPublic==='0'; }).map((p, id) => (
             <Link               
             href={{
-              pathname: `/playlist/${id}`,
+              pathname: `/playlist/${p.id}`,
               query: {
                 playlistTitle: p.playlistTitle,
-                isPublic:p.isPublic
+                isPublic:p.isPublic,
+                likeCnt:p.likeCnt
               }
             }}
-            as={`/playlist/${id}`}
+            as={`/playlist/${p.id}`}
             className={` h-fit`}>
-                <div className={`mb-2 flex bg-slate-900 rounded-md w-[100%] h-[70px] p-[2%] items-center gap-2 bg-opacity-80 justify-between hover:bg-blue-500 duration-300`}>
-                  {`${p.playlistTitle}`}
-                <div>
-              </div>
-              </div>      
+
+
+           <div className={`grid items-center mb-2 md:flex bg-slate-900 rounded-md w-[100%] h-[90px] p-[2%] items-center gap-2 bg-opacity-80 md:justify-between hover:bg-blue-500 duration-300 overflow-hidden`}>
+                <div className={`md:w-[80%] w-[90%] whitespace-nowrap`}>
+                  <p> {`${p.playlistTitle}`}</p>
+                  <p className={`text-sm whitespace-nowrap`}> 💕 {`${p.likeCnt}`} </p>
+
+          </div>              </div> 
+
             </Link>
             )):
             <div className={`w-full bg-slate-900 bg-opacity-60 text-center h-full items-center flex flex-row justify-center`}>

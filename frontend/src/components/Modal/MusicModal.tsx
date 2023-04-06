@@ -85,7 +85,7 @@ const MusicModal: FC<MusicModalProps> = props => {
     type===1?
     // 음악 검색
     <div>
-      <div className={`left-[2%] right-[2%] md:left-[22%] md:right-[22%] top-[20%] min-w-[200px] bg-slate-400 h-[60%] ml-[0vw] opacity-100 fixed p-[2%] grid text-white z-[23]`}> 
+      <div className={`left-[2%] right-[2%] md:left-[22%] md:right-[22%] top-[20%] min-w-[200px] bg-slate-800 h-[60%] ml-[0vw] opacity-100 fixed p-[2%] grid text-white z-[23] bg-opacity-95`}> 
       
       <div className={``}>
         <p className={`text-xl font-bold mb-3`}> 음악 검색</p>

@@ -28,6 +28,9 @@ const MusicBar: FC<MusicBarProps> = props => {
   const musicplay = useAppSelector(state => state.nowmusic);
 
   useEffect(() => {
+    if (musicplay.musicUrl) {
+      setPlaying(true);
+    }
     setSrc(`https://www.youtube.com/watch?v=${musicplay.musicUrl}`);
     setInit(true);
   }, [musicplay]);

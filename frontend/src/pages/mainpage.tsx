@@ -10,17 +10,25 @@ import cookie from 'react-cookies';
 import {useAppDispatch, useAppSelector} from 'store';
 import {profileAsync} from 'store/api/features/profileSlice';
 import {likeTopSixAsync} from 'store/api/features/likeTopSixSlice';
+import {playlisttopAsync} from 'store/api/features/playlisttopSlice';
+import {useRouter} from 'next/router';
+import {publicDiaryAsync} from 'store/api/features/publicDiarySlice';
+import parse from 'html-react-parser';
 
 interface playlists {
   id: number;
-  title: string;
-  image: string;
+  playlistTitle: string;
+  isPublic: boolean;
+  likeCnt: number;
 }
 
 interface diarylist {
   id: number;
   title: string;
-  image: string;
+  nickname: string;
+  content: string;
+  createDt: string;
+  like: number;
 }
 
 interface Props {
@@ -33,12 +41,10 @@ function Mainpage() {
   const {nickname, profile_img_path} = useAppSelector(state => {
     return state.profile;
   });
+  const router = useRouter();
 
   const [playlists, setPlaylists] = useState<playlists[]>([]);
   const [diarylist, setDiarylist] = useState<diarylist[]>([]);
-
-  const url = 'http://localhost:3000/api/playlists';
-
   const [currentIndex, setCurrentIndex] = useState(0);
 
   const prevSlide = () => {
@@ -57,9 +63,32 @@ function Mainpage() {
     return state.likeTopSix.topArtist;
   });
 
+  const topPlaylist = useAppSelector(state => {
+    return state.playlisttop.topPlaylist;
+  });
+
+  const publicDiary = useAppSelector(state => {
+    return state.publicDiary.diarys;
+  });
+
   useEffect(() => {
     dispatch(likeTopSixAsync());
   }, []);
+
+  useEffect(() => {
+    dispatch(playlisttopAsync());
+  }, []);
+
+  useEffect(() => {
+    dispatch(publicDiaryAsync());
+  }, []);
+
+  const topPlaylistShow = topPlaylist.map((playlist: any) => ({
+    id: playlist.id,
+    playlistTitle: playlist.playlistTitle,
+    isPublic: playlist.isPublic,
+    likeCnt: playlist.likeCnt
+  }));
 
   const slides = topArtists.map((artist: any) => ({
     id: artist.artistId,
@@ -67,76 +96,28 @@ function Mainpage() {
     artistName: artist.artistName
   }));
 
+  // 다이어리
+  const topdiary = publicDiary.map((diary: any) => ({
+    id: diary.id,
+    nickname: diary.nickname,
+    title: diary.title,
+    content: diary.content,
+    createDt: diary.createDt,
+    pub: diary.pub,
+    like: diary.like
+  }));
+
+  const gotoTopPlaylist = (id: number) => {
+    router.push(`/playlist/${id}`);
+  };
+
   // 더미 플레이리스트
   useEffect(() => {
     // 내 프로필정보 요청
     dispatch(profileAsync());
-    setPlaylists([
-      {
-        id: 1,
-        title: 'hi',
-        image: `https://lh3.googleusercontent.com/6wTZg-bWv7Yax1_7G0QlqukOwDJHetzicZj84GHzI93-Axt0Nv638NoG7cC6RnbGSTn0-gZkwVxvnExs=w544-h544-l90-rj`
-      },
-      {
-        id: 2,
-        title: 'hello',
-        image: `https://lh3.googleusercontent.com/6wTZg-bWv7Yax1_7G0QlqukOwDJHetzicZj84GHzI93-Axt0Nv638NoG7cC6RnbGSTn0-gZkwVxvnExs=w544-h544-l90-rj`
-      },
-      {
-        id: 3,
-        title: '커즈아이',
-        image: `https://lh3.googleusercontent.com/6wTZg-bWv7Yax1_7G0QlqukOwDJHetzicZj84GHzI93-Axt0Nv638NoG7cC6RnbGSTn0-gZkwVxvnExs=w544-h544-l90-rj`
-      },
-      {
-        id: 4,
-        title: '롸익보이이이이이',
-        image: `https://lh3.googleusercontent.com/6wTZg-bWv7Yax1_7G0QlqukOwDJHetzicZj84GHzI93-Axt0Nv638NoG7cC6RnbGSTn0-gZkwVxvnExs=w544-h544-l90-rj`
-      },
-      {
-        id: 5,
-        title: '롸익보이이이이이',
-        image: `https://lh3.googleusercontent.com/6wTZg-bWv7Yax1_7G0QlqukOwDJHetzicZj84GHzI93-Axt0Nv638NoG7cC6RnbGSTn0-gZkwVxvnExs=w544-h544-l90-rj`
-      },
-      {
-        id: 6,
-        title: '롸익보이이이이이',
-        image: `https://lh3.googleusercontent.com/6wTZg-bWv7Yax1_7G0QlqukOwDJHetzicZj84GHzI93-Axt0Nv638NoG7cC6RnbGSTn0-gZkwVxvnExs=w544-h544-l90-rj`
-      }
-    ]);
-
-    setDiarylist([
-      {
-        id: 1,
-        title: '핑크빈의 일기',
-        image: `https://lh3.googleusercontent.com/6wTZg-bWv7Yax1_7G0QlqukOwDJHetzicZj84GHzI93-Axt0Nv638NoG7cC6RnbGSTn0-gZkwVxvnExs=w544-h544-l90-rj`
-      },
-      {
-        id: 2,
-        title: 'hello',
-        image: `https://lh3.googleusercontent.com/6wTZg-bWv7Yax1_7G0QlqukOwDJHetzicZj84GHzI93-Axt0Nv638NoG7cC6RnbGSTn0-gZkwVxvnExs=w544-h544-l90-rj`
-      },
-      {
-        id: 3,
-        title: '배고프다마',
-        image: `https://lh3.googleusercontent.com/6wTZg-bWv7Yax1_7G0QlqukOwDJHetzicZj84GHzI93-Axt0Nv638NoG7cC6RnbGSTn0-gZkwVxvnExs=w544-h544-l90-rj`
-      },
-      {
-        id: 4,
-        title: '사람이라면 인간적으로 밥드셔야죠 밥밥밥밥밥밥밥밥밥',
-        image: `https://lh3.googleusercontent.com/6wTZg-bWv7Yax1_7G0QlqukOwDJHetzicZj84GHzI93-Axt0Nv638NoG7cC6RnbGSTn0-gZkwVxvnExs=w544-h544-l90-rj`
-      },
-      {
-        id: 5,
-        title: '롸익보이이이이이',
-        image: `https://lh3.googleusercontent.com/6wTZg-bWv7Yax1_7G0QlqukOwDJHetzicZj84GHzI93-Axt0Nv638NoG7cC6RnbGSTn0-gZkwVxvnExs=w544-h544-l90-rj`
-      },
-      {
-        id: 6,
-        title: '롸익보이이이이이',
-        image: `https://lh3.googleusercontent.com/6wTZg-bWv7Yax1_7G0QlqukOwDJHetzicZj84GHzI93-Axt0Nv638NoG7cC6RnbGSTn0-gZkwVxvnExs=w544-h544-l90-rj`
-      }
-    ]);
-  }, []);
+    setPlaylists(topPlaylistShow);
+    setDiarylist(topdiary);
+  }, [topPlaylist, publicDiary]);
 
   // 쿠키에 닉네임 추가
   useEffect(() => {
@@ -168,14 +149,13 @@ function Mainpage() {
           <div className="pb-2 mb-1 text-4xl font-bold text-center">
             Top Artists
           </div>
-          <div className="md:w-[45%] w-[200px] md:h-[400px] h-[200px] m-auto relative group flex flex-row justify-center">
+          <div className="md:w-[45%] w-[200px] md:h-[400px] h-[200px] m-auto flex flex-row justify-center ">
             {/* carousel wrapper */}
-
             <Link
               style={{
                 backgroundImage: `url(${slides[currentIndex]?.artistImgPath})`
               }}
-              className="w-[600px] h-[400px] duration-100 bg-center bg-no-repeat bg-cover rounded-lg opacity-75 drop-shadow-2xl"
+              className="md:w-[600px] md:h-[400px] w-[300px] h-[200px] duration-100 bg-center bg-no-repeat bg-cover rounded-lg opacity-75 drop-shadow-2xl"
               href={`/artist/${slides[currentIndex]?.id}`}>
               <div className="flex flex-row h-[60px] bg-gray-800 md:mt-[340px] mt-[140px] opacity-80 items-center">
                 <p className="ml-3 text-xl font-bold md:text-4xl">
@@ -195,65 +175,74 @@ function Mainpage() {
           </div>
 
           {/* playlists */}
-          <div className="flex flex-col mt-6 text-white">
-            <h2 className="mb-4 text-2xl font-semibold">Featured Playlists</h2>
+          <div className="flex flex-col mt-4 text-white">
+            <h2 className="mb-1 text-2xl font-semibold">Featured Playlists</h2>
             {/* 여기 아래 플레이리스트 뿌려주기 */}
-            <div className=" w-[100%] h-[250px] flex flex-row items-center gap-x-5 overflow-x-auto scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-blue-500 scrollbar-track-black">
+            <div className=" h-[120px] md:w-[100%] md:h-[200px] flex flex-row items-center gap-x-5 overflow-x-auto scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-blue-500 scrollbar-track-black">
               {playlists.map((pl, id) => (
-                <div className="flex flex-col items-center" key={id}>
-                  <img
-                    className="w-48 h-48 rounded-lg drop-shadow-2xl min-w-[12rem]"
-                    src={pl.image}
-                    alt="Playlist 1"
-                  />
-                  <p className="mt-2 text-xl drop-shadow-2xl">{pl.title}</p>
+                <div
+                  className="flex flex-col justify-center items-center"
+                  key={id}>
+                  <div
+                    className="flex flex-row justify-center items-center mt-1 text-md rounded-lg drop-shadow-2xl w-[100px] h-[80px]  md:w-[160px] md:h-[120px] border-2 hover:cursor-pointer hover:bg-blue-600"
+                    onClick={() => gotoTopPlaylist(pl.id)}>
+                    {pl.playlistTitle}
+                  </div>
                 </div>
               ))}
             </div>
           </div>
 
           {/* 오늘의 일기들 인기순 */}
-          <div className={`mt-5`}>
-            <div className={`flex  items-center justify-between`}>
+          <div className={`mt-8`}>
+            <div className={`flex justify-between `}>
               <h2 className="mb-4 text-2xl font-semibold">Daily hot Diary</h2>
 
               <Link href={`/diary-public`}>
                 <button
-                  className={`border pl-2 pr-2 rounded-xl bg-slate-700 hover:bg-blue-400 duration-300`}>
+                  className={`border-2 py-2 my-2 pl-2 pr-2 rounded-xl bg-slate-700 hover:bg-blue-400 md:animate-bounce`}>
                   {' '}
-                  모든 일기 보러가기
+                  모든 일기
                 </button>
               </Link>
             </div>
 
             <div
               className={`md:flex overflow-auto scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-blue-500 scrollbar-track-black border-t-2 border-b-2 pt-2 pb-2 md:max-h-[630px] max-h-[550px]`}>
-              {diarylist.map((dl, id) => (
-                <Link href={`/diary/${id}`}>
-                  <div
-                    className={`grid grid-cols-1 hover:bg-gradient-to-bl bg-blue-900 hover:from-blue-500 hover:to-slate-800 md:min-w-[300px]`}
-                    key={id}>
+              {diarylist
+                .sort(() => 0.5 - Math.random())
+                .slice(0, 6)
+                .map((dl, id) => (
+                  <Link href={`/diary/${dl.id}`}>
                     <div
-                      className={`border rounded-lg p-5 max-h-[300px] overflow-hidden scrollbar-hide `}>
-                      <h3 className="text-2xl font-bold">
-                        {' '}
-                        {id + 1} : {dl.title}
-                      </h3>
-                      <p> 2023.03.31</p>
-                      <br />
-                      <p> {/* 글내용 */}</p>
-                    </div>
-                    <div
-                      className={`border rounded-lg p-5 max-h-[300px] h-[220px] md:h-[300px] overflow-hidden justify-center grid text-center`}>
-                      <img
-                        src={dl.image}
+                      className={`grid grid-cols-1 hover:bg-gradient-to-bl bg-blue-900 hover:from-blue-500 hover:to-slate-800 md:min-w-[300px]`}
+                      key={id}>
+                      <div
+                        className={`border rounded-lg p-5 md:min-h-[400px] overflow-hidden scrollbar-hide `}>
+                        <h3 className="text-2xl font-bold w-[260px] truncate">
+                          {' '}
+                          {dl.title}
+                        </h3>
+                        <p className="my-2 font-semibold text-sm">
+                          {dl.nickname}
+                        </p>
+                        <p className="mt-2 font-semibold text-sm">
+                          {dl.createDt}
+                        </p>
+                        <hr className="my-2" />
+                        <div>{parse(dl.content)}</div>
+                      </div>
+                      {/* <div
+                        className={`border rounded-lg p-5 max-h-[300px] h-[220px] md:h-[300px] overflow-hidden justify-center grid text-center`}>
+                        <img
+                        src={dl.}
                         className={`bg-no-repeat bg-cover animate-[spin_5s_linear_infinite] pause hover:running ${styles.cdBG}`}></img>
-                      <h3 className="text-2xl font-bold"> 음악 제목</h3>
-                      <p> 아티스트 이름</p>
+                        <h3 className="text-2xl font-bold"> 음악 제목</h3>
+                        <p> 아티스트 이름</p>
+                      </div> */}
                     </div>
-                  </div>
-                </Link>
-              ))}
+                  </Link>
+                ))}
             </div>
           </div>
         </div>

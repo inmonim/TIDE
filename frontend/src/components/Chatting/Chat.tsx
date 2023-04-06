@@ -7,6 +7,7 @@ import imageURL from 'public/chatting/imageFile.png';
 import cancelURL from 'public/chatting/cancel.png';
 import Image from 'next/image';
 import {v4 as uuidv4} from 'uuid';
+import ArrowBackRoundedIcon from '@mui/icons-material/ArrowBackRounded';
 
 // 파이어베이스
 import {dbService, storageService} from '@/firebase';
@@ -50,8 +51,8 @@ const options = {
   day: 'numeric'
 };
 const Chat = ({data}: {data: ChatPropsInterFace}) => {
-// const Chat = ( {usersNickName, roomName} : ChatPropsInterFace) => {
-  const { usersNickName, roomName} = data
+  // const Chat = ( {usersNickName, roomName} : ChatPropsInterFace) => {
+  const {usersNickName, roomName} = data;
   const dispatch = useAppDispatch();
   const router = useRouter();
   // 채팅 div
@@ -72,7 +73,6 @@ const Chat = ({data}: {data: ChatPropsInterFace}) => {
 
   // 채팅 데이터들 가져오기
   const getContents = async () => {
-
     // 우선 query로 데이터 가져오기 두번째 인자 where로 조건문도 가능
     const content = query(
       // 여기 중요.. 바로 router에서 가져와서 해야함.. 안그러니까 한박자 느리네
@@ -193,7 +193,7 @@ const Chat = ({data}: {data: ChatPropsInterFace}) => {
 
   // 처음 실행하는 곳
   useEffect(() => {
-    getContents();    
+    getContents();
     // 유저 정보 요청
     dispatch(profileAsync());
 
@@ -208,7 +208,6 @@ const Chat = ({data}: {data: ChatPropsInterFace}) => {
     //   dispatch(userInfoAsync(userNick));
     // }
   }, [data]);
-  
 
   useEffect(() => {
     // 채팅 스크롤 젤 밑으로
@@ -223,13 +222,17 @@ const Chat = ({data}: {data: ChatPropsInterFace}) => {
 
   return (
     <div className="flex flex-col justify-center w-full h-full text-white ">
-      <Link href={'/message'}>
-        <div className="fixed z-10 top-0 w-full h-[5vh] bg-black md:hidden">
-          <div className="flex items-center h-full text-lg cursor-pointer hover:text-blue-300">
-            &nbsp; ◁ &nbsp;{usersNickName}
-          </div>
+      <div className="fixed z-10 top-0 w-full h-[5vh] bg-black md:hidden">
+        <div className="flex items-center h-full text-lg cursor-pointer ">
+          <ArrowBackRoundedIcon
+            className="ml-4 md:hidden hover:text-blue-300"
+            fontSize="medium"
+            onClick={() => router.push('/message')}
+          />
+          &nbsp;{usersNickName}
         </div>
-      </Link>
+      </div>
+
       <div className="flex flex-col items-center justify-center w-full h-full bg-black rounded-lg bg-opacity-40">
         {/* 메시지들 보이는 곳 */}
         <div ref={chatDiv} className="w-11/12 h-full overflow-y-auto">

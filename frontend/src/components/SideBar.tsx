@@ -66,6 +66,7 @@ const SideBar: FC<SideBarProps> = props => {
             <form>
               <button type="submit" onClick={handleSearchSubmit}></button>
               <input
+                className="px-1"
                 value={title}
                 type="text"
                 placeholder="Search"
@@ -194,6 +195,7 @@ const SideBar: FC<SideBarProps> = props => {
           <form>
             <button onClick={handleSearchSubmit}></button>
             <input
+              className="px-1"
               type="text"
               placeholder="Search"
               value={title}

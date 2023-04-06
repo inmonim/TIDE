@@ -29,10 +29,10 @@ function MusicEmotion({userId, songId, emotions}: any) {
           <label className="flex mx-2 my-2 md:my-4 md:mx-4">
             <input
               className="md:w-[20px] w-[10px]"
-              type="checkbox"
+              type="radio"
               name="music-emotion"
               value={emotion.id}
-              checked={emotion === emotion.id}
+              // checked={emotion === emotion.id}
               onChange={handleEmotionSelection}
             />
             <div className="mx-2 text-[14px] md:text-2xl">{emotion.name}</div>

@@ -58,12 +58,9 @@ function Musicpage() {
     dispatch(userIdAsync());
   }, []);
 
-  console.log(userId, 'userId');
-
   useEffect(() => {
     dispatch(playListMineAsync());
   }, []);
-  // console.log(myplaylist, 'myplaylist');
 
   useEffect(() => {
     if (MusicId) {

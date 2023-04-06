@@ -4,7 +4,10 @@ import {useAppDispatch, useAppSelector} from 'store'; //스토어 생성단계�
 import {followDelAsync} from 'store/api/features/followDelSlice';
 import {followerDelAsync} from 'store/api/features/followerDelSlice';
 import {getCookie} from 'cookies-next';
-import {playListSongAddAsync, playListSongAddinitStatus} from 'store/api/features/playListSongAddSlice';
+import {
+  playListSongAddAsync,
+  playListSongAddinitStatus
+} from 'store/api/features/playListSongAddSlice';
 import {toast} from 'react-toastify';
 
 interface listInterFace {
@@ -19,7 +22,7 @@ export type playListModalProps = {
   songId: number;
   isMe: boolean;
   list: listInterFace[];
-  getMyPlaylistModal:Function;
+  getMyPlaylistModal: Function;
 };
 
 interface followAPIInterFace {
@@ -75,7 +78,7 @@ const MusicModal: FC<playListModalProps> = props => {
                   <div
                     key={index}
                     onClick={() => handlePlaylistAdd(p.id)}
-                    className={`flex bg-slate-800 rounded-md w-[100%] h-[70px] p-[2%] items-center gap-x-2 bg-opacity-80 justify-between hover:bg-blue-500 duration-300`}
+                    className={`flex bg-slate-800 rounded-md w-[100%] h-[70px] p-[2%] pl-4 items-center gap-x-2 bg-opacity-80 justify-between hover:bg-blue-500 duration-300`}
                     data-playlist-id={p.id}>
                     <div className={`flex items-center`}>
                       <p> {p.playlistTitle}</p>

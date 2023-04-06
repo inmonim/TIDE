@@ -81,6 +81,15 @@ class SongCategory(db.Model):
     
     def as_list(self):
         return [self.sadly, self.calm, self.love, self.farewell, self.cool, self.myway, self.commic, self.anger, self.exciting]
+
+class SongCategoryVotedUser(db.Model):
+    
+    __tablename__ = 'song_category_voted_user'
+    
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    song_id = Column(Integer)
+    user_id = Column(Integer)
+    
     
 class TextFeedback(db.Model):
     

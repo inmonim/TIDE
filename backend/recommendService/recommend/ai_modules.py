@@ -125,7 +125,7 @@ def emotion_t2_rank(emo_list):
         if emo_list[i] == max(emo_list):
             t1 = i
             break
-    del emo_list[t1]
+    emo_list[t1] = -10
     for i in range(len(emo_list)):
         if emo_list[i] == max(emo_list):
             t2 = i

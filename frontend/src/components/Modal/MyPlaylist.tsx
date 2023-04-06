@@ -4,7 +4,8 @@ import {useAppDispatch, useAppSelector} from 'store'; //스토어 생성단계�
 import {followDelAsync} from 'store/api/features/followDelSlice';
 import {followerDelAsync} from 'store/api/features/followerDelSlice';
 import {getCookie} from 'cookies-next';
-import {playListSongAddAsync} from 'store/api/features/playListSongAddSlice';
+import {playListSongAddAsync, playListSongAddinitStatus} from 'store/api/features/playListSongAddSlice';
+import {toast} from 'react-toastify';
 
 interface listInterFace {
   id: number;
@@ -13,19 +14,20 @@ interface listInterFace {
   isPublic: string;
 }
 
-export type FollowModalProps = {
+export type playListModalProps = {
   type: Number;
   songId: number;
   isMe: boolean;
   list: listInterFace[];
+  getMyPlaylistModal:Function;
 };
 
 interface followAPIInterFace {
   nickname: string;
 }
 
-const MusicModal: FC<FollowModalProps> = props => {
-  const {type, isMe, list, songId} = props;
+const MusicModal: FC<playListModalProps> = props => {
+  const {type, isMe, list, songId, getMyPlaylistModal} = props;
   console.log(songId, 'songId');
   const [playlistId, setPlaylistId] = useState<number>(0);
   // const [musicId, setMusicId] = useState<number>(0);
@@ -34,11 +36,26 @@ const MusicModal: FC<FollowModalProps> = props => {
 
   const handlePlaylistAdd = (playlistId: number) => {
     dispatch(playListSongAddAsync({playlistId, songId}));
+    getMyPlaylistModal(0);
   };
 
-  const {status} = useAppSelector(state => {
-    return state.followDel;
+  const songAddStatus = useAppSelector(state => {
+    return state.playListSongAdd;
   });
+
+  useEffect(() => {
+    switch (songAddStatus.status) {
+      case 'completed':
+        toast.success('노래를 추가했습니다.');
+        dispatch(playListSongAddinitStatus());
+        break;
+      case 'failed':
+        toast.error('노래를 추가할 수 없습니다.');
+        dispatch(playListSongAddinitStatus());
+        // dispatch(diaryListCreateinitStatus())
+        break;
+    }
+  }, [songAddStatus]);
 
   return (
     <>

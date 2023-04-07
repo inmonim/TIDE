@@ -196,14 +196,9 @@ export default function userDetail() {
                 {nickname}
                 <form
                 onSubmit={onSubmitFollowReqForm}>
-                {followWaiters.findIndex(e=>e.nickname === nickname)?                
-                <button className={`ml-2 mb-1 w-26 h-5 bg-blue-400 rounded-lg pl-2 pr-2 text-sm hover:bg-blue-600 duration-200`}>
-                  {' '}
-                  팔로우{' '}
-                </button>
-                :
-                <div className='grid h-full ml-2 md:flex'>
-                                <button
+                {followWaiters.findIndex(e=>e.nickname === nickname)!==-1?   
+                  <div className='grid h-full ml-2 md:flex'>
+                  <button
                   className={`w-30  text-sm h-6 bg-blue-800 pl-1 pr-1 rounded-lg hover:bg-blue-400 duration-200 z-[2]`}
                   onClick={onFollowAcc}>
                   {' '}
@@ -215,7 +210,27 @@ export default function userDetail() {
                   {' '}
                   팔로우 거절{' '}
                 </button>
-                </div>
+                </div>             
+                :
+                // <div className='grid h-full ml-2 md:flex'>
+                //                 <button
+                //   className={`w-30  text-sm h-6 bg-blue-800 pl-1 pr-1 rounded-lg hover:bg-blue-400 duration-200 z-[2]`}
+                //   onClick={onFollowAcc}>
+                //   {' '}
+                //   팔로우 수락{' '}
+                // </button>
+                // <button
+                //   className={`w-30 h-6 text-sm bg-red-800 pl-1 pr-1 rounded-lg hover:bg-red-500 duration-200 z-[2]`}
+                //   onClick={onFollowNoneAcc}>
+                //   {' '}
+                //   팔로우 거절{' '}
+                // </button>
+                // </div>
+
+                <button className={`ml-2 mb-1 w-26 h-5 bg-blue-400 rounded-lg pl-2 pr-2 text-sm hover:bg-blue-600 duration-200`}>
+                {' '}
+                팔로우{' '}
+                </button>
                 }
                 </form>
               </div>

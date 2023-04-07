@@ -184,7 +184,7 @@ function Mainpage() {
                   className="flex flex-col items-center justify-center"
                   key={id}>
                   <div
-                    className="flex flex-row justify-center items-center mt-1 text-md rounded-lg drop-shadow-2xl w-[100px] h-[80px]  md:w-[160px] md:h-[120px] border-2 hover:cursor-pointer hover:bg-blue-600"
+                    className="p-2 flex flex-row justify-center items-center mt-1 text-md rounded-lg drop-shadow-2xl w-[100px] h-[80px]  md:w-[160px] md:h-[120px] border-2 hover:cursor-pointer hover:bg-blue-600"
                     onClick={() => gotoTopPlaylist(pl.id)}>
                     {pl.playlistTitle}
                   </div>
@@ -218,7 +218,7 @@ function Mainpage() {
                       className={`min-h-[300px] grid grid-cols-1 hover:bg-gradient-to-bl my-4 md:mx-2 bg-blue-900 hover:from-blue-500 hover:to-slate-800 md:min-w-[300px]`}
                       key={id}>
                       <div
-                        className={`border rounded-lg p-5 md:min-h-[400px] overflow-hidden scrollbar-hide `}>
+                        className={`border rounded-lg p-5 md:min-h-[400px] max-h-[400px] overflow-hidden scrollbar-hide `}>
                         <h3 className="text-2xl font-bold w-[260px] truncate">
                           {' '}
                           {dl.title}

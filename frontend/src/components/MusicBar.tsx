@@ -2,6 +2,8 @@ import React, {FC, useEffect, useRef, useState} from 'react';
 import SideBar from './SideBar';
 import styles from '@/styles/MusicBar.module.scss';
 import ReactPlayer from 'react-player';
+import {useAppSelector, useAppDispatch} from 'store';
+import { changeNextSong, changePrevSong } from 'store/api/features/nowmusicSlice';
 
 export type MusicBarProps = {};
 
@@ -24,11 +26,18 @@ const MusicBar: FC<MusicBarProps> = props => {
   // 재생바 클릭상태
   const [onBarClick, setOnBarClick] = useState<boolean>(false);
 
+  const musicplay = useAppSelector(state => state.nowmusic);
+
   useEffect(() => {
-    setSrc('https://www.youtube.com/watch?v=11cta61wi0g');
-    setPlaying(false);
+
+    if (musicplay.videoId) {
+      setPlaying(true);
+    }
+    setSrc(`https://www.youtube.com/watch?v=${musicplay.videoId}`);
+
     setInit(true);
-  }, []);
+    
+  }, [musicplay]);
 
   // 재생바에 마우스 올리면 거기까지 .... 시간과 바를 땡겨보여줌
   const BarTimeOn = (e: React.MouseEvent<HTMLElement>) => {
@@ -97,23 +106,25 @@ const MusicBar: FC<MusicBarProps> = props => {
     setPlaying(prev => !prev);
   };
 
-  // 최초 실행 시 fullplaytime 가져오기
-  useEffect(() => {
-    if (youtube.current && Number.isNaN(fullplaytime)) {
-      const fullSet = setInterval(() => {
-        setFullPlaytime(parseInt(youtube.current.getDuration()));
-        if (playbarRef.current) playbarRef.current.value = '0';
-      }, 100);
-      return () => clearInterval(fullSet);
-    }
-  }, [init, fullplaytime]);
 
+  // useEffect(() => {
+  //   if (init && playMaybarRef.current) {
+  //     playbarRef.current.value = 0
+  //   }
+  // }, [playing]);
+
+
+
+
+  const dispatch = useAppDispatch();
+
+  
   return (
     <>
       <div
         className={`fixed bottom-0 z-10 w-screen md:mx-auto overflow-auto ${styles.navBgDiv}`}>
         <nav>
-          <div className="px-4">
+          <div className="px-4 select-none">
             <div className="flex justify-center">
               <div
                 className={`flex flex-row items-center m-2 ${styles.navSection}`}>
@@ -121,18 +132,36 @@ const MusicBar: FC<MusicBarProps> = props => {
                   {/* 앨범 사진 */}
                   <div
                     className={`w-20 h-20 rounded-md bg-white min-w-20 min-h-20 ${styles.albumImg}`}>
-                    <img
-                      className="w-full h-full rounded-md"
-                      src="https://image.bugsm.co.kr/album/images/130/40780/4078016.jpg"
-                      alt="NewJeans"
-                    />{' '}
+                    {musicplay.albumImgPath ? (
+                      <img
+                        className="w-full h-full rounded-md"
+                        src={musicplay.albumImgPath}
+                        alt="NewJeans"
+                      />
+                    ) : (
+                      <img
+                        src="\favicon.ico"
+                        alt="tide-logo"
+                        className="p-1 rounded-md"
+                      />
+                    )}
                   </div>
                   {/* 음악 정보 */}
                   <div className={styles.musicDesc}>
-                    <div>
-                      <p className="font-mono text-xl"> Hype Boy</p>
-                      <p className="font-mono text-l"> NewJeans</p>
-                    </div>
+                    {musicplay.title ? (
+                      <div>
+                        <p className="font-mono text-lg font-semibold">
+                          {musicplay.title}
+                        </p>
+                        <p className="font-mono font-semibold text-md">
+                          {musicplay.artist}
+                        </p>
+                      </div>
+                    ) : (
+                      <p className="font-mono text-sm font-semibold select-none">
+                        재생할 음악을 선택해 주세요
+                      </p>
+                    )}
                   </div>
                 </div>
                 {/* 바 */}
@@ -181,12 +210,18 @@ const MusicBar: FC<MusicBarProps> = props => {
                     <ReactPlayer
                       ref={youtube}
                       playing={playing}
-                      loop={true}
+                      loop={musicplay.plType===0?true:false}
                       url={src}
+                      onReady={()=>{setFullPlaytime(parseInt(youtube.current.getDuration()))}}
+                      onEnded={()=> 
+                        {
+                          dispatch(changeNextSong())
+                        }}
                       style={{display: 'none'}}
                     />
                   )}
                   <div
+                    onClick={()=> dispatch(changePrevSong())}
                     className={`w-7 h-7 cursor-pointer ${styles.Back}`}></div>
                   {playing ? (
                     <div
@@ -198,6 +233,7 @@ const MusicBar: FC<MusicBarProps> = props => {
                       className={`w-7 h-7 cursor-pointer ${styles.Play}`}></div>
                   )}
                   <div
+                    onClick={()=> dispatch(changeNextSong())}
                     className={`w-7 h-7 cursor-pointer ${styles.Fast}`}></div>
                 </div>
               </div>

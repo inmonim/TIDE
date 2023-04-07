@@ -2,7 +2,7 @@ import axios from 'axios';
 import cookie from 'react-cookies';
 // import { HTTP_ONLY } from "../config/config";
 
-function setToken(accessToken: string, email: string, refreshToken?: string) {
+function setToken(accessToken: string, email: string,  refreshToken?: string) {
   // axios에 defalut로 토큰 집어넣기
   // axios.defaults.headers.Authorization = "Bearer " + accessToken;
 
@@ -20,6 +20,7 @@ function setToken(accessToken: string, email: string, refreshToken?: string) {
     // , expires
     // , httpOnly: HTTP_ONLY // dev/prod 에 따라 true / false 로 받게 했다.
   });
+
   // cookie.save('refreshToken', refreshToken, {
   //   path: '/'
   //   // , expires

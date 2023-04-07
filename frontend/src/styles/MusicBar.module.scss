@@ -96,9 +96,8 @@
   background-repeat: no-repeat;
   background-size: cover;
   transition: 0.1s;
-
   &:hover {
-    filter: drop-shadow(0px 0px 2px #eee)
+    filter: drop-shadow(0px 0px 2px #eeeeee)
       drop-shadow(0px 0px 5px rgb(141, 160, 255))
       drop-shadow(0px 0px 10px rgb(23, 45, 93));
   }
@@ -261,13 +260,13 @@
     width: 8rem;
     overflow-x: hidden;
     white-space: nowrap;
-    & > p:nth-child(1) {
-      font-size: 20px;
-    }
+    // & > p:nth-child(1) {
+    //   font-size: 20px;
+    // }
 
-    & > p:nth-child(2) {
-      font-size: 16px;
-    }
+    // & > p:nth-child(2) {
+    //   font-size: 16px;
+    // }
   }
 
   .timeBar {
@@ -357,6 +356,7 @@
 
         & + .logoDiv {
           visibility: hidden;
+
         }
 
         & + .logoDiv + .rightIconDiv {

@@ -4,12 +4,12 @@ import {useAppDispatch, useAppSelector} from 'store'; //스토어 생성단계�
 import logoUrl from 'public/images/Logo/TideLogoFinal.png';
 import {motion} from 'framer-motion';
 import Link from 'next/link';
-import {loginAsync} from 'store/api/features/loginSlice';
+import {loginAsync, initStatus} from 'store/api/features/loginSlice';
 import {useRouter} from 'next/router';
-import {setToken} from '@/components/TokenManager'
-import { toast } from 'react-toastify';
-import { initStatus } from 'store/api/features/signUpSlice';
-
+import {setToken} from '@/components/TokenManager';
+import {toast} from 'react-toastify';
+import {initStatusSignUp} from 'store/api/features/signUpSlice';
+import {profileAsync} from 'store/api/features/profileSlice';
 
 interface LoginInterFace {
   email: string;
@@ -19,8 +19,6 @@ interface LoginInterFace {
 const login = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  // 구글가입 이미지
-  const googleImage = useRef<string>('/images/Logo/google.png');
 
   const [loginAccount, setLoginAccount] = useState<LoginInterFace>({
     email: '',
@@ -48,6 +46,7 @@ const login = () => {
     }
     // status값 init
     dispatch(initStatus());
+    dispatch(initStatusSignUp());
   }, [status]);
 
   //input에 입력될 때마다 loginAccount state값 변경되게 하는 함수
@@ -119,13 +118,6 @@ const login = () => {
         </form>
         <div className="w-1/2 border-[0.1rem] my-4"></div>
         <div className={`w-60 flex flex-col h-60 justify-evenly items-center`}>
-          <div className={`w-full flex justify-center cursor-pointer`}>
-            <img
-              src={googleImage.current}
-              alt="google"
-              className="object-contain"
-            />
-          </div>
           <div className="text-md"> 계정이 없으신가요? </div>
           <Link
             className={`border-2 w-full rounded-md bg-sky-700 hover:bg-sky-500`}

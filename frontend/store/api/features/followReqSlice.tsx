@@ -26,7 +26,8 @@ export const followReqAsync = createAsyncThunk(
   'followReq/Async',
   async ({nickname}: FollowReqProps) => {
     const accessToken = getCookie('accessToken');
-    console.log(`이메일: ${getCookie('email')} / 닉네임: ${nickname}`)
+    console.log(`이메일 : ${getCookie('email')} / 닉 : ${nickname}`)
+    console.log('닉타입 ', typeof(nickname))
     const data = await axios({
       method: 'post',
       url: `${process.env.NEXT_PUBLIC_API_URL}/api/user/follow`,
@@ -47,6 +48,9 @@ export const followReqSlice = createSlice({
   name: 'followReq',
   initialState,
   reducers: {
+    initReq(state){
+      state.status = 'loading';
+    }
   },
   // 비동기 처리를 위한 redux-thunk사용 extraReducers
   extraReducers: builder => {
@@ -56,15 +60,15 @@ export const followReqSlice = createSlice({
       })
       .addCase(followReqAsync.fulfilled, state => {
         state.status = 'completed';
-        console.log('팔로우 요청 성공');
+        // console.log('팔로우 요청 성공');
       })
       .addCase(followReqAsync.rejected, (state, action) => {
         state.status = 'failed';
-        console.log('팔로우 요청 실패', action.error);
+        // console.log('팔로우 요청 실패', action.error);
       });
   }
 });
 
 // createSlice의 reducers 에서 만든 state 변경 함수를 export 하기
-// export const {increment, decrement} = followReqSlice.actions;
+export const {initReq} = followReqSlice.actions;
 export default followReqSlice.reducer;

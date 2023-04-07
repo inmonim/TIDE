@@ -1,6 +1,6 @@
 import '@/styles/globals.css';
 import type {AppContext, AppProps} from 'next/app';
-import {wrapper} from 'store';
+import {useAppDispatch, wrapper} from 'store';
 import MusicBar from '@/components/MusicBar';
 import {useEffect, useState} from 'react';
 import {motion, AnimatePresence} from 'framer-motion';
@@ -8,13 +8,26 @@ import {useRouter} from 'next/router';
 import cookies from 'next-cookies';
 import {getCookie} from 'cookies-next';
 import {setToken} from '@/components/TokenManager';
+import {alramOn} from 'store/api/features/alramSlice';
 // import App from 'next/app';
-import {ToastContainer} from 'react-toastify';
+import {toast, ToastContainer} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+
+// 파이어베이스
+import {
+  collection,
+  onSnapshot,
+  orderBy,
+  query,
+  updateDoc,
+  doc
+} from 'firebase/firestore';
+import {dbService} from '@/firebase';
 
 function App({Component, pageProps}: AppProps) {
   const router = useRouter();
-
+  const dispatch = useAppDispatch();
+  const myNick = getCookie('nickname');
   const [isLogin, setIsLogin] = useState<boolean>(false);
 
   // 로그인 상태 체크
@@ -27,6 +40,54 @@ function App({Component, pageProps}: AppProps) {
       setIsLogin(false);
     }
   }, [router]);
+
+  // 알람메시지 데이터들
+  const [alramDatas, setAlramDatas] = useState<any[]>([]);
+
+  // 알람 데이터들 가져오기
+  const getContents = async () => {
+    // 우선 query로 데이터 가져오기 두번째 인자 where로 조건문도 가능
+    const alrams = query(
+      // 여기 중요.. 바로 router에서 가져와서 해야함.. 안그러니까 한박자 느리네
+      collection(dbService, `${myNick}alram`),
+      orderBy('createdAt')
+    );
+
+    // 실시간 알람 감지 최신버전
+    onSnapshot(alrams, snapshot => {
+      const alramSnapshot = snapshot.docs.map(con => {
+        return {
+          ...con.data(),
+          id: con.id
+        };
+      });
+      setAlramDatas(prev => [...alramSnapshot]);
+    });
+  };
+  useEffect(() => {
+    getContents();
+  }, []);
+  // 업데이트 알람
+  const updateAlram = async (id: string) => {
+    await updateDoc(doc(dbService, `${myNick}alram`, `${id}`), {
+      check: true
+    });
+  };
+
+  // 메시지 감지
+  useEffect(() => {
+    if (alramDatas && alramDatas.length > 0) {
+      const {userNick, check, id} = alramDatas[alramDatas.length - 1];
+
+      if (check === false && !router.query.roomName?.includes(`${userNick}`)) {
+        toast.info(`${userNick}한테 메시지왔쪄염!!!!`);
+        updateAlram(id);
+        // 알람 상태 on
+        dispatch(alramOn());
+      }
+    }
+  }, [alramDatas]);
+
   return (
     <>
       {isLogin && <MusicBar />}
@@ -68,6 +129,7 @@ function App({Component, pageProps}: AppProps) {
           <Component {...pageProps} />
         </motion.div>
       </AnimatePresence>
+
     </>
   );
 }

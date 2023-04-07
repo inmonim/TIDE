@@ -10,6 +10,7 @@ interface MsgInterFace {
     type: string;
     id: string;
     downLoadUrl: string;
+    profilePath: string;
   };
   myEmail: any;
   checkSameNick: boolean;
@@ -52,7 +53,7 @@ const Message = ({
       {init ? (
         isMe ? (
           <div className="flex justify-end w-full px-2 h-fit">
-            <div className="flex justify-end items-end w-3/5 my-[0.3rem]">
+            <div className="flex justify-end items-end max-w-md lg:w-3/5 my-[0.3rem]">
               <div
                 className={`mr-2 text-sm text-slate-400 min-w-fit ${
                   // 시간이 보이고 말고 세팅 하지만 date값은 유지해서 크기유지
@@ -61,39 +62,70 @@ const Message = ({
                 {date}
               </div>
 
-              <div className="flex flex-col items-center px-3 py-2 break-words bg-gray-800 rounded-tr-none rounded-2xl w-fit">
-                {data.downLoadUrl && (
-                  <div className="relative w-80 h-60">
-                    {/* 외부 링크 쓸려면 next.config.js에 등록해야함 */}
-                    {/* https://png-pixel.com/ 에서 blurDataURL 처리 */}
-                    <Image
+              {date && (
+                <div className="flex flex-col items-center px-3 py-2 break-words bg-gray-800 rounded-tr-none rounded-2xl w-fit">
+                  {data.downLoadUrl && (
+                    <img src={data.downLoadUrl} alt={data.downLoadUrl} />
+                  )}
+                  {/* {data.downLoadUrl && (
+                  <div className="relative w-80 h-60"> */}
+                  {/* 외부 링크 쓸려면 next.config.js에 등록해야함 */}
+                  {/* https://png-pixel.com/ 에서 blurDataURL 처리 */}
+                  {/* <Image
                       className="object-contain"
                       src={data.downLoadUrl}
                       alt={data.downLoadUrl}
                       fill
-                      sizes='250px'
-                      placeholder='blur'
+                      sizes="250px"
+                      placeholder="blur"
                       blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
                     />
                   </div>
-                )}
-                {data.content}
-              </div>
+                )} */}
+                  {data.content}
+                </div>
+              )}
             </div>
           </div>
         ) : (
           <div className="w-full px-2">
-            <div className="flex flex-col w-3/5 h-fit">
+            <div className="flex flex-col max-w-md lg:w-3/5 h-fit">
               {checkSameNick ? (
-                <div className="my-1">{data.nickname}</div>
-              ) : null}
-              <div className="flex items-end my-[0.3rem] ">
-                <div className="flex flex-col items-center py-2 px-3 border-[0.1rem] rounded-tl-none rounded-2xl break-words w-fit">
-                  {data.downLoadUrl && (
-                    <img src={data.downLoadUrl} alt={data.downLoadUrl} />
-                  )}
-                  {data.content}
+                <div className='flex items-center w-fit'>
+                  {data.profilePath && <div className="w-10 h-10 overflow-hidden rounded-full">
+                    <img
+                      className="object-fill"
+                      src={data.profilePath}
+                      alt={data.profilePath}
+                    />
+                  </div>}
+                  <div className="m-1">{data.nickname}</div>
                 </div>
+              ) : null}
+              <div className="flex items-end my-[0.3rem] ml-12">
+                {date && (
+                  <div className="flex flex-col items-center py-2 px-3 border-[0.1rem] rounded-tl-none rounded-2xl break-words w-fit">
+                    {data.downLoadUrl && (
+                      <img src={data.downLoadUrl} alt={data.downLoadUrl} />
+                    )}
+                    {/*{data.downLoadUrl && (
+                    <div className="relative w-80 h-60">
+                      {/* 외부 링크 쓸려면 next.config.js에 등록해야함 */}
+                    {/* https://png-pixel.com/ 에서 blurDataURL 처리 */}
+                    {/* <Image
+                        className="object-contain"
+                        src={data.downLoadUrl}
+                        alt={data.downLoadUrl}
+                        fill
+                        sizes="250px"
+                        placeholder="blur"
+                        blurDataURL="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
+                      />
+                    </div>
+                  )}*/}
+                    {data.content}
+                  </div>
+                )}
                 <div
                   className={`ml-2 text-sm text-slate-400 min-w-fit ${
                     checkLastTime || checkSameTime ? 'visible' : 'invisible'

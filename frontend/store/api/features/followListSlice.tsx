@@ -25,7 +25,7 @@ const initialState: FollowListState = {
 
 // Thunk 예시
 export const followListAsync = createAsyncThunk(
-  'followListAsync/Async',
+  'follows/Async',
   async () => {
     const accessToken = getCookie('accessToken');
     const data = await axios({
@@ -42,7 +42,7 @@ export const followListAsync = createAsyncThunk(
 
 // createSlice로 Slice생성
 export const followListSlice = createSlice({
-  name: 'followers',
+  name: 'follows',
   initialState,
   reducers: {
   },
@@ -56,7 +56,7 @@ export const followListSlice = createSlice({
         state.status = 'completed';
         const followList = action.payload;
         state.follows = followList;
-        console.log('팔로우 리스트 요청 성공', state.follows)
+        // console.log('팔로우 리스트 요청 성공', state.follows)
 
       })
       .addCase(followListAsync.rejected, (state, action) => {

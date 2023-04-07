@@ -63,21 +63,21 @@ function ProfileEdit() {
       </Head>
       <main
         className={`
-      p-[4rem] pt-[2rem] lg12:pr-[calc(200px)] lg12:pl-[calc(15%+100px)] pb-[240px] text-[#eeeeee] flex flex-col min-h-[100vh] pt-[calc(2rem+40px)] bg-gradient-to-t from-blue-900 to-slate-900 `}>
+      md:p-[4rem] pt-[2rem] lg12:pr-[calc(200px)] lg12:pl-[calc(15%+100px)] pb-[240px] text-[#eeeeee] flex flex-col min-h-[100vh] pt-[calc(2rem+40px)] bg-gradient-to-t from-blue-900 to-slate-900 `}>
         <form
           onSubmit={handleSubmit}
           className="flex flex-col items-center text-white ">
           {/* 프로필 상단 구역 */}
           <div className="flex flex-row mt-[50px] ">
             {/* 프로필 이미지와 닉네임 구역 */}
-            <div className="flex flex-col items-center ">
+            <div className="flex flex-col items-cente ">
               <div className="flex flex-row flex-wrap items-center justify-center mb-12">
                 {/* 프론트에 저장되있는 프로필 사진들 제공해주기*/}
                 {profileImages.map(imageUrl => (
                   <div
                     key={imageUrl}
                     onClick={() => setSelectedImage(imageUrl)}
-                    className={`w-[10%] mx-2 my-2 rounded-full ${
+                    className={`w-[10%] min-w-[40px] mx-2 my-2 rounded-full ${
                       selectedImage === imageUrl
                         ? 'border-4 border-white-600'
                         : ''
@@ -91,42 +91,44 @@ function ProfileEdit() {
                 ))}
               </div>
               {/* 닉네임과 자기소게 수정하는 칸 */}
-              <div className=" ml-[5%]">
+              <div className="grid justify-center">
+                <div className={`md:w-[500px]`}>
                 {/* 닉네임 */}
                 <label>
-                  <p className="my-2 text-2xl">닉네임</p>
+                  <p className="my-2 text-xl">닉네임</p>
                   <input
                     type="text"
                     value={newNickname}
                     placeholder={nickname}
                     onChange={handleNicknameChange}
-                    className="flex flex-row items-center text-4xl font-semibold border-2 border-gray-600 text-black rounded-lg w-[400px] mb-4"></input>
+                    className="flex flex-row items-center text-xl font-semibold border-2 border-gray-600 text-black rounded-lg w-full max-w-[600px] mb-4"></input>
                 </label>
                 {/* 자기소개 */}
                 <label>
-                  <p className="my-2 text-2xl">자기소개</p>
+                  <p className="my-2 text-xl">자기소개</p>
                   <textarea
-                    className="text-2xl font-semibold text-black max-w-[600px] min-w-[400px] min-h-[200px] mb-4 border-2 border-gray-600 rounded-lg"
+                    className="text-xl font-semibold text-black max-w-[600px] w-full min-h-[200px] mb-4 border-2 border-gray-600 rounded-lg"
                     value={newIntroduce}
                     maxLength={80}
                     placeholder={introduce}
                     onChange={handleIntroduceChange}
                   />
                 </label>
+                </div>
               </div>
             </div>
           </div>
-          <div className="flex flex-row w-[15%] ml-[35%]">
+          <div className="flex flex-row w-[15%] justify-center w-full">
             {/* 취소 버튼 */}
             <div
-              className="flex items-center justify-center text-xl w-20 h-8 my-4 mx-[5%] bg-red-600 hover:bg-red-500 rounded-xl hover:cursor-pointer"
+              className="min-w-[60px] flex items-center justify-center text-md w-20 h- bg-red-600 hover:bg-red-500 rounded-xl hover:cursor-pointer"
               onClick={returntoprofile}>
               취소
             </div>
             {/* 저장 버튼 */}
             <button
               type="submit"
-              className="justify-center text-xl w-20 h-8 my-4 ml-[5%] bg-blue-600 hover:bg-blue-500 rounded-xl">
+              className="min-w-[60px] justify-center text-md w-20 h-8 ml-[10px] bg-blue-600 hover:bg-blue-500 rounded-xl">
               저장
             </button>
           </div>

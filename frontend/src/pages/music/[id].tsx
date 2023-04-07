@@ -222,7 +222,7 @@ function Musicpage() {
               <div className="flex justify-center w-full md:w-full md:h-[340px] md:my-2 overflow-auto scrollbar-hide">
                 <textarea
                   value={lyrics}
-                  className="overflow-auto w-full h-[25vh] md:h-full font-normal rounded-xl md:w-[500px] border-[0.1rem] bg-black bg-opacity-50 md:bg-slate-600 md:border-2 p-3"
+                  className="overflow-auto scrollbar-hide w-full h-[25vh] md:h-full font-normal rounded-xl md:w-[500px] border-[0.1rem] bg-black bg-opacity-50 md:bg-slate-600 md:border-2 p-3"
                 />
               </div>
             </div>

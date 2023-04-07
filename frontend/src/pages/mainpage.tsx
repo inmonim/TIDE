@@ -178,7 +178,7 @@ function Mainpage() {
           <div className="flex flex-col mt-4 text-white">
             <h2 className="mb-1 text-2xl font-semibold">Featured Playlists</h2>
             {/* 여기 아래 플레이리스트 뿌려주기 */}
-            <div className=" h-[120px] md:w-[100%] md:h-[200px] flex flex-row items-center gap-x-5 overflow-x-auto scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-blue-500 scrollbar-track-black">
+            <div className=" h-[120px] md:w-[100%] md:h-[200px] flex flex-row  items-center gap-x-5 overflow-x-auto scrollbar-thin scrollbar-thumb-rounded-full scrollbar-track-rounded-full scrollbar-thumb-blue-500 scrollbar-track-black">
               {playlists.map((pl, id) => (
                 <div
                   className="flex flex-col items-center justify-center"
@@ -215,11 +215,11 @@ function Mainpage() {
                 .map((dl, id) => (
                   <Link href={`/diary/${dl.id}`}>
                     <div
-                      className={`min-h-[300px] grid grid-cols-1 hover:bg-gradient-to-bl my-4 md:mx-2 bg-blue-900 hover:from-blue-500 hover:to-slate-800 md:min-w-[300px]`}
+                      className={`min-h-[300px] grid grid-cols-1 hover:bg-gradient-to-bl my-4 md:mx-2 bg-blue-900 hover:from-blue-500 hover:to-slate-800 md:min-w-[300px] mr-1`}
                       key={id}>
                       <div
                         className={`border rounded-lg p-5 md:min-h-[400px] max-h-[400px] overflow-hidden scrollbar-hide `}>
-                        <h3 className="text-2xl font-bold w-[260px] truncate">
+                        <h3 className="text-2xl font-bold w-[250px] truncate">
                           {' '}
                           {dl.title}
                         </h3>

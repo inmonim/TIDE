@@ -82,7 +82,7 @@ export default function DiaryDetail() {
       <main
         className={` flex-col items-center
       md:p-[4rem] lg12:pr-[calc(200px)] lg12:pl-[calc(15%+100px)] lg12:h-screen lg12:pb-[240px] text-[#eeeeee] flex justify-center w-screen h-screen pt-[calc(2rem+40px)] bg-gradient-to-t from-blue-900 to-slate-900 `}>
-        <div className="w-full text-2xl font-bold break-words md:mx-4 md86:text-4xl md86:ml-0 md:hidden">
+        <div className="w-screen text-2xl font-bold break-words troncate md:mx-4 md86:text-4xl md86:ml-0 md:hidden">
           <ArrowBackRoundedIcon
             className="mx-2 md:hidden hover:text-blue-300"
             fontSize="large"
@@ -94,7 +94,7 @@ export default function DiaryDetail() {
           <div
             className={`flex flex-col md:w-full md:flex md:flex-row md:items-end `}>
             <div className="flex justify-between mt-2 md:w-full md:justify-between md:mt-4">
-              <div className="hidden text-2xl font-bold break-words md:flex md:mx-4 md86:text-4xl md86:ml-0">
+              <div className="hidden text-2xl font-bold break-words truncate md:flex md:mx-4 md86:text-4xl md86:ml-0">
                 <ArrowBackRoundedIcon
                   className="hidden mx-2 hover:text-blue-300 md:flex"
                   fontSize="large"
@@ -114,7 +114,7 @@ export default function DiaryDetail() {
                 {diary.nickname}
               </div>) : null}
               {myNick === diary.nickname ? (
-                <div className="grid md:justify-end md:w-[20vw] h-10">
+                <div className="flex md:justify-end md:w-[20vw] md:h-10 mt-10">
                   <div onClick={() => {
                     router.push(`/user/${diary.nickname}`)
                   }} className="hidden  whitespace-nowrap text-lg cursor-pointer md:text-lg md:font-bold hover:text-blue-300 md:w-fit md:flex md:items-end md:mx-4 md:border-b-[0.1rem]">

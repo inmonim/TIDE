@@ -89,7 +89,7 @@
 
 ---
 
-![캡처](/%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90%EC%84%A4%EA%B3%84.PNG)
+![캡처](/exec/%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90%EC%84%A4%EA%B3%84.PNG)
 - MSA 설계를 통해 User, Diary, Music, Recommend 서비스를 모두 분리하여 설계
 - User 서비스에선 인증 및 유저 체크
 - Diary 서비스에선 다이어리 관리 (다른 두 서비스와 통신, 음악과 유저 정보를 위해)

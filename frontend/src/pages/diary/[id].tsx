@@ -82,19 +82,19 @@ export default function DiaryDetail() {
       <main
         className={` flex-col items-center
       md:p-[4rem] lg12:pr-[calc(200px)] lg12:pl-[calc(15%+100px)] lg12:h-screen lg12:pb-[240px] text-[#eeeeee] flex justify-center w-screen h-screen pt-[calc(2rem+40px)] bg-gradient-to-t from-blue-900 to-slate-900 `}>
-        <div className="w-screen text-2xl font-bold break-words troncate md:mx-4 md86:text-4xl md86:ml-0 md:hidden">
-          <ArrowBackRoundedIcon
+        <div className="px-2 text-2xl font-bold text-center break-words troncate md:mx-4 md86:text-4xl md86:ml-0 md:hidden">
+        <ArrowBackRoundedIcon
             className="mx-2 md:hidden hover:text-blue-300"
             fontSize="large"
             onClick={() => router.push('/mainpage')}
           />
           {diary.title}
         </div>
-        <div className={`w-[70vw] select-none h-full`}>
+        <div className={`w-[full] select-none h-full`}>
           <div
             className={`flex flex-col md:w-full md:flex md:flex-row md:items-end `}>
             <div className="flex justify-between mt-2 md:w-full md:justify-between md:mt-4">
-              <div className="hidden text-2xl font-bold break-words truncate md:flex md:mx-4 md86:text-4xl md86:ml-0">
+              <div className="hidden w-full text-2xl font-bold break-words truncate md:flex md:mx-4 md86:text-4xl md86:ml-0">
                 <ArrowBackRoundedIcon
                   className="hidden mx-2 hover:text-blue-300 md:flex"
                   fontSize="large"
@@ -104,13 +104,13 @@ export default function DiaryDetail() {
               </div>
               <div onClick={() => {
                     router.push(`/user/${diary.nickname}`)
-                  }} className="flex items-end text-lg cursor-pointer border-b-[0.1rem] hover:text-blue-300 md:w-fit md:hidden">
+                  }} className="whitespace-nowrap overflow-hidden flex items-end text-md cursor-pointer border-b-[0.1rem] hover:text-blue-300 md:w-fit md:hidden">
                 {diary.nickname}
               </div>
               {myNick !== diary.nickname ? (
               <div onClick={() => {
                     router.push(`/user/${diary.nickname}`)
-                  }} className="items-end hidden text-lg cursor-pointer md:border-b-[0.1rem] md:font-bold hover:text-blue-300 md:w-fit md:flex">
+                  }} className="whitespace-nowrap items-end hidden text-md cursor-pointer md:border-b-[0.1rem] md:font-bold hover:text-blue-300 md:w-fit md:flex">
                 {diary.nickname}
               </div>) : null}
               {myNick === diary.nickname ? (
@@ -160,8 +160,8 @@ export default function DiaryDetail() {
                   alt="albumImage"
                 />
               </div>
-              <div className="flex flex-col md:ml-4">
-                <div className="text-lg">{diary.musicTitle}</div>
+              <div className="flex flex-col text-center md:text-start md:ml-4">
+                <div className="mt-2 text-lg whitespace-nowrap">{diary.musicTitle}</div>
                 <div className="text-base">{diary.artist}</div>
               </div>
             </div>

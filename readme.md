@@ -86,4 +86,18 @@
 
 
 ## 아키텍처 설계 및 사용 기술
+
+---
+
 ![캡처](/%EC%95%84%ED%82%A4%ED%85%8D%EC%B3%90%EC%84%A4%EA%B3%84.PNG)
+- MSA 설계를 통해 User, Diary, Music, Recommend 서비스를 모두 분리하여 설계
+- User 서비스에선 인증 및 유저 체크
+- Diary 서비스에선 다이어리 관리 (다른 두 서비스와 통신, 음악과 유저 정보를 위해)
+- Music 서비스에선 음악 관리 (유저 서비스와 통신, 유저 정보를 위해)
+- Recommend 서비스에선 음악 추천 및 피드백 관리
+- MSA 구축을 위해 Spring Cloud를 활용
+- 서비스간 통신은 FeignClient 를 통해 구현
+- Nginx Proxy Manager를 통한 리버스 프록시, SSL
+- Docker, Jenkins를 이용한 컨테이너화 + CI/CD 구축
+- Next.js의 특성을 살려 서버사이드 렌더링을 통해 사용자의 UX 체감 속도를 개선
+- 공개된 다이어리 목록을 SSG를 통해 미리 빌드 단계에서 html 파일 상태로 요청에 따라 전달해주기 때문에 html 내부에 내용 텍스트가 붙어있어 검색 엔진 최적화 프로세스를 구현

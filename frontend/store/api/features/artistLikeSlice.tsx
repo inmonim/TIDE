@@ -35,7 +35,6 @@ export const artistLikeAsync = createAsyncThunk(
 export const artistLikeCheckAsync = createAsyncThunk(
   'artistLike/artistLikeCheck',
   async (artistId: any) => {
-    console.log(artistId, '아티스트 아이디');
     const accessToken = getCookie('accessToken');
     const data = await axios({
       method: 'get',
@@ -45,7 +44,6 @@ export const artistLikeCheckAsync = createAsyncThunk(
         email: getCookie('email')
       }
     });
-    console.log(data);
     return data.data;
   }
 );
@@ -72,12 +70,10 @@ export const artistLike = createSlice({
       .addCase(artistLikeAsync.fulfilled, state => {
         state.status = 'completed';
         state.check = true;
-        console.log('아티스트 좋아요 성공');
       })
       .addCase(artistLikeCheckAsync.fulfilled, (state, action) => {
         state.status = 'CheckCompleted';
         state.check = action.payload;
-        console.log('아티스트 좋아요 체크 성공', action.payload);
       });
   }
 });

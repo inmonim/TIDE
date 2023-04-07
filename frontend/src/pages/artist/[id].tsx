@@ -39,7 +39,6 @@ function Artist() {
       setIsLiked(check);
     }
   }, [check]);
-  // console.log(title, songId);
 
   const gotomusicpage = (songId: number) => {
     router.push(`/music/${songId}`);
@@ -59,7 +58,7 @@ function Artist() {
         <title>{artistName}</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <main className="flex flex-col items-center md:min-h-[91vh] w-screen h-screen bg-gradient-to-t md:ml-[12%] from-slate-700 to-slate-900">
+      <main className="flex flex-col items-center md:min-h-[91vh] md:w-[88%] h-screen bg-gradient-to-t md:ml-[12%] from-slate-700 to-slate-900">
         <div className="flex flex-row items-center justify-center w-full max-h-[50vh] md:w-[380px] md:h-[380px] mt-14 mb-4">
           <div className="flex flex-col items-center justify-center ">
             <img
@@ -68,7 +67,9 @@ function Artist() {
               alt="artistImage"
             />
             <div
-              className={`${isLiked ? `text-pink-300 border-pink-300` : ""} flex justify-center my-1 md:my-4 mb-1 md:mb-10 text-sm md:text-base text-white border-[0.1rem] w-fit p-1 px-2 md:px-4 rounded-xl hover:cursor-pointer hover:bg-gray-500`}
+              className={`${
+                isLiked ? `text-pink-300 border-pink-300` : ''
+              } flex justify-center my-1 md:my-4 mb-1 md:mb-10 text-sm md:text-base text-white border-[0.1rem] w-fit p-1 px-2 md:px-4 rounded-xl hover:cursor-pointer hover:bg-gray-500`}
               onClick={handleartistLike}>
               {isLiked ? '좋아요 취소' : '좋아요'}
             </div>
@@ -79,7 +80,9 @@ function Artist() {
           <div className="flex flex-row text-xl md:text-2xl justify-center md:w-[800px] text-white">
             {artistName}
           </div>
-          <div className="my-1 text-base text-white md:text-lg">아티스트의 노래</div>
+          <div className="my-1 text-base text-white md:text-lg">
+            아티스트의 노래
+          </div>
           <div className="flex flex-col items-center w-full min-h-[30vh] max-h-[30vh] md:w-[450px] md:h-[350px] overflow-auto scrollbar-hide border-2 rounded-lg bg-gray-400">
             {title.map((title, index) => (
               <div

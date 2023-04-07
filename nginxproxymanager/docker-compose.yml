@@ -1,0 +1,47 @@
+version: '3'
+services:
+  # 도커 컨테이너 대시보드
+  portainer:
+    image: 'portainer/portainer-ce:latest'
+    ports:
+      - '9090:9090'
+    restart: unless-stopped
+    volumes:
+      # Docker sock
+      - type: bind
+        source: /var/run/docker.sock
+        target: /var/run/docker.sock
+        read_only: false
+      # Data
+      - type: bind
+        source: ./data
+        target: /data
+        read_only: false
+    networks:
+      - music-network
+  # Nginx 대시보드
+  nginx-manager:
+    image: 'jc21/nginx-proxy-manager:latest'
+    restart: unless-stopped
+    ports:
+      - '80:80'
+      - '443:443'
+      - '5000:81'
+    volumes:
+      # Data
+      - type: bind
+        source: ./data
+        target: /data
+        read_only: false
+      # SSL
+      - type: bind
+        source: ./letsencrypt
+        target: /etc/letsencrypt
+        read_only: false
+    networks:
+      - music-network
+
+networks:
+  music-network:
+    external: true
+    driver: bridge

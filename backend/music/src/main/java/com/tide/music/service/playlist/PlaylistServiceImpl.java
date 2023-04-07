@@ -37,20 +37,17 @@ import java.util.Random;
 @Service
 @Slf4j
 public class PlaylistServiceImpl implements PlaylistService {
+    private final UserPlaylistRepository userPlayListRepository;
+    private final UserServiceClient userServiceClient;
+    private final PlaylistSongRepository playlistSongRepository;
+    private final PlaylistLikeUserRepository playlistLikeUserRepository;
+    private final SongRepository songRepository;
+    private final AlbumRepository albumRepository;
+    private final ArtistRepository artistRepository;
+    private final SongAlbumRepository songAlbumRepository;
+    private final SongArtistRepository songArtistRepository;
 
-    private Environment env;
-    private UserPlaylistRepository userPlayListRepository;
-    private UserServiceClient userServiceClient;
-    private PlaylistSongRepository playlistSongRepository;
-    private PlaylistLikeUserRepository playlistLikeUserRepository;
-    private SongRepository songRepository;
-    private AlbumRepository albumRepository;
-    private ArtistRepository artistRepository;
-    private SongAlbumRepository songAlbumRepository;
-    private SongArtistRepository songArtistRepository;
-
-    public PlaylistServiceImpl(Environment env,
-                               UserPlaylistRepository userPlayListRepository,
+    public PlaylistServiceImpl(UserPlaylistRepository userPlayListRepository,
                                UserServiceClient userServiceClient,
                                PlaylistSongRepository playlistSongRepository,
                                PlaylistLikeUserRepository playlistLikeUserRepository,
@@ -59,7 +56,6 @@ public class PlaylistServiceImpl implements PlaylistService {
                                ArtistRepository artistRepository,
                                SongAlbumRepository songAlbumRepository,
                                SongArtistRepository songArtistRepository) {
-        this.env = env;
         this.userPlayListRepository = userPlayListRepository;
         this.userServiceClient = userServiceClient;
         this.playlistSongRepository = playlistSongRepository;
@@ -281,6 +277,7 @@ public class PlaylistServiceImpl implements PlaylistService {
     }
 
     @Override
+    @Transactional
     public void deleteSongFromPlaylist(String email, Long songId, Long playlistId) {
         checkUser(email, playlistId);
 
@@ -293,6 +290,7 @@ public class PlaylistServiceImpl implements PlaylistService {
     }
 
     @Override
+    @Transactional
     public void deletePlaylist(String email, Long playlistId) {
         checkUser(email, playlistId);
 
@@ -304,6 +302,7 @@ public class PlaylistServiceImpl implements PlaylistService {
         }
     }
 
+    @Transactional
     public void checkUser(String email, Long playlistId) {
         Long userId = userServiceClient.getUserId(email);
         UserPlaylist userPlaylist = userPlayListRepository.findById(playlistId).orElse(null);

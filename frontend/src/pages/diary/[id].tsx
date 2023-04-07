@@ -114,10 +114,10 @@ export default function DiaryDetail() {
                 {diary.nickname}
               </div>) : null}
               {myNick === diary.nickname ? (
-                <div className="flex md:justify-end md:w-[20vw]">
+                <div className="grid md:justify-end md:w-[20vw] h-10">
                   <div onClick={() => {
                     router.push(`/user/${diary.nickname}`)
-                  }} className="hidden text-lg cursor-pointer md:text-lg md:font-bold hover:text-blue-300 md:w-fit md:flex md:items-end md:mx-4 md:border-b-[0.1rem]">
+                  }} className="hidden  whitespace-nowrap text-lg cursor-pointer md:text-lg md:font-bold hover:text-blue-300 md:w-fit md:flex md:items-end md:mx-4 md:border-b-[0.1rem]">
                     {diary.nickname}
                   </div>
                   <select

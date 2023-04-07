@@ -53,17 +53,28 @@ const PlayListDetail: FC<PlayListProps> = props => {
     // dispatch(userPlayListAsync();
   }, [router.query]);
 
+  const [like,setlike] = useState<boolean>(false);
+
   useEffect(() => {
     if (playListId === Number(router.query.id))
+    {
       dispatch(playListDetailAsync({playListId: Number(playListId)}));
-    dispatch(playListLikeCheckAsync({playListId: Number(playListId)}));
+      dispatch(playListLikeCheckAsync({playListId: Number(playListId)}));
+    }
   }, [playListId]);
-
+  
   const {isLike} = useAppSelector(state => {
     return state.playListLikeCheck;
   });
+  
 
-  const [like,setlike] = useState<boolean>(false);
+  useEffect(() => {
+    if (playListId === Number(router.query.id))
+    {
+      dispatch(playListDetailAsync({playListId: Number(playListId)}));
+      dispatch(playListLikeCheckAsync({playListId: Number(playListId)}));
+    }
+  }, [isLike]);
 
   const {plDetail} = useAppSelector(state => {
     return state.playlistAllDetail;
@@ -95,7 +106,6 @@ const PlayListDetail: FC<PlayListProps> = props => {
     {
       dispatch(playListLikeAsync({playListId: playListId}));
       dispatch(playListLikeCheckAsync({playListId: playListId}));
-      setlike(isLike)
     }
     dispatch(playListAllDetailAsync({playListId:plDetail.playlistId}))
   };
@@ -172,7 +182,7 @@ const PlayListDetail: FC<PlayListProps> = props => {
                       if(getCookie('nickname') !== plDetail.nickname)playListLike()
                     }
                   }>
-                  {like || (getCookie('nickname') === plDetail.nickname) ? `💕` : `🖤`} 
+                  {`💕`} 
                 </p>
                 <p className={`text-lg`}> {plDetail.likecnt} 
                 </p>

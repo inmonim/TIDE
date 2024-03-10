@@ -1,12 +1,22 @@
-# [TIDE](https://cyclic-guide-127.notion.site/E203-fcdffd4f909c4b9fa951e69e7bfded89)
-
-## 🧭 목적
-
+# [TIDE](https://cyclic-guide-127.notion.site/E203-fcdffd4f909c4b9fa951e69e7bfded89) : 음악과 함께하는 일기형 SNS 서비스
 ---
-
-- 음악과 함께하는 일기형 SNS 서비스
 - [TIDE notion](https://cyclic-guide-127.notion.site/E203-fcdffd4f909c4b9fa951e69e7bfded89)
 - [와이어프레임](https://www.figma.com/file/iSymbNoERl509z7AWtUCjw/%ED%8A%B9%ED%99%94E203?node-id=0%3A1&t=ljRkVCT2Z4SztVLt-1)
+---
+
+# 서비스 개요
+---
+
+### 프로젝트 기간
+- 2023.02.27 ~ 2023.04.07 (6주)
+
+### 팀 구성
+
+- 정인모 : 팀장, AI, AI server, DB
+- 정시언 : Back-end, Spring, DB
+- 한상현 : Front-end, react, next.js, firebase
+- 손수민 : Front-end, react, next.js
+- 차은혁 : Front-end, react, next.js
 
 ## 🦾 구성
 
